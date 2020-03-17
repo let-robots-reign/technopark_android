@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Абитуриент МГТУ</string>
+    <string name="bottom_title_1">ГЛАВНАЯ</string>
+    <string name="bottom_title_2">КАТАЛОГ</string>
+    <string name="bottom_title_3">СТАТИСТИКА</string>
+
     <string name="uni_name">МГТУ им. Н.Э. Баумана</string>
     <string name="main_header2">Приложение для абитуриентов</string>
     <string name="state_exam_points">Баллы ЕГЭ</string>
