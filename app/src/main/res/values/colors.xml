@@ -5,4 +5,5 @@
     <color name="colorAccent">#E0F7FA</color>
     <color name="colorSecondary">#EEBD38</color>
     <color name="bottom_item_background">#80FFFFFF</color>
+    <color name="divider_background">#ECEFF1</color>
 </resources>

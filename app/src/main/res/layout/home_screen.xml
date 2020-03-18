@@ -101,14 +101,16 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:background="@color/colorAccent"/>
+                    android:layout_height="2dp"
+                    android:background="@color/divider_background"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginStart="12dp">
 
                     <TextView
@@ -141,6 +143,11 @@
 
         </androidx.cardview.widget.CardView>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/documents_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -168,8 +175,10 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:background="@color/colorAccent"/>
+                    android:layout_height="2dp"
+                    android:background="@color/divider_background"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -251,8 +260,7 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp">
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/program3"
