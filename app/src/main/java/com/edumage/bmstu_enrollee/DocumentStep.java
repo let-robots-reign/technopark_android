@@ -2,7 +2,7 @@ package com.edumage.bmstu_enrollee;
 
 import android.graphics.Color;
 
-class DocumentStep {
+public class DocumentStep {
 
     private String stepContent;
     private int stepStatus;  // can be -1 (completed), 0 (current), 1 (next)
@@ -12,7 +12,7 @@ class DocumentStep {
         stepStatus = status;
     }
 
-    String getStepContent() {
+    public String getStepContent() {
         return stepContent;
     }
 
@@ -20,7 +20,7 @@ class DocumentStep {
         return stepStatus;
     }
 
-    String getStepTitle() {
+    public String getStepTitle() {
         switch (stepStatus) {
             case -1:
                 return "Предыдущий шаг";
@@ -33,7 +33,7 @@ class DocumentStep {
         }
     }
 
-    int getStepColor() {
+    public int getStepColor() {
         // completed or current
         if (stepStatus < 1) {
             return Color.GREEN;
