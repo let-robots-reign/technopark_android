@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">BMSTU_Enrollee</string>
+    <string name="app_name">Абитуриент МГТУ</string>
+    <string name="bottom_title_1">ГЛАВНАЯ</string>
+    <string name="bottom_title_2">КАТАЛОГ</string>
+    <string name="bottom_title_3">СТАТИСТИКА</string>
+
+    <string name="uni_name">МГТУ им. Н.Э. Баумана</string>
+    <string name="main_header2">Приложение для абитуриентов</string>
+    <string name="state_exam_points">Баллы ЕГЭ</string>
+    <string name="current_step">Текущий шаг подачи документов</string>
+    <string name="prev_step">Предыдущий шаг</string>
+    <string name="next_step">Следующий шаг</string>
+    <string name="current_contest">Текущий конкурс на Ваших направлениях</string>
 </resources>
