@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +25,8 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // sample data
         steps = new ArrayList<>();
-        steps.add(new DocumentStep("Это предудыщий шаг №1", -1));
-        steps.add(new DocumentStep("Это предудыщий шаг №2", -1));
+        steps.add(new DocumentStep("Это предыдущий шаг №1", -1));
+        steps.add(new DocumentStep("Это предыдущий шаг №2", -1));
         steps.add(new DocumentStep("Это текущий шаг", 0));
         steps.add(new DocumentStep("Это следующий шаг №1", 1));
         steps.add(new DocumentStep("Это следующий шаг №2", 1));

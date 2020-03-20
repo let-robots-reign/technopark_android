@@ -25,7 +25,7 @@ public class CatalogFragment extends Fragment {
 
         List<CatalogCard> cards = new ArrayList<>();
         cards.add(new CatalogCard("Об университете", R.drawable.bmstu));
-        cards.add(new CatalogCard("Новости", R.drawable.news));
+        cards.add(new CatalogCard("Новости", R.drawable.newspaper));
         cards.add(new CatalogCard("Факультеты и кафедры", R.drawable.faculties));
         cards.add(new CatalogCard("Корпуса и общежития", R.drawable.ulk));
         cards.add(new CatalogCard("Внеучебная деятельность", R.drawable.studsovet));
