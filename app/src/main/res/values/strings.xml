@@ -11,4 +11,11 @@
     <string name="prev_step">Предыдущий шаг</string>
     <string name="next_step">Следующий шаг</string>
     <string name="current_contest">Текущий конкурс на Ваших направлениях</string>
+
+    <string name="welcome_header">Привет!</string>
+    <string name="welcome_command_1">Заполни информацию о себе</string>
+    <string name="welcome_command_2">Заполни информацию о результатах ЕГЭ</string>
+    <string name="welcome_hint1">ФИО</string>
+    <string name="welcome_hint2">Дата рождения</string>
+
 </resources>
