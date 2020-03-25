@@ -36,6 +36,12 @@ public class HomeFragment extends Fragment {
     private TextView scores3;
     private String score3_title;
 
+    // пока не запоминаем выбранные направления
+    // для тестирования они заданы константами
+    private final String FIRST_PROGRAM = "09.03.04 Программная инженерия (Бакалавр)";
+    private final String SECOND_PROGRAM = "09.03.03 Прикладная информатика (Бакалавр)";
+    private final String THIRD_PROGRAM = "09.03.01 Информатика и вычислительная техника (Бакалавр)";
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,21 +102,31 @@ public class HomeFragment extends Fragment {
             try {
                 String url = "http://priem.bmstu.ru/ru/points";
                 Document doc = Jsoup.connect(url).get();
-                int i = 0; // для начала просто посчитаем количество направлений
-                Elements specialities = doc.select("div.speciality-content");
+
+                Elements specialities = doc.select("div.speciality-container");
+                Elements specialityInfo;
+                String specialityTitle;
+
                 for (Element speciality: specialities) {
-                    // для каждой специальности есть несколько направлений
-                    Elements programs = speciality.select("table.pretty-table > tbody > tr");
-                    for (Element program: programs) {
-                        // проходим по каждому направлению в специальности
-                        Log.v("PARSE", program.select("td").last().text());
-                        i++;
+                    // all the info about speciality (title and score)
+                    specialityInfo = speciality.select("div.speciality-header > table.pretty-table > tbody > tr > td");
+                    specialityTitle = specialityInfo.select("h3").text();
+                    // if title equals any of the programs chosen by user
+                    switch (specialityTitle) {
+                        case FIRST_PROGRAM:
+                            score1_title = specialityInfo.last().select("b").text();
+                            break;
+                        case SECOND_PROGRAM:
+                            score2_title = specialityInfo.last().select("b").text();
+                            break;
+                        case THIRD_PROGRAM:
+                            score3_title = specialityInfo.last().select("b").text();
+                            break;
                     }
                 }
-                score1_title = String.valueOf(i);
             } catch (IOException e) {
                 Log.e("PARSE", "I got an error ", e);
-                score1_title = "Ошибка";
+                score1_title = score2_title = score3_title = "Ошибка";
             }
             return null;
         }
@@ -119,6 +135,8 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             scores1.setText(score1_title);
+            scores2.setText(score2_title);
+            scores3.setText(score3_title);
         }
     }
 }
