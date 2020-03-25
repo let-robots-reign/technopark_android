@@ -202,9 +202,10 @@
                             android:textStyle="italic"/>
 
                         <TextView
+                            android:id="@+id/score1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="265"
+                            tools:text="265"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
@@ -238,9 +239,10 @@
                             android:textStyle="italic"/>
 
                         <TextView
+                            android:id="@+id/score2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="273"
+                            tools:text="273"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
@@ -273,9 +275,10 @@
                             android:textStyle="italic"/>
 
                         <TextView
+                            android:id="@+id/score3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="270"
+                            tools:text="270"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
