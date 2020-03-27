@@ -201,6 +201,15 @@
                             android:fontFamily="@font/cuprum"
                             android:textStyle="italic"/>
 
+                        <ProgressBar
+                            android:id="@+id/progress1"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_toStartOf="@id/ic1"
+                            android:layout_marginEnd="6dp"
+                            android:indeterminateTint="@color/colorSecondary"/>
+
+
                         <TextView
                             android:id="@+id/score1"
                             android:layout_width="wrap_content"
@@ -238,6 +247,14 @@
                             android:fontFamily="@font/cuprum"
                             android:textStyle="italic"/>
 
+                        <ProgressBar
+                            android:id="@+id/progress2"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_toStartOf="@id/ic2"
+                            android:layout_marginEnd="6dp"
+                            android:indeterminateTint="@color/colorSecondary"/>
+
                         <TextView
                             android:id="@+id/score2"
                             android:layout_width="wrap_content"
@@ -273,6 +290,14 @@
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
                             android:textStyle="italic"/>
+
+                        <ProgressBar
+                            android:id="@+id/progress3"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_toStartOf="@id/ic3"
+                            android:indeterminateTint="@color/colorSecondary"/>
 
                         <TextView
                             android:id="@+id/score3"

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,9 @@ public class HomeFragment extends Fragment {
     private String score2_title;
     private TextView scores3;
     private String score3_title;
+    private ProgressBar progress1;
+    private ProgressBar progress2;
+    private ProgressBar progress3;
 
     // пока не запоминаем выбранные направления
     // для тестирования они заданы константами
@@ -76,6 +80,10 @@ public class HomeFragment extends Fragment {
         scores1 = rootView.findViewById(R.id.score1);
         scores2 = rootView.findViewById(R.id.score2);
         scores3 = rootView.findViewById(R.id.score3);
+
+        progress1 = rootView.findViewById(R.id.progress1);
+        progress2 = rootView.findViewById(R.id.progress2);
+        progress3 = rootView.findViewById(R.id.progress3);
 
         return rootView;
     }
@@ -137,6 +145,9 @@ public class HomeFragment extends Fragment {
             scores1.setText(score1_title);
             scores2.setText(score2_title);
             scores3.setText(score3_title);
+            progress1.setVisibility(View.GONE);
+            progress2.setVisibility(View.GONE);
+            progress3.setVisibility(View.GONE);
         }
     }
 }
