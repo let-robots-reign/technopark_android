@@ -227,8 +227,11 @@
                             android:id="@+id/ic1"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            app:srcCompat="@drawable/download_icon"
-                            android:layout_alignParentEnd="true"/>
+                            android:layout_alignParentEnd="true"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:srcCompat="@drawable/download_icon" />
 
                     </RelativeLayout>
 
@@ -273,7 +276,10 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             app:srcCompat="@drawable/download_icon"
-                            android:layout_alignParentEnd="true"/>
+                            android:layout_alignParentEnd="true"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"/>
 
                     </RelativeLayout>
 
@@ -317,7 +323,10 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             app:srcCompat="@drawable/download_icon"
-                            android:layout_alignParentEnd="true"/>
+                            android:layout_alignParentEnd="true"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"/>
 
                     </RelativeLayout>
 

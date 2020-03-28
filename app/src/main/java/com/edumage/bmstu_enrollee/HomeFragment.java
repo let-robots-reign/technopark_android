@@ -1,11 +1,14 @@
 package com.edumage.bmstu_enrollee;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,14 +34,14 @@ public class HomeFragment extends Fragment {
     private List<DocumentStep> steps;
 
     private TextView scores1;
-    private String score1_title;
     private TextView scores2;
-    private String score2_title;
     private TextView scores3;
-    private String score3_title;
     private ProgressBar progress1;
     private ProgressBar progress2;
     private ProgressBar progress3;
+    private ImageView ic1;
+    private ImageView ic2;
+    private ImageView ic3;
 
     // пока не запоминаем выбранные направления
     // для тестирования они заданы константами
@@ -62,6 +65,9 @@ public class HomeFragment extends Fragment {
         // parsing AsyncTask
         CurrentScoresParsing currentScores = new CurrentScoresParsing();
         currentScores.execute();
+        // parsing files
+        CurrentFilesParsing currentFiles = new CurrentFilesParsing();
+        currentFiles.execute();
     }
 
     @Nullable
@@ -85,6 +91,10 @@ public class HomeFragment extends Fragment {
         progress2 = rootView.findViewById(R.id.progress2);
         progress3 = rootView.findViewById(R.id.progress3);
 
+        ic1 = rootView.findViewById(R.id.ic1);
+        ic2 = rootView.findViewById(R.id.ic2);
+        ic3 = rootView.findViewById(R.id.ic3);
+
         return rootView;
     }
 
@@ -99,11 +109,9 @@ public class HomeFragment extends Fragment {
 
 
     private class CurrentScoresParsing extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+        private String score1_title;
+        private String score2_title;
+        private String score3_title;
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -113,27 +121,30 @@ public class HomeFragment extends Fragment {
 
                 Elements specialities = doc.select("div.speciality-container");
                 Elements specialityInfo;
+                String specialityScore;
                 String specialityTitle;
 
-                for (Element speciality: specialities) {
+                for (Element speciality : specialities) {
                     // all the info about speciality (title and score)
                     specialityInfo = speciality.select("div.speciality-header > table.pretty-table > tbody > tr > td");
                     specialityTitle = specialityInfo.select("h3").text();
+                    specialityScore = specialityInfo.last().select("b").text();
+
                     // if title equals any of the programs chosen by user
                     switch (specialityTitle) {
                         case FIRST_PROGRAM:
-                            score1_title = specialityInfo.last().select("b").text();
+                            score1_title = specialityScore;
                             break;
                         case SECOND_PROGRAM:
-                            score2_title = specialityInfo.last().select("b").text();
+                            score2_title = specialityScore;
                             break;
                         case THIRD_PROGRAM:
-                            score3_title = specialityInfo.last().select("b").text();
+                            score3_title = specialityScore;
                             break;
                     }
                 }
             } catch (IOException e) {
-                Log.e("PARSE", "I got an error ", e);
+                Log.e("PARSE", "Error in parsing scores: ", e);
                 score1_title = score2_title = score3_title = "Ошибка";
             }
             return null;
@@ -148,6 +159,69 @@ public class HomeFragment extends Fragment {
             progress1.setVisibility(View.GONE);
             progress2.setVisibility(View.GONE);
             progress3.setVisibility(View.GONE);
+        }
+    }
+
+    private class CurrentFilesParsing extends AsyncTask<Void, Void, Void> {
+        private IconClickListener ic1Listener;
+        private IconClickListener ic2Listener;
+        private IconClickListener ic3Listener;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                String url = "http://priem.bmstu.ru/lists.html";
+                Document doc = Jsoup.connect(url).get();
+                String specialityTitle;
+                String fileUrl;
+
+                Elements specialities = doc.select("div.speciality-header");
+                for (Element speciality : specialities) {
+                    specialityTitle = speciality.select(
+                            "table.pretty-table > tbody > tr > td > h3").text();
+                    fileUrl = speciality.select("table.pretty-table > tbody > tr > td")
+                            .get(1).select("a").attr("abs:href");
+
+                    switch (specialityTitle) {
+                        case FIRST_PROGRAM:
+                            ic1Listener = new IconClickListener(fileUrl);
+                            break;
+                        case SECOND_PROGRAM:
+                            ic2Listener = new IconClickListener(fileUrl);
+                            break;
+                        case THIRD_PROGRAM:
+                            ic3Listener = new IconClickListener(fileUrl);
+                            break;
+                    }
+
+                }
+            } catch (IOException e) {
+                Log.e("PARSE", "Error in parsing files: ", e);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            ic1.setOnClickListener(ic1Listener);
+            ic2.setOnClickListener(ic2Listener);
+            ic3.setOnClickListener(ic3Listener);
+            super.onPostExecute(aVoid);
+        }
+    }
+
+    private class IconClickListener implements View.OnClickListener {
+        private String fileUrl;
+
+        IconClickListener(String url) {
+            fileUrl = url;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Uri uri = Uri.parse(fileUrl);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         }
     }
 }
