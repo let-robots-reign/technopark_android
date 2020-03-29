@@ -14,8 +14,15 @@
 
     <string name="welcome_header">Привет!</string>
     <string name="welcome_command_1">Заполни информацию о себе</string>
-    <string name="welcome_command_2">Заполни информацию о результатах ЕГЭ</string>
+    <string name="welcome_command_2">Выбери предметы ЕГЭ, указав результат экзамена</string>
     <string name="welcome_hint1">ФИО</string>
     <string name="welcome_hint2">Дата рождения</string>
+    <string name="next_command">Далее</string>
+    <string name="back_command">Назад</string>
+
+
+    <string name="alert_name">Введите имя пользователя</string>
+    <string name="alert_date">Введите дату рождения</string>
+    <string name="welcome_backgroundtext">МГТУ БАУМАНА ЛУЧШИЙ ТЕХНИЧЕСКИЙ</string>
 
 </resources>
