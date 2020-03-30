@@ -4,7 +4,7 @@ public class CatalogCard {
     private String title;
     private int image;
 
-    CatalogCard(String text, int img) {
+    public CatalogCard(String text, int img) {
         image = img;
         title = text;
     }

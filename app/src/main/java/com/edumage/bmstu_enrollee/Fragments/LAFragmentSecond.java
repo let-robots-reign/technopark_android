@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.edumage.bmstu_enrollee.EGEAdapter;
+import com.edumage.bmstu_enrollee.Adapters.EGEAdapter;
 import com.edumage.bmstu_enrollee.EGESubject;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.WelcomeActivity;

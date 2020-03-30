@@ -1,4 +1,4 @@
-package com.edumage.bmstu_enrollee;
+package com.edumage.bmstu_enrollee.Fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.edumage.bmstu_enrollee.Adapters.CatalogCardsAdapter;
+import com.edumage.bmstu_enrollee.CatalogCard;
+import com.edumage.bmstu_enrollee.R;
 
 import java.util.ArrayList;
 import java.util.List;

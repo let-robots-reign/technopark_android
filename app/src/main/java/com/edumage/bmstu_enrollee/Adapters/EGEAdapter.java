@@ -1,4 +1,4 @@
-package com.edumage.bmstu_enrollee;
+package com.edumage.bmstu_enrollee.Adapters;
 
 import android.content.Context;
 import android.text.Editable;
@@ -10,6 +10,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.edumage.bmstu_enrollee.EGESubject;
+import com.edumage.bmstu_enrollee.R;
 
 import java.util.ArrayList;
 
@@ -54,24 +57,24 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
 
         private void setSubject(EGESubject subject) {
             this.subject = subject;
-            textView.setText(subject.name);
-            imageView.setImageResource(subject.img);
-            if (subject.isPassed) {
+            textView.setText(subject.getName());
+            imageView.setImageResource(subject.getImg());
+            if (subject.isPassed()) {
                 setEnabled();
-                editText.setText(String.valueOf(subject.score));
+                editText.setText(String.valueOf(subject.getScore()));
             } else {
                 setDisabled();
             }
         }
 
         private void UpdateSubject() {
-            subject.isPassed = enabled;
-            if (subject.isPassed) {
+            subject.setPassed(enabled);
+            if (subject.isPassed()) {
                 if (editText.getText().toString().length() != 0) {
-                    subject.score = Integer.parseInt(editText.getText().toString());
+                    subject.setScore(Integer.parseInt(editText.getText().toString()));
                 }
             } else {
-                subject.score = 0;
+                subject.setScore(0);
             }
         }
 

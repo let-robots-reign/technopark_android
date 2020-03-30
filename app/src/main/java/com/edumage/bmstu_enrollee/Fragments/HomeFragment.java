@@ -1,4 +1,4 @@
-package com.edumage.bmstu_enrollee;
+package com.edumage.bmstu_enrollee.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +25,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
+import com.edumage.bmstu_enrollee.DocumentStep;
+import com.edumage.bmstu_enrollee.R;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

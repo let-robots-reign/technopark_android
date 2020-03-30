@@ -86,8 +86,8 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
                     new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                            String editTextDateParam = dayOfMonth + "." +
-                                    (getMonth(monthOfYear + 1)) + "." + year;
+                            String editTextDateParam = getDateComponent(dayOfMonth) + "." +
+                                    (getDateComponent(monthOfYear + 1)) + "." + year;
                             editDate.setText(editTextDateParam);
                         }
                     }, 2020, 7, 1);
@@ -95,7 +95,7 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
         }
     }
 
-    private String getMonth(int month) {
-        return (month < 10) ? "0" + month : String.valueOf(month);
+    private String getDateComponent(int date) {
+        return (date < 10) ? "0" + date : String.valueOf(date);
     }
 }

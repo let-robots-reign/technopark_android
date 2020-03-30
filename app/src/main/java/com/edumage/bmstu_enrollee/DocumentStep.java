@@ -7,7 +7,7 @@ public class DocumentStep {
     private String stepContent;
     private int stepStatus;  // can be -1 (completed), 0 (current), 1 (next)
 
-    DocumentStep(String content, int status) {
+    public DocumentStep(String content, int status) {
         stepContent = content;
         stepStatus = status;
     }
@@ -16,7 +16,7 @@ public class DocumentStep {
         return stepContent;
     }
 
-    int getStepStatus() {
+    public int getStepStatus() {
         return stepStatus;
     }
 

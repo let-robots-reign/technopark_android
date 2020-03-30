@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="@string/welcome_hint1"
-                android:inputType="textAutoCorrect"
+                android:inputType="textCapWords"
                 android:padding="6dp"
                 android:textSize="20sp" />
 
