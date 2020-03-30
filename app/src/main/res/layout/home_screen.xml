@@ -193,8 +193,9 @@
 
                         <TextView
                             android:id="@+id/program1"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:maxWidth="200dp"
                             android:text="09.03.04 Программная инженерия"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
@@ -242,8 +243,9 @@
 
                         <TextView
                             android:id="@+id/program2"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:maxWidth="200dp"
                             android:text="09.03.03 Прикладная информатика"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
@@ -289,9 +291,10 @@
 
                         <TextView
                             android:id="@+id/program3"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="09.03.01 Информатика и выч. техника"
+                            android:maxWidth="200dp"
+                            android:text="09.03.01 Информатика и вычислительная техника"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
