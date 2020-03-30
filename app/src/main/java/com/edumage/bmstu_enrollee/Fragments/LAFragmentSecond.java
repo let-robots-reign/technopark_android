@@ -1,6 +1,5 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -28,53 +26,50 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class LAFragmentSecond extends Fragment implements WelcomeActivity.CompletableFragment {
 
-    private RecyclerView recyclerView;
-    private EGEAdapter adapter;
     private ArrayList<EGESubject> data;
+    private EGEAdapter adapter;
 
+    public static final String TAG = "LAFragmentSecond";
+    private static final String DATA = "SUBJECTS";
 
-
-    public static final String TAG="LAFragmentSecond";
-    private static final String DATA="SUBJECTS";
-
+    public LAFragmentSecond() {
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-
-        if (savedInstanceState!=null){
-            Toast.makeText(getContext(), "savedInstanceState!=null",Toast.LENGTH_SHORT ).show();
-            ObjectInputStream objectInputStream = null;
+        if (savedInstanceState != null) {
+            Toast.makeText(getContext(), "savedInstanceState!=null", Toast.LENGTH_SHORT).show();
+            ObjectInputStream objectInputStream;
             try {
                 objectInputStream = new ObjectInputStream(
                         new ByteArrayInputStream(savedInstanceState.getByteArray(DATA)));
-            data = (ArrayList<EGESubject>)objectInputStream.readObject();
-            objectInputStream.close();
+                data = (ArrayList<EGESubject>) objectInputStream.readObject();
+                objectInputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(getContext(), "Unable to deserialize",Toast.LENGTH_SHORT ).show();
+                Toast.makeText(getContext(), "Unable to deserialize", Toast.LENGTH_SHORT).show();
             }
         } else {
-            if (data==null){
-            data = new ArrayList<>();
-            getEGEList();}
+            if (data == null) {
+                data = new ArrayList<>();
+                getEGEList();
+            }
         }
-        super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.la_fragment2,container,false);
+        View rootView = inflater.inflate(R.layout.la_fragment2, container, false);
 
-    recyclerView = v.findViewById(R.id.ege_list);
+        RecyclerView recyclerView = rootView.findViewById(R.id.ege_list);
+        adapter = new EGEAdapter(data);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-    adapter = new EGEAdapter(data);
-    recyclerView.setAdapter(adapter);
-    recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext(),RecyclerView.VERTICAL,false));
-
-    return v;
+        return rootView;
     }
 
     @Override
@@ -86,44 +81,33 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         try {
-            ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            ObjectOutputStream ObjOut =  new ObjectOutputStream(baos);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream ObjOut = new ObjectOutputStream(baos);
             ObjOut.writeObject(adapter.getData());
             ObjOut.flush();
-            outState.putByteArray(DATA,baos.toByteArray());
+            outState.putByteArray(DATA, baos.toByteArray());
         } catch (IOException e) {
-            Toast.makeText(getContext(), "Unable to serialize",Toast.LENGTH_SHORT ).show();
+            Toast.makeText(getContext(), "Unable to serialize", Toast.LENGTH_SHORT).show();
         }
         super.onSaveInstanceState(outState);
     }
 
-    public static LAFragmentSecond newFragment(){
-        return new LAFragmentSecond();
-    }
-
-
-
-
     // получение списка предметов ЕГЭ пользователя - нужно заменить
-     private void getEGEList(){
-
-        data.add(new EGESubject("Русский язык",R.drawable.informatics));
-        data.add(new EGESubject("Информатика",R.drawable.informatics));
-        data.add(new EGESubject("Математика",R.drawable.informatics));
-        data.add(new EGESubject("Физика",R.drawable.physics));
-         data.add(new EGESubject("Химия",R.drawable.chemistry));
-         data.add(new EGESubject("Математика",R.drawable.informatics));
-         data.add(new EGESubject("Физика",R.drawable.physics));
-         data.add(new EGESubject("Химия",R.drawable.chemistry));
-
+    private void getEGEList() {
+        data.add(new EGESubject("Русский язык", R.drawable.informatics));
+        data.add(new EGESubject("Информатика", R.drawable.informatics));
+        data.add(new EGESubject("Математика", R.drawable.informatics));
+        data.add(new EGESubject("Физика", R.drawable.physics));
+        data.add(new EGESubject("Химия", R.drawable.chemistry));
+        data.add(new EGESubject("Математика", R.drawable.informatics));
+        data.add(new EGESubject("Физика", R.drawable.physics));
+        data.add(new EGESubject("Химия", R.drawable.chemistry));
     }
-
-
 
     @Override
     public boolean isComplete() {
-        //условие заверешние
-        //выгрузка информации
+        // условие заверешния
+        // выгрузка информации
         return true;
     }
 }

@@ -18,23 +18,20 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
+    private ArrayList<EGESubject> data;
 
-
-   private ArrayList<EGESubject> data;
-
-    public EGEAdapter(ArrayList<EGESubject> data){
-        this.data=data;
+    public EGEAdapter(ArrayList<EGESubject> data) {
+        this.data = data;
     }
 
-    public ArrayList<EGESubject> getData(){
+    public ArrayList<EGESubject> getData() {
         return data;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.ege_item,parent,false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.ege_item, parent, false));
     }
 
     @Override
@@ -47,7 +44,7 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
         return data.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
         EditText editText;
@@ -59,7 +56,7 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
             this.subject = subject;
             textView.setText(subject.name);
             imageView.setImageResource(subject.img);
-            if (subject.isPassed){
+            if (subject.isPassed) {
                 setEnabled();
                 editText.setText(String.valueOf(subject.score));
             } else {
@@ -67,23 +64,34 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
             }
         }
 
-        private void UpdateSubject(){
-            subject.isPassed=enabled;
-            if (subject.isPassed){
-                if (editText.getText().toString().length()!=0){
-                subject.score=Integer.parseInt(editText.getText().toString());}
+        private void UpdateSubject() {
+            subject.isPassed = enabled;
+            if (subject.isPassed) {
+                if (editText.getText().toString().length() != 0) {
+                    subject.score = Integer.parseInt(editText.getText().toString());
+                }
             } else {
-                subject.score=0;
+                subject.score = 0;
             }
         }
 
         private ViewHolder(@NonNull final View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.ege_icon);
-            card=itemView.findViewById(R.id.ege_card);
-            textView=itemView.findViewById(R.id.ege_name);
-            editText=itemView.findViewById(R.id.ege_score);
-            itemView.setOnClickListener(this);
+            card = itemView.findViewById(R.id.ege_card);
+            textView = itemView.findViewById(R.id.ege_name);
+            editText = itemView.findViewById(R.id.ege_score);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (enabled) {
+                        setDisabled();
+                    } else {
+                        setEnabled();
+                    }
+                }
+            });
+
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -91,53 +99,38 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                        int value=0;
-
-                        if (s.toString().length()!=0)
+                    int value = 0;
+                    if (s.toString().length() != 0)
                         value = Integer.parseInt(s.toString());
-
-                        Context context= itemView.getContext();
-                       if(value>100 || value<0){
-                           Toast.makeText(context,R.string.alert_ege,Toast.LENGTH_SHORT).show();
-                           s.clear();
-                       }
-
-                       if(s.toString().length()==0){
-                           editText.setText("0");
-                       }
-                       UpdateSubject();
+                    Context context = itemView.getContext();
+                    if (value > 100 || value < 0) {
+                        Toast.makeText(context, R.string.alert_ege, Toast.LENGTH_SHORT).show();
+                        s.clear();
+                    }
+                    if (s.toString().length() == 0) {
+                        editText.setText("0");
+                    }
+                    UpdateSubject();
                 }
             });
-
-
         }
 
-        private void setEnabled(){
+        private void setEnabled() {
             editText.setVisibility(View.VISIBLE);
-            enabled=true;
+            enabled = true;
             card.setCardBackgroundColor(imageView.getResources().getColor(R.color.darkGreen));
             UpdateSubject();
         }
 
-        private void setDisabled(){
+        private void setDisabled() {
             card.setCardBackgroundColor(imageView.getResources().getColor(R.color.colorPrimary));
             editText.setVisibility(View.INVISIBLE);
-            enabled=false;
+            enabled = false;
             UpdateSubject();
-        }
-
-        @Override
-        public void onClick(View v) {
-            if (enabled){
-                setDisabled();
-            } else {
-                setEnabled();
-            }
         }
     }
 }
