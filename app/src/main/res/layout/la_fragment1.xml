@@ -6,6 +6,18 @@
     android:layout_height="match_parent">
 
 
+    <!--  <TextView
+        android:id="@+id/textView_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_header"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView_command"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+
     <TextView
         android:id="@+id/textView_command"
         android:layout_width="wrap_content"
@@ -16,18 +28,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.434" />
 
-    <TextView
-        android:id="@+id/textView_head"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/welcome_header"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView_command"
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/bmstu_icon"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="@string/app_name"
+        android:textSize="32sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView_command"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.924" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"

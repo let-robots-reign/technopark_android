@@ -1,12 +1,15 @@
 package com.edumage.bmstu_enrollee;
 
-public class EGESubject {
+import java.io.Serializable;
+
+public class EGESubject implements Serializable {
 
     String name;
     int score;
     boolean isPassed;
     int img;
 
+    public EGESubject(){}
 
     public EGESubject(String name, int img_id){
        this.name  = name;

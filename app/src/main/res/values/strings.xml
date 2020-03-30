@@ -24,5 +24,6 @@
     <string name="alert_name">Введите имя пользователя</string>
     <string name="alert_date">Введите дату рождения</string>
     <string name="welcome_backgroundtext">МГТУ БАУМАНА ЛУЧШИЙ ТЕХНИЧЕСКИЙ</string>
+    <string name="alert_ege">Результат ЕГЭ должен быть в пределах от 0 до 100</string>
 
 </resources>

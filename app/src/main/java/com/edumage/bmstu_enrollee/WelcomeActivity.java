@@ -41,19 +41,17 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         if (savedInstanceState==null){
             firstFragment= LAFragmentFirst.newFragment();
             secondFragment = LAFragmentSecond.newFragment();
-            fragments= new ArrayList<CompletableFragment>();
-            fragments.add(firstFragment);
-            fragments.add(secondFragment);
             state=1;
             setState(state);
         } else {
             firstFragment =(LAFragmentFirst) getSupportFragmentManager().findFragmentByTag(LAFragmentFirst.TAG);
-            if (state==2){
-
-            }
-
+            secondFragment=(LAFragmentSecond) getSupportFragmentManager().findFragmentByTag(LAFragmentSecond.TAG);
+            if (secondFragment==null) secondFragment = LAFragmentSecond.newFragment();
         }
 
+        fragments= new ArrayList<CompletableFragment>();
+        fragments.add(firstFragment);
+        fragments.add(secondFragment);
 
 
     }
