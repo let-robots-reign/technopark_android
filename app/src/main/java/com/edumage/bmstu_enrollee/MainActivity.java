@@ -10,10 +10,13 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    private Fragment selectedFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // test feature here (testing git)
+        int a = 10;
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNavigation = findViewById(R.id.bottom_nav);
@@ -29,17 +32,21 @@ public class MainActivity extends AppCompatActivity {
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    Fragment selectedFragment = null;
-
                     switch (item.getItemId()) {
                         case R.id.home_tab:
-                            selectedFragment = new HomeFragment();
+                            if (!(selectedFragment instanceof HomeFragment)) {
+                                selectedFragment = new HomeFragment();
+                            }
                             break;
                         case R.id.catalog_tab:
-                            selectedFragment = new CatalogFragment();
+                            if (!(selectedFragment instanceof CatalogFragment)) {
+                                selectedFragment = new CatalogFragment();
+                            }
                             break;
                         case R.id.stats_tab:
-                            selectedFragment = new StatsFragment();
+                            if (!(selectedFragment instanceof StatsFragment)) {
+                                selectedFragment = new StatsFragment();
+                            }
                             break;
                     }
                     if (selectedFragment != null) {
