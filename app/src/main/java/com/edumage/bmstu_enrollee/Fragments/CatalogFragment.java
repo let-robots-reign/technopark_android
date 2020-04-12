@@ -1,5 +1,6 @@
-package com.edumage.bmstu_enrollee;
+package com.edumage.bmstu_enrollee.Fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.edumage.bmstu_enrollee.Adapters.CatalogCardsAdapter;
+import com.edumage.bmstu_enrollee.CatalogCard;
+import com.edumage.bmstu_enrollee.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +42,16 @@ public class CatalogFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.catalog_screen, container, false);
         RecyclerView list = rootView.findViewById(R.id.catalog_list);
-        list.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        int orientation = this.getResources().getConfiguration().orientation;
+        int spanCount;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            spanCount = 2;
+        } else {
+            spanCount = 3;
+        }
+        list.setLayoutManager(new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL));
         list.setAdapter(adapter);
+        list.setHasFixedSize(true);
         return rootView;
     }
 }

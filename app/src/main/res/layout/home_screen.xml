@@ -193,18 +193,29 @@
 
                         <TextView
                             android:id="@+id/program1"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:maxWidth="200dp"
                             android:text="09.03.04 Программная инженерия"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
                             android:textStyle="italic"/>
 
+                        <ProgressBar
+                            android:id="@+id/progress1"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_toStartOf="@id/ic1"
+                            android:layout_marginEnd="6dp"
+                            android:indeterminateTint="@color/colorSecondary"/>
+
+
                         <TextView
+                            android:id="@+id/score1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="265"
+                            tools:text="265"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
@@ -217,8 +228,11 @@
                             android:id="@+id/ic1"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            app:srcCompat="@drawable/download_icon"
-                            android:layout_alignParentEnd="true"/>
+                            android:layout_alignParentEnd="true"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:srcCompat="@drawable/download_icon" />
 
                     </RelativeLayout>
 
@@ -229,18 +243,28 @@
 
                         <TextView
                             android:id="@+id/program2"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:maxWidth="200dp"
                             android:text="09.03.03 Прикладная информатика"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
                             android:textStyle="italic"/>
 
+                        <ProgressBar
+                            android:id="@+id/progress2"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_toStartOf="@id/ic2"
+                            android:layout_marginEnd="6dp"
+                            android:indeterminateTint="@color/colorSecondary"/>
+
                         <TextView
+                            android:id="@+id/score2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="273"
+                            tools:text="273"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
@@ -254,7 +278,10 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             app:srcCompat="@drawable/download_icon"
-                            android:layout_alignParentEnd="true"/>
+                            android:layout_alignParentEnd="true"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"/>
 
                     </RelativeLayout>
 
@@ -264,18 +291,28 @@
 
                         <TextView
                             android:id="@+id/program3"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="09.03.01 Информатика и выч. техника"
+                            android:maxWidth="200dp"
+                            android:text="09.03.01 Информатика и вычислительная техника"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
                             android:textStyle="italic"/>
 
+                        <ProgressBar
+                            android:id="@+id/progress3"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_toStartOf="@id/ic3"
+                            android:indeterminateTint="@color/colorSecondary"/>
+
                         <TextView
+                            android:id="@+id/score3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="270"
+                            tools:text="270"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
@@ -289,7 +326,10 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             app:srcCompat="@drawable/download_icon"
-                            android:layout_alignParentEnd="true"/>
+                            android:layout_alignParentEnd="true"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"/>
 
                     </RelativeLayout>
 
