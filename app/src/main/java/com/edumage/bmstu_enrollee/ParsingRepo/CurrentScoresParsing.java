@@ -14,7 +14,6 @@ import java.util.List;
 public class CurrentScoresParsing {
 
     private static CurrentScoresParsing instance;
-    private List<String> scores = new ArrayList<>();
 
     public static CurrentScoresParsing getInstance() {
         if (instance == null) {

@@ -36,6 +36,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_first_launch);
 
         // this is to test MainActivity directly
+        // TODO: remove before pushing to master
         goToMainActivity();
 
         nextButton = findViewById(R.id.button_next);

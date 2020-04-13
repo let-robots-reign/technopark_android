@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -92,6 +93,40 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+        model.getParsingFiles().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> filesUrls) {
+                List<ImageView> icons = Arrays.asList(ic1, ic2, ic3);
+                for (int i = 0; i < icons.size(); ++i) {
+                    if (filesUrls.get(i) != null) {
+                        icons.get(i).setOnClickListener(new IconClickListener(filesUrls.get(i)));
+                    } else {
+                        icons.get(i).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getActivity(), "Ошибка: не удалось найти файл",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    private class IconClickListener implements View.OnClickListener {
+        private String fileUrl;
+
+        IconClickListener(String url) {
+            fileUrl = url;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Uri uri = Uri.parse(fileUrl);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
     }
 
     @Nullable
@@ -152,136 +187,6 @@ public class HomeFragment extends Fragment {
             }
         }
         return false;
-    }
-
-    private class CurrentScoresParsing extends AsyncTask<Void, Void, Void> {
-        private String score1_title;
-        private String score2_title;
-        private String score3_title;
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                if (isNetworkConnected()) {
-                    parseScores();
-                } else {
-                    score1_title = score2_title = score3_title = "Нет интернета";
-                }
-            } catch (IOException e) {
-                Log.e("PARSE", "Error in parsing scores: ", e);
-                score1_title = score2_title = score3_title = "Ошибка";
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            scores1.setText(score1_title);
-            scores2.setText(score2_title);
-            scores3.setText(score3_title);
-            progress1.setVisibility(View.GONE);
-            progress2.setVisibility(View.GONE);
-            progress3.setVisibility(View.GONE);
-        }
-
-        private void parseScores() throws IOException {
-            String url = "http://priem.bmstu.ru/ru/points";
-            Document doc = Jsoup.connect(url).get();
-
-            Elements specialities = doc.select("div.speciality-container");
-            Elements specialityInfo;
-            String specialityScore;
-            String specialityTitle;
-
-            for (Element speciality : specialities) {
-                // all the info about speciality (title and score)
-                specialityInfo = speciality.select("div.speciality-header > table.pretty-table > tbody > tr > td");
-                specialityTitle = specialityInfo.select("h3").text();
-                specialityScore = specialityInfo.last().select("b").text();
-
-                // if title equals any of the programs chosen by user
-                switch (specialityTitle) {
-                    case FIRST_PROGRAM:
-                        score1_title = specialityScore;
-                        break;
-                    case SECOND_PROGRAM:
-                        score2_title = specialityScore;
-                        break;
-                    case THIRD_PROGRAM:
-                        score3_title = specialityScore;
-                        break;
-                }
-            }
-        }
-    }
-
-    private class CurrentFilesParsing extends AsyncTask<Void, Void, Void> {
-        private IconClickListener ic1Listener;
-        private IconClickListener ic2Listener;
-        private IconClickListener ic3Listener;
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                if (isNetworkConnected()) {
-                    parseFiles();
-                }
-            } catch (IOException e) {
-                Log.e("PARSE", "Error in parsing files: ", e);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            ic1.setOnClickListener(ic1Listener);
-            ic2.setOnClickListener(ic2Listener);
-            ic3.setOnClickListener(ic3Listener);
-            super.onPostExecute(aVoid);
-        }
-
-        private void parseFiles() throws IOException {
-            String url = "http://priem.bmstu.ru/lists.html";
-            Document doc = Jsoup.connect(url).get();
-            String specialityTitle;
-            String fileUrl;
-
-            Elements specialities = doc.select("div.speciality-header");
-            for (Element speciality : specialities) {
-                specialityTitle = speciality.select(
-                        "table.pretty-table > tbody > tr > td > h3").text();
-                fileUrl = speciality.select("table.pretty-table > tbody > tr > td")
-                        .get(1).select("a").attr("abs:href");
-
-                switch (specialityTitle) {
-                    case FIRST_PROGRAM:
-                        ic1Listener = new IconClickListener(fileUrl);
-                        break;
-                    case SECOND_PROGRAM:
-                        ic2Listener = new IconClickListener(fileUrl);
-                        break;
-                    case THIRD_PROGRAM:
-                        ic3Listener = new IconClickListener(fileUrl);
-                        break;
-                }
-            }
-        }
-    }
-
-    private class IconClickListener implements View.OnClickListener {
-        private String fileUrl;
-
-        IconClickListener(String url) {
-            fileUrl = url;
-        }
-
-        @Override
-        public void onClick(View view) {
-            Uri uri = Uri.parse(fileUrl);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-        }
     }
 }
 
