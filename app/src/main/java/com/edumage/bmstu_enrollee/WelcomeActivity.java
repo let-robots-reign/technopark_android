@@ -35,6 +35,9 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_launch);
 
+        // this is to test MainActivity directly
+        goToMainActivity();
+
         nextButton = findViewById(R.id.button_next);
         prevButton = findViewById(R.id.button_prev);
         nextButton.setOnClickListener(buttonListener);

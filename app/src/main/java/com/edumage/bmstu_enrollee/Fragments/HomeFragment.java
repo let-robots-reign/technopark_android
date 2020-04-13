@@ -21,12 +21,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
 import com.edumage.bmstu_enrollee.DocumentStep;
 import com.edumage.bmstu_enrollee.R;
+import com.edumage.bmstu_enrollee.ViewModels.HomeFragmentViewModel;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,6 +38,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -56,6 +60,8 @@ public class HomeFragment extends Fragment {
     private final String FIRST_PROGRAM = "09.03.04 Программная инженерия (Бакалавр)";
     private final String SECOND_PROGRAM = "09.03.03 Прикладная информатика (Бакалавр)";
     private final String THIRD_PROGRAM = "09.03.01 Информатика и вычислительная техника (Бакалавр)";
+    private final List<String> programs = Arrays.asList("09.03.04 Программная инженерия (Бакалавр)",
+            "09.03.03 Прикладная информатика (Бакалавр)", "09.03.01 Информатика и вычислительная техника (Бакалавр)");
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,12 +76,21 @@ public class HomeFragment extends Fragment {
 
         adapter = new DocumentStepsAdapter(steps);
 
-        // parsing AsyncTask
-        CurrentScoresParsing currentScores = new CurrentScoresParsing();
-        currentScores.execute();
-        // parsing files
-        CurrentFilesParsing currentFiles = new CurrentFilesParsing();
-        currentFiles.execute();
+        HomeFragmentViewModel model = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
+        model.init(programs);
+
+        model.getParsingScores().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> scores) {
+                List<TextView> scoresTexts = Arrays.asList(scores1, scores2, scores3);
+                List<ProgressBar> progressBars = Arrays.asList(progress1, progress2, progress3);
+
+                for (int i = 0; i < scores.size(); ++i) {
+                    scoresTexts.get(i).setText(scores.get(i));
+                    progressBars.get(i).setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Nullable
@@ -115,7 +130,7 @@ public class HomeFragment extends Fragment {
         return position;
     }
 
-    public boolean isNetworkConnected() {
+    private boolean isNetworkConnected() {
         if (getActivity() == null) {
             return false;
         }
