@@ -8,5 +8,8 @@
     <color name="divider_background">#ECEFF1</color>
     <color name="white">#FFFFFF</color>
     <color name="darkGreen">#26A69A</color>
+    <color name="targetYellow">#FDD835</color>
     <color name="black">#000000</color>
+
+
 </resources>

@@ -21,10 +21,20 @@
     <string name="back_command">Назад</string>
 
 
+
+    <string name="stats_screen_header">Динамика проходных баллов</string>
+    <string name="stats_screen_checkbox_budget">Общий конкурс на бюджетные места</string>
+    <string name="stats_screen_checkbox_target">Целевой приём</string>
+
+
     <string name="alert_name">Введите имя пользователя</string>
     <string name="alert_date">Введите дату рождения</string>
-    <string name="welcome_backgroundtext">МГТУ БАУМАНА ЛУЧШИЙ ТЕХНИЧЕСКИЙ</string>
+
     <string name="alert_ege">Результат ЕГЭ должен быть в пределах от 0 до 100</string>
+    <string name="alert_discipline">"Выберите хотя бы 3 направления"</string>
+
+
+    <string name="welcome_command_3">Выберите 3 приоритетных направления для поступления. В любой момент вы можете изменить свой выбор</string>
 
 
     <string-array name="disciplines">

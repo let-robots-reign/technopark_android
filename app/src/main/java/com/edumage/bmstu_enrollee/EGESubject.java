@@ -1,6 +1,9 @@
 package com.edumage.bmstu_enrollee;
 
+import android.content.Context;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class EGESubject implements Serializable {
     private String name;
@@ -37,4 +40,17 @@ public class EGESubject implements Serializable {
     public int getImg() {
         return img;
     }
+
+    public static ArrayList<EGESubject> LoadEgeSubjects(Context context){
+
+        ArrayList<EGESubject> res= new ArrayList<EGESubject>();
+        String[] str =context.getResources().getStringArray(R.array.subjects);
+        for (String s : str) {
+            res.add(new EGESubject(s, R.drawable.chemistry));
+        }
+
+        return res;
+
+    }
+
 }

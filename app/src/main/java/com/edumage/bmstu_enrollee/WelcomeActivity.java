@@ -1,5 +1,6 @@
 package com.edumage.bmstu_enrollee;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -10,6 +11,7 @@ import android.widget.Button;
 
 import com.edumage.bmstu_enrollee.Fragments.LAFragmentFirst;
 import com.edumage.bmstu_enrollee.Fragments.LAFragmentSecond;
+import com.edumage.bmstu_enrollee.Fragments.LAFragmentThird;
 
 import java.util.ArrayList;
 
@@ -17,14 +19,18 @@ public class WelcomeActivity extends AppCompatActivity {
 
     LAFragmentFirst firstFragment;
     LAFragmentSecond secondFragment;
+    LAFragmentThird thirdFragment;
     Button nextButton;
     Button prevButton;
     ArrayList<CompletableFragment> fragments;
-    int state;
-    private static final int MAX_STATE = 2;
+    private int state;
 
-    // 1 - FirstFragment
-    // 2 - SecondFragment
+    private static final String STATE_KEY="STATE";
+    private static final int MAX_STATE = 3;
+
+    // 1 - LAFragment_First
+    // 2 - LAFragment_Second
+    // 3 - LAFragment_Third
 
     public interface CompletableFragment {
         boolean isComplete();
@@ -43,17 +49,29 @@ public class WelcomeActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             firstFragment = new LAFragmentFirst();
             secondFragment = new LAFragmentSecond();
+            thirdFragment =  new LAFragmentThird();
             state = 1;
             setState(state);
         } else {
+            state=savedInstanceState.getInt(STATE_KEY);
             firstFragment = (LAFragmentFirst) getSupportFragmentManager().findFragmentByTag(LAFragmentFirst.TAG);
             secondFragment = (LAFragmentSecond) getSupportFragmentManager().findFragmentByTag(LAFragmentSecond.TAG);
+            thirdFragment =(LAFragmentThird)getSupportFragmentManager().findFragmentByTag(LAFragmentThird.TAG);
+            if (firstFragment==null)firstFragment= new LAFragmentFirst();
             if (secondFragment == null) secondFragment = new LAFragmentSecond();
+            if (thirdFragment==null) thirdFragment=new LAFragmentThird();
         }
 
         fragments = new ArrayList<>();
         fragments.add(firstFragment);
         fragments.add(secondFragment);
+        fragments.add(thirdFragment);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STATE_KEY,state);
     }
 
 
@@ -66,6 +84,11 @@ public class WelcomeActivity extends AppCompatActivity {
         }
         if (state == 2) {
             getSupportFragmentManager().beginTransaction().replace(R.id.la_frame, secondFragment, LAFragmentSecond.TAG).
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+            prevButton.setVisibility(View.VISIBLE);
+        }
+        if (state==3){
+            getSupportFragmentManager().beginTransaction().replace(R.id.la_frame, thirdFragment, LAFragmentThird.TAG).
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
             prevButton.setVisibility(View.VISIBLE);
         }

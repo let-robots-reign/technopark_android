@@ -15,11 +15,16 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         SharedPreferences preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+
+        // for testing main activity set it to false again
+        preferences.edit().putBoolean(LAUNCH_STATE, true).apply();
+
+
         if (preferences.getBoolean(LAUNCH_STATE, false)) {
 
             preferences.edit().putBoolean(LAUNCH_STATE, true).apply();
             // for testing welcome activity set it to false again
-            preferences.edit().putBoolean(LAUNCH_STATE, false).apply();
+            //preferences.edit().putBoolean(LAUNCH_STATE, false).apply();
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
