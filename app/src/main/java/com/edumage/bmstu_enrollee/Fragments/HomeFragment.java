@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
 import com.edumage.bmstu_enrollee.DocumentStep;
+import com.edumage.bmstu_enrollee.DocumentStepStatus;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.HomeFragmentViewModel;
 
@@ -68,11 +69,11 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // sample data
         steps = new ArrayList<>();
-        steps.add(new DocumentStep("Это предыдущий шаг №1", -1));
-        steps.add(new DocumentStep("Это предыдущий шаг №2", -1));
-        steps.add(new DocumentStep("Это текущий шаг", 0));
-        steps.add(new DocumentStep("Это следующий шаг №1", 1));
-        steps.add(new DocumentStep("Это следующий шаг №2", 1));
+        steps.add(new DocumentStep("Это предыдущий шаг №1", DocumentStepStatus.COMPLETED_STEP));
+        steps.add(new DocumentStep("Это предыдущий шаг №2", DocumentStepStatus.COMPLETED_STEP));
+        steps.add(new DocumentStep("Это текущий шаг", DocumentStepStatus.CURRENT_STEP));
+        steps.add(new DocumentStep("Это следующий шаг №1", DocumentStepStatus.FUTURE_STEP));
+        steps.add(new DocumentStep("Это следующий шаг №2", DocumentStepStatus.FUTURE_STEP));
 
         adapter = new DocumentStepsAdapter(steps);
 
@@ -124,7 +125,7 @@ public class HomeFragment extends Fragment {
     private int getCurrentStepPosition() {
         // searching for the first step with status code 0
         int position = 0;
-        while (steps.get(position).getStepStatus() != 0) {
+        while (steps.get(position).getStepStatus() != DocumentStepStatus.CURRENT_STEP) {
             position++;
         }
         return position;
