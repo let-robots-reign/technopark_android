@@ -48,6 +48,8 @@ public class HomeFragment extends Fragment {
     private final List<String> programs = Arrays.asList("09.03.04 Программная инженерия (Бакалавр)",
             "09.03.03 Прикладная информатика (Бакалавр)", "09.03.01 Информатика и вычислительная техника (Бакалавр)");
 
+    private HomeFragmentViewModel model;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +63,7 @@ public class HomeFragment extends Fragment {
 
         adapter = new DocumentStepsAdapter(steps);
 
-        HomeFragmentViewModel model = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
+        model = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
         model.init(programs);
 
         model.getParsingScores().observe(this, new Observer<List<String>>() {
@@ -70,9 +72,16 @@ public class HomeFragment extends Fragment {
                 List<TextView> scoresTexts = Arrays.asList(scores1, scores2, scores3);
                 List<ProgressBar> progressBars = Arrays.asList(progress1, progress2, progress3);
 
-                for (int i = 0; i < scores.size(); ++i) {
-                    scoresTexts.get(i).setText(scores.get(i));
-                    progressBars.get(i).setVisibility(View.GONE);
+                if (scores.size() == 0) {
+                    for (int i = 0; i < scoresTexts.size(); ++i) {
+                        scoresTexts.get(i).setText("");
+                        progressBars.get(i).setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    for (int i = 0; i < scores.size(); ++i) {
+                        scoresTexts.get(i).setText(scores.get(i));
+                        progressBars.get(i).setVisibility(View.GONE);
+                    }
                 }
             }
         });
@@ -136,6 +145,14 @@ public class HomeFragment extends Fragment {
         ic1 = rootView.findViewById(R.id.ic1);
         ic2 = rootView.findViewById(R.id.ic2);
         ic3 = rootView.findViewById(R.id.ic3);
+
+        ImageView icRefresh = rootView.findViewById(R.id.refresh);
+        icRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model.init(programs);
+            }
+        });
 
         return rootView;
     }

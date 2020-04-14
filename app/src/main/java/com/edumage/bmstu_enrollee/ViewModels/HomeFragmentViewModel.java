@@ -37,6 +37,8 @@ public class HomeFragmentViewModel extends AndroidViewModel {
 
     public void init(List<String> names) {
         programsNames = names;
+        scoresLiveData.setValue(new ArrayList<String>());
+        filesLiveData.setValue(new ArrayList<String>());
         loadScores();
         loadFiles();
     }

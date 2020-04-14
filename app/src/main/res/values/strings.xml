@@ -11,6 +11,7 @@
     <string name="prev_step">Предыдущий шаг</string>
     <string name="next_step">Следующий шаг</string>
     <string name="current_contest">Текущий конкурс на Ваших направлениях</string>
+    <string name="last_reload">Последнее обновление баллов: </string>
 
     <string name="welcome_header">Привет!</string>
     <string name="welcome_command_1">Заполни информацию о себе</string>
@@ -19,7 +20,6 @@
     <string name="welcome_hint2">Дата рождения</string>
     <string name="next_command">Далее</string>
     <string name="back_command">Назад</string>
-
 
     <string name="alert_name">Введите имя пользователя</string>
     <string name="alert_date">Введите дату рождения</string>
