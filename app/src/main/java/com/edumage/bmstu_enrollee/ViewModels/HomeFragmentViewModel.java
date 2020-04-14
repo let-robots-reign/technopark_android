@@ -56,7 +56,14 @@ public class HomeFragmentViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 final List<String> scores = new ArrayList<>();
-                String score = "Ошибка";
+                // firstly, add info about last update
+                try {
+                    scores.add(CurrentScoresParsing.getInstance().getLastUpdate());
+                } catch (IOException e) {
+                    scores.add("неизвестно");
+                }
+                String score;
+                // retrieving info about passing scores
                 for (String name : programsNames) {
                     if (!isNetworkConnected()) {
                         score = "Нет сети";
@@ -66,6 +73,7 @@ public class HomeFragmentViewModel extends AndroidViewModel {
                         try {
                             score = CurrentScoresParsing.getInstance().parseScore(name);
                         } catch (IOException e) {
+                            score = "Ошибка";
                             e.printStackTrace();
                         }
                     }

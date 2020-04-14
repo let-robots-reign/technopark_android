@@ -11,7 +11,7 @@
     <string name="prev_step">Предыдущий шаг</string>
     <string name="next_step">Следующий шаг</string>
     <string name="current_contest">Текущий конкурс на Ваших направлениях</string>
-    <string name="last_reload">Последнее обновление баллов: </string>
+    <string name="last_reload">Последнее обновление баллов: %1$s</string>
 
     <string name="welcome_header">Привет!</string>
     <string name="welcome_command_1">Заполни информацию о себе</string>

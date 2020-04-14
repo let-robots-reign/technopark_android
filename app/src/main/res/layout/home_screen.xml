@@ -180,13 +180,15 @@
                         android:fontFamily="@font/cuprum"/>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/last_reload"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/last_reload"
                         android:textSize="12sp"
                         android:textStyle="italic"
                         android:fontFamily="@font/cuprum"
-                        android:layout_below="@id/current_contest"/>
+                        android:layout_below="@id/current_contest"
+                        android:layout_toStartOf="@id/refresh"/>
 
                     <ImageView
                         android:id="@+id/refresh"
@@ -227,7 +229,7 @@
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
                             android:textStyle="italic"
-                            android:layout_toStartOf="@id/score1"
+                            android:layout_toStartOf="@id/progress1"
                             android:layout_alignParentStart="true"/>
 
                         <ProgressBar
@@ -237,7 +239,6 @@
                             android:layout_toStartOf="@id/ic1"
                             android:layout_marginEnd="6dp"
                             android:indeterminateTint="@color/colorSecondary"/>
-
 
                         <TextView
                             android:id="@+id/score1"
@@ -274,7 +275,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
-                            android:layout_toStartOf="@id/score2"
+                            android:layout_toStartOf="@id/progress2"
                             android:fontFamily="@font/cuprum"
                             android:text="09.03.03 Прикладная информатика"
                             android:textColor="@android:color/black"
@@ -327,7 +328,7 @@
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:textStyle="italic"
-                            android:layout_toStartOf="@id/score3"
+                            android:layout_toStartOf="@id/progress3"
                             android:layout_alignParentStart="true"/>
 
                         <ProgressBar

@@ -33,6 +33,7 @@ public class HomeFragment extends Fragment {
     private DocumentStepsAdapter adapter;
     private List<DocumentStep> steps;
 
+    private TextView lastReload;
     private TextView scores1;
     private TextView scores2;
     private TextView scores3;
@@ -69,18 +70,20 @@ public class HomeFragment extends Fragment {
         model.getParsingScores().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> scores) {
-                List<TextView> scoresTexts = Arrays.asList(scores1, scores2, scores3);
+                List<TextView> scoresTexts = Arrays.asList(lastReload, scores1, scores2, scores3);
                 List<ProgressBar> progressBars = Arrays.asList(progress1, progress2, progress3);
 
                 if (scores.size() == 0) {
-                    for (int i = 0; i < scoresTexts.size(); ++i) {
+                    lastReload.setText(getResources().getString(R.string.last_reload, ""));
+                    for (int i = 1; i < scoresTexts.size(); ++i) {
                         scoresTexts.get(i).setText("");
-                        progressBars.get(i).setVisibility(View.VISIBLE);
+                        progressBars.get(i - 1).setVisibility(View.VISIBLE);
                     }
                 } else {
-                    for (int i = 0; i < scores.size(); ++i) {
+                    lastReload.setText(getResources().getString(R.string.last_reload, scores.get(0)));
+                    for (int i = 1; i < scores.size(); ++i) {
                         scoresTexts.get(i).setText(scores.get(i));
-                        progressBars.get(i).setVisibility(View.GONE);
+                        progressBars.get(i - 1).setVisibility(View.INVISIBLE);
                     }
                 }
             }
@@ -134,6 +137,7 @@ public class HomeFragment extends Fragment {
         // on start current step should be seen
         steps.scrollToPosition(getCurrentStepPosition());
 
+        lastReload = rootView.findViewById(R.id.last_reload);
         scores1 = rootView.findViewById(R.id.score1);
         scores2 = rootView.findViewById(R.id.score2);
         scores3 = rootView.findViewById(R.id.score3);

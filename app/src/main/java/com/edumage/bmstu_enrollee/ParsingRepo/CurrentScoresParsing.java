@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class CurrentScoresParsing {
 
+    private final String URL = "http://priem.bmstu.ru/ru/points";
     private static CurrentScoresParsing instance;
 
     public static CurrentScoresParsing getInstance() {
@@ -18,8 +19,12 @@ public class CurrentScoresParsing {
         return instance;
     }
 
+    public String getLastUpdate() throws IOException {
+        Document doc = Jsoup.connect(URL).get();
+        return doc.select("div.float-right > b").text();
+    }
+
     public String parseScore(String programName) throws IOException {
-        String URL = "http://priem.bmstu.ru/ru/points";
         Document doc = Jsoup.connect(URL).get();
         String score = "Ошибка";
 
