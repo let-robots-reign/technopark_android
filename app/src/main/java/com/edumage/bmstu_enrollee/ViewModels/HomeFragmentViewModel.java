@@ -1,6 +1,7 @@
 package com.edumage.bmstu_enrollee.ViewModels;
 
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -17,6 +18,7 @@ public class HomeFragmentViewModel extends ViewModel {
     private final MutableLiveData<List<String>> scoresLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<String>> filesLiveData = new MutableLiveData<>();
     private List<String> programsNames;
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     public void init(List<String> names) {
         programsNames = names;
@@ -32,13 +34,11 @@ public class HomeFragmentViewModel extends ViewModel {
         return filesLiveData;
     }
 
-    // TODO: replace AsyncTask inside following methods
-
     private void loadScores() {
-        new AsyncTask<Void, Void, List<String>>() {
+        Thread thread = new Thread(new Runnable() {
             @Override
-            protected List<String> doInBackground(Void... voids) {
-                List<String> scores = new ArrayList<>();
+            public void run() {
+                final List<String> scores = new ArrayList<>();
                 String score = "Ошибка";
                 for (String name : programsNames) {
                     try {
@@ -47,22 +47,25 @@ public class HomeFragmentViewModel extends ViewModel {
                         e.printStackTrace();
                     }
                     scores.add(score);
-                }
-                return scores;
-            }
 
-            @Override
-            protected void onPostExecute(List<String> strings) {
-                scoresLiveData.setValue(strings);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scoresLiveData.setValue(scores);
+                        }
+                    });
+
+                }
             }
-        }.execute();
+        });
+        thread.start();
     }
 
     private void loadFiles() {
-        new AsyncTask<Void, Void, List<String>>() {
+        Thread thread = new Thread(new Runnable() {
             @Override
-            protected List<String> doInBackground(Void... voids) {
-                List<String> fileUrls = new ArrayList<>();
+            public void run() {
+                final List<String> fileUrls = new ArrayList<>();
                 String fileUrl = null;
                 for (String name : programsNames) {
                     try {
@@ -71,15 +74,16 @@ public class HomeFragmentViewModel extends ViewModel {
                         e.printStackTrace();
                     }
                     fileUrls.add(fileUrl);
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            filesLiveData.setValue(fileUrls);
+                        }
+                    });
                 }
-                return fileUrls;
             }
-
-            @Override
-            protected void onPostExecute(List<String> strings) {
-                filesLiveData.setValue(strings);
-            }
-        }.execute();
+        });
+        thread.start();
     }
-
 }

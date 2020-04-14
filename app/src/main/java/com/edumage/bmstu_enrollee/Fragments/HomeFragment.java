@@ -7,10 +7,8 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +31,6 @@ import com.edumage.bmstu_enrollee.DocumentStepStatus;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.HomeFragmentViewModel;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,9 +51,6 @@ public class HomeFragment extends Fragment {
 
     // пока не запоминаем выбранные направления
     // для тестирования они заданы константами
-    private final String FIRST_PROGRAM = "09.03.04 Программная инженерия (Бакалавр)";
-    private final String SECOND_PROGRAM = "09.03.03 Прикладная информатика (Бакалавр)";
-    private final String THIRD_PROGRAM = "09.03.01 Информатика и вычислительная техника (Бакалавр)";
     private final List<String> programs = Arrays.asList("09.03.04 Программная инженерия (Бакалавр)",
             "09.03.03 Прикладная информатика (Бакалавр)", "09.03.01 Информатика и вычислительная техника (Бакалавр)");
 
@@ -97,7 +86,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(List<String> filesUrls) {
                 List<ImageView> icons = Arrays.asList(ic1, ic2, ic3);
-                for (int i = 0; i < icons.size(); ++i) {
+                for (int i = 0; i < filesUrls.size(); ++i) {
                     if (filesUrls.get(i) != null) {
                         icons.get(i).setOnClickListener(new IconClickListener(filesUrls.get(i)));
                     } else {
