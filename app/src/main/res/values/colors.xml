@@ -10,6 +10,7 @@
     <color name="darkGreen">#26A69A</color>
     <color name="targetYellow">#FDD835</color>
     <color name="black">#000000</color>
+    <color name="gray">#81000000</color>
 
 
 </resources>

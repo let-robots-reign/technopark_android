@@ -18,7 +18,11 @@ public class DataTransformator {
 
 
 
+
     public static class PassScoreComponent{
+
+        final int BUDGET_TYPE=0;
+        final int TARGET_TYPE=1;
 
         ArrayList<Integer> years;
         ArrayList<Integer> score;
@@ -39,8 +43,11 @@ public class DataTransformator {
 
     }
 
-    public static PassScoreComponent LoadSetPassScore(){
-       //temporary funcions
+
+
+    public static PassScoreComponent LoadSetPassScore(String discipline, int type){
+
+       //temporary realization
 
        ArrayList<Integer> years =  new ArrayList<>();
        for (int i=2009; i<2020; i++)years.add(i);
@@ -51,7 +58,6 @@ public class DataTransformator {
            score.add((int)(250+Math.round(Math.random()*50)));
        }
         PassScoreComponent scoreSet =  new PassScoreComponent(years,score);
-
 
         return scoreSet;
 

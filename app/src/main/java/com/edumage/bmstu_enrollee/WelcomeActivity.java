@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.edumage.bmstu_enrollee.Fragments.LAFragmentFirst;
 import com.edumage.bmstu_enrollee.Fragments.LAFragmentSecond;
 import com.edumage.bmstu_enrollee.Fragments.LAFragmentThird;
@@ -22,6 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
     LAFragmentThird thirdFragment;
     Button nextButton;
     Button prevButton;
+    ImageView imageBackground;
     ArrayList<CompletableFragment> fragments;
     private int state;
 
@@ -40,6 +43,10 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_launch);
+
+        imageBackground = findViewById(R.id.image_background);
+        Glide.with(this).asGif().load(R.drawable.background_test).into(imageBackground);
+
 
         nextButton = findViewById(R.id.button_next);
         prevButton = findViewById(R.id.button_prev);
@@ -66,6 +73,10 @@ public class WelcomeActivity extends AppCompatActivity {
         fragments.add(firstFragment);
         fragments.add(secondFragment);
         fragments.add(thirdFragment);
+
+
+
+
     }
 
     @Override

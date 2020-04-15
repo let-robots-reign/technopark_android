@@ -25,6 +25,10 @@
     <string name="stats_screen_header">Динамика проходных баллов</string>
     <string name="stats_screen_checkbox_budget">Общий конкурс на бюджетные места</string>
     <string name="stats_screen_checkbox_target">Целевой приём</string>
+    <string name="stats_screen_budget_label">Проходной балл на бюджетную форму обучения</string>
+    <string name="stats_screen_target_label">Проходной балл на целевое обучение</string>
+    <string name="stats_screen_no_data">Нет данных</string>
+    <string name="stats_screen_description">Даные сайта bmstu.ru</string>
 
 
     <string name="alert_name">Введите имя пользователя</string>
