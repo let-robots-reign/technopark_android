@@ -41,10 +41,10 @@ public class EGESubject implements Serializable {
         return img;
     }
 
-    public static ArrayList<EGESubject> LoadEgeSubjects(Context context){
+    public static ArrayList<EGESubject> LoadEgeSubjects(Context context) {
 
-        ArrayList<EGESubject> res= new ArrayList<EGESubject>();
-        String[] str =context.getResources().getStringArray(R.array.subjects);
+        ArrayList<EGESubject> res = new ArrayList<EGESubject>();
+        String[] str = context.getResources().getStringArray(R.array.subjects);
         for (String s : str) {
             res.add(new EGESubject(s, R.drawable.chemistry));
         }

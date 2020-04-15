@@ -16,19 +16,17 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.ViewHolder> {
-
-
     private ArrayList<Discipline> data;
-    public DisciplineAdapter( ArrayList<Discipline> data){
-       this.data=data;
-    }
 
+    public DisciplineAdapter(ArrayList<Discipline> data) {
+        this.data = data;
+    }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.discipline_item,parent,false),parent.getContext());
+                inflate(R.layout.discipline_item, parent, false), parent.getContext());
     }
 
     @Override
@@ -36,7 +34,7 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
         holder.setDiscipline(data.get(position));
     }
 
-    public ArrayList<Discipline> getData(){
+    public ArrayList<Discipline> getData() {
         return data;
     }
 
@@ -45,62 +43,60 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
         return data.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         Discipline discipline;
         TextView name;
         TextView number;
         TextView form;
         CardView card;
-        boolean enabled=false;
+        boolean enabled = false;
         Context context;
-
-
 
         private ViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
-            name  = itemView.findViewById(R.id.discipline_name);
-            number= itemView.findViewById(R.id.discipline_number);
-            form =itemView.findViewById(R.id.education_form);
+            name = itemView.findViewById(R.id.discipline_name);
+            number = itemView.findViewById(R.id.discipline_number);
+            form = itemView.findViewById(R.id.education_form);
             card = itemView.findViewById(R.id.discipline_card);
-            this.context=context;
+            this.context = context;
             card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        enabled=!enabled;
-                        UpdateState();
+                    enabled = !enabled;
+                    UpdateState();
 
                 }
             });
         }
 
-        private void UpdateState(){
-            if (enabled){
+        private void UpdateState() {
+            if (enabled) {
                 setEnabled();
-            } else{
+            } else {
                 setDisabled();
             }
         }
 
-        private void setEnabled(){
+        private void setEnabled() {
             card.setBackgroundColor(context.getResources().getColor(R.color.darkGreen));
-            enabled=true;
+            enabled = true;
             discipline.setStatus(enabled);
 
         }
 
-        private void setDisabled(){
+        private void setDisabled() {
             card.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
-            enabled=false;
+            enabled = false;
             discipline.setStatus(enabled);
         }
 
-        void setDiscipline(Discipline d){
-            discipline=d;
+        void setDiscipline(Discipline d) {
+            discipline = d;
             name.setText(d.getName());
             number.setText(String.valueOf(d.getNumber()));
             form.setText(d.getForm());
-            enabled=d.getStatus();
+            enabled = d.getStatus();
             UpdateState();
         }
     }

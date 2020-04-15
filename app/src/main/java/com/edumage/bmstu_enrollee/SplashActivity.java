@@ -1,6 +1,7 @@
 package com.edumage.bmstu_enrollee;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
         //for testing main activity set it to false again
-     preferences.edit().putBoolean(LAUNCH_STATE, false).apply();
+        preferences.edit().putBoolean(LAUNCH_STATE, false).apply();
 
         if (preferences.getBoolean(LAUNCH_STATE, false)) {
 

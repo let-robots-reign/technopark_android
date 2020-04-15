@@ -28,7 +28,7 @@ public class WelcomeActivity extends AppCompatActivity {
     ArrayList<CompletableFragment> fragments;
     private int state;
 
-    private static final String STATE_KEY="STATE";
+    private static final String STATE_KEY = "STATE";
     private static final int MAX_STATE = 3;
 
     // 1 - LAFragment_First
@@ -47,7 +47,6 @@ public class WelcomeActivity extends AppCompatActivity {
         imageBackground = findViewById(R.id.image_background);
         Glide.with(this).asGif().load(R.drawable.background_test).into(imageBackground);
 
-
         nextButton = findViewById(R.id.button_next);
         prevButton = findViewById(R.id.button_prev);
         nextButton.setOnClickListener(buttonListener);
@@ -56,33 +55,29 @@ public class WelcomeActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             firstFragment = new LAFragmentFirst();
             secondFragment = new LAFragmentSecond();
-            thirdFragment =  new LAFragmentThird();
+            thirdFragment = new LAFragmentThird();
             state = 1;
             setState(state);
         } else {
-            state=savedInstanceState.getInt(STATE_KEY);
+            state = savedInstanceState.getInt(STATE_KEY);
             firstFragment = (LAFragmentFirst) getSupportFragmentManager().findFragmentByTag(LAFragmentFirst.TAG);
             secondFragment = (LAFragmentSecond) getSupportFragmentManager().findFragmentByTag(LAFragmentSecond.TAG);
-            thirdFragment =(LAFragmentThird)getSupportFragmentManager().findFragmentByTag(LAFragmentThird.TAG);
-            if (firstFragment==null)firstFragment= new LAFragmentFirst();
+            thirdFragment = (LAFragmentThird) getSupportFragmentManager().findFragmentByTag(LAFragmentThird.TAG);
+            if (firstFragment == null) firstFragment = new LAFragmentFirst();
             if (secondFragment == null) secondFragment = new LAFragmentSecond();
-            if (thirdFragment==null) thirdFragment=new LAFragmentThird();
+            if (thirdFragment == null) thirdFragment = new LAFragmentThird();
         }
 
         fragments = new ArrayList<>();
         fragments.add(firstFragment);
         fragments.add(secondFragment);
         fragments.add(thirdFragment);
-
-
-
-
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(STATE_KEY,state);
+        outState.putInt(STATE_KEY, state);
     }
 
 
@@ -98,7 +93,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
             prevButton.setVisibility(View.VISIBLE);
         }
-        if (state==3){
+        if (state == 3) {
             getSupportFragmentManager().beginTransaction().replace(R.id.la_frame, thirdFragment, LAFragmentThird.TAG).
                     setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
             prevButton.setVisibility(View.VISIBLE);

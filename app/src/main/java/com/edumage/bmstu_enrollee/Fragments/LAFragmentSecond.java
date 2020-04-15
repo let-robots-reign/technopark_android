@@ -49,12 +49,12 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
                 objectInputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                data=EGESubject.LoadEgeSubjects(getContext());
+                data = EGESubject.LoadEgeSubjects(getActivity());
                 Toast.makeText(getContext(), "Unable to deserialize", Toast.LENGTH_SHORT).show();
             }
         } else {
-            if (data == null && getContext()!=null) {
-                data=EGESubject.LoadEgeSubjects(getContext());
+            if (data == null && getActivity() != null) {
+                data = EGESubject.LoadEgeSubjects(getActivity());
             }
         }
     }
@@ -94,7 +94,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
 
     @Override
     public boolean isComplete() {
-        // условие заверешния
+        // условие завершения
         // выгрузка информации
         return true;
     }
