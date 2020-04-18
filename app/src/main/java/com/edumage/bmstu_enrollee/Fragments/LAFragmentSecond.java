@@ -49,12 +49,12 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
                 objectInputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
+                data = EGESubject.LoadEgeSubjects(getActivity());
                 Toast.makeText(getContext(), "Unable to deserialize", Toast.LENGTH_SHORT).show();
             }
         } else {
-            if (data == null) {
-                data = new ArrayList<>();
-                getEGEList();
+            if (data == null && getActivity() != null) {
+                data = EGESubject.LoadEgeSubjects(getActivity());
             }
         }
     }
@@ -92,21 +92,9 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
         super.onSaveInstanceState(outState);
     }
 
-    // получение списка предметов ЕГЭ пользователя - нужно заменить
-    private void getEGEList() {
-        data.add(new EGESubject("Русский язык", R.drawable.informatics));
-        data.add(new EGESubject("Информатика", R.drawable.informatics));
-        data.add(new EGESubject("Математика", R.drawable.informatics));
-        data.add(new EGESubject("Физика", R.drawable.physics));
-        data.add(new EGESubject("Химия", R.drawable.chemistry));
-        data.add(new EGESubject("Математика", R.drawable.informatics));
-        data.add(new EGESubject("Физика", R.drawable.physics));
-        data.add(new EGESubject("Химия", R.drawable.chemistry));
-    }
-
     @Override
     public boolean isComplete() {
-        // условие заверешния
+        // условие завершения
         // выгрузка информации
         return true;
     }

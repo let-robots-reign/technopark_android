@@ -114,9 +114,9 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
                         Toast.makeText(context, R.string.alert_ege, Toast.LENGTH_SHORT).show();
                         s.clear();
                     }
-                    if (s.toString().length() == 0) {
+                   /* if (s.toString().length() == 0) {
                         editText.setText("0");
-                    }
+                    }*/
                     UpdateSubject();
                 }
             });
