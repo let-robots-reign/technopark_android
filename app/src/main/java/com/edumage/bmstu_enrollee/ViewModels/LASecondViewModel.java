@@ -13,23 +13,25 @@ import java.util.List;
 
 public class LASecondViewModel extends AndroidViewModel {
     private DbRepository repository;
-    private LiveData<List<ExamPoints>> allPoints;
 
     public LASecondViewModel(@NonNull Application application) {
         super(application);
         repository = new DbRepository(application);
-        allPoints = repository.getAllPoints();
     }
 
     public void insert(ExamPoints points) {
         repository.insertPoints(points);
     }
 
+    public void insertAll(List<ExamPoints> allPoints) {
+        repository.insertAllPoints(allPoints);
+    }
+
     public void delete(ExamPoints points) {
         repository.deletePoints(points);
     }
 
-    public LiveData<List<ExamPoints>> getAllPoints() {
-        return allPoints;
+    public List<ExamPoints> getAllPoints() {
+        return repository.getAllPoints();
     }
 }

@@ -1,10 +1,6 @@
 package com.edumage.bmstu_enrollee.DbRepo;
 
 import android.app.Application;
-import android.os.Handler;
-import android.os.Looper;
-
-import androidx.lifecycle.LiveData;
 
 import com.edumage.bmstu_enrollee.DataBase;
 import com.edumage.bmstu_enrollee.DbDaos.ExamPointsDao;
@@ -14,12 +10,10 @@ import java.util.List;
 
 public class DbRepository {
     private ExamPointsDao pointsDao;
-    private LiveData<List<ExamPoints>> allPoints;
 
     public DbRepository(Application application) {
         DataBase dataBase = DataBase.getInstance(application);
         pointsDao = dataBase.examPointsDao();
-        allPoints = pointsDao.getAllPoints();
     }
 
     public void insertPoints(final ExamPoints examPoints) {
@@ -30,7 +24,17 @@ public class DbRepository {
             }
         });
         thread.start();
-    }
+    };
+
+    public void insertAllPoints(final List<ExamPoints> allExamPoints) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                pointsDao.insertAllPoints(allExamPoints);
+            }
+        });
+        thread.start();
+    };
 
     public void deletePoints(final ExamPoints examPoints) {
         Thread thread = new Thread(new Runnable() {
@@ -42,7 +46,7 @@ public class DbRepository {
         thread.start();
     }
 
-    public LiveData<List<ExamPoints>> getAllPoints() {
-        return allPoints;
+    public List<ExamPoints> getAllPoints() {
+        return pointsDao.getAllPoints();
     }
 }

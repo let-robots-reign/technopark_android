@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "exam_points")
 public class ExamPoints {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public long id;
 
     @ColumnInfo(name = "exam_name")
     public String examName;
@@ -18,6 +18,10 @@ public class ExamPoints {
     public ExamPoints(String examName, int examScore) {
         this.examName = examName;
         this.examScore = examScore;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getExamName() {

@@ -15,13 +15,16 @@ import java.util.List;
 public interface ExamPointsDao {
 
     @Query("SELECT * FROM exam_points")
-    LiveData<List<ExamPoints>> getAllPoints();
+    List<ExamPoints> getAllPoints();
 
     @Query("SELECT exam_score FROM exam_points WHERE exam_name = :examName")
     int getScore(String examName);
 
     @Insert
     void insertPoints(ExamPoints examPoints);
+
+    @Insert
+    void insertAllPoints(List<ExamPoints> allPoints);
 
     @Update
     void updatePoints(ExamPoints examPoints);

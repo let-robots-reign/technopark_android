@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.edumage.bmstu_enrollee.DbDaos.ExamPointsDao;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 
-@Database(entities = ExamPoints.class, version = 1)
+@Database(entities = {ExamPoints.class}, version = 1)
 public abstract class DataBase extends RoomDatabase {
 
     private static DataBase instance;
@@ -19,9 +19,7 @@ public abstract class DataBase extends RoomDatabase {
     public static synchronized DataBase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    DataBase.class, "bmstu_db")
-                    .fallbackToDestructiveMigration()
-                    .build();
+                    DataBase.class, "bmstu_db").allowMainThreadQueries().build();
         }
         return instance;
     }
