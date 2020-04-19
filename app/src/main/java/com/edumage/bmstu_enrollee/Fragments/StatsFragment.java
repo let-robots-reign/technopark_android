@@ -64,7 +64,8 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         targetBox.setChecked(targetBoxValue);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_spinner_item, Discipline.LoadStringArray(getActivity()));
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.disciplines));
 
         spinner.setAdapter(adapter);
         if (discipline != null) {

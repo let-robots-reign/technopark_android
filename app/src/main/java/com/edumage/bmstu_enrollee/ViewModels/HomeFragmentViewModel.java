@@ -16,6 +16,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 import com.edumage.bmstu_enrollee.ParsingRepo.CurrentFilesParsing;
@@ -31,7 +32,7 @@ public class HomeFragmentViewModel extends AndroidViewModel {
     private DbRepository repository;
     private final MutableLiveData<List<String>> scoresLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<String>> filesLiveData = new MutableLiveData<>();
-    private List<String> programsNames;
+    private List<ChosenProgram> programsNames;
     private final Handler handler = new Handler(Looper.getMainLooper());
 
     public HomeFragmentViewModel(@NonNull Application application) {
@@ -39,8 +40,8 @@ public class HomeFragmentViewModel extends AndroidViewModel {
         repository = new DbRepository(application);
     }
 
-    public void init(List<String> names) {
-        programsNames = names;
+    public void init(List<ChosenProgram> programs) {
+        programsNames = programs;
         scoresLiveData.setValue(new ArrayList<String>());
         filesLiveData.setValue(new ArrayList<String>());
         loadScores();
@@ -49,6 +50,10 @@ public class HomeFragmentViewModel extends AndroidViewModel {
 
     public List<ExamPoints> getExamPoints() {
         return repository.getAllPoints();
+    }
+
+    public List<ChosenProgram> getChosenPrograms() {
+        return repository.getAllChosenPrograms();
     }
 
     public LiveData<List<String>> getParsingScores() {
@@ -72,14 +77,14 @@ public class HomeFragmentViewModel extends AndroidViewModel {
                 }
                 String score;
                 // retrieving info about passing scores
-                for (String name : programsNames) {
+                for (ChosenProgram program : programsNames) {
                     if (!isNetworkConnected()) {
                         score = "Нет сети";
                     } else if (!hasInternetAccess()) {
                         score = "Нет интернета";
                     } else {
                         try {
-                            score = CurrentScoresParsing.getInstance().parseScore(name);
+                            score = CurrentScoresParsing.getInstance().parseScore(program.getProgramName());
                         } catch (IOException e) {
                             score = "Ошибка";
                             e.printStackTrace();
@@ -106,9 +111,9 @@ public class HomeFragmentViewModel extends AndroidViewModel {
             public void run() {
                 final List<String> fileUrls = new ArrayList<>();
                 String fileUrl = null;
-                for (String name : programsNames) {
+                for (ChosenProgram program: programsNames) {
                     try {
-                        fileUrl = CurrentFilesParsing.getInstance().parseFile(name);
+                        fileUrl = CurrentFilesParsing.getInstance().parseFile(program.getProgramName());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

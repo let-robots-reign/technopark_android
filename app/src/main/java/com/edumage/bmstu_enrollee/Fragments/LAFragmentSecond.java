@@ -62,6 +62,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
         }
 
         model = ViewModelProviders.of(this).get(LASecondViewModel.class);
+        model.deleteAllPoints();
     }
 
     @Nullable
@@ -101,7 +102,6 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
     public boolean isComplete() {
         // условие завершения
         // выгрузка информации
-        model.deleteAllPoints();
 
         List<ExamPoints> points = new ArrayList<>();
         for (EGESubject subject : data) {

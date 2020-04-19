@@ -13,11 +13,11 @@
         android:text="@string/stats_screen_checkbox_budget"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/checkBoxTarget"
         app:layout_constraintTop_toBottomOf="@+id/disciplines"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.1"
+        android:buttonTint="@color/darkGreen"/>
 
     <Button
         android:layout_width="0dp"
@@ -40,7 +40,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/disciplines"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.1"
+        android:buttonTint="@color/colorSecondary"/>
 
     <TextView
         android:id="@+id/textView3"
@@ -61,8 +62,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
@@ -78,6 +77,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

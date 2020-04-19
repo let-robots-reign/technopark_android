@@ -70,8 +70,4 @@ public class Discipline implements Serializable {
         }
         return list;
     }
-
-    public static String[] LoadStringArray(Context context) {
-        return context.getResources().getStringArray(R.array.disciplines);
-    }
 }

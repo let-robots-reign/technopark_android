@@ -59,6 +59,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         adapter.notifyDataSetChanged();
 
         model = ViewModelProviders.of(this).get(LAThirdViewModel.class);
+        model.deleteAllChosenPrograms();
     }
 
     @Nullable
@@ -104,7 +105,6 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
             Toast.makeText(getActivity(), R.string.alert_discipline_less, Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            model.deleteAllChosenPrograms();
             model.insertAllPrograms(chosenPrograms);
             return true;
         }
