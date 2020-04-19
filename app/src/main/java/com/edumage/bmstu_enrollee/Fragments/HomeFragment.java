@@ -20,8 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
+import com.edumage.bmstu_enrollee.Adapters.ExamScoresAdapter;
+import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DocumentStep;
 import com.edumage.bmstu_enrollee.DocumentStepStatus;
+import com.edumage.bmstu_enrollee.ExamScore;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.HomeFragmentViewModel;
 
@@ -30,7 +33,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-    private DocumentStepsAdapter adapter;
+    private ExamScoresAdapter examScoresAdapter;
+    private DocumentStepsAdapter stepsAdapter;
     private List<DocumentStep> steps;
 
     private TextView lastReload;
@@ -54,6 +58,26 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        model = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
+        model.init(programs);
+
+        createScoresList();
+        startParsing();
+        createDocumentStepsList();
+    }
+
+    private void createScoresList() {
+        // get exam scores from DB
+        List<ExamPoints> points = model.getExamPoints();
+        List<ExamScore> examResults = new ArrayList<>();
+        for (ExamPoints p : points) {
+            examResults.add(new ExamScore(p.getExamName(), p.getExamScore()));
+        }
+        examScoresAdapter = new ExamScoresAdapter(examResults);
+    }
+
+    private void createDocumentStepsList() {
         // sample data
         steps = new ArrayList<>();
         steps.add(new DocumentStep("Это предыдущий шаг №1", DocumentStepStatus.COMPLETED_STEP));
@@ -62,11 +86,10 @@ public class HomeFragment extends Fragment {
         steps.add(new DocumentStep("Это следующий шаг №1", DocumentStepStatus.FUTURE_STEP));
         steps.add(new DocumentStep("Это следующий шаг №2", DocumentStepStatus.FUTURE_STEP));
 
-        adapter = new DocumentStepsAdapter(steps);
+        stepsAdapter = new DocumentStepsAdapter(steps);
+    }
 
-        model = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
-        model.init(programs);
-
+    private void startParsing() {
         model.getParsingScores().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> scores) {
@@ -129,11 +152,16 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_screen, container, false);
 
+        RecyclerView examResults = rootView.findViewById(R.id.exam_scores_list);
+        examResults.setLayoutManager(new LinearLayoutManager(getActivity(),
+                RecyclerView.VERTICAL, false));
+        examResults.setAdapter(examScoresAdapter);
+
         RecyclerView steps = rootView.findViewById(R.id.documents_steps);
         // we need to scroll horizontally so horizontal LinearLayout is needed
         steps.setLayoutManager(new LinearLayoutManager(getActivity(),
                 RecyclerView.HORIZONTAL, false));
-        steps.setAdapter(adapter);
+        steps.setAdapter(stepsAdapter);
         // on start current step should be seen
         steps.scrollToPosition(getCurrentStepPosition());
 

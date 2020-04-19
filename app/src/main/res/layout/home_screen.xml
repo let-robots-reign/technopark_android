@@ -104,40 +104,13 @@
                     android:layout_height="2dp"
                     android:background="@color/divider_background"
                     android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"/>
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/exam_scores_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:layout_marginBottom="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Математика    100"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:layout_marginBottom="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Русский язык    91"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:layout_marginBottom="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Информатика    94"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"/>
-
-                </LinearLayout>
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
