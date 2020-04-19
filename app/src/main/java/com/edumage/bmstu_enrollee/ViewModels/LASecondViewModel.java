@@ -19,6 +19,10 @@ public class LASecondViewModel extends AndroidViewModel {
         repository = new DbRepository(application);
     }
 
+    public List<ExamPoints> getAllPoints() {
+        return repository.getAllPoints();
+    }
+
     public void insert(ExamPoints points) {
         repository.insertPoints(points);
     }
@@ -31,7 +35,7 @@ public class LASecondViewModel extends AndroidViewModel {
         repository.deletePoints(points);
     }
 
-    public List<ExamPoints> getAllPoints() {
-        return repository.getAllPoints();
+    public void deleteAllPoints() {
+        repository.deleteAllPoints();
     }
 }

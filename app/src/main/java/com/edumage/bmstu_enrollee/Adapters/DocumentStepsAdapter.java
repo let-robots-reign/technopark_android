@@ -21,7 +21,7 @@ public class DocumentStepsAdapter extends RecyclerView.Adapter<DocumentStepsAdap
         stepsList = steps;
     }
 
-    class StepsViewHolder extends RecyclerView.ViewHolder {
+    static class StepsViewHolder extends RecyclerView.ViewHolder {
         private TextView stepTitle;
         private TextView stepText;
         private MaterialCardView stepCard;

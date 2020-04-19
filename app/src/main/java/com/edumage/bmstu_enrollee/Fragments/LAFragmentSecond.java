@@ -113,6 +113,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
     public boolean isComplete() {
         // условие заверешния
         // выгрузка информации
+        model.deleteAllPoints();
 
         List<ExamPoints> points = new ArrayList<>();
         for (EGESubject subject : data) {

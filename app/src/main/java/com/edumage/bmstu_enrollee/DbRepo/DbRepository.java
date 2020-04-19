@@ -16,6 +16,10 @@ public class DbRepository {
         pointsDao = dataBase.examPointsDao();
     }
 
+    public List<ExamPoints> getAllPoints() {
+        return pointsDao.getAllPoints();
+    }
+
     public void insertPoints(final ExamPoints examPoints) {
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -46,7 +50,7 @@ public class DbRepository {
         thread.start();
     }
 
-    public List<ExamPoints> getAllPoints() {
-        return pointsDao.getAllPoints();
+    public void deleteAllPoints() {
+        pointsDao.deleteAllPoints();
     }
 }

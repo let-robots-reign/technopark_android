@@ -16,6 +16,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
+import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 import com.edumage.bmstu_enrollee.ParsingRepo.CurrentFilesParsing;
 import com.edumage.bmstu_enrollee.ParsingRepo.CurrentScoresParsing;
 
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragmentViewModel extends AndroidViewModel {
+    private DbRepository repository;
     private final MutableLiveData<List<String>> scoresLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<String>> filesLiveData = new MutableLiveData<>();
     private List<String> programsNames;
@@ -33,6 +36,7 @@ public class HomeFragmentViewModel extends AndroidViewModel {
 
     public HomeFragmentViewModel(@NonNull Application application) {
         super(application);
+        repository = new DbRepository(application);
     }
 
     public void init(List<String> names) {
@@ -41,6 +45,10 @@ public class HomeFragmentViewModel extends AndroidViewModel {
         filesLiveData.setValue(new ArrayList<String>());
         loadScores();
         loadFiles();
+    }
+
+    public List<ExamPoints> getExamPoints() {
+        return repository.getAllPoints();
     }
 
     public LiveData<List<String>> getParsingScores() {

@@ -1,6 +1,5 @@
 package com.edumage.bmstu_enrollee.DbDaos;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -31,4 +30,7 @@ public interface ExamPointsDao {
 
     @Delete
     void deletePoints(ExamPoints examPoints);
+
+    @Query("DELETE FROM exam_points")
+    void deleteAllPoints();
 }

@@ -21,7 +21,7 @@ public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapte
         cards = list;
     }
 
-    class CatalogViewHolder extends RecyclerView.ViewHolder {
+    static class CatalogViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private ImageView image;
 
