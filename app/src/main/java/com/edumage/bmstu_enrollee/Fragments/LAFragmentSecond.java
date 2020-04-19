@@ -43,7 +43,6 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            Toast.makeText(getContext(), "savedInstanceState!=null", Toast.LENGTH_SHORT).show();
             ObjectInputStream objectInputStream;
             try {
                 objectInputStream = new ObjectInputStream(
@@ -62,6 +61,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
         }
 
         model = ViewModelProviders.of(this).get(LASecondViewModel.class);
+        model.deleteAllPoints();
     }
 
     @Nullable
@@ -101,7 +101,6 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
     public boolean isComplete() {
         // условие завершения
         // выгрузка информации
-        model.deleteAllPoints();
 
         List<ExamPoints> points = new ArrayList<>();
         for (EGESubject subject : data) {

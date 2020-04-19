@@ -13,9 +13,9 @@
     <string name="current_contest">Текущий конкурс на Ваших направлениях</string>
     <string name="last_reload">Последнее обновление баллов: %1$s</string>
 
-    <string name="welcome_header">Привет!</string>
-    <string name="welcome_command_1">Заполни информацию о себе</string>
-    <string name="welcome_command_2">Выбери предметы ЕГЭ, указав результат экзамена</string>
+    <string name="welcome_header">Добро пожаловать!</string>
+    <string name="welcome_command_1">Заполните информацию о себе</string>
+    <string name="welcome_command_2">Выберите предметы ЕГЭ, указав результат экзамена</string>
     <string name="welcome_hint1">ФИО</string>
     <string name="welcome_hint2">Дата рождения</string>
     <string name="next_command">Далее</string>
@@ -27,17 +27,15 @@
     <string name="stats_screen_budget_label">Проходной балл на бюджетную форму обучения</string>
     <string name="stats_screen_target_label">Проходной балл на целевое обучение</string>
     <string name="stats_screen_no_data">Нет данных</string>
-    <string name="stats_screen_description">Даные сайта bmstu.ru</string>
+    <string name="stats_screen_description">Данные сайта bmstu.ru</string>
 
     <string name="alert_name">Введите имя пользователя</string>
     <string name="alert_date">Введите дату рождения</string>
 
     <string name="alert_ege">Результат ЕГЭ должен быть в пределах от 0 до 100</string>
-    <string name="alert_discipline">"Выберите хотя бы 3 направления"</string>
-
-
-    <string name="welcome_command_3">Выберите 3 приоритетных направления для поступления. В любой момент вы можете изменить свой выбор</string>
-
+    <string name="welcome_command_3">Выберите не более трех приоритетных направления для поступления.\nВ любой момент вы можете изменить свой выбор</string>
+    <string name="alert_discipline_zero">Выберите хотя бы одно направление</string>
+    <string name="alert_discipline_more">Вы не можете выбрать более трех направлений</string>
 
     <string-array name="disciplines">
         <item>01.03.02 Прикладная математика и информатика (Бакалавр)</item>
@@ -91,17 +89,13 @@
         <item>54.03.01 Дизайн (Бакалавр)</item>
     </string-array>
 
-
     <string-array name="subjects">
         <item>Русский язык</item>
-        <item>Математика (Профильная)</item>
+        <item>Математика (профильная)</item>
+        <item>Информатика</item>
         <item>Физика</item>
         <item>Химия</item>
-        <item>Информатика</item>
         <item>Биология</item>
     </string-array>
-
-
-
 
 </resources>

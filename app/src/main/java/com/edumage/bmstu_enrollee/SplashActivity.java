@@ -21,10 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         preferences.edit().putBoolean(LAUNCH_STATE, false).apply();
 
         if (preferences.getBoolean(LAUNCH_STATE, false)) {
-
             preferences.edit().putBoolean(LAUNCH_STATE, true).apply();
-            // for testing welcome activity set it to false again
-            //preferences.edit().putBoolean(LAUNCH_STATE, false).apply();
 
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

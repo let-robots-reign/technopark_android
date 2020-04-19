@@ -11,17 +11,23 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import com.edumage.bmstu_enrollee.DataTransformator;
-import com.edumage.bmstu_enrollee.Discipline;
+import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.R;
+import com.edumage.bmstu_enrollee.ViewModels.StatsFragmentViewModel;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StatsFragment extends Fragment implements View.OnClickListener {
 
@@ -38,14 +44,20 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     private boolean budgetBoxValue = true;
     private boolean targetBoxValue = false;
 
+    private List<ChosenProgram> chosenProgramList;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         if (savedInstanceState != null) {
             budgetBoxValue = savedInstanceState.getBoolean(BUDGET_BOX_VALUE);
             targetBoxValue = savedInstanceState.getBoolean(TARGET_BOX_VALUE);
             discipline = savedInstanceState.getString(SPINNER_VALUE);
         }
-        super.onCreate(savedInstanceState);
+
+        StatsFragmentViewModel model = ViewModelProviders.of(this).get(StatsFragmentViewModel.class);
+        chosenProgramList = model.getAllChosenPrograms();
     }
 
     @Nullable
@@ -63,8 +75,13 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         budgetBox.setChecked(budgetBoxValue);
         targetBox.setChecked(targetBoxValue);
 
+        List<String> programsNames = new ArrayList<>();
+        for (ChosenProgram program : chosenProgramList) {
+            programsNames.add(program.getProgramName());
+        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_spinner_item, Discipline.LoadStringArray(getActivity()));
+                android.R.layout.simple_spinner_item, programsNames);
 
         spinner.setAdapter(adapter);
         if (discipline != null) {
@@ -89,8 +106,8 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
                     getResources().getString(R.string.stats_screen_budget_label));
             dataSet.setLineWidth(3f);
 
-            dataSet.setCircleColor(getActivity().getResources().getColor(R.color.darkGreen));
-            dataSet.setColor(getActivity().getResources().getColor(R.color.darkGreen));
+            dataSet.setCircleColor(getResources().getColor(R.color.darkGreen));
+            dataSet.setColor(getResources().getColor(R.color.darkGreen));
             dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
             lineData.addDataSet(dataSet);
         }
@@ -101,8 +118,8 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 
             dataSet.setLineWidth(3f);
 
-            dataSet.setCircleColor(getActivity().getResources().getColor(R.color.targetYellow));
-            dataSet.setColor(getActivity().getResources().getColor(R.color.targetYellow));
+            dataSet.setCircleColor(getResources().getColor(R.color.targetYellow));
+            dataSet.setColor(getResources().getColor(R.color.targetYellow));
             dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
             lineData.addDataSet(dataSet);
         }
@@ -113,8 +130,9 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         desc.setTextAlign(Paint.Align.RIGHT);
         lineChart.setDescription(desc);
         lineChart.animateY(1200, Easing.EaseOutCubic);
+        lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+        lineChart.getLegend().setWordWrapEnabled(true);
     }
-
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -123,7 +141,6 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         outState.putString(SPINNER_VALUE, spinner.getSelectedItem().toString());
         super.onSaveInstanceState(outState);
     }
-
 
     @Override
     public void onClick(View v) {

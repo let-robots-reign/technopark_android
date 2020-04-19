@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.Adapters.DisciplineAdapter;
+import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.R;
+import com.edumage.bmstu_enrollee.ViewModels.LAThirdViewModel;
 import com.edumage.bmstu_enrollee.WelcomeActivity;
 
 import java.io.ByteArrayInputStream;
@@ -17,10 +19,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +36,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
     private static final String DATA = "DISCIPLINES";
     public static final String TAG = "LAFragmentThird";
 
+    private LAThirdViewModel model;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +57,9 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         }
         adapter = new DisciplineAdapter(data);
         adapter.notifyDataSetChanged();
+
+        model = ViewModelProviders.of(this).get(LAThirdViewModel.class);
+        model.deleteAllChosenPrograms();
     }
 
     @Nullable
@@ -74,7 +82,6 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
             ObjOut.writeObject(adapter.getData());
             ObjOut.flush();
             outState.putByteArray(DATA, baos.toByteArray());
-
         } catch (IOException e) {
             Toast.makeText(getContext(), "Unable to serialize", Toast.LENGTH_SHORT).show();
         }
@@ -83,14 +90,23 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
     @Override
     public boolean isComplete() {
         int count = 0;
+        List<ChosenProgram> chosenPrograms = new ArrayList<>();
         for (Discipline d : data) {
-            if (d.getStatus()) count++;
+            if (d.getStatus()) {
+                count++;
+                chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
+            }
         }
-        if (count >= 3) {
-            return true;
-        } else {
-            Toast.makeText(getContext(), R.string.alert_discipline, Toast.LENGTH_SHORT).show();
+
+        if (count > 3) {
+            Toast.makeText(getActivity(), R.string.alert_discipline_more, Toast.LENGTH_SHORT).show();
             return false;
+        } else if (count == 0) {
+            Toast.makeText(getActivity(), R.string.alert_discipline_zero, Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            model.insertAllPrograms(chosenPrograms);
+            return true;
         }
     }
 }

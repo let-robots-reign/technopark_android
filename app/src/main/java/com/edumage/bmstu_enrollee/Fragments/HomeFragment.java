@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
 import com.edumage.bmstu_enrollee.Adapters.ExamScoresAdapter;
+import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DocumentStep;
 import com.edumage.bmstu_enrollee.DocumentStepStatus;
@@ -48,11 +49,7 @@ public class HomeFragment extends Fragment {
     private ImageView ic2;
     private ImageView ic3;
 
-    // пока не запоминаем выбранные направления
-    // для тестирования они заданы константами
-    private final List<String> programs = Arrays.asList("09.03.04 Программная инженерия (Бакалавр)",
-            "09.03.03 Прикладная информатика (Бакалавр)", "09.03.01 Информатика и вычислительная техника (Бакалавр)");
-
+    private List<ChosenProgram> programs;
     private HomeFragmentViewModel model;
 
     @Override
@@ -60,11 +57,12 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         model = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
+        programs = model.getChosenPrograms();
         model.init(programs);
 
         createScoresList();
-        startParsing();
         createDocumentStepsList();
+        startParsing();
     }
 
     private void createScoresList() {
@@ -165,6 +163,7 @@ public class HomeFragment extends Fragment {
         // on start current step should be seen
         steps.scrollToPosition(getCurrentStepPosition());
 
+        // views we will be updating
         lastReload = rootView.findViewById(R.id.last_reload);
         scores1 = rootView.findViewById(R.id.score1);
         scores2 = rootView.findViewById(R.id.score2);
@@ -178,6 +177,15 @@ public class HomeFragment extends Fragment {
         ic2 = rootView.findViewById(R.id.ic2);
         ic3 = rootView.findViewById(R.id.ic3);
 
+        // displaying the programs user has chosen
+        TextView program1 = rootView.findViewById(R.id.program1);
+        TextView program2 = rootView.findViewById(R.id.program2);
+        TextView program3 = rootView.findViewById(R.id.program3);
+        List<TextView> programsTexts = Arrays.asList(program1, program2, program3);
+        for (int i = 0; i < programs.size(); ++i) {
+            programsTexts.get(i).setText(programs.get(i).getProgramName());
+        }
+
         ImageView icRefresh = rootView.findViewById(R.id.refresh);
         icRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,7 +198,7 @@ public class HomeFragment extends Fragment {
     }
 
     private int getCurrentStepPosition() {
-        // searching for the first step with status code 0
+        // searching for the first step with status code CURRENT_STEP
         int position = 0;
         while (steps.get(position).getStepStatus() != DocumentStepStatus.CURRENT_STEP) {
             position++;

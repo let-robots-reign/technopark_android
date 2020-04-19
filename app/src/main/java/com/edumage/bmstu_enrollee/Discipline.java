@@ -7,12 +7,12 @@ import java.util.ArrayList;
 
 public class Discipline implements Serializable {
 
+    private String fullName;
     private String name;
     private String number;
     private String description;
     private String form;
     private boolean enabled = false;
-
 
     public boolean getStatus() {
         return enabled;
@@ -22,8 +22,8 @@ public class Discipline implements Serializable {
         this.enabled = enabled;
     }
 
-
-    public Discipline(String name, String number, String form) {
+    private Discipline(String fullName, String name, String number, String form) {
+        this.fullName = fullName;
         this.name = name;
         this.number = number;
         this.form = form;
@@ -49,10 +49,15 @@ public class Discipline implements Serializable {
         this.form = form;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
     public static ArrayList<Discipline> LoadDisciplines(Context context) {
         String[] array = context.getResources().getStringArray(R.array.disciplines);
         ArrayList<Discipline> list = new ArrayList<>();
         for (String value : array) {
+
             String[] s = value.split(" ");
             String number = s[0];
             StringBuilder name = new StringBuilder();
@@ -61,12 +66,8 @@ public class Discipline implements Serializable {
             }
             String form = s[s.length - 1];
             form = form.substring(1, form.length() - 1);
-            list.add(new Discipline(name.toString(), number, form));
+            list.add(new Discipline(value, name.toString(), number, form));
         }
         return list;
-    }
-
-    public static String[] LoadStringArray(Context context) {
-        return context.getResources().getStringArray(R.array.disciplines);
     }
 }

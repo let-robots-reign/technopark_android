@@ -48,9 +48,6 @@ public class EGESubject implements Serializable {
         for (String s : str) {
             res.add(new EGESubject(s, R.drawable.chemistry));
         }
-
         return res;
-
     }
-
 }

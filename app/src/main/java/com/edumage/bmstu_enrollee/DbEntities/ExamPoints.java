@@ -10,10 +10,10 @@ public class ExamPoints {
     public long id;
 
     @ColumnInfo(name = "exam_name")
-    public String examName;
+    private String examName;
 
     @ColumnInfo(name = "exam_score")
-    public int examScore;
+    private int examScore;
 
     public ExamPoints(String examName, int examScore) {
         this.examName = examName;
