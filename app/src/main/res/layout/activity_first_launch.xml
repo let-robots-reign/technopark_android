@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/image_background"
+
+        />
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -10,6 +21,8 @@
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:text="@string/next_command"
+        android:textSize="14sp"
+        android:fontFamily="@font/roboto_regular"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -23,6 +36,8 @@
         android:layout_width="120dp"
         android:layout_height="50dp"
         android:text="@string/back_command"
+        android:textSize="14sp"
+        android:fontFamily="@font/roboto_regular"
         app:layout_constraintBottom_toBottomOf="@+id/button_next"
         app:layout_constraintEnd_toStartOf="@+id/button_next"
         app:layout_constraintHorizontal_bias="0.5"
@@ -42,3 +57,4 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
