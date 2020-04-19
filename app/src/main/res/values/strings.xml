@@ -11,6 +11,7 @@
     <string name="prev_step">Предыдущий шаг</string>
     <string name="next_step">Следующий шаг</string>
     <string name="current_contest">Текущий конкурс на Ваших направлениях</string>
+    <string name="last_reload">Последнее обновление баллов: %1$s</string>
 
     <string name="welcome_header">Привет!</string>
     <string name="welcome_command_1">Заполни информацию о себе</string>
@@ -20,8 +21,6 @@
     <string name="next_command">Далее</string>
     <string name="back_command">Назад</string>
 
-
-
     <string name="stats_screen_header">Динамика проходных баллов</string>
     <string name="stats_screen_checkbox_budget">Общий конкурс на бюджетные места</string>
     <string name="stats_screen_checkbox_target">Целевой приём</string>
@@ -29,7 +28,6 @@
     <string name="stats_screen_target_label">Проходной балл на целевое обучение</string>
     <string name="stats_screen_no_data">Нет данных</string>
     <string name="stats_screen_description">Даные сайта bmstu.ru</string>
-
 
     <string name="alert_name">Введите имя пользователя</string>
     <string name="alert_date">Введите дату рождения</string>
