@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.Adapters.EGEAdapter;
+import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.EGESubject;
 import com.edumage.bmstu_enrollee.R;
+import com.edumage.bmstu_enrollee.ViewModels.LASecondViewModel;
 import com.edumage.bmstu_enrollee.WelcomeActivity;
 
 import java.io.ByteArrayInputStream;
@@ -17,10 +19,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,8 +37,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
     public static final String TAG = "LAFragmentSecond";
     private static final String DATA = "SUBJECTS";
 
-    public LAFragmentSecond() {
-    }
+    private LASecondViewModel model;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +61,8 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
                 getEGEList();
             }
         }
+
+        model = ViewModelProviders.of(this).get(LASecondViewModel.class);
     }
 
     @Nullable

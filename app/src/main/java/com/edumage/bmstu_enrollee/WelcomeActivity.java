@@ -37,7 +37,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         // this is to test MainActivity directly
         // TODO: remove before pushing to master
-        goToMainActivity();
+        //goToMainActivity();
 
         nextButton = findViewById(R.id.button_next);
         prevButton = findViewById(R.id.button_prev);

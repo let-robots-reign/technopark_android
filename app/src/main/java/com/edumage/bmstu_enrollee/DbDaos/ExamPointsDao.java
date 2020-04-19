@@ -1,6 +1,7 @@
 package com.edumage.bmstu_enrollee.DbDaos;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -10,6 +11,7 @@ import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 
 import java.util.List;
 
+@Dao
 public interface ExamPointsDao {
 
     @Query("SELECT * FROM exam_points")
