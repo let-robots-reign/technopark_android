@@ -163,15 +163,6 @@ public class HomeFragment extends Fragment {
         // on start current step should be seen
         steps.scrollToPosition(getCurrentStepPosition());
 
-        // displaying the programs user has chosen
-        TextView program1 = rootView.findViewById(R.id.program1);
-        TextView program2 = rootView.findViewById(R.id.program2);
-        TextView program3 = rootView.findViewById(R.id.program3);
-        List<TextView> programsTexts = Arrays.asList(program1, program2, program3);
-        for (int i = 0; i < programs.size(); ++i) {
-            programsTexts.get(i).setText(programs.get(i).getProgramName());
-        }
-
         // views we will be updating
         lastReload = rootView.findViewById(R.id.last_reload);
         scores1 = rootView.findViewById(R.id.score1);
@@ -185,6 +176,15 @@ public class HomeFragment extends Fragment {
         ic1 = rootView.findViewById(R.id.ic1);
         ic2 = rootView.findViewById(R.id.ic2);
         ic3 = rootView.findViewById(R.id.ic3);
+
+        // displaying the programs user has chosen
+        TextView program1 = rootView.findViewById(R.id.program1);
+        TextView program2 = rootView.findViewById(R.id.program2);
+        TextView program3 = rootView.findViewById(R.id.program3);
+        List<TextView> programsTexts = Arrays.asList(program1, program2, program3);
+        for (int i = 0; i < programs.size(); ++i) {
+            programsTexts.get(i).setText(programs.get(i).getProgramName());
+        }
 
         ImageView icRefresh = rootView.findViewById(R.id.refresh);
         icRefresh.setOnClickListener(new View.OnClickListener() {

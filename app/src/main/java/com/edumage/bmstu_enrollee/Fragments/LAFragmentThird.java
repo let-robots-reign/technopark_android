@@ -99,10 +99,10 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         }
 
         if (count > 3) {
-            Toast.makeText(getActivity(), R.string.alert_discipine_more, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.alert_discipline_more, Toast.LENGTH_SHORT).show();
             return false;
-        } else if (count < 3) {
-            Toast.makeText(getActivity(), R.string.alert_discipline_less, Toast.LENGTH_SHORT).show();
+        } else if (count == 0) {
+            Toast.makeText(getActivity(), R.string.alert_discipline_zero, Toast.LENGTH_SHORT).show();
             return false;
         } else {
             model.insertAllPrograms(chosenPrograms);

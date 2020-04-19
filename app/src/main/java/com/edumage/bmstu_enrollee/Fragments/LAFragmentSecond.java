@@ -43,7 +43,6 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            Toast.makeText(getContext(), "savedInstanceState!=null", Toast.LENGTH_SHORT).show();
             ObjectInputStream objectInputStream;
             try {
                 objectInputStream = new ObjectInputStream(

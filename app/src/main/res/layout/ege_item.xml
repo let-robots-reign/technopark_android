@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_form"
             android:inputType="number"
+            android:imeOptions="actionDone"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
