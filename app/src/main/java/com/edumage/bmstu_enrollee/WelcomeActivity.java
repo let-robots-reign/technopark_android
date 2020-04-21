@@ -26,7 +26,7 @@ public class WelcomeActivity extends AppCompatActivity {
     Button prevButton;
     ImageView imageBackground;
     ArrayList<CompletableFragment> fragments;
-    private int state;
+    private int state=1;
 
     private static final String STATE_KEY = "STATE";
     private static final int MAX_STATE = 3;
@@ -59,13 +59,14 @@ public class WelcomeActivity extends AppCompatActivity {
             state = 1;
             setState(state);
         } else {
-            state = savedInstanceState.getInt(STATE_KEY);
             firstFragment = (LAFragmentFirst) getSupportFragmentManager().findFragmentByTag(LAFragmentFirst.TAG);
             secondFragment = (LAFragmentSecond) getSupportFragmentManager().findFragmentByTag(LAFragmentSecond.TAG);
             thirdFragment = (LAFragmentThird) getSupportFragmentManager().findFragmentByTag(LAFragmentThird.TAG);
             if (firstFragment == null) firstFragment = new LAFragmentFirst();
             if (secondFragment == null) secondFragment = new LAFragmentSecond();
             if (thirdFragment == null) thirdFragment = new LAFragmentThird();
+            state = savedInstanceState.getInt(STATE_KEY);
+            setState(state);
         }
 
         fragments = new ArrayList<>();

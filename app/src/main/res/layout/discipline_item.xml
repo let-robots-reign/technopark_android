@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="6dp"
     android:layout_margin="5dp"
     android:id="@id/discipline_card"
     app:cardBackgroundColor="@color/colorPrimary"
@@ -12,21 +12,22 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="90dp"
     android:layout_margin="6dp"
 >
 
     <CheckBox
-        android:id="@+id/button"
+        android:id="@+id/d_checkBox"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:button="@drawable/custom_check_box"/>
+        android:buttonTint="@color/white"
+        />
 
     <TextView
         android:id="@+id/discipline_name"
@@ -36,9 +37,9 @@
         android:text="Проектирование, производство и эксплуатация ракет и ракетно-космических комплексов "
         android:textColor="@color/white"
         android:textSize="18sp"
-        android:padding="6dp"
+        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/d_checkBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.1" />
@@ -67,7 +68,7 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/d_checkBox"
         app:layout_constraintHorizontal_bias="0.88"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/discipline_name"

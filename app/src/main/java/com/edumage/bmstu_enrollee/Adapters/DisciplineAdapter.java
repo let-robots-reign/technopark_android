@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.edumage.bmstu_enrollee.Discipline;
@@ -50,6 +52,7 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
         TextView number;
         TextView form;
         CardView card;
+        CheckBox checkBox;
         boolean enabled = false;
         Context context;
 
@@ -58,16 +61,24 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
             name = itemView.findViewById(R.id.discipline_name);
             number = itemView.findViewById(R.id.discipline_number);
             form = itemView.findViewById(R.id.education_form);
-            card = itemView.findViewById(R.id.discipline_card);
+            card = itemView.findViewById(R.id.discipline_card);;
+            checkBox = itemView.findViewById(R.id.d_checkBox);
             this.context = context;
-            card.setOnClickListener(new View.OnClickListener() {
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    enabled = checkBox.isChecked();
+                    UpdateState();
+                }
+            });
+           /* card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     enabled = !enabled;
                     UpdateState();
 
                 }
-            });
+            });*/
         }
 
         private void UpdateState() {
@@ -79,14 +90,16 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
         }
 
         private void setEnabled() {
-            card.setBackgroundColor(context.getResources().getColor(R.color.darkGreen));
+           // card.setBackgroundColor(context.getResources().getColor(R.color.darkGreen));
+            checkBox.setChecked(enabled);
             enabled = true;
             discipline.setStatus(enabled);
 
         }
 
         private void setDisabled() {
-            card.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+          //  card.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+            checkBox.setChecked(enabled);
             enabled = false;
             discipline.setStatus(enabled);
         }
