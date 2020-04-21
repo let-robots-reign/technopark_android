@@ -1,6 +1,5 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,11 +9,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.edumage.bmstu_enrollee.Adapters.CatalogCardsAdapter;
 import com.edumage.bmstu_enrollee.CatalogCard;
+import com.edumage.bmstu_enrollee.MainActivity;
 import com.edumage.bmstu_enrollee.R;
 
 import java.util.ArrayList;
@@ -22,16 +24,6 @@ import java.util.List;
 
 public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnCardListener {
     private CatalogCardsAdapter adapter;
-
-    private FragmentCreation callback;
-    private Fragment selectedCatalogFragment = null;
-    private String selectedCatalogFragmentTag = null;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        callback = (FragmentCreation) context;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +45,7 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.catalog_screen, container, false);
         RecyclerView list = rootView.findViewById(R.id.catalog_list);
-        int orientation = this.getResources().getConfiguration().orientation;
+        int orientation = getResources().getConfiguration().orientation;
         int spanCount;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             spanCount = 2;
@@ -68,24 +60,9 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
 
     @Override
     public void onCardClick(int position) {
-        switch (position) {
-            default:
-                selectedCatalogFragment = new NewsFragment();
-                selectedCatalogFragmentTag = "News";
-                break;
+        if (position == 1) {
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+            navController.navigate(R.id.action_catalogFragment_to_newsFragment);
         }
-        callback.createCatalogFragment(selectedCatalogFragment, selectedCatalogFragmentTag);
-    }
-
-    public Fragment getSelectedCatalogFragment() {
-        return selectedCatalogFragment;
-    }
-
-    public String getSelectedCatalogFragmentTag() {
-        return selectedCatalogFragmentTag;
-    }
-
-    public interface FragmentCreation {
-        void createCatalogFragment(Fragment fragment, String tag);
     }
 }
