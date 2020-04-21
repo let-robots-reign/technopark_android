@@ -28,5 +28,9 @@
         android:id="@+id/newsFragment"
         android:name="com.edumage.bmstu_enrollee.Fragments.NewsFragment"
         android:label="NewsFragment"
-        tools:layout="@layout/news_screen" />
+        tools:layout="@layout/news_screen" >
+        <action
+            android:id="@+id/action_newsFragment_to_catalog_tab"
+            app:destination="@id/catalog_tab"/>
+    </fragment>
 </navigation>
