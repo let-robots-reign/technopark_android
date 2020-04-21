@@ -1,5 +1,6 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,8 +20,18 @@ import com.edumage.bmstu_enrollee.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CatalogFragment extends Fragment {
+public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnCardListener {
     private CatalogCardsAdapter adapter;
+
+    private FragmentCreation callback;
+    private Fragment selectedCatalogFragment = null;
+    private String selectedCatalogFragmentTag = null;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        callback = (FragmentCreation) context;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +45,7 @@ public class CatalogFragment extends Fragment {
         cards.add(new CatalogCard("Внеучебная деятельность", R.drawable.studsovet));
         cards.add(new CatalogCard("Подача документов", R.drawable.application));
         cards.add(new CatalogCard("О приложении", R.drawable.info));
-        adapter = new CatalogCardsAdapter(cards);
+        adapter = new CatalogCardsAdapter(cards, this);
     }
 
     @Nullable
@@ -53,5 +64,28 @@ public class CatalogFragment extends Fragment {
         list.setAdapter(adapter);
         list.setHasFixedSize(true);
         return rootView;
+    }
+
+    @Override
+    public void onCardClick(int position) {
+        switch (position) {
+            default:
+                selectedCatalogFragment = new NewsFragment();
+                selectedCatalogFragmentTag = "News";
+                break;
+        }
+        callback.createCatalogFragment(selectedCatalogFragment, selectedCatalogFragmentTag);
+    }
+
+    public Fragment getSelectedCatalogFragment() {
+        return selectedCatalogFragment;
+    }
+
+    public String getSelectedCatalogFragmentTag() {
+        return selectedCatalogFragmentTag;
+    }
+
+    public interface FragmentCreation {
+        void createCatalogFragment(Fragment fragment, String tag);
     }
 }
