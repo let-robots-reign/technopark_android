@@ -74,9 +74,10 @@ public class HomeFragmentViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 final List<String> scores = new ArrayList<>();
+                CurrentScoresParsing instance = CurrentScoresParsing.getInstance();
                 // firstly, add info about last update
                 try {
-                    scores.add(CurrentScoresParsing.getInstance().getLastUpdate());
+                    scores.add(instance.getLastUpdate());
                 } catch (IOException e) {
                     scores.add("неизвестно");
                 }
@@ -89,7 +90,7 @@ public class HomeFragmentViewModel extends AndroidViewModel {
                         score = "Нет интернета";
                     } else {
                         try {
-                            score = CurrentScoresParsing.getInstance().parseScore(program.getProgramName());
+                            score = instance.parseScore(program.getProgramName());
                         } catch (IOException e) {
                             score = "Ошибка";
                             e.printStackTrace();
@@ -115,10 +116,11 @@ public class HomeFragmentViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 final List<String> fileUrls = new ArrayList<>();
+                CurrentFilesParsing instance = CurrentFilesParsing.getInstance();
                 String fileUrl = null;
                 for (ChosenProgram program: programsNames) {
                     try {
-                        fileUrl = CurrentFilesParsing.getInstance().parseFile(program.getProgramName());
+                        fileUrl = instance.parseFile(program.getProgramName());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

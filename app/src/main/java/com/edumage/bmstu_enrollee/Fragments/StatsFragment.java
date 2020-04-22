@@ -2,6 +2,7 @@ package com.edumage.bmstu_enrollee.Fragments;
 
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +25,13 @@ import com.github.mikephil.charting.data.LineDataSet;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatsFragment extends Fragment implements View.OnClickListener {
+public class StatsFragment extends Fragment {
 
     private Spinner spinner;
     private CheckBox budgetBox;
@@ -45,6 +47,9 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     private boolean targetBoxValue = false;
 
     private List<ChosenProgram> chosenProgramList;
+    private StatsFragmentViewModel model;
+    private String TAG = "STATS";
+    private String curProgram;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,8 +61,21 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
             discipline = savedInstanceState.getString(SPINNER_VALUE);
         }
 
-        StatsFragmentViewModel model = ViewModelProviders.of(this).get(StatsFragmentViewModel.class);
+        model = ViewModelProviders.of(this).get(StatsFragmentViewModel.class);
         chosenProgramList = model.getAllChosenPrograms();
+        curProgram = chosenProgramList.get(0).getProgramName();
+        if (savedInstanceState == null) {
+            model.init(curProgram);
+        }
+        // updating the graphic when it's finished parsing
+        model.getFinishedParsing().observe(StatsFragment.this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    UpdateChart(curProgram, budgetBox.isChecked(), targetBox.isChecked());
+                }
+            }
+        });
     }
 
     @Nullable
@@ -69,8 +87,15 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         spinner = v.findViewById(R.id.disciplines);
         budgetBox = v.findViewById(R.id.checkBoxBudget);
         targetBox = v.findViewById(R.id.checkBoxTarget);
+
         Button updateButton = v.findViewById(R.id.update_button);
-        updateButton.setOnClickListener(this);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                curProgram = spinner.getSelectedView().toString();
+                model.loadBudgetFundedScores(curProgram);
+            }
+        });
 
         budgetBox.setChecked(budgetBoxValue);
         targetBox.setChecked(targetBoxValue);
@@ -140,13 +165,5 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         outState.putBoolean(TARGET_BOX_VALUE, targetBox.isChecked());
         outState.putString(SPINNER_VALUE, spinner.getSelectedItem().toString());
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.update_button) {
-            UpdateChart(spinner.getSelectedView().toString(), budgetBox.isChecked(), targetBox.isChecked());
-        }
     }
 }
