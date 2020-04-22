@@ -66,8 +66,8 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(TAG_NAME, editName.getText().toString());
-        outState.putString(TAG_DATE, editDate.getText().toString());
+        if (editName!=null)outState.putString(TAG_NAME, editName.getText().toString());
+        if (editDate!=null)outState.putString(TAG_DATE, editDate.getText().toString());
     }
 
     @Override

@@ -32,10 +32,16 @@
     <string name="alert_name">Введите имя пользователя</string>
     <string name="alert_date">Введите дату рождения</string>
 
+
     <string name="alert_ege">Результат ЕГЭ должен быть в пределах от 0 до 100</string>
     <string name="welcome_command_3">Выберите не более трех приоритетных направления для поступления.\nВ любой момент вы можете изменить свой выбор</string>
     <string name="alert_discipline_zero">Выберите хотя бы одно направление</string>
     <string name="alert_discipline_more">Вы не можете выбрать более трех направлений</string>
+
+    <string name="ege_results">Результаты ЕГЭ</string>
+    <string name="disciplines">Ваши направления</string>
+
+    <string name="ok">ок</string>
 
     <string-array name="disciplines">
         <item>01.03.02 Прикладная математика и информатика (Бакалавр)</item>
@@ -96,6 +102,8 @@
         <item>Физика</item>
         <item>Химия</item>
         <item>Биология</item>
+        <item>Обществознание</item>
+        <item>Английский язык</item>
     </string-array>
 
 </resources>

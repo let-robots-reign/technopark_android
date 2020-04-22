@@ -2,6 +2,7 @@ package com.edumage.bmstu_enrollee;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -67,6 +68,7 @@ public class WelcomeActivity extends AppCompatActivity {
             if (thirdFragment == null) thirdFragment = new LAFragmentThird();
             state = savedInstanceState.getInt(STATE_KEY);
             setState(state);
+
         }
 
         fragments = new ArrayList<>();
@@ -81,8 +83,29 @@ public class WelcomeActivity extends AppCompatActivity {
         outState.putInt(STATE_KEY, state);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (state>1){
+            state--;
+        }
+        super.onBackPressed();
+    }
+
+
+    private void clearBackStack(int state){
+        FragmentManager fm = getSupportFragmentManager();
+        switch(state){
+            case 1:fm.popBackStack(LAFragmentSecond.TAG,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            break;
+            case 2: fm.popBackStack(LAFragmentThird.TAG,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            break;
+        }
+
+    }
+
 
     private void setState(int state) {
+        clearBackStack(state);
         if (state == 1) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.la_frame, firstFragment, LAFragmentFirst.TAG);
@@ -91,14 +114,17 @@ public class WelcomeActivity extends AppCompatActivity {
         }
         if (state == 2) {
             getSupportFragmentManager().beginTransaction().replace(R.id.la_frame, secondFragment, LAFragmentSecond.TAG).
-                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(LAFragmentSecond.TAG).commit();
             prevButton.setVisibility(View.VISIBLE);
         }
         if (state == 3) {
             getSupportFragmentManager().beginTransaction().replace(R.id.la_frame, thirdFragment, LAFragmentThird.TAG).
-                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).commit();
+                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).
+                    addToBackStack(LAFragmentThird.TAG).commit();
             prevButton.setVisibility(View.VISIBLE);
         }
+
         if (state > MAX_STATE) {
             goToMainActivity();
         }

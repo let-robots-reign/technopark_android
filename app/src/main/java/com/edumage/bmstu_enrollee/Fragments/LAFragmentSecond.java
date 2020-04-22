@@ -99,7 +99,8 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        try {
+        if (adapter!=null){try {
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream ObjOut = new ObjectOutputStream(baos);
             ObjOut.writeObject(adapter.getData());
@@ -107,7 +108,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
             outState.putByteArray(DATA, baos.toByteArray());
         } catch (IOException e) {
             Toast.makeText(getContext(), "Unable to serialize", Toast.LENGTH_SHORT).show();
-        }
+        }}
         super.onSaveInstanceState(outState);
     }
 

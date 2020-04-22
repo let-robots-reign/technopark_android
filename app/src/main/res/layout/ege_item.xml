@@ -41,7 +41,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.025"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="3dp"
+           android:layout_margin="4dp"/>
 
         <TextView
             android:id="@+id/ege_name"
@@ -52,6 +54,7 @@
             android:textAlignment="viewStart"
             android:textColor="@color/white"
             android:textSize="16sp"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ege_score"
             app:layout_constraintStart_toEndOf="@+id/ege_icon"
