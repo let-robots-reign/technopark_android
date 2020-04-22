@@ -97,12 +97,13 @@ public class HomeFragment extends Fragment {
                 if (scores.size() == 0) {
                     lastReload.setText(getResources().getString(R.string.last_reload, ""));
                     for (int i = 1; i < scoresTexts.size(); ++i) {
-                        scoresTexts.get(i).setText("");
+                        scoresTexts.get(i).setVisibility(View.INVISIBLE);
                         progressBars.get(i - 1).setVisibility(View.VISIBLE);
                     }
                 } else {
                     lastReload.setText(getResources().getString(R.string.last_reload, scores.get(0)));
                     for (int i = 1; i < scores.size(); ++i) {
+                        scoresTexts.get(i).setVisibility(View.VISIBLE);
                         scoresTexts.get(i).setText(scores.get(i));
                         progressBars.get(i - 1).setVisibility(View.INVISIBLE);
                     }
@@ -149,6 +150,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_screen, container, false);
+
+        TextView name = rootView.findViewById(R.id.user_name);
+        name.setText(model.getUserInfo().getUserName());
 
         RecyclerView examResults = rootView.findViewById(R.id.exam_scores_list);
         examResults.setLayoutManager(new LinearLayoutManager(getActivity(),

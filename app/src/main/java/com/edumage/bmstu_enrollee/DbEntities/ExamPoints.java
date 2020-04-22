@@ -20,10 +20,6 @@ public class ExamPoints {
         this.examScore = examScore;
     }
 
-    public long getId() {
-        return id;
-    }
-
     public String getExamName() {
         return examName;
     }
