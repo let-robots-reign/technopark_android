@@ -3,12 +3,15 @@ package com.edumage.bmstu_enrollee.Fragments;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
@@ -47,6 +50,9 @@ public class StatsFragment extends Fragment {
     private String discipline;
     private boolean budgetBoxValue;
     private boolean targetBoxValue;
+    private ProgressBar progressBar;
+    private ImageView noConnection;
+    private boolean connected = true;
 
     private List<ChosenProgram> chosenProgramList;
     private StatsFragmentViewModel model;
@@ -63,7 +69,6 @@ public class StatsFragment extends Fragment {
         } else {
             budgetBoxValue = true;
             targetBoxValue = false;
-
         }
 
         model = ViewModelProviders.of(this).get(StatsFragmentViewModel.class);
@@ -75,12 +80,37 @@ public class StatsFragment extends Fragment {
         if (savedInstanceState == null) {
             model.init(curProgram);
         }
+
+        model.getHasConnection().observe(StatsFragment.this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    connected = true;
+                    lineChart.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
+                    noConnection.setVisibility(View.GONE);
+                } else {
+                    connected = false;
+                    lineChart.setVisibility(View.INVISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    noConnection.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         // updating the graphic when it's finished parsing
         model.getFinishedParsing().observe(StatsFragment.this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
+                    if (connected) {
+                        lineChart.setVisibility(View.VISIBLE);
+                    }
+                    progressBar.setVisibility(View.GONE);
                     UpdateChart(budgetBox.isChecked(), targetBox.isChecked());
+                } else {
+                    lineChart.setVisibility(View.INVISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -95,11 +125,14 @@ public class StatsFragment extends Fragment {
         spinner = v.findViewById(R.id.disciplines);
         budgetBox = v.findViewById(R.id.checkBoxBudget);
         targetBox = v.findViewById(R.id.checkBoxTarget);
+        progressBar = v.findViewById(R.id.progress);
+        noConnection = v.findViewById(R.id.no_connection);
 
         Button updateButton = v.findViewById(R.id.update_button);
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                noConnection.setVisibility(View.GONE);
                 curProgram = spinner.getSelectedItem().toString();
                 if (budgetBox.isChecked()) {
                     model.loadBudgetFundedScores(curProgram);

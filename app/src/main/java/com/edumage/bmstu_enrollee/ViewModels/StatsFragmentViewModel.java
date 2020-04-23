@@ -18,8 +18,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.edumage.bmstu_enrollee.ConnectionCheck.hasInternetAccess;
+import static com.edumage.bmstu_enrollee.ConnectionCheck.isNetworkConnected;
+
 public class StatsFragmentViewModel extends AndroidViewModel {
     private DbRepository repository;
+    private final MutableLiveData<Boolean> hasConnection = new MutableLiveData<>();
     private final MutableLiveData<List<Entry>> budgetFundedScores = new MutableLiveData<>();
     private final MutableLiveData<List<Entry>> industryFundedScores = new MutableLiveData<>();
     private final MutableLiveData<Boolean> finishedParsing = new MutableLiveData<>();
@@ -33,7 +37,12 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     public void init(String programName) {
         budgetFundedScores.setValue(new ArrayList<Entry>());
         industryFundedScores.setValue(new ArrayList<Entry>());
+        hasConnection.setValue(true);
         loadBudgetFundedScores(programName);
+    }
+
+    public LiveData<Boolean> getHasConnection() {
+        return hasConnection;
     }
 
     public List<ChosenProgram> getAllChosenPrograms() {
@@ -52,11 +61,16 @@ public class StatsFragmentViewModel extends AndroidViewModel {
         return finishedParsing;
     }
 
+    private boolean getConnectionStatus() {
+        return isNetworkConnected(getApplication()) && hasInternetAccess();
+    }
+
     public void loadBudgetFundedScores(final String programName) {
         finishedParsing.setValue(false);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                final boolean conn = getConnectionStatus();
                 final List<Entry> scores = new ArrayList<>();
                 StatsScoresParsing instance = StatsScoresParsing.getInstance();
 
@@ -69,6 +83,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        hasConnection.setValue(conn);
                         budgetFundedScores.setValue(scores);
                         finishedParsing.setValue(true);
                     }
@@ -83,6 +98,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                final boolean conn = getConnectionStatus();
                 final List<Entry> scores = new ArrayList<>();
                 StatsScoresParsing instance = StatsScoresParsing.getInstance();
 
@@ -95,6 +111,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        hasConnection.setValue(conn);
                         industryFundedScores.setValue(scores);
                         finishedParsing.setValue(true);
                     }

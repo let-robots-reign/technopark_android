@@ -21,6 +21,7 @@
     <string name="next_command">Далее</string>
     <string name="back_command">Назад</string>
     <string name="edit">Изменить</string>
+    <string name="get_data">Получить данные</string>
 
     <string name="stats_screen_header">Динамика проходных баллов</string>
     <string name="stats_screen_checkbox_budget">Общий конкурс на бюджетные места</string>

@@ -19,6 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import java.util.Calendar;
+
 // LA means LaunchActivity
 public class LAFragmentFirst extends Fragment implements WelcomeActivity.CompletableFragment {
 
@@ -107,7 +109,7 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
                                     (getDateComponent(monthOfYear + 1)) + "." + year;
                             editDate.setText(editTextDateParam);
                         }
-                    }, 2020, 7, 1);
+                    }, Calendar.getInstance().get(Calendar.YEAR) - 18, 7, 1);
             datePickerDialog.show();
         }
     }
