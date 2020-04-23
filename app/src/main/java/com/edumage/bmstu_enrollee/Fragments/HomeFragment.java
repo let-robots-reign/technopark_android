@@ -3,6 +3,7 @@ package com.edumage.bmstu_enrollee.Fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,19 +42,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private DocumentStepsAdapter stepsAdapter;
     private List<DocumentStep> steps;
 
-    private TextView lastReload;
-    private TextView scores1;
-    private TextView scores2;
-    private TextView scores3;
-    private TextView edit_ege;
-    private TextView edit_disciplines;
-    private ProgressBar progress1;
-    private ProgressBar progress2;
-    private ProgressBar progress3;
-    private ImageView ic1;
-    private ImageView ic2;
-    private ImageView ic3;
-
+    private List<TextView> scoresTexts;
+    private List<ProgressBar> progressBars;
+    private List<ImageView> downloadIcons;
 
     Button button;
 
@@ -69,7 +60,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         model = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
         programs = model.getChosenPrograms();
-        model.init(programs);
+
+        if (savedInstanceState == null) {
+            // don'r reload data after rotation
+            model.init(programs);
+        }
 
         createScoresList();
         createDocumentStepsList();
@@ -102,18 +97,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         model.getParsingScores().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> scores) {
-                List<TextView> scoresTexts = Arrays.asList(lastReload, scores1, scores2, scores3);
-                List<ProgressBar> progressBars = Arrays.asList(progress1, progress2, progress3);
 
                 if (scores.size() == 0) {
-                    lastReload.setText(getResources().getString(R.string.last_reload, ""));
-                    for (int i = 1; i < scoresTexts.size(); ++i) {
-                        scoresTexts.get(i).setText("");
+                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload, "")); // last reload TextView
+                    for (int i = 1; i < programs.size() + 1; ++i) {
+                        scoresTexts.get(i).setVisibility(View.INVISIBLE);
                         progressBars.get(i - 1).setVisibility(View.VISIBLE);
                     }
                 } else {
-                    lastReload.setText(getResources().getString(R.string.last_reload, scores.get(0)));
+                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload, scores.get(0)));
                     for (int i = 1; i < scores.size(); ++i) {
+                        scoresTexts.get(i).setVisibility(View.VISIBLE);
                         scoresTexts.get(i).setText(scores.get(i));
                         progressBars.get(i - 1).setVisibility(View.INVISIBLE);
                     }
@@ -123,12 +117,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         model.getParsingFiles().observe(this, new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> filesUrls) {
-                List<ImageView> icons = Arrays.asList(ic1, ic2, ic3);
                 for (int i = 0; i < filesUrls.size(); ++i) {
                     if (filesUrls.get(i) != null) {
-                        icons.get(i).setOnClickListener(new IconClickListener(filesUrls.get(i)));
+                        downloadIcons.get(i).setOnClickListener(new IconClickListener(filesUrls.get(i)));
                     } else {
-                        icons.get(i).setOnClickListener(new View.OnClickListener() {
+                        downloadIcons.get(i).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Toast.makeText(getActivity(), "Ошибка: не удалось найти файл",
@@ -177,6 +170,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.home_screen, container, false);
 
+        TextView name = rootView.findViewById(R.id.user_name);
+        name.setText(model.getUserInfo().getUserName());
+
         RecyclerView examResults = rootView.findViewById(R.id.exam_scores_list);
         examResults.setLayoutManager(new LinearLayoutManager(getActivity(),
                 RecyclerView.VERTICAL, false));
@@ -190,19 +186,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // on start current step should be seen
         steps.scrollToPosition(getCurrentStepPosition());
 
-        // views we will be updating
-        lastReload = rootView.findViewById(R.id.last_reload);
-        scores1 = rootView.findViewById(R.id.score1);
-        scores2 = rootView.findViewById(R.id.score2);
-        scores3 = rootView.findViewById(R.id.score3);
+        scoresTexts = Arrays.asList(
+                (TextView)rootView.findViewById(R.id.last_reload),
+                (TextView)rootView.findViewById(R.id.score1),
+                (TextView)rootView.findViewById(R.id.score2),
+                (TextView)rootView.findViewById(R.id.score3));
 
-        progress1 = rootView.findViewById(R.id.progress1);
-        progress2 = rootView.findViewById(R.id.progress2);
-        progress3 = rootView.findViewById(R.id.progress3);
+        progressBars = Arrays.asList(
+                (ProgressBar)rootView.findViewById(R.id.progress1),
+                (ProgressBar)rootView.findViewById(R.id.progress2),
+                (ProgressBar)rootView.findViewById(R.id.progress3));
 
-        ic1 = rootView.findViewById(R.id.ic1);
-        ic2 = rootView.findViewById(R.id.ic2);
-        ic3 = rootView.findViewById(R.id.ic3);
+        downloadIcons = Arrays.asList(
+                (ImageView)rootView.findViewById(R.id.ic1),
+                (ImageView)rootView.findViewById(R.id.ic2),
+                (ImageView)rootView.findViewById(R.id.ic3));
 
         edit_ege =rootView.findViewById(R.id.textView_edit_ege);
         edit_disciplines = rootView.findViewById(R.id.textView_edit_disciplines);
@@ -210,12 +208,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         edit_disciplines.setOnClickListener(this);
 
         // displaying the programs user has chosen
-        TextView program1 = rootView.findViewById(R.id.program1);
-        TextView program2 = rootView.findViewById(R.id.program2);
-        TextView program3 = rootView.findViewById(R.id.program3);
-        List<TextView> programsTexts = Arrays.asList(program1, program2, program3);
+        List<TextView> programsTexts = Arrays.asList(
+                (TextView)rootView.findViewById(R.id.program1),
+                (TextView)rootView.findViewById(R.id.program2),
+                (TextView)rootView.findViewById(R.id.program3));
+
         for (int i = 0; i < programs.size(); ++i) {
             programsTexts.get(i).setText(programs.get(i).getProgramName());
+        }
+        // hide views if user had chosen less than three programs
+        for (int i = programs.size(); i < 3; ++i) {
+            programsTexts.get(i).setVisibility(View.GONE);
+            scoresTexts.get(i + 1).setVisibility(View.GONE);
+            progressBars.get(i).setVisibility(View.GONE);
+            downloadIcons.get(i).setVisibility(View.GONE);
         }
 
 

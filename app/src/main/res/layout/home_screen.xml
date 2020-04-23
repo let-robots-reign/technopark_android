@@ -59,9 +59,10 @@
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Зотов Алексей Олегович"
+                        tools:text="Зотов Алексей Олегович"
                         android:textColor="@android:color/black"
                         android:textSize="14sp"
                         android:fontFamily="@font/daysone"
@@ -233,7 +234,7 @@
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
                             android:textStyle="italic"
-                            android:layout_toStartOf="@id/progress1"
+                            android:layout_toStartOf="@id/score1"
                             android:layout_alignParentStart="true"/>
 
                         <ProgressBar
@@ -249,14 +250,15 @@
                             android:id="@+id/score1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="265"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="12dp"
+                            android:layout_toStartOf="@id/ic1"
+                            android:fontFamily="@font/cuprum"
+                            android:text="@string/placeholder_score"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
-                            android:fontFamily="@font/cuprum"
                             android:textStyle="bold"
-                            android:layout_toStartOf="@id/ic1"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="12dp"/>
+                            tools:text="265" />
 
                         <ImageView
                             android:id="@+id/ic1"
@@ -280,7 +282,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
-                            android:layout_toStartOf="@id/progress2"
+                            android:layout_toStartOf="@id/score2"
                             android:fontFamily="@font/cuprum"
                             tools:text="09.03.03 Прикладная информатика"
                             android:textColor="@android:color/black"
@@ -307,7 +309,8 @@
                             android:textStyle="bold"
                             android:layout_toStartOf="@id/ic2"
                             android:layout_marginTop="2dp"
-                            android:layout_marginEnd="12dp"/>
+                            android:layout_marginEnd="12dp"
+                            android:text="@string/placeholder_score"/>
 
                         <ImageView
                             android:id="@+id/ic2"
@@ -334,7 +337,7 @@
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:textStyle="italic"
-                            android:layout_toStartOf="@id/progress3"
+                            android:layout_toStartOf="@id/score3"
                             android:layout_alignParentStart="true"/>
 
                         <ProgressBar
@@ -357,7 +360,8 @@
                             android:textStyle="bold"
                             android:layout_toStartOf="@id/ic3"
                             android:layout_marginTop="2dp"
-                            android:layout_marginEnd="12dp"/>
+                            android:layout_marginEnd="12dp"
+                            android:text="@string/placeholder_score"/>
 
                         <ImageView
                             android:id="@+id/ic3"

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.R;
@@ -19,16 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.ViewHolder> {
     private ArrayList<Discipline> data;
+    private DisciplineCardClick onDisciplineClick;
 
-    public DisciplineAdapter(ArrayList<Discipline> data) {
+    public DisciplineAdapter(ArrayList<Discipline> data, DisciplineCardClick clickListener) {
         this.data = data;
+        onDisciplineClick = clickListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.discipline_item, parent, false), parent.getContext());
+                inflate(R.layout.discipline_item, parent, false), parent.getContext(), onDisciplineClick);
     }
 
     @Override
@@ -46,7 +49,6 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
         Discipline discipline;
         TextView name;
         TextView number;
@@ -56,7 +58,8 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
         boolean enabled = false;
         Context context;
 
-        private ViewHolder(@NonNull View itemView, Context context) {
+        private ViewHolder(@NonNull View itemView, final Context context,
+                           final DisciplineCardClick onDisciplineClick) {
             super(itemView);
             name = itemView.findViewById(R.id.discipline_name);
             number = itemView.findViewById(R.id.discipline_number);
@@ -68,6 +71,16 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     enabled = checkBox.isChecked();
+                    if (enabled && onDisciplineClick.getChosenDisciplines() == 3) {
+                        Toast.makeText(context, context.getText(R.string.disciplines_alert), Toast.LENGTH_SHORT).show();
+                        enabled = false;
+                    } else {
+                        if (enabled) {
+                            onDisciplineClick.incrementChosen();
+                        } else {
+                            onDisciplineClick.decrementChosen();
+                        }
+                    }
                     UpdateState();
                 }
             });
@@ -101,5 +114,13 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
             enabled = d.getStatus();
             UpdateState();
         }
+    }
+
+    public interface DisciplineCardClick {
+        int getChosenDisciplines();
+
+        void incrementChosen();
+
+        void decrementChosen();
     }
 }

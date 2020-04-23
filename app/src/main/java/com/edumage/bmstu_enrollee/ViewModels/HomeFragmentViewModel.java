@@ -18,6 +18,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
+import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 import com.edumage.bmstu_enrollee.ParsingRepo.CurrentFilesParsing;
 import com.edumage.bmstu_enrollee.ParsingRepo.CurrentScoresParsing;
@@ -46,6 +47,10 @@ public class HomeFragmentViewModel extends AndroidViewModel {
         filesLiveData.setValue(new ArrayList<String>());
         loadScores();
         loadFiles();
+    }
+
+    public UserInfo getUserInfo() {
+        return repository.getUserInfo();
     }
 
     public List<ExamPoints> getExamPoints() {

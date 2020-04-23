@@ -31,10 +31,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class LAFragmentThird extends Fragment implements WelcomeActivity.CompletableFragment {
+public class LAFragmentThird extends Fragment implements WelcomeActivity.CompletableFragment, DisciplineAdapter.DisciplineCardClick {
 
     private DisciplineAdapter adapter;
     private ArrayList<Discipline> data;
+    private int chosenDisciplines;
 
     private static final String DATA = "DISCIPLINES";
     public static final String TAG = "LAFragmentThird";
@@ -58,7 +59,8 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
                 data = Discipline.LoadDisciplines(getContext());
             }
         }
-        adapter = new DisciplineAdapter(data);
+        chosenDisciplines = 0; // in the beginning, user chose nothing
+        adapter = new DisciplineAdapter(data, this);
         adapter.notifyDataSetChanged();
 
         model = ViewModelProviders.of(this).get(LAThirdViewModel.class);
@@ -118,5 +120,20 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
             model.insertAllPrograms(chosenPrograms);
             return true;
         }
+    }
+
+    @Override
+    public int getChosenDisciplines() {
+        return chosenDisciplines;
+    }
+
+    @Override
+    public void incrementChosen() {
+        ++chosenDisciplines;
+    }
+
+    @Override
+    public void decrementChosen() {
+        --chosenDisciplines;
     }
 }

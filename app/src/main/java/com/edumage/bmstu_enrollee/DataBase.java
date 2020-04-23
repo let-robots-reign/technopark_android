@@ -8,14 +8,17 @@ import androidx.room.RoomDatabase;
 
 import com.edumage.bmstu_enrollee.DbDaos.ChosenProgramDao;
 import com.edumage.bmstu_enrollee.DbDaos.ExamPointsDao;
+import com.edumage.bmstu_enrollee.DbDaos.UserInfoDao;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
+import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
 
-@Database(entities = {ExamPoints.class, ChosenProgram.class}, version = 1)
+@Database(entities = {UserInfo.class, ExamPoints.class, ChosenProgram.class}, version = 1)
 public abstract class DataBase extends RoomDatabase {
 
     private static DataBase instance;
 
+    public abstract UserInfoDao userInfoDao();
     public abstract ExamPointsDao examPointsDao();
     public abstract ChosenProgramDao chosenProgramDao();
 
