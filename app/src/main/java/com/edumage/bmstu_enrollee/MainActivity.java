@@ -15,7 +15,7 @@ import com.edumage.bmstu_enrollee.Fragments.HomeFragment;
 import com.edumage.bmstu_enrollee.Fragments.StatsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CatalogFragment.FragmentCreation {
     private final String HOME_FRAGMENT = "Home";
     private final String CATALOG_FRAGMENT = "Catalog";
     private final String STATS_FRAGMENT = "Stats";
@@ -55,8 +55,14 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragmentTag = HOME_FRAGMENT;
                             break;
                         case R.id.catalog_tab:
-                            selectedFragment = new CatalogFragment();
-                            selectedFragmentTag = CATALOG_FRAGMENT;
+                            Fragment fragment = fragmentManager.findFragmentByTag(CATALOG_FRAGMENT);
+                            if (fragment != null && ((CatalogFragment)fragment).getSelectedCatalogFragment() != null) {
+                                selectedFragment = ((CatalogFragment)fragment).getSelectedCatalogFragment();
+                                selectedFragmentTag = ((CatalogFragment)fragment).getSelectedCatalogFragmentTag();
+                            } else {
+                                selectedFragment = new CatalogFragment();
+                                selectedFragmentTag = CATALOG_FRAGMENT;
+                            }
                             break;
                         case R.id.stats_tab:
                             selectedFragment = new StatsFragment();
@@ -84,9 +90,15 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.show(fragmentTemp);
         }
 
+        if (!(newFragment instanceof HomeFragment) && !(newFragment instanceof CatalogFragment)
+                && !(newFragment instanceof StatsFragment)) {
+            fragmentTransaction.addToBackStack(null);
+            selectedFragment = fragmentTemp;
+        }
+
         fragmentTransaction.setPrimaryNavigationFragment(fragmentTemp);
         fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.commitNowAllowingStateLoss();
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -95,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
         outState.putString("selectedFragmentTag", selectedFragmentTag);
     }
 
-
-
+    @Override
+    public void createCatalogFragment(Fragment fragment, String tag) {
+        changeFragment(fragment, tag);
+    }
 }
