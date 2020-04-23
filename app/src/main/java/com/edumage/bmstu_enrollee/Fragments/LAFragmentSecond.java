@@ -1,5 +1,7 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,7 +75,16 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
         RecyclerView recyclerView = rootView.findViewById(R.id.ege_list);
         adapter = new EGEAdapter(data);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        Context appContext = getContext();
+        Configuration configuration = getResources().getConfiguration();
+        if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        }
+        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.setLayoutManager(new GridLayoutManager(appContext, 2, RecyclerView.VERTICAL, false));
+        }
+
 
         return rootView;
     }
@@ -85,14 +97,16 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream ObjOut = new ObjectOutputStream(baos);
-            ObjOut.writeObject(adapter.getData());
-            ObjOut.flush();
-            outState.putByteArray(DATA, baos.toByteArray());
-        } catch (IOException e) {
-            Toast.makeText(getContext(), "Unable to serialize", Toast.LENGTH_SHORT).show();
+        if (adapter != null) {
+            try {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream ObjOut = new ObjectOutputStream(baos);
+                ObjOut.writeObject(adapter.getData());
+                ObjOut.flush();
+                outState.putByteArray(DATA, baos.toByteArray());
+            } catch (IOException e) {
+                Toast.makeText(getContext(), "Unable to serialize", Toast.LENGTH_SHORT).show();
+            }
         }
         super.onSaveInstanceState(outState);
     }
