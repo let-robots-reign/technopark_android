@@ -45,8 +45,21 @@ public class EGESubject implements Serializable {
 
         ArrayList<EGESubject> res = new ArrayList<EGESubject>();
         String[] str = context.getResources().getStringArray(R.array.subjects);
+
+        int[] drawables= new int[str.length];
+      drawables[0]=R.drawable.russian;
+      drawables[1]=R.drawable.math;
+      drawables[2]=R.drawable.informatics;
+      drawables[3]=R.drawable.physics;
+      drawables[4]=R.drawable.chemistry;
+      drawables[5]=R.drawable.biology;
+      drawables[6]=R.drawable.social;
+      drawables[7]=R.drawable.english;
+        int i=0;
         for (String s : str) {
-            res.add(new EGESubject(s, R.drawable.chemistry));
+
+            res.add(new EGESubject(s, drawables[i]));
+            i++;
         }
         return res;
     }

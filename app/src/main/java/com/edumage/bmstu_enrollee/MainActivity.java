@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation = findViewById(R.id.bottom_nav);
         NavigationUI.setupWithNavController(bottomNavigation, navController);
     }
-
+  
     public void hideBottomNav() {
         bottomNavigation.setVisibility(View.GONE);
     }

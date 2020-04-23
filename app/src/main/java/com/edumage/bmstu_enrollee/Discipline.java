@@ -13,6 +13,12 @@ public class Discipline implements Serializable {
     private String description;
     private String form;
     private boolean enabled = false;
+    private ArrayList<ExamScore> exams;
+
+
+    private void LoadNesecaryExams(){
+        //Загрузка необходимых экзаменов дл поступления
+    }
 
     public boolean getStatus() {
         return enabled;
