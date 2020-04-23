@@ -21,7 +21,7 @@ import java.util.List;
 public class StatsFragmentViewModel extends AndroidViewModel {
     private DbRepository repository;
     private final MutableLiveData<List<Entry>> budgetFundedScores = new MutableLiveData<>();
-    private final MutableLiveData<List<Integer>> industryFundedScores = new MutableLiveData<>();
+    private final MutableLiveData<List<Entry>> industryFundedScores = new MutableLiveData<>();
     private final MutableLiveData<Boolean> finishedParsing = new MutableLiveData<>();
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -32,7 +32,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
 
     public void init(String programName) {
         budgetFundedScores.setValue(new ArrayList<Entry>());
-        industryFundedScores.setValue(new ArrayList<Integer>());
+        industryFundedScores.setValue(new ArrayList<Entry>());
         loadBudgetFundedScores(programName);
     }
 
@@ -44,7 +44,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
         return budgetFundedScores;
     }
 
-    public LiveData<List<Integer>> getIndustryFundedScores() {
+    public LiveData<List<Entry>> getIndustryFundedScores() {
         return industryFundedScores;
     }
 
@@ -70,6 +70,32 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                     @Override
                     public void run() {
                         budgetFundedScores.setValue(scores);
+                        finishedParsing.setValue(true);
+                    }
+                });
+            }
+        });
+        thread.start();
+    }
+
+    public void loadIndustryFundedScores(final String programName) {
+        finishedParsing.setValue(false);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final List<Entry> scores = new ArrayList<>();
+                StatsScoresParsing instance = StatsScoresParsing.getInstance();
+
+                try {
+                    scores.addAll(instance.parseIndustryFundedScores(programName));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        industryFundedScores.setValue(scores);
                         finishedParsing.setValue(true);
                     }
                 });

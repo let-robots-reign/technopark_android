@@ -12,12 +12,12 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class StatsScoresParsing {
 
     private final String URL = "https://bmstu.ru/abitur/general/passing_scores/";
+    private final Integer MAX_SCORE = 311;
     private static StatsScoresParsing instance;
 
     public static StatsScoresParsing getInstance() {
@@ -28,6 +28,15 @@ public class StatsScoresParsing {
     }
 
     public List<Entry> parseBudgetFundedScores(String programName) throws IOException {
+        return parseScores(programName, 6, 3);
+    }
+
+    public List<Entry> parseIndustryFundedScores(String programName) throws IOException {
+        return parseScores(programName, 7, 4);
+    }
+
+    private List<Entry> parseScores(String programName, int firstRowStart, int notFirstRowStart)
+            throws IOException {
         Document doc = Jsoup.connect(URL).get();
 
         Element specialities = doc.select("table").first();
@@ -36,9 +45,9 @@ public class StatsScoresParsing {
         int startYear = Integer.parseInt(yearsRange.first().text().split(" ")[0]);
         int lastYear = Integer.parseInt(yearsRange.last().text().split(" ")[0]);
         // будем считать мин. проходной балл среди кафедр
-        // сначала мин. баллы равны 310
+        // сначала мин. баллы равны MAX_SCORE
         Integer[] minScores = new Integer[startYear - lastYear + 1];
-        Arrays.fill(minScores, 310);
+        Arrays.fill(minScores, MAX_SCORE);
 
         Element row;
         Elements cols;
@@ -60,7 +69,7 @@ public class StatsScoresParsing {
                     cols = row.select("td");
                     // на каждой кафедре смотрим проходные баллы
                     int scoreIndex = 0;
-                    for (int j = (r == i) ? 6 : 3; j < cols.size(); j += 2) {
+                    for (int j = (r == i) ? firstRowStart : notFirstRowStart; j < cols.size(); j += 2) {
                         String scoreValue = cols.get(j).text();
                         if (isNumeric(scoreValue)) {
                             int score = Integer.parseInt(scoreValue);
@@ -77,12 +86,17 @@ public class StatsScoresParsing {
 
         // x-values need to be sorted
         List<Integer> years = new ArrayList<>();
-        for (int y = lastYear; y <= startYear; ++y) years.add(y);
-        Collections.reverse(Arrays.asList(minScores));
+        for (int y = lastYear; y <= startYear; ++y) {
+            if (!minScores[startYear - y].equals(MAX_SCORE)) {
+                years.add(y);
+            }
+        }
+
+        List<Integer> scores = reverseAndFilterScores(minScores);
 
         List<Entry> entries = new ArrayList<>();
         for (int i = 0; i < years.size(); ++i) {
-            entries.add(new Entry(years.get(i), minScores[i]));
+            entries.add(new Entry(years.get(i), scores.get(i)));
         }
 
         return entries;
@@ -98,5 +112,15 @@ public class StatsScoresParsing {
             }
         }
         return true;
+    }
+
+    private List<Integer> reverseAndFilterScores(Integer[] array) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = array.length - 1; i >= 0; --i) {
+            if (!array[i].equals(MAX_SCORE)) {
+                res.add(array[i]);
+            }
+        }
+        return res;
     }
 }

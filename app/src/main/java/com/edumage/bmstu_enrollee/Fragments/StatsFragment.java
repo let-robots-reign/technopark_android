@@ -3,7 +3,6 @@ package com.edumage.bmstu_enrollee.Fragments;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
-import com.edumage.bmstu_enrollee.DataTransformator;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.StatsFragmentViewModel;
@@ -51,7 +49,6 @@ public class StatsFragment extends Fragment {
 
     private List<ChosenProgram> chosenProgramList;
     private StatsFragmentViewModel model;
-    private String TAG = "STATS";
     private String curProgram;
 
     @Override
@@ -78,7 +75,7 @@ public class StatsFragment extends Fragment {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
-                    UpdateChart(curProgram, budgetBox.isChecked(), targetBox.isChecked());
+                    UpdateChart(budgetBox.isChecked(), targetBox.isChecked());
                 }
             }
         });
@@ -99,7 +96,12 @@ public class StatsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 curProgram = spinner.getSelectedItem().toString();
-                model.loadBudgetFundedScores(curProgram);
+                if (budgetBox.isChecked()) {
+                    model.loadBudgetFundedScores(curProgram);
+                }
+                if (targetBox.isChecked()) {
+                    model.loadIndustryFundedScores(curProgram);
+                }
             }
         });
 
@@ -117,7 +119,7 @@ public class StatsFragment extends Fragment {
         spinner.setAdapter(adapter);
         if (discipline != null) {
             spinner.setSelection(adapter.getPosition(discipline));
-            UpdateChart(spinner.getSelectedItem().toString(), budgetBox.isChecked(), targetBox.isChecked());
+            UpdateChart(budgetBox.isChecked(), targetBox.isChecked());
         }
 
         lineChart.setNoDataText(getString(R.string.stats_screen_no_data));
@@ -127,7 +129,7 @@ public class StatsFragment extends Fragment {
         return v;
     }
 
-    private void UpdateChart(String discipline, boolean budget, boolean target) {
+    private void UpdateChart(boolean budget, boolean target) {
         LineData lineData = new LineData();
 
         if (budget) {
@@ -142,8 +144,8 @@ public class StatsFragment extends Fragment {
             lineData.addDataSet(dataSet);
         }
         if (target) {
-            DataTransformator.PassScoreComponent scoreComponent = DataTransformator.LoadSetPassScore(discipline, 1);
-            LineDataSet dataSet = new LineDataSet(scoreComponent.getEntries(),
+            List<Entry> entries = model.getIndustryFundedScores().getValue();
+            LineDataSet dataSet = new LineDataSet(entries,
                     getResources().getString(R.string.stats_screen_target_label));
 
             dataSet.setLineWidth(3f);
