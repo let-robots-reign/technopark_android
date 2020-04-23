@@ -12,6 +12,7 @@ import android.widget.Spinner;
 
 import com.edumage.bmstu_enrollee.DataTransformator;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
+import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.StatsFragmentViewModel;
 import com.github.mikephil.charting.animation.Easing;
@@ -41,8 +42,8 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 
     private LineChart lineChart;
     private String discipline;
-    private boolean budgetBoxValue = true;
-    private boolean targetBoxValue = false;
+    private boolean budgetBoxValue;
+    private boolean targetBoxValue;
 
     private List<ChosenProgram> chosenProgramList;
 
@@ -54,6 +55,10 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
             budgetBoxValue = savedInstanceState.getBoolean(BUDGET_BOX_VALUE);
             targetBoxValue = savedInstanceState.getBoolean(TARGET_BOX_VALUE);
             discipline = savedInstanceState.getString(SPINNER_VALUE);
+        } else {
+            budgetBoxValue = true;
+            targetBoxValue = false;
+
         }
 
         StatsFragmentViewModel model = ViewModelProviders.of(this).get(StatsFragmentViewModel.class);
@@ -86,7 +91,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         spinner.setAdapter(adapter);
         if (discipline != null) {
             spinner.setSelection(adapter.getPosition(discipline));
-            UpdateChart(spinner.getSelectedView().toString(), budgetBox.isChecked(), targetBox.isChecked());
+            UpdateChart(discipline, budgetBox.isChecked(), targetBox.isChecked());
         }
 
         lineChart.setNoDataText(getString(R.string.stats_screen_no_data));
