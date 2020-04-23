@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 import com.edumage.bmstu_enrollee.ParsingRepo.StatsScoresParsing;
+import com.github.mikephil.charting.data.Entry;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class StatsFragmentViewModel extends AndroidViewModel {
     private DbRepository repository;
-    private final MutableLiveData<List<Integer>> budgetFundedScores = new MutableLiveData<>();
+    private final MutableLiveData<List<Entry>> budgetFundedScores = new MutableLiveData<>();
     private final MutableLiveData<List<Integer>> industryFundedScores = new MutableLiveData<>();
     private final MutableLiveData<Boolean> finishedParsing = new MutableLiveData<>();
     private Handler handler = new Handler(Looper.getMainLooper());
@@ -30,7 +31,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     }
 
     public void init(String programName) {
-        budgetFundedScores.setValue(new ArrayList<Integer>());
+        budgetFundedScores.setValue(new ArrayList<Entry>());
         industryFundedScores.setValue(new ArrayList<Integer>());
         loadBudgetFundedScores(programName);
     }
@@ -39,7 +40,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
         return repository.getAllChosenPrograms();
     }
 
-    public LiveData<List<Integer>> getBudgetFundedScores() {
+    public LiveData<List<Entry>> getBudgetFundedScores() {
         return budgetFundedScores;
     }
 
@@ -56,7 +57,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                final List<Integer> scores = new ArrayList<>();
+                final List<Entry> scores = new ArrayList<>();
                 StatsScoresParsing instance = StatsScoresParsing.getInstance();
 
                 try {

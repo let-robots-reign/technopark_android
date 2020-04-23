@@ -3,6 +3,7 @@ package com.edumage.bmstu_enrollee;
 import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DataTransformator {
 
@@ -19,7 +20,7 @@ public class DataTransformator {
             return entries;
         }
 
-        private PassScoreComponent(ArrayList<Integer> years, ArrayList<Integer> score) {
+        PassScoreComponent(List<Integer> years, List<Integer> score) {
             entries = new ArrayList<>();
             for (int i = 0; i < years.size(); i++) {
                 entries.add(new Entry(years.get(i), score.get(i)));
@@ -29,7 +30,7 @@ public class DataTransformator {
 
     public static PassScoreComponent LoadSetPassScore(String discipline, int type) {
         //temporary realization
-        ArrayList<Integer> years = new ArrayList<>();
+        List<Integer> years = new ArrayList<>();
         for (int i = 2009; i < 2020; i++) years.add(i);
 
         ArrayList<Integer> score = new ArrayList<>();

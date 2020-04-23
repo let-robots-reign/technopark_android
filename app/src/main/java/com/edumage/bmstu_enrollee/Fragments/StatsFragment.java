@@ -2,6 +2,7 @@ package com.edumage.bmstu_enrollee.Fragments;
 
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
@@ -29,6 +31,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class StatsFragment extends Fragment {
@@ -62,8 +65,11 @@ public class StatsFragment extends Fragment {
         }
 
         model = ViewModelProviders.of(this).get(StatsFragmentViewModel.class);
+
         chosenProgramList = model.getAllChosenPrograms();
-        curProgram = chosenProgramList.get(0).getProgramName();
+        // to get the program name from its full name, we need to slice an array of words)
+        curProgram = getProgramShortName(chosenProgramList.get(0).getProgramName());
+
         if (savedInstanceState == null) {
             model.init(curProgram);
         }
@@ -92,7 +98,7 @@ public class StatsFragment extends Fragment {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                curProgram = spinner.getSelectedView().toString();
+                curProgram = spinner.getSelectedItem().toString();
                 model.loadBudgetFundedScores(curProgram);
             }
         });
@@ -102,7 +108,7 @@ public class StatsFragment extends Fragment {
 
         List<String> programsNames = new ArrayList<>();
         for (ChosenProgram program : chosenProgramList) {
-            programsNames.add(program.getProgramName());
+            programsNames.add(getProgramShortName(program.getProgramName()));
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
@@ -111,7 +117,7 @@ public class StatsFragment extends Fragment {
         spinner.setAdapter(adapter);
         if (discipline != null) {
             spinner.setSelection(adapter.getPosition(discipline));
-            UpdateChart(spinner.getSelectedView().toString(), budgetBox.isChecked(), targetBox.isChecked());
+            UpdateChart(spinner.getSelectedItem().toString(), budgetBox.isChecked(), targetBox.isChecked());
         }
 
         lineChart.setNoDataText(getString(R.string.stats_screen_no_data));
@@ -122,12 +128,11 @@ public class StatsFragment extends Fragment {
     }
 
     private void UpdateChart(String discipline, boolean budget, boolean target) {
-
         LineData lineData = new LineData();
 
         if (budget) {
-            DataTransformator.PassScoreComponent scoreComponent = DataTransformator.LoadSetPassScore(discipline, 0);
-            LineDataSet dataSet = new LineDataSet(scoreComponent.getEntries(),
+            List<Entry> entries = model.getBudgetFundedScores().getValue();
+            LineDataSet dataSet = new LineDataSet(entries,
                     getResources().getString(R.string.stats_screen_budget_label));
             dataSet.setLineWidth(3f);
 
@@ -165,5 +170,14 @@ public class StatsFragment extends Fragment {
         outState.putBoolean(TARGET_BOX_VALUE, targetBox.isChecked());
         outState.putString(SPINNER_VALUE, spinner.getSelectedItem().toString());
         super.onSaveInstanceState(outState);
+    }
+
+    private String getProgramShortName(String name) {
+        String[] curProgramWords = name.split(" ");
+        // we exclude first and last words
+        String[] shortNameList = Arrays.copyOfRange(curProgramWords, 1,
+                curProgramWords.length - 1);
+        // and then joining the words again
+        return TextUtils.join(" ", shortNameList);
     }
 }
