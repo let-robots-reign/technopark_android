@@ -107,17 +107,18 @@
                         android:fontFamily="@font/cuprum"/>
 
                     <TextView
-                       android:layout_width="wrap_content"
+                        android:layout_width="wrap_content"
                         android:textAlignment="viewEnd"
                         android:layout_height="wrap_content"
-                        android:text="Изменить"
-                        android:paddingRight="8dp"
-                        android:id="@+id/textView_edit_ege"
-                        />
+                        android:text="@string/edit"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        android:fontFamily="@font/cuprum"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:id="@+id/textView_edit_ege"/>
 
                 </LinearLayout>
-
-
 
                 <View
                     android:layout_width="match_parent"
@@ -202,16 +203,17 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"/>
 
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:textAlignment="viewEnd"
-                        android:layout_height="wrap_content"
-                        android:text="Изменить"
-                        android:paddingRight="8dp"
-                        android:id="@+id/textView_edit_disciplines"
-                       />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textAlignment="viewEnd"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit"
+                    android:textSize="12sp"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/cuprum"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:id="@+id/textView_edit_disciplines" />
 
 
                 <LinearLayout
@@ -243,8 +245,10 @@
                             android:layout_height="24dp"
                             android:layout_marginEnd="6dp"
                             android:layout_toStartOf="@id/ic1"
+                            android:indeterminate="true"
                             android:indeterminateTint="@color/colorSecondary"
-                            android:visibility="invisible"/>
+                            android:indeterminateTintMode="src_in"
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/score1"
@@ -293,10 +297,12 @@
                             android:id="@+id/progress2"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_toStartOf="@id/ic2"
                             android:layout_marginEnd="6dp"
+                            android:layout_toStartOf="@id/ic2"
+                            android:indeterminate="true"
                             android:indeterminateTint="@color/colorSecondary"
-                            android:visibility="invisible"/>
+                            android:indeterminateTintMode="src_in"
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/score2"
@@ -346,6 +352,8 @@
                             android:layout_height="24dp"
                             android:layout_marginEnd="6dp"
                             android:layout_toStartOf="@id/ic3"
+                            android:indeterminateTintMode="src_in"
+                            android:indeterminate="true"
                             android:indeterminateTint="@color/colorSecondary"
                             android:visibility="invisible"/>
 

@@ -1,5 +1,6 @@
 package com.edumage.bmstu_enrollee;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -30,8 +31,20 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment);
         bottomNavigation = findViewById(R.id.bottom_nav);
         NavigationUI.setupWithNavController(bottomNavigation, navController);
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                int id = destination.getId();
+                if (id != R.id.home_tab && id != R.id.catalog_tab && id != R.id.stats_tab) {
+                    // hide bottomNav on every fragment except for main ones
+                    hideBottomNav();
+                } else {
+                    showBottomNav();
+                }
+            }
+        });
     }
-  
+
     public void hideBottomNav() {
         bottomNavigation.setVisibility(View.GONE);
     }

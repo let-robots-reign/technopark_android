@@ -20,6 +20,7 @@
     <string name="welcome_hint2">Дата рождения</string>
     <string name="next_command">Далее</string>
     <string name="back_command">Назад</string>
+    <string name="edit">Изменить</string>
 
     <string name="stats_screen_header">Динамика проходных баллов</string>
     <string name="stats_screen_checkbox_budget">Общий конкурс на бюджетные места</string>
@@ -31,7 +32,6 @@
 
     <string name="alert_name">Введите имя пользователя</string>
     <string name="alert_date">Введите дату рождения</string>
-
 
     <string name="alert_ege">Результат ЕГЭ должен быть в пределах от 0 до 100</string>
     <string name="welcome_command_3">Выберите не более трех приоритетных направления для поступления.\nВ любой момент вы можете изменить свой выбор</string>
@@ -107,7 +107,7 @@
     </string-array>
 
     <string name="press_back_again">Нажмите Назад еще раз, чтобы выйти</string>
-    <string name="placeholder_score">100</string>
+    <string name="placeholder_score">⠀⠀⠀</string>
     <string name="disciplines_alert">Вы не можете подать документы более чем на 3 направления</string>
 
 </resources>
