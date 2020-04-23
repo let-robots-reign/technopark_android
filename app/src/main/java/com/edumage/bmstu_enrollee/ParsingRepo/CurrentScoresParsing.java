@@ -37,9 +37,9 @@ public class CurrentScoresParsing {
             // all the info about speciality (title and score)
             specialityInfo = speciality.select("div.speciality-header > table.pretty-table > tbody > tr > td");
             specialityTitle = specialityInfo.select("h3").text();
-            specialityScore = specialityInfo.last().select("b").text();
+            specialityScore = specialityInfo.get(specialityInfo.size() - 2).select("b").text();
 
-            // if title equals any of the programs chosen by user
+            // if title equals the program chosen by user
             if (specialityTitle.equals(programName)) {
                 score = specialityScore;
                 break;
