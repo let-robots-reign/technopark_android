@@ -25,19 +25,17 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class DialogDisciplineFragment extends DialogFragment implements View.OnClickListener {
+public class DialogDisciplineFragment extends DialogFragment implements View.OnClickListener, DisciplineAdapter.DisciplineCardClick {
 
     private RecyclerView recyclerView;
     private Button button;
     private DisciplineAdapter adapter;
     private ArrayList<Discipline> data;
+    private int chosenDisciplines = 0;
 
+    static final String TAG = "DialogDisciplineFragment";
 
-    public static final String TAG="DialogDisciplineFragment";
-
-
-
-    //nedn another solution
+    // TODO: need another solution
     @Override
     public void onResume() {
         super.onResume();
@@ -47,15 +45,12 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
         getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LoadData();
-        adapter= new DisciplineAdapter(data);
+        adapter = new DisciplineAdapter(data, this);
     }
-
-
 
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
@@ -65,22 +60,22 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.discipline_dialog_fragment,container,false);
-        recyclerView=v.findViewById(R.id.discipline_dialog_recyclerview);
+        View v = inflater.inflate(R.layout.discipline_dialog_fragment, container, false);
+        recyclerView = v.findViewById(R.id.discipline_dialog_recyclerview);
         recyclerView.setAdapter(adapter);
-        if (getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT){
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         } else {
-            recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2,RecyclerView.VERTICAL,false));
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false));
         }
 
-        button=v.findViewById(R.id.discipline_dialog_button);
+        button = v.findViewById(R.id.discipline_dialog_button);
         button.setOnClickListener(this);
         return v;
     }
 
-    //переписать этот метод
-    private void LoadData (){
+    // TODO: переписать этот метод
+    private void LoadData() {
         data = Discipline.LoadDisciplines(getContext());
     }
 
@@ -89,4 +84,18 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
         dismiss();
     }
 
+    @Override
+    public int getChosenDisciplines() {
+        return chosenDisciplines;
+    }
+
+    @Override
+    public void incrementChosen() {
+        ++chosenDisciplines;
+    }
+
+    @Override
+    public void decrementChosen() {
+        --chosenDisciplines;
+    }
 }

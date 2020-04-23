@@ -46,13 +46,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private List<ProgressBar> progressBars;
     private List<ImageView> downloadIcons;
 
-    Button button;
-
     private List<ChosenProgram> programs;
     private HomeFragmentViewModel model;
 
-    private static final int EGE_EDIT_DIALOG=0;
-    private static final int DISCIPLINES_EDIT_DIALOG=1;
+    private static final int EGE_EDIT_DIALOG = 0;
+    private static final int DISCIPLINES_EDIT_DIALOG = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +60,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         programs = model.getChosenPrograms();
 
         if (savedInstanceState == null) {
-            // don'r reload data after rotation
+            // don't reload data after rotation
             model.init(programs);
         }
 
@@ -136,18 +134,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        int id =  v.getId();
-
-        switch (id){
+        int id = v.getId();
+        switch (id) {
             case R.id.textView_edit_ege:
                 showDialogFragment(EGE_EDIT_DIALOG);
-            break;
+                break;
             case R.id.textView_edit_disciplines:
                 showDialogFragment(DISCIPLINES_EDIT_DIALOG);
-            break;
+                break;
         }
-
-
     }
 
     private class IconClickListener implements View.OnClickListener {
@@ -187,31 +182,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         steps.scrollToPosition(getCurrentStepPosition());
 
         scoresTexts = Arrays.asList(
-                (TextView)rootView.findViewById(R.id.last_reload),
-                (TextView)rootView.findViewById(R.id.score1),
-                (TextView)rootView.findViewById(R.id.score2),
-                (TextView)rootView.findViewById(R.id.score3));
+                (TextView) rootView.findViewById(R.id.last_reload),
+                (TextView) rootView.findViewById(R.id.score1),
+                (TextView) rootView.findViewById(R.id.score2),
+                (TextView) rootView.findViewById(R.id.score3));
 
         progressBars = Arrays.asList(
-                (ProgressBar)rootView.findViewById(R.id.progress1),
-                (ProgressBar)rootView.findViewById(R.id.progress2),
-                (ProgressBar)rootView.findViewById(R.id.progress3));
+                (ProgressBar) rootView.findViewById(R.id.progress1),
+                (ProgressBar) rootView.findViewById(R.id.progress2),
+                (ProgressBar) rootView.findViewById(R.id.progress3));
 
         downloadIcons = Arrays.asList(
-                (ImageView)rootView.findViewById(R.id.ic1),
-                (ImageView)rootView.findViewById(R.id.ic2),
-                (ImageView)rootView.findViewById(R.id.ic3));
+                (ImageView) rootView.findViewById(R.id.ic1),
+                (ImageView) rootView.findViewById(R.id.ic2),
+                (ImageView) rootView.findViewById(R.id.ic3));
 
-        edit_ege =rootView.findViewById(R.id.textView_edit_ege);
-        edit_disciplines = rootView.findViewById(R.id.textView_edit_disciplines);
+        TextView edit_ege = rootView.findViewById(R.id.textView_edit_ege);
+        TextView edit_disciplines = rootView.findViewById(R.id.textView_edit_disciplines);
         edit_ege.setOnClickListener(this);
         edit_disciplines.setOnClickListener(this);
 
         // displaying the programs user has chosen
         List<TextView> programsTexts = Arrays.asList(
-                (TextView)rootView.findViewById(R.id.program1),
-                (TextView)rootView.findViewById(R.id.program2),
-                (TextView)rootView.findViewById(R.id.program3));
+                (TextView) rootView.findViewById(R.id.program1),
+                (TextView) rootView.findViewById(R.id.program2),
+                (TextView) rootView.findViewById(R.id.program3));
 
         for (int i = 0; i < programs.size(); ++i) {
             programsTexts.get(i).setText(programs.get(i).getProgramName());
@@ -246,30 +241,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showDialogFragment(int dialog_id) {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        DialogFragment dialogFragment=null;
-        String tag="";
-        switch(dialog_id){
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        DialogFragment dialogFragment = null;
+        String tag = "";
+        switch (dialog_id) {
             case DISCIPLINES_EDIT_DIALOG:
                 dialogFragment = new DialogDisciplineFragment();
-                tag=DialogDisciplineFragment.TAG;
+                tag = DialogDisciplineFragment.TAG;
                 break;
             case EGE_EDIT_DIALOG:
                 dialogFragment = new DialogEgeFragment();
-                tag=DialogEgeFragment.TAG;
-             break;
+                tag = DialogEgeFragment.TAG;
+                break;
         }
 
-        Fragment prev = getFragmentManager().findFragmentByTag(tag);
+        Fragment prev = getChildFragmentManager().findFragmentByTag(tag);
         if (prev != null) {
             ft.remove(prev);
         }
         ft.addToBackStack(tag);
-        if (dialogFragment!=null)dialogFragment.show(ft, tag);
+        if (dialogFragment != null) dialogFragment.show(ft, tag);
     }
-
-
-
-
-
 }
