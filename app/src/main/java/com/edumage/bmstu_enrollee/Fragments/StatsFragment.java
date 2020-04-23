@@ -2,6 +2,7 @@ package com.edumage.bmstu_enrollee.Fragments;
 
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
-import com.edumage.bmstu_enrollee.DataTransformator;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.R;
@@ -19,18 +19,21 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class StatsFragment extends Fragment implements View.OnClickListener {
+public class StatsFragment extends Fragment {
 
     private Spinner spinner;
     private CheckBox budgetBox;
@@ -46,6 +49,8 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     private boolean targetBoxValue;
 
     private List<ChosenProgram> chosenProgramList;
+    private StatsFragmentViewModel model;
+    private String curProgram;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,8 +66,24 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
 
         }
 
-        StatsFragmentViewModel model = ViewModelProviders.of(this).get(StatsFragmentViewModel.class);
+        model = ViewModelProviders.of(this).get(StatsFragmentViewModel.class);
+
         chosenProgramList = model.getAllChosenPrograms();
+        // to get the program name from its full name, we need to slice an array of words)
+        curProgram = getProgramShortName(chosenProgramList.get(0).getProgramName());
+
+        if (savedInstanceState == null) {
+            model.init(curProgram);
+        }
+        // updating the graphic when it's finished parsing
+        model.getFinishedParsing().observe(StatsFragment.this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    UpdateChart(budgetBox.isChecked(), targetBox.isChecked());
+                }
+            }
+        });
     }
 
     @Nullable
@@ -74,15 +95,27 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         spinner = v.findViewById(R.id.disciplines);
         budgetBox = v.findViewById(R.id.checkBoxBudget);
         targetBox = v.findViewById(R.id.checkBoxTarget);
+
         Button updateButton = v.findViewById(R.id.update_button);
-        updateButton.setOnClickListener(this);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                curProgram = spinner.getSelectedItem().toString();
+                if (budgetBox.isChecked()) {
+                    model.loadBudgetFundedScores(curProgram);
+                }
+                if (targetBox.isChecked()) {
+                    model.loadIndustryFundedScores(curProgram);
+                }
+            }
+        });
 
         budgetBox.setChecked(budgetBoxValue);
         targetBox.setChecked(targetBoxValue);
 
         List<String> programsNames = new ArrayList<>();
         for (ChosenProgram program : chosenProgramList) {
-            programsNames.add(program.getProgramName());
+            programsNames.add(getProgramShortName(program.getProgramName()));
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
@@ -91,7 +124,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         spinner.setAdapter(adapter);
         if (discipline != null) {
             spinner.setSelection(adapter.getPosition(discipline));
-            UpdateChart(discipline, budgetBox.isChecked(), targetBox.isChecked());
+            UpdateChart(budgetBox.isChecked(), targetBox.isChecked());
         }
 
         lineChart.setNoDataText(getString(R.string.stats_screen_no_data));
@@ -101,13 +134,12 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         return v;
     }
 
-    private void UpdateChart(String discipline, boolean budget, boolean target) {
-
+    private void UpdateChart(boolean budget, boolean target) {
         LineData lineData = new LineData();
 
         if (budget) {
-            DataTransformator.PassScoreComponent scoreComponent = DataTransformator.LoadSetPassScore(discipline, 0);
-            LineDataSet dataSet = new LineDataSet(scoreComponent.getEntries(),
+            List<Entry> entries = model.getBudgetFundedScores().getValue();
+            LineDataSet dataSet = new LineDataSet(entries,
                     getResources().getString(R.string.stats_screen_budget_label));
             dataSet.setLineWidth(3f);
 
@@ -117,8 +149,8 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
             lineData.addDataSet(dataSet);
         }
         if (target) {
-            DataTransformator.PassScoreComponent scoreComponent = DataTransformator.LoadSetPassScore(discipline, 1);
-            LineDataSet dataSet = new LineDataSet(scoreComponent.getEntries(),
+            List<Entry> entries = model.getIndustryFundedScores().getValue();
+            LineDataSet dataSet = new LineDataSet(entries,
                     getResources().getString(R.string.stats_screen_target_label));
 
             dataSet.setLineWidth(3f);
@@ -147,11 +179,12 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.update_button) {
-            UpdateChart(spinner.getSelectedView().toString(), budgetBox.isChecked(), targetBox.isChecked());
-        }
+    private String getProgramShortName(String name) {
+        String[] curProgramWords = name.split(" ");
+        // we exclude first and last words
+        String[] shortNameList = Arrays.copyOfRange(curProgramWords, 1,
+                curProgramWords.length - 1);
+        // and then joining the words again
+        return TextUtils.join(" ", shortNameList);
     }
 }
