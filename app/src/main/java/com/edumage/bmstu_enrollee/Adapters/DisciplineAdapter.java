@@ -61,7 +61,7 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
             name = itemView.findViewById(R.id.discipline_name);
             number = itemView.findViewById(R.id.discipline_number);
             form = itemView.findViewById(R.id.education_form);
-            card = itemView.findViewById(R.id.discipline_card);;
+            card = itemView.findViewById(R.id.discipline_card);
             checkBox = itemView.findViewById(R.id.d_checkBox);
             this.context = context;
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -71,14 +71,6 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
                     UpdateState();
                 }
             });
-           /* card.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    enabled = !enabled;
-                    UpdateState();
-
-                }
-            });*/
         }
 
         private void UpdateState() {
@@ -90,15 +82,12 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
         }
 
         private void setEnabled() {
-           // card.setBackgroundColor(context.getResources().getColor(R.color.darkGreen));
             checkBox.setChecked(enabled);
             enabled = true;
             discipline.setStatus(enabled);
-
         }
 
         private void setDisabled() {
-          //  card.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
             checkBox.setChecked(enabled);
             enabled = false;
             discipline.setStatus(enabled);

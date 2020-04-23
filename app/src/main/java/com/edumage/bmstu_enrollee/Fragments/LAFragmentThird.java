@@ -72,17 +72,14 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         RecyclerView recyclerView = v.findViewById(R.id.discipline_list);
         recyclerView.setAdapter(adapter);
 
-
         Context appContext = getContext();
         Configuration configuration = getResources().getConfiguration();
-        if(configuration.orientation == Configuration.ORIENTATION_PORTRAIT){
+        if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
-        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
-            recyclerView.setLayoutManager(new GridLayoutManager(appContext,2,RecyclerView.VERTICAL,false));
+        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recyclerView.setLayoutManager(new GridLayoutManager(appContext, 2, RecyclerView.VERTICAL, false));
         }
-
-
         return v;
     }
 

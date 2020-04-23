@@ -43,7 +43,7 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
     private LineChart lineChart;
     private String discipline;
     private boolean budgetBoxValue;
-    private boolean targetBoxValue ;
+    private boolean targetBoxValue;
 
     private List<ChosenProgram> chosenProgramList;
 

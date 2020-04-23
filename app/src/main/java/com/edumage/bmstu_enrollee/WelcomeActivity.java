@@ -27,7 +27,7 @@ public class WelcomeActivity extends AppCompatActivity {
     Button prevButton;
     ImageView imageBackground;
     ArrayList<CompletableFragment> fragments;
-    private int state=1;
+    private int state = 1;
 
     private static final String STATE_KEY = "STATE";
     private static final int MAX_STATE = 3;
@@ -85,24 +85,23 @@ public class WelcomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (state>1){
+        if (state > 1) {
             state--;
         }
         super.onBackPressed();
     }
 
-
-    private void clearBackStack(int state){
+    private void clearBackStack(int state) {
         FragmentManager fm = getSupportFragmentManager();
-        switch(state){
-            case 1:fm.popBackStack(LAFragmentSecond.TAG,FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            break;
-            case 2: fm.popBackStack(LAFragmentThird.TAG,FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            break;
+        switch (state) {
+            case 1:
+                fm.popBackStack(LAFragmentSecond.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                break;
+            case 2:
+                fm.popBackStack(LAFragmentThird.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                break;
         }
-
     }
-
 
     private void setState(int state) {
         clearBackStack(state);
