@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.edumage.bmstu_enrollee.Fragments.CatalogFragment;
+import com.edumage.bmstu_enrollee.Fragments.DialogEgeFragment;
 import com.edumage.bmstu_enrollee.Fragments.HomeFragment;
 import com.edumage.bmstu_enrollee.Fragments.StatsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         initViews();
+
     }
 
     private void initViews() {
@@ -92,4 +94,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putString("selectedFragmentTag", selectedFragmentTag);
     }
+
+
+
 }
