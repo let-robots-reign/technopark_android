@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,7 +15,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,7 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
     private ExamScoresAdapter examScoresAdapter;
     private DocumentStepsAdapter stepsAdapter;
     private List<DocumentStep> steps;
@@ -43,8 +46,13 @@ public class HomeFragment extends Fragment {
     private List<ProgressBar> progressBars;
     private List<ImageView> downloadIcons;
 
+    Button button;
+
     private List<ChosenProgram> programs;
     private HomeFragmentViewModel model;
+
+    private static final int EGE_EDIT_DIALOG=0;
+    private static final int DISCIPLINES_EDIT_DIALOG=1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,6 +134,22 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        int id =  v.getId();
+
+        switch (id){
+            case R.id.textView_edit_ege:
+                showDialogFragment(EGE_EDIT_DIALOG);
+            break;
+            case R.id.textView_edit_disciplines:
+                showDialogFragment(DISCIPLINES_EDIT_DIALOG);
+            break;
+        }
+
+
+    }
+
     private class IconClickListener implements View.OnClickListener {
         private String fileUrl;
 
@@ -178,6 +202,11 @@ public class HomeFragment extends Fragment {
                 (ImageView)rootView.findViewById(R.id.ic2),
                 (ImageView)rootView.findViewById(R.id.ic3));
 
+        edit_ege =rootView.findViewById(R.id.textView_edit_ege);
+        edit_disciplines = rootView.findViewById(R.id.textView_edit_disciplines);
+        edit_ege.setOnClickListener(this);
+        edit_disciplines.setOnClickListener(this);
+
         // displaying the programs user has chosen
         List<TextView> programsTexts = Arrays.asList(
                 (TextView)rootView.findViewById(R.id.program1),
@@ -194,6 +223,7 @@ public class HomeFragment extends Fragment {
             progressBars.get(i).setVisibility(View.GONE);
             downloadIcons.get(i).setVisibility(View.GONE);
         }
+
 
         ImageView icRefresh = rootView.findViewById(R.id.refresh);
         icRefresh.setOnClickListener(new View.OnClickListener() {
@@ -214,4 +244,32 @@ public class HomeFragment extends Fragment {
         }
         return position;
     }
+
+    private void showDialogFragment(int dialog_id) {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        DialogFragment dialogFragment=null;
+        String tag="";
+        switch(dialog_id){
+            case DISCIPLINES_EDIT_DIALOG:
+                dialogFragment = new DialogDisciplineFragment();
+                tag=DialogDisciplineFragment.TAG;
+                break;
+            case EGE_EDIT_DIALOG:
+                dialogFragment = new DialogEgeFragment();
+                tag=DialogEgeFragment.TAG;
+             break;
+        }
+
+        Fragment prev = getFragmentManager().findFragmentByTag(tag);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(tag);
+        if (dialogFragment!=null)dialogFragment.show(ft, tag);
+    }
+
+
+
+
+
 }
