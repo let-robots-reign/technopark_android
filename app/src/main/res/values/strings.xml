@@ -106,4 +106,6 @@
         <item>Английский язык</item>
     </string-array>
 
+    <string name="press_back_again">Нажмите Назад еще раз, чтобы выйти</string>
+
 </resources>

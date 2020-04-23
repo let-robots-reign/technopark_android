@@ -1,114 +1,66 @@
 package com.edumage.bmstu_enrollee;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Toast;
 
-import com.edumage.bmstu_enrollee.Fragments.CatalogFragment;
-import com.edumage.bmstu_enrollee.Fragments.DialogEgeFragment;
-import com.edumage.bmstu_enrollee.Fragments.HomeFragment;
-import com.edumage.bmstu_enrollee.Fragments.StatsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity implements CatalogFragment.FragmentCreation {
-    private final String HOME_FRAGMENT = "Home";
-    private final String CATALOG_FRAGMENT = "Catalog";
-    private final String STATS_FRAGMENT = "Stats";
-    private FragmentManager fragmentManager;
-    private Fragment selectedFragment = new HomeFragment();
-    private String selectedFragmentTag = HOME_FRAGMENT;
+public class MainActivity extends AppCompatActivity {
+    private BottomNavigationView bottomNavigation;
+    private NavController navController;
+    private boolean backPressedOnce = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fragmentManager = getSupportFragmentManager();
-
-        if (savedInstanceState != null) {
-            selectedFragmentTag = savedInstanceState.getString("selectedFragmentTag");
-            selectedFragment = fragmentManager.findFragmentByTag(selectedFragmentTag);
-        }
-
-        initViews();
-
+        setupFragments();
     }
 
-    private void initViews() {
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_nav);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-        // manually displaying the first fragment - one time only
-        changeFragment(selectedFragment, selectedFragmentTag);
+    private void setupFragments() {
+        navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment);
+        bottomNavigation = findViewById(R.id.bottom_nav);
+        NavigationUI.setupWithNavController(bottomNavigation, navController);
+    }
+  
+    public void hideBottomNav() {
+        bottomNavigation.setVisibility(View.GONE);
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
+    public void showBottomNav() {
+        bottomNavigation.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        NavDestination destination = navController.getCurrentDestination();
+        if (destination != null &&
+                destination.getId() == navController.getGraph().getStartDestination()) {
+            if (backPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+            backPressedOnce = true;
+            Toast.makeText(this, getResources().getString(R.string.press_back_again),
+                    Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
                 @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.home_tab:
-                            selectedFragment = new HomeFragment();
-                            selectedFragmentTag = HOME_FRAGMENT;
-                            break;
-                        case R.id.catalog_tab:
-                            Fragment fragment = fragmentManager.findFragmentByTag(CATALOG_FRAGMENT);
-                            if (fragment != null && ((CatalogFragment)fragment).getSelectedCatalogFragment() != null) {
-                                selectedFragment = ((CatalogFragment)fragment).getSelectedCatalogFragment();
-                                selectedFragmentTag = ((CatalogFragment)fragment).getSelectedCatalogFragmentTag();
-                            } else {
-                                selectedFragment = new CatalogFragment();
-                                selectedFragmentTag = CATALOG_FRAGMENT;
-                            }
-                            break;
-                        case R.id.stats_tab:
-                            selectedFragment = new StatsFragment();
-                            selectedFragmentTag = STATS_FRAGMENT;
-                            break;
-                    }
-                    changeFragment(selectedFragment, selectedFragmentTag);
-                    return true;
+                public void run() {
+                    backPressedOnce = false;
                 }
-            };
-
-    private void changeFragment(Fragment newFragment, String tag) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        Fragment currentFragment = fragmentManager.getPrimaryNavigationFragment();
-        if (currentFragment != null) {
-            fragmentTransaction.hide(currentFragment);
-        }
-
-        Fragment fragmentTemp = fragmentManager.findFragmentByTag(tag);
-        if (fragmentTemp == null) {
-            fragmentTemp = newFragment;
-            fragmentTransaction.add(R.id.container, fragmentTemp, tag);
+            }, 2000);
         } else {
-            fragmentTransaction.show(fragmentTemp);
+            super.onBackPressed();
         }
-
-        if (!(newFragment instanceof HomeFragment) && !(newFragment instanceof CatalogFragment)
-                && !(newFragment instanceof StatsFragment)) {
-            fragmentTransaction.addToBackStack(null);
-            selectedFragment = fragmentTemp;
-        }
-
-        fragmentTransaction.setPrimaryNavigationFragment(fragmentTemp);
-        fragmentTransaction.setReorderingAllowed(true);
-        fragmentTransaction.commit();
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("selectedFragmentTag", selectedFragmentTag);
-    }
-
-    @Override
-    public void createCatalogFragment(Fragment fragment, String tag) {
-        changeFragment(fragment, tag);
     }
 }
