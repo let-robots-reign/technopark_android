@@ -11,7 +11,7 @@ public class EGESubject implements Serializable {
     private boolean isPassed;
     private int img;
 
-    public EGESubject(String name, int img_id) {
+    private EGESubject(String name, int img_id) {
         this.name = name;
         this.img = img_id;
         isPassed = false;
@@ -42,22 +42,20 @@ public class EGESubject implements Serializable {
     }
 
     public static ArrayList<EGESubject> LoadEgeSubjects(Context context) {
-
-        ArrayList<EGESubject> res = new ArrayList<EGESubject>();
+        ArrayList<EGESubject> res = new ArrayList<>();
         String[] str = context.getResources().getStringArray(R.array.subjects);
 
-        int[] drawables= new int[str.length];
-      drawables[0]=R.drawable.russian;
-      drawables[1]=R.drawable.math;
-      drawables[2]=R.drawable.informatics;
-      drawables[3]=R.drawable.physics;
-      drawables[4]=R.drawable.chemistry;
-      drawables[5]=R.drawable.biology;
-      drawables[6]=R.drawable.social;
-      drawables[7]=R.drawable.english;
-        int i=0;
+        int[] drawables = new int[str.length];
+        drawables[0] = R.drawable.russian;
+        drawables[1] = R.drawable.math;
+        drawables[2] = R.drawable.informatics;
+        drawables[3] = R.drawable.physics;
+        drawables[4] = R.drawable.chemistry;
+        drawables[5] = R.drawable.biology;
+        drawables[6] = R.drawable.social;
+        drawables[7] = R.drawable.english;
+        int i = 0;
         for (String s : str) {
-
             res.add(new EGESubject(s, drawables[i]));
             i++;
         }

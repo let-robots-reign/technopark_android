@@ -64,7 +64,6 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
         }
 
         model = ViewModelProviders.of(this).get(LASecondViewModel.class);
-        model.deleteAllPoints();
     }
 
     @Nullable
@@ -84,7 +83,6 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             recyclerView.setLayoutManager(new GridLayoutManager(appContext, 2, RecyclerView.VERTICAL, false));
         }
-
 
         return rootView;
     }
@@ -124,7 +122,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
         }
 
         if (!points.isEmpty()) {
-            model.insertAll(points);
+            model.replaceAllPoints(points);
         }
 
         return true;

@@ -65,41 +65,11 @@ public class DbRepository {
         return pointsDao.getAllPoints();
     }
 
-    public void insertPoints(final ExamPoints examPoints) {
+    public void replaceAllPoints(final List<ExamPoints> newPoints) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                pointsDao.insertPoints(examPoints);
-            }
-        });
-        thread.start();
-    };
-
-    public void insertAllPoints(final List<ExamPoints> allExamPoints) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                pointsDao.insertAllPoints(allExamPoints);
-            }
-        });
-        thread.start();
-    };
-
-    public void deletePoints(final ExamPoints examPoints) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                pointsDao.deletePoints(examPoints);
-            }
-        });
-        thread.start();
-    }
-
-    public void deleteAllPoints() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                pointsDao.deleteAllPoints();
+                pointsDao.replaceAllPoints(newPoints);
             }
         });
         thread.start();
@@ -111,21 +81,11 @@ public class DbRepository {
         return chosenProgramDao.getAllChosenPrograms();
     }
 
-    public void insertAllPrograms(final List<ChosenProgram> allNewPrograms) {
+    public void replaceAllPrograms(final List<ChosenProgram> newPrograms) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                chosenProgramDao.insertAllPrograms(allNewPrograms);
-            }
-        });
-        thread.start();
-    }
-
-    public void deleteAllChosenPrograms() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                chosenProgramDao.deleteAllChosenPrograms();
+                chosenProgramDao.replaceAllPrograms(newPrograms);
             }
         });
         thread.start();

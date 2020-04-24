@@ -9,7 +9,11 @@
         android:id="@+id/home_tab"
         android:name="com.edumage.bmstu_enrollee.Fragments.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/home_screen"/>
+        tools:layout="@layout/home_screen">
+        <action
+            android:id="@+id/action_home_tab_self"
+            app:destination="@id/home_tab" />
+    </fragment>
     <fragment
         android:id="@+id/stats_tab"
         android:name="com.edumage.bmstu_enrollee.Fragments.StatsFragment"

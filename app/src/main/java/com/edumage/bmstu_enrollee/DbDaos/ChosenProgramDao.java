@@ -7,26 +7,28 @@ import java.util.List;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 @Dao
-public interface ChosenProgramDao {
+public abstract class ChosenProgramDao {
 
     @Query("SELECT * FROM chosen_programs")
-    List<ChosenProgram> getAllChosenPrograms();
+    public abstract List<ChosenProgram> getAllChosenPrograms();
 
     @Query("SELECT program_current_score FROM chosen_programs WHERE program_name = :programName")
-    int getCurrentPassingScore(String programName);
+    public abstract int getCurrentPassingScore(String programName);
 
-    @Insert
-    void insertProgram(ChosenProgram newProgram);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertAllPrograms(List<ChosenProgram> allPrograms);
 
-    @Insert
-    void insertAllPrograms(List<ChosenProgram> allNewPrograms);
-
-    @Delete
-    void deleteProgram(ChosenProgram program);
+    @Transaction
+    public void replaceAllPrograms(List<ChosenProgram> newPrograms) {
+        deleteAllChosenPrograms();
+        insertAllPrograms(newPrograms);
+    }
 
     @Query("DELETE FROM chosen_programs")
-    void deleteAllChosenPrograms();
+    public abstract void deleteAllChosenPrograms();
 }

@@ -22,11 +22,7 @@ public class LAThirdViewModel extends AndroidViewModel {
         return repository.getAllChosenPrograms();
     }
 
-    public void insertAllPrograms(final List<ChosenProgram> allNewPrograms) {
-        repository.insertAllPrograms(allNewPrograms);
-    }
-
-    public void deleteAllChosenPrograms() {
-        repository.deleteAllChosenPrograms();
+    public void replaceAllPrograms(List<ChosenProgram> newPrograms) {
+        repository.replaceAllPrograms(newPrograms);
     }
 }

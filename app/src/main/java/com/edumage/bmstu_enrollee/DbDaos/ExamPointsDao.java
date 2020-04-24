@@ -3,7 +3,9 @@ package com.edumage.bmstu_enrollee.DbDaos;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
@@ -11,26 +13,20 @@ import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import java.util.List;
 
 @Dao
-public interface ExamPointsDao {
+public abstract class ExamPointsDao {
 
     @Query("SELECT * FROM exam_points")
-    List<ExamPoints> getAllPoints();
+    public abstract List<ExamPoints> getAllPoints();
 
-    @Query("SELECT exam_score FROM exam_points WHERE exam_name = :examName")
-    int getScore(String examName);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertAllPoints(List<ExamPoints> allPoints);
 
-    @Insert
-    void insertPoints(ExamPoints examPoints);
-
-    @Insert
-    void insertAllPoints(List<ExamPoints> allPoints);
-
-    @Update
-    void updatePoints(ExamPoints examPoints);
-
-    @Delete
-    void deletePoints(ExamPoints examPoints);
+    @Transaction
+    public void replaceAllPoints(List<ExamPoints> newPoints) {
+        deleteAllPoints();
+        insertAllPoints(newPoints);
+    }
 
     @Query("DELETE FROM exam_points")
-    void deleteAllPoints();
+    public abstract void deleteAllPoints();
 }

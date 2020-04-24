@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="6dp"
     android:layout_margin="5dp"
     android:id="@id/discipline_card"
@@ -31,9 +32,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_regular"
-        android:text="Проектирование, производство и эксплуатация ракет и ракетно-космических комплексов "
+        tools:text="Проектирование, производство и эксплуатация ракет и ракетно-космических комплексов "
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/d_checkBox"
@@ -53,8 +54,7 @@
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/discipline_name"
-        android:fontFamily="@font/roboto_regular"
-        />
+        android:fontFamily="@font/roboto_regular" />
 
     <TextView
         android:id="@+id/education_form"
@@ -63,7 +63,8 @@
         android:fontFamily="@font/roboto_regular"
         android:text="Специалитет"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/d_checkBox"
         app:layout_constraintHorizontal_bias="0.88"

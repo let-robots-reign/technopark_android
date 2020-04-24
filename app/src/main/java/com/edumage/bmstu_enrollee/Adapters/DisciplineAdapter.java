@@ -1,6 +1,7 @@
 package com.edumage.bmstu_enrollee.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,7 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
             card = itemView.findViewById(R.id.discipline_card);
             checkBox = itemView.findViewById(R.id.d_checkBox);
             this.context = context;
+
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -109,6 +111,12 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
         void setDiscipline(Discipline d) {
             discipline = d;
             name.setText(d.getName());
+            // слишком длинные названия программ не влезают на карточку
+            if (d.getName().length() > 50) {
+                name.setTextSize(14);
+            } else {
+                name.setTextSize(16);
+            }
             number.setText(String.valueOf(d.getNumber()));
             form.setText(d.getForm());
             enabled = d.getStatus();

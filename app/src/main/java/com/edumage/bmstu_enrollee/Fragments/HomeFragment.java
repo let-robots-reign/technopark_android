@@ -3,11 +3,9 @@ package com.edumage.bmstu_enrollee.Fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,6 +39,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ExamScoresAdapter examScoresAdapter;
     private DocumentStepsAdapter stepsAdapter;
     private List<DocumentStep> steps;
+    private RecyclerView examResults;
 
     private List<TextView> scoresTexts;
     private List<ProgressBar> progressBars;
@@ -168,7 +167,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         TextView name = rootView.findViewById(R.id.user_name);
         name.setText(model.getUserInfo().getUserName());
 
-        RecyclerView examResults = rootView.findViewById(R.id.exam_scores_list);
+        examResults = rootView.findViewById(R.id.exam_scores_list);
         examResults.setLayoutManager(new LinearLayoutManager(getActivity(),
                 RecyclerView.VERTICAL, false));
         examResults.setAdapter(examScoresAdapter);
@@ -229,6 +228,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         });
 
         return rootView;
+    }
+
+    void notifyEGEChanged() {
+        createScoresList();
+        examResults.setAdapter(examScoresAdapter);
     }
 
     private int getCurrentStepPosition() {
