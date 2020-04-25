@@ -2,12 +2,16 @@ package com.edumage.bmstu_enrollee.ParsingRepo;
 
 import android.util.Log;
 
+import com.edumage.bmstu_enrollee.NewsItem;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewsParsing {
     private final String BASE_URL = "https://bmstu.ru";
@@ -20,8 +24,9 @@ public class NewsParsing {
         return instance;
     }
 
-    public void parseNewsList() throws IOException {
+    public List<NewsItem> parseNewsList() throws IOException {
         final String URL = "https://bmstu.ru/mstu/info/bauman-news/";
+        List<NewsItem> news = new ArrayList<>();
         Document doc = Jsoup.connect(URL).get();
 
         Elements items = doc.select("div.col-md-3");
@@ -32,12 +37,15 @@ public class NewsParsing {
             title = item.select("a").last().text();
             link = item.select("a").first();
             linkURL = BASE_URL + link.attr("href");
-            if (link.select("img") != null) {
+            if (link.select("img").size() != 0) {
                 imageURL = BASE_URL + link.select("img").attr("src");
             } else {
+                Log.d("PARSING", "parseNewsList: null image");
                 imageURL = null;
             }
+            news.add(new NewsItem(imageURL, title));
         }
+        return news;
     }
 
     public void parseNewsItem(final String URL) throws IOException {
