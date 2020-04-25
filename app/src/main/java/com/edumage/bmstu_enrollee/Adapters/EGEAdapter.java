@@ -6,6 +6,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,6 +55,7 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
         EditText editText;
         CardView card;
         EGESubject subject;
+        CheckBox checkBox;
         boolean enabled;
 
         private void setSubject(EGESubject subject) {
@@ -84,13 +87,15 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
             card = itemView.findViewById(R.id.ege_card);
             textView = itemView.findViewById(R.id.ege_name);
             editText = itemView.findViewById(R.id.ege_score);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            checkBox = itemView.findViewById(R.id.ege_checkBox);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View view) {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    enabled = isChecked;
                     if (enabled) {
-                        setDisabled();
-                    } else {
                         setEnabled();
+                    } else {
+                        setDisabled();
                     }
                 }
             });
@@ -114,9 +119,6 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
                         Toast.makeText(context, R.string.alert_ege, Toast.LENGTH_SHORT).show();
                         s.clear();
                     }
-                    if (s.toString().length() == 0) {
-                        editText.setText("0");
-                    }
                     UpdateSubject();
                 }
             });
@@ -125,15 +127,15 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
         private void setEnabled() {
             editText.setVisibility(View.VISIBLE);
             enabled = true;
-            card.setCardBackgroundColor(imageView.getResources().getColor(R.color.darkGreen));
             UpdateSubject();
+            checkBox.setChecked(enabled);
         }
 
         private void setDisabled() {
-            card.setCardBackgroundColor(imageView.getResources().getColor(R.color.colorPrimary));
             editText.setVisibility(View.INVISIBLE);
             enabled = false;
             UpdateSubject();
+            checkBox.setChecked(enabled);
         }
     }
 }

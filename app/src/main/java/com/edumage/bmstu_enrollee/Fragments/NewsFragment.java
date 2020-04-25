@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Toolbar;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,9 +22,15 @@ import java.util.List;
 
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
 
+import androidx.lifecycle.ViewModelProviders;
+
+import com.edumage.bmstu_enrollee.R;
+import com.edumage.bmstu_enrollee.ViewModels.NewsViewModel;
+
 public class NewsFragment extends Fragment {
 
     private NewsAdapter adapter;
+    //private NewsViewModel model;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +43,10 @@ public class NewsFragment extends Fragment {
 
         adapter = new NewsAdapter(cardsNews);
 
+        /*
+        model = ViewModelProviders.of(this).get(NewsViewModel.class);
+        model.parseNewsList();
+        */
     }
 
     @Nullable
@@ -48,6 +60,18 @@ public class NewsFragment extends Fragment {
         RVnews.setAdapter(adapter);
         RVnews.setHasFixedSize(true);
 
+        /*
+        View rootView = inflater.inflate(R.layout.news_screen, container, false);
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
+        toolbar.setTitle("Новости");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().onBackPressed();
+            }
+        });
+        */
         return rootView;
     }
 }

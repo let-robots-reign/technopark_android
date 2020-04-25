@@ -9,12 +9,17 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
 import com.edumage.bmstu_enrollee.R;
+import com.edumage.bmstu_enrollee.ViewModels.LAFirstViewModel;
 import com.edumage.bmstu_enrollee.WelcomeActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+
+import java.util.Calendar;
 
 // LA means LaunchActivity
 public class LAFragmentFirst extends Fragment implements WelcomeActivity.CompletableFragment {
@@ -27,8 +32,7 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
     private String name;
     private String date;
 
-    public LAFragmentFirst() {
-    }
+    private LAFirstViewModel model;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +41,13 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
         if (savedInstanceState != null) {
             name = savedInstanceState.getString(TAG_NAME);
             date = savedInstanceState.getString(TAG_DATE);
+        } else {
+            name = "";
+            date = "";
         }
+
+        model = ViewModelProviders.of(this).get(LAFirstViewModel.class);
+        model.deleteAllInfo();
     }
 
     @Nullable
@@ -47,6 +57,10 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
 
         editName = rootView.findViewById(R.id.edittextName);
         editDate = rootView.findViewById(R.id.edittextdate);
+
+        editName.setText(name);
+        editDate.setText(date);
+
         editDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,24 +73,29 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(TAG_NAME, editName.getText().toString());
-        outState.putString(TAG_NAME, editDate.getText().toString());
+        if (editName != null) outState.putString(TAG_NAME, editName.getText().toString());
+        if (editDate != null) outState.putString(TAG_DATE, editDate.getText().toString());
     }
 
     @Override
     public boolean isComplete() {
-        if (editName.getText().toString().length() == 0) {
+        name = editName.getText().toString();
+        date = editDate.getText().toString();
+        if (name.length() == 0) {
             Toast.makeText(getContext(),
                     getContext().getResources().getString(R.string.alert_name),
                     Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (editDate.getText().toString().length() == 0) {
+        if (date.length() == 0) {
             Toast.makeText(getActivity(),
                     getActivity().getResources().getString(R.string.alert_date),
                     Toast.LENGTH_SHORT).show();
             return false;
         }
+        UserInfo info = new UserInfo(name, date);
+        model.insertUserInfo(info);
+
         return true;
     }
 
@@ -90,7 +109,7 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
                                     (getDateComponent(monthOfYear + 1)) + "." + year;
                             editDate.setText(editTextDateParam);
                         }
-                    }, 2020, 7, 1);
+                    }, Calendar.getInstance().get(Calendar.YEAR) - 18, 7, 1);
             datePickerDialog.show();
         }
     }

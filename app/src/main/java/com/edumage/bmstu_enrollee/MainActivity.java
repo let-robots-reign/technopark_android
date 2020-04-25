@@ -1,62 +1,79 @@
 package com.edumage.bmstu_enrollee;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Toast;
 
-import com.edumage.bmstu_enrollee.Fragments.CatalogFragment;
-import com.edumage.bmstu_enrollee.Fragments.HomeFragment;
-import com.edumage.bmstu_enrollee.Fragments.StatsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-    private Fragment selectedFragment = null;
+    private BottomNavigationView bottomNavigation;
+    private NavController navController;
+    private boolean backPressedOnce = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // test feature here (testing git)
-        int a = 10;
         setContentView(R.layout.activity_main);
-
-        BottomNavigationView bottomNavigation = findViewById(R.id.bottom_nav);
-        bottomNavigation.setOnNavigationItemSelectedListener(navListener);
-        // keep selected fragment after rotation
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new HomeFragment()).commit();
-        }
+        setupFragments();
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
+    private void setupFragments() {
+        navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment);
+        bottomNavigation = findViewById(R.id.bottom_nav);
+        NavigationUI.setupWithNavController(bottomNavigation, navController);
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                int id = destination.getId();
+                if (id != R.id.home_tab && id != R.id.catalog_tab && id != R.id.stats_tab) {
+                    // hide bottomNav on every fragment except for main ones
+                    hideBottomNav();
+                } else {
+                    showBottomNav();
+                }
+            }
+        });
+    }
+
+    public void hideBottomNav() {
+        bottomNavigation.setVisibility(View.GONE);
+    }
+
+    public void showBottomNav() {
+        bottomNavigation.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        NavDestination destination = navController.getCurrentDestination();
+        if (destination != null &&
+                destination.getId() == navController.getGraph().getStartDestination()) {
+            if (backPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+            backPressedOnce = true;
+            Toast.makeText(this, getResources().getString(R.string.press_back_again),
+                    Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
                 @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.home_tab:
-                            if (!(selectedFragment instanceof HomeFragment)) {
-                                selectedFragment = new HomeFragment();
-                            }
-                            break;
-                        case R.id.catalog_tab:
-                            if (!(selectedFragment instanceof CatalogFragment)) {
-                                selectedFragment = new CatalogFragment();
-                            }
-                            break;
-                        case R.id.stats_tab:
-                            if (!(selectedFragment instanceof StatsFragment)) {
-                                selectedFragment = new StatsFragment();
-                            }
-                            break;
-                    }
-                    if (selectedFragment != null) {
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container, selectedFragment).commit();
-                    }
-                    return true;
+                public void run() {
+                    backPressedOnce = false;
+                }
+            }, 2000);
+        } else {
+            super.onBackPressed();
         }
-    };
+    }
 }

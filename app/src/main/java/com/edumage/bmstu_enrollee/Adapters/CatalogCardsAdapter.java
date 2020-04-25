@@ -16,19 +16,29 @@ import java.util.List;
 
 public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapter.CatalogViewHolder> {
     private List<CatalogCard> cards;
+    private OnCardListener onCardListener;
 
-    public CatalogCardsAdapter(List<CatalogCard> list) {
+    public CatalogCardsAdapter(List<CatalogCard> list, OnCardListener cardListener) {
         cards = list;
+        onCardListener = cardListener;
     }
 
-    class CatalogViewHolder extends RecyclerView.ViewHolder {
+    static class CatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView title;
         private ImageView image;
+        private OnCardListener onCardListener;
 
-        CatalogViewHolder(@NonNull View itemView) {
+        CatalogViewHolder(@NonNull View itemView, OnCardListener cardListener) {
             super(itemView);
             title = itemView.findViewById(R.id.catalog_text);
             image = itemView.findViewById(R.id.catalog_image);
+            onCardListener = cardListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onCardListener.onCardClick(getAdapterPosition());
         }
     }
 
@@ -36,7 +46,7 @@ public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapte
     @Override
     public CatalogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.catalog_card, parent, false);
-        return new CatalogViewHolder(view);
+        return new CatalogViewHolder(view, onCardListener);
     }
 
     @Override
@@ -48,5 +58,9 @@ public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapte
     @Override
     public int getItemCount() {
         return cards.size();
+    }
+
+    public interface OnCardListener {
+        void onCardClick(int position);
     }
 }

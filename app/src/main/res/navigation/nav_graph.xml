@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/home_tab">
+
+    <fragment
+        android:id="@+id/home_tab"
+        android:name="com.edumage.bmstu_enrollee.Fragments.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/home_screen">
+        <action
+            android:id="@+id/action_home_tab_self"
+            app:destination="@id/home_tab" />
+    </fragment>
+    <fragment
+        android:id="@+id/stats_tab"
+        android:name="com.edumage.bmstu_enrollee.Fragments.StatsFragment"
+        android:label="StatsFragment"
+        tools:layout="@layout/stats_screen"/>
+    <fragment
+        android:id="@+id/catalog_tab"
+        android:name="com.edumage.bmstu_enrollee.Fragments.CatalogFragment"
+        android:label="CatalogFragment"
+        tools:layout="@layout/catalog_screen">
+        <action
+            android:id="@+id/action_catalogFragment_to_newsFragment"
+            app:destination="@id/newsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.edumage.bmstu_enrollee.Fragments.NewsFragment"
+        android:label="NewsFragment"
+        tools:layout="@layout/news_screen" >
+        <action
+            android:id="@+id/action_newsFragment_to_catalog_tab"
+            app:destination="@id/catalog_tab"/>
+    </fragment>
+</navigation>

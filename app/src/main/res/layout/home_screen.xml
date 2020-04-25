@@ -59,9 +59,10 @@
                         android:gravity="center"/>
 
                     <TextView
+                        android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Зотов Алексей Олегович"
+                        tools:text="Зотов Алексей Олегович"
                         android:textColor="@android:color/black"
                         android:textSize="14sp"
                         android:fontFamily="@font/daysone"
@@ -88,56 +89,49 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingBottom="4dp"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/state_exam_points"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/cuprum"/>
+                    android:orientation="horizontal"
+                   >
+                    <TextView
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="4dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/state_exam_points"
+                        android:textColor="@android:color/black"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/cuprum"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:textAlignment="viewEnd"
+                        android:layout_height="wrap_content"
+                        android:text="@string/edit"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        android:fontFamily="@font/cuprum"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:id="@+id/textView_edit_ege"/>
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:background="@color/divider_background"
                     android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"/>
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"/>
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/exam_scores_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:layout_marginBottom="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Математика    100"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:layout_marginBottom="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Русский язык    91"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:layout_marginBottom="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Информатика    94"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"/>
-
-                </LinearLayout>
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
@@ -154,24 +148,53 @@
             android:layout_margin="8dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp"
-            app:contentPaddingTop="8dp"
-            app:contentPaddingBottom="8dp">
+            app:contentPaddingTop="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
-                    android:paddingBottom="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/current_contest"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/cuprum"/>
+                    android:paddingBottom="4dp">
+
+                    <TextView
+                        android:id="@+id/current_contest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/refresh"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/current_contest"
+                        android:textColor="@android:color/black"
+                        android:textSize="17sp"
+                        android:fontFamily="@font/cuprum"/>
+
+                    <TextView
+                        android:id="@+id/last_reload"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/last_reload"
+                        android:textSize="12sp"
+                        android:textStyle="italic"
+                        android:fontFamily="@font/cuprum"
+                        android:layout_below="@id/current_contest"
+                        android:layout_toStartOf="@id/refresh"/>
+
+                    <ImageView
+                        android:id="@+id/refresh"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="6dp"
+                        app:srcCompat="@drawable/ic_refresh"
+                        android:layout_alignParentEnd="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"/>
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -179,6 +202,19 @@
                     android:background="@color/divider_background"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:textAlignment="viewEnd"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit"
+                    android:textSize="12sp"
+                    android:textStyle="italic"
+                    android:fontFamily="@font/cuprum"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:id="@+id/textView_edit_disciplines" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -195,34 +231,38 @@
                             android:id="@+id/program1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:maxWidth="200dp"
-                            android:text="09.03.04 Программная инженерия"
+                            tools:text="09.03.04 Программная инженерия"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/cuprum"
-                            android:textStyle="italic"/>
+                            android:textStyle="italic"
+                            android:layout_toStartOf="@id/score1"
+                            android:layout_alignParentStart="true"/>
 
                         <ProgressBar
                             android:id="@+id/progress1"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_toStartOf="@id/ic1"
                             android:layout_marginEnd="6dp"
-                            android:indeterminateTint="@color/colorSecondary"/>
-
+                            android:layout_toStartOf="@id/ic1"
+                            android:indeterminate="true"
+                            android:indeterminateTint="@color/colorSecondary"
+                            android:indeterminateTintMode="src_in"
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/score1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="265"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="12dp"
+                            android:layout_toStartOf="@id/ic1"
+                            android:fontFamily="@font/cuprum"
+                            android:text="@string/placeholder_score"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
-                            android:fontFamily="@font/cuprum"
                             android:textStyle="bold"
-                            android:layout_toStartOf="@id/ic1"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginEnd="12dp"/>
+                            tools:text="265" />
 
                         <ImageView
                             android:id="@+id/ic1"
@@ -245,20 +285,24 @@
                             android:id="@+id/program2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:maxWidth="200dp"
-                            android:text="09.03.03 Прикладная информатика"
+                            android:layout_alignParentStart="true"
+                            android:layout_toStartOf="@id/score2"
+                            android:fontFamily="@font/cuprum"
+                            tools:text="09.03.03 Прикладная информатика"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
-                            android:fontFamily="@font/cuprum"
-                            android:textStyle="italic"/>
+                            android:textStyle="italic" />
 
                         <ProgressBar
                             android:id="@+id/progress2"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_toStartOf="@id/ic2"
                             android:layout_marginEnd="6dp"
-                            android:indeterminateTint="@color/colorSecondary"/>
+                            android:layout_toStartOf="@id/ic2"
+                            android:indeterminate="true"
+                            android:indeterminateTint="@color/colorSecondary"
+                            android:indeterminateTintMode="src_in"
+                            android:visibility="invisible" />
 
                         <TextView
                             android:id="@+id/score2"
@@ -271,7 +315,8 @@
                             android:textStyle="bold"
                             android:layout_toStartOf="@id/ic2"
                             android:layout_marginTop="2dp"
-                            android:layout_marginEnd="12dp"/>
+                            android:layout_marginEnd="12dp"
+                            android:text="@string/placeholder_score"/>
 
                         <ImageView
                             android:id="@+id/ic2"
@@ -293,12 +338,13 @@
                             android:id="@+id/program3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:maxWidth="200dp"
-                            android:text="09.03.01 Информатика и вычислительная техника"
+                            android:fontFamily="@font/cuprum"
+                            tools:text="09.03.01 Информатика и вычислительная техника"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
-                            android:fontFamily="@font/cuprum"
-                            android:textStyle="italic"/>
+                            android:textStyle="italic"
+                            android:layout_toStartOf="@id/score3"
+                            android:layout_alignParentStart="true"/>
 
                         <ProgressBar
                             android:id="@+id/progress3"
@@ -306,7 +352,10 @@
                             android:layout_height="24dp"
                             android:layout_marginEnd="6dp"
                             android:layout_toStartOf="@id/ic3"
-                            android:indeterminateTint="@color/colorSecondary"/>
+                            android:indeterminateTintMode="src_in"
+                            android:indeterminate="true"
+                            android:indeterminateTint="@color/colorSecondary"
+                            android:visibility="invisible"/>
 
                         <TextView
                             android:id="@+id/score3"
@@ -319,7 +368,8 @@
                             android:textStyle="bold"
                             android:layout_toStartOf="@id/ic3"
                             android:layout_marginTop="2dp"
-                            android:layout_marginEnd="12dp"/>
+                            android:layout_marginEnd="12dp"
+                            android:text="@string/placeholder_score"/>
 
                         <ImageView
                             android:id="@+id/ic3"
