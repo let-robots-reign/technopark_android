@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.NewsItem;
 import com.edumage.bmstu_enrollee.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -33,7 +34,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         holder.textOfNews.setText(cardsNews.get(position).getTextNews());
-        holder.imageOfNews.setImageResource(cardsNews.get(position).getImgNews());
+        //holder.imageOfNews.setImageResource(cardsNews.get(position).getImgURL());
+        String newsURL = cardsNews.get(position).getImgURL();
+        if (newsURL != null) {
+            Picasso.get().load(newsURL).into(holder.imageOfNews);
+        } else {
+            holder.imageOfNews.setImageResource(R.drawable.no_image);
+        }
     }
 
     @Override

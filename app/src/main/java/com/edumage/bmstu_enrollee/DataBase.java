@@ -13,7 +13,7 @@ import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
 
-@Database(entities = {UserInfo.class, ExamPoints.class, ChosenProgram.class}, version = 1)
+@Database(entities = {UserInfo.class, ExamPoints.class, ChosenProgram.class}, version = 1, exportSchema = false)
 public abstract class DataBase extends RoomDatabase {
 
     private static DataBase instance;
