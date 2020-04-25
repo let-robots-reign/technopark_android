@@ -1,5 +1,7 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -21,6 +24,7 @@ import java.util.List;
 
 public class CatalogFragment extends Fragment {
     private CatalogCardsAdapter adapter;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class CatalogFragment extends Fragment {
         cards.add(new CatalogCard("Подача документов", R.drawable.application));
         cards.add(new CatalogCard("О приложении", R.drawable.info));
         adapter = new CatalogCardsAdapter(cards);
+
     }
 
     @Nullable
@@ -54,4 +59,6 @@ public class CatalogFragment extends Fragment {
         list.setHasFixedSize(true);
         return rootView;
     }
+
+
 }
