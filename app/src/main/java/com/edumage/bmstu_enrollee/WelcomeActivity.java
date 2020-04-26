@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -131,6 +132,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void goToMainActivity() {
         // передача данных
+        SharedPreferences preferences = getSharedPreferences("APP_PREFERENCES", MODE_PRIVATE);
+        preferences.edit().putBoolean("FIRST_LAUNCH", false).apply();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();

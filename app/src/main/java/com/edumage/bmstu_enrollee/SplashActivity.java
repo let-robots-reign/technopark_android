@@ -17,16 +17,12 @@ public class SplashActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
-        //for testing main activity set it to false again
-        //preferences.edit().putBoolean(FIRST_LAUNCH, false).apply();
-
-        if (!preferences.getBoolean(FIRST_LAUNCH, true)) {
-            Intent intent = new Intent(this, MainActivity.class);
+        if (preferences.getBoolean(FIRST_LAUNCH, true)) {
+            Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
             finish();
         } else {
-            preferences.edit().putBoolean(FIRST_LAUNCH, false).apply();
-            Intent intent = new Intent(this, WelcomeActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
         }

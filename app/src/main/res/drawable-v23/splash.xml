@@ -4,9 +4,7 @@
 
     <item android:drawable="@android:color/white"/>
 
-    <item>
-        <bitmap android:src="@drawable/bmstu_icon"
-            android:gravity="center"/>
-    </item>
+    <item android:drawable="@drawable/gerb"
+        android:gravity="center"/>
 
 </layer-list>
