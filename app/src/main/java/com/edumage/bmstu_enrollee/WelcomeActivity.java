@@ -42,16 +42,12 @@ public class WelcomeActivity extends AppCompatActivity {
         boolean isComplete();
     }
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_launch);
 
-        backgroundView  =  findViewById(R.id.surface_view);
-
-
+        backgroundView = findViewById(R.id.surface_view);
 
         nextButton = findViewById(R.id.button_next);
         prevButton = findViewById(R.id.button_prev);
@@ -73,7 +69,6 @@ public class WelcomeActivity extends AppCompatActivity {
             if (thirdFragment == null) thirdFragment = new LAFragmentThird();
             state = savedInstanceState.getInt(STATE_KEY);
             setState(state);
-
         }
 
         fragments = new ArrayList<>();
