@@ -18,9 +18,9 @@
             <ImageView
                 android:id="@+id/news_page_img"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/exampleimgnews_1" />
+                android:layout_height="150dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/exampleimgnews_1"/>
 
             <TextView
                 android:id="@+id/news_title"

@@ -30,7 +30,6 @@ public class NewsParsing {
         Document doc = Jsoup.connect(URL).get();
 
         Elements items = doc.select("div.col-md-3");
-        Log.d("PARSING", "parseNewsList: " + items.size());
         Element link;
         String title, linkURL, imageURL;
         for (Element item : items) {
@@ -40,10 +39,9 @@ public class NewsParsing {
             if (link.select("img").size() != 0) {
                 imageURL = BASE_URL + link.select("img").attr("src");
             } else {
-                Log.d("PARSING", "parseNewsList: null image");
                 imageURL = null;
             }
-            news.add(new NewsItem(imageURL, title));
+            news.add(new NewsItem(imageURL, title, linkURL));
         }
         return news;
     }

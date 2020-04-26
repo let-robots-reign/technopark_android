@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +28,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.edumage.bmstu_enrollee.ViewModels.NewsViewModel;
 
-public class NewsFragment extends Fragment {
+public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener {
 
     private NewsAdapter adapter;
     private NewsViewModel model;
@@ -38,11 +40,11 @@ public class NewsFragment extends Fragment {
 
         model = ViewModelProviders.of(this).get(NewsViewModel.class);
         model.parseNewsList();
-        adapter = new NewsAdapter(model.getNewsList().getValue());
+        adapter = new NewsAdapter(model.getNewsList().getValue(), this);
         model.getNewsList().observe(this, new Observer<List<NewsItem>>() {
             @Override
             public void onChanged(List<NewsItem> newsItems) {
-                adapter = new NewsAdapter(model.getNewsList().getValue());
+                adapter = new NewsAdapter(model.getNewsList().getValue(), NewsFragment.this);
                 RVnews.setAdapter(adapter);
             }
         });
@@ -68,5 +70,15 @@ public class NewsFragment extends Fragment {
             }
         });
         return rootView;
+    }
+
+    @Override
+    public void onNewsClick(String title, String imageURL, String linkURL) {
+        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        args.putString("imageURL", imageURL);
+        args.putString("linkURL", linkURL);
+        navController.navigate(R.id.action_newsFragment_to_newsItemFragment, args);
     }
 }

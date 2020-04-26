@@ -2,18 +2,24 @@ package com.edumage.bmstu_enrollee;
 
 public class NewsItem {
     private String imgURL;
-    private String textNews;
+    private String title;
+    private String linkURL;
 
-    public NewsItem(String img, String text){
+    public NewsItem(String img, String text, String link){
         imgURL = img;
-        textNews = text;
+        title = text;
+        linkURL = link;
     }
 
     public String getImgURL() {
         return imgURL;
     }
 
-    public String getTextNews() {
-        return textNews;
+    public String getTitle() {
+        return title;
+    }
+
+    public String getLinkURL() {
+        return linkURL;
     }
 }
