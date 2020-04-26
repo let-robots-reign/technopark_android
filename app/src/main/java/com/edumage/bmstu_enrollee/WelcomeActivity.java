@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -25,7 +26,8 @@ public class WelcomeActivity extends AppCompatActivity {
     LAFragmentThird thirdFragment;
     Button nextButton;
     Button prevButton;
-    ImageView imageBackground;
+    FrameLayout backgroundFrame;
+    SurfaceViewBackground backgroundView;
     ArrayList<CompletableFragment> fragments;
     private int state = 1;
 
@@ -45,8 +47,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_launch);
 
-        imageBackground = findViewById(R.id.image_background);
-        Glide.with(this).asGif().load(R.drawable.background_test).into(imageBackground);
+        backgroundView = findViewById(R.id.surface_view);
 
         nextButton = findViewById(R.id.button_next);
         prevButton = findViewById(R.id.button_prev);
@@ -68,7 +69,6 @@ public class WelcomeActivity extends AppCompatActivity {
             if (thirdFragment == null) thirdFragment = new LAFragmentThird();
             state = savedInstanceState.getInt(STATE_KEY);
             setState(state);
-
         }
 
         fragments = new ArrayList<>();
