@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,10 @@ import com.squareup.picasso.Picasso;
 public class NewsItemFragment extends Fragment {
     private String title = null, imageURL = null, linkURL = null;
     private TextView contentView;
+    private ProgressBar progressBar;
+    private ImageView noConnection;
+
+    private boolean connected;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,11 +37,30 @@ public class NewsItemFragment extends Fragment {
         }
 
         NewsViewModel model = ViewModelProviders.of(this).get(NewsViewModel.class);
+        model.getHasConnection().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    connected = true;
+                    progressBar.setVisibility(View.VISIBLE);
+                    noConnection.setVisibility(View.GONE);
+                } else {
+                    connected = false;
+                    progressBar.setVisibility(View.GONE);
+                    noConnection.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         model.parseNewsContent(linkURL);
         model.getNewsContent().observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                contentView.setText(s);
+                if ((s == null || s.length() == 0) && connected) {
+                    progressBar.setVisibility(View.VISIBLE);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                }
+                if (connected) contentView.setText(s);
             }
         });
     }
@@ -45,6 +69,9 @@ public class NewsItemFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.news_page, container, false);
+
+        progressBar = rootView.findViewById(R.id.progress);
+        noConnection = rootView.findViewById(R.id.no_connection);
         TextView titleView = rootView.findViewById(R.id.news_title);
         titleView.setText(title);
         ImageView image = rootView.findViewById(R.id.news_page_img);

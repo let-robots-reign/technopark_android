@@ -1,10 +1,13 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
@@ -31,19 +34,43 @@ import com.edumage.bmstu_enrollee.ViewModels.NewsViewModel;
 public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener {
 
     private NewsAdapter adapter;
-    private NewsViewModel model;
     private RecyclerView RVnews;
+    private ProgressBar progressBar;
+    private ImageView noConnection;
+
+    private boolean connected;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        model = ViewModelProviders.of(this).get(NewsViewModel.class);
+        final NewsViewModel model = ViewModelProviders.of(this).get(NewsViewModel.class);
         model.parseNewsList();
         adapter = new NewsAdapter(model.getNewsList().getValue(), this);
+
+        model.getHasConnection().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    connected = true;
+                    progressBar.setVisibility(View.VISIBLE);
+                    noConnection.setVisibility(View.GONE);
+                } else {
+                    connected = false;
+                    progressBar.setVisibility(View.GONE);
+                    noConnection.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         model.getNewsList().observe(this, new Observer<List<NewsItem>>() {
             @Override
             public void onChanged(List<NewsItem> newsItems) {
+                if (newsItems.size() == 0 && connected) {
+                    progressBar.setVisibility(View.VISIBLE);
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                }
                 adapter = new NewsAdapter(model.getNewsList().getValue(), NewsFragment.this);
                 RVnews.setAdapter(adapter);
             }
@@ -56,7 +83,16 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
         View rootView = inflater.inflate(R.layout.news, container, false);
 
         RVnews = rootView.findViewById(R.id.RVnews);
-        RVnews.setLayoutManager(new GridLayoutManager(getContext(), 2, VERTICAL, false));
+        progressBar = rootView.findViewById(R.id.progress);
+        noConnection = rootView.findViewById(R.id.no_connection);
+        int orientation = getResources().getConfiguration().orientation;
+        int columns;  // number of columns depends on the orientation
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            columns = 2;
+        } else {
+            columns = 3;
+        }
+        RVnews.setLayoutManager(new GridLayoutManager(getContext(), columns, VERTICAL, false));
 
         RVnews.setAdapter(adapter);
 

@@ -16,15 +16,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.edumage.bmstu_enrollee.ConnectionCheck.hasInternetAccess;
+import static com.edumage.bmstu_enrollee.ConnectionCheck.isNetworkConnected;
+
 public class NewsViewModel extends AndroidViewModel {
     private MutableLiveData<List<NewsItem>> newsList = new MutableLiveData<>();
     private MutableLiveData<String> newsContent = new MutableLiveData<>();
+    private MutableLiveData<Boolean> hasConnection = new MutableLiveData<>();
     private Handler handler = new Handler(Looper.getMainLooper());
 
     public NewsViewModel(@NonNull Application application) {
         super(application);
         newsList.setValue(new ArrayList<NewsItem>());
         newsContent.setValue(null);
+        hasConnection.setValue(true);
+    }
+
+    public MutableLiveData<Boolean> getHasConnection() {
+        return hasConnection;
     }
 
     public LiveData<List<NewsItem>> getNewsList() {
@@ -35,10 +44,15 @@ public class NewsViewModel extends AndroidViewModel {
         return newsContent;
     }
 
+    private boolean getConnectionStatus() {
+        return isNetworkConnected(getApplication()) && hasInternetAccess();
+    }
+
     public void parseNewsList() {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                final boolean conn = getConnectionStatus();
                 final List<NewsItem> news = new ArrayList<>();
                 NewsParsing newsParsing = NewsParsing.getInstance();
                 try {
@@ -49,6 +63,7 @@ public class NewsViewModel extends AndroidViewModel {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        hasConnection.setValue(conn);
                         newsList.setValue(news);
                     }
                 });
@@ -61,6 +76,7 @@ public class NewsViewModel extends AndroidViewModel {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                final boolean conn = getConnectionStatus();
                 String content = "Error: couldn't get news content";;
                 NewsParsing newsParsing = NewsParsing.getInstance();
                 try {
@@ -72,6 +88,7 @@ public class NewsViewModel extends AndroidViewModel {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
+                        hasConnection.setValue(conn);
                         newsContent.setValue(finalContent);
                     }
                 });
