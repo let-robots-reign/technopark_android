@@ -64,7 +64,8 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
+                app:met_floatingLabel="normal"
                 android:id="@+id/edittextName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,8 +75,9 @@
                 android:padding="6dp"
                 android:textSize="20sp" />
 
-            <EditText
+            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/edittextdate"
+                app:met_floatingLabel="normal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
