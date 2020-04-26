@@ -11,12 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.edumage.bmstu_enrollee.R;
+import com.edumage.bmstu_enrollee.ViewModels.NewsViewModel;
 import com.squareup.picasso.Picasso;
 
 public class NewsItemFragment extends Fragment {
     private String title = null, imageURL = null, linkURL = null;
+    private TextView contentView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,6 +30,15 @@ public class NewsItemFragment extends Fragment {
             imageURL = getArguments().getString("imageURL");
             linkURL = getArguments().getString("linkURL");
         }
+
+        NewsViewModel model = ViewModelProviders.of(this).get(NewsViewModel.class);
+        model.parseNewsContent(linkURL);
+        model.getNewsContent().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                contentView.setText(s);
+            }
+        });
     }
 
     @Nullable
@@ -40,9 +53,7 @@ public class NewsItemFragment extends Fragment {
         } else {
             image.setImageResource(R.drawable.no_image);
         }
-        TextView contentView = rootView.findViewById(R.id.news_text);
-
-
+        contentView = rootView.findViewById(R.id.news_text);
 
         return rootView;
     }

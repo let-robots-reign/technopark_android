@@ -46,17 +46,27 @@ public class NewsParsing {
         return news;
     }
 
-    public void parseNewsItem(final String URL) throws IOException {
+    public String parseNewsContent(final String URL) throws IOException {
         Document doc = Jsoup.connect(URL).get();
         StringBuilder content = new StringBuilder();
 
-        for (Element text : doc.select("div.b-newsdetail-text").select("p,span")) {
-            content.append(text.text());
+        Elements texts = doc.select("div.b-newsdetail-text").select("p,span,a");
+        String result;
+        for (Element text : texts) {
+            result = text.text().replaceAll("\u00a0", "").trim();
+            if (content.indexOf(result) == -1) {
+                content.append(result).append("\n\n");
+            }
         }
         Elements links = doc.select("div.b-newsdetail-text > div.j-marg2").select("a");
         for (Element link : links) {
-            content.append(link.text()).append(":\n");
+            result = link.text().replaceAll("\u00a0", "").trim();
+            if (content.indexOf(result) == -1) {
+                content.append(result).append(":\n");
+            }
             content.append(BASE_URL).append(link.attr("href")).append("\n");
         }
+
+        return content.toString();
     }
 }
