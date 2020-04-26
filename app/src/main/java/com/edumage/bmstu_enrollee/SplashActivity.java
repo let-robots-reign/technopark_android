@@ -20,8 +20,8 @@ public class SplashActivity extends AppCompatActivity {
         //for testing main activity set it to false again
         preferences.edit().putBoolean(LAUNCH_STATE, false).apply();
 
-        if (preferences.getBoolean(LAUNCH_STATE, false)) {
-        //if (true) {
+        //if (preferences.getBoolean(LAUNCH_STATE, false)) {
+        if (true) {
             preferences.edit().putBoolean(LAUNCH_STATE, true).apply();
 
             Intent intent = new Intent(this, MainActivity.class);

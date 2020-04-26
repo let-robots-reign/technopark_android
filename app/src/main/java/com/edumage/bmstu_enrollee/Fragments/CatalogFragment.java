@@ -1,5 +1,7 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import java.util.List;
 
 public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnCardListener {
     private CatalogCardsAdapter adapter;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

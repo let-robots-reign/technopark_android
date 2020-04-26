@@ -1,40 +1,28 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.edumage.bmstu_enrollee.Adapters.NewsAdapter;
-import com.edumage.bmstu_enrollee.NewsItem;
-import com.edumage.bmstu_enrollee.R;
-
-import java.util.List;
-
-import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
-
 import androidx.lifecycle.ViewModelProviders;
 
+import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.NewsViewModel;
+import com.squareup.picasso.Picasso;
 
-public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener {
-
-    private NewsAdapter adapter;
-    private RecyclerView RVnews;
+public class NewsItemFragment extends Fragment {
+    private String title = null, imageURL = null, linkURL = null;
+    private TextView contentView;
     private ProgressBar progressBar;
     private ImageView noConnection;
 
@@ -43,11 +31,13 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            title = getArguments().getString("title");
+            imageURL = getArguments().getString("imageURL");
+            linkURL = getArguments().getString("linkURL");
+        }
 
-        final NewsViewModel model = ViewModelProviders.of(this).get(NewsViewModel.class);
-        model.parseNewsList();
-        adapter = new NewsAdapter(model.getNewsList().getValue(), this);
-
+        NewsViewModel model = ViewModelProviders.of(this).get(NewsViewModel.class);
         model.getHasConnection().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -62,17 +52,16 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
                 }
             }
         });
-
-        model.getNewsList().observe(this, new Observer<List<NewsItem>>() {
+        model.parseNewsContent(linkURL);
+        model.getNewsContent().observe(this, new Observer<String>() {
             @Override
-            public void onChanged(List<NewsItem> newsItems) {
-                if (newsItems.size() == 0 && connected) {
+            public void onChanged(String s) {
+                if ((s == null || s.length() == 0) && connected) {
                     progressBar.setVisibility(View.VISIBLE);
                 } else {
                     progressBar.setVisibility(View.GONE);
                 }
-                adapter = new NewsAdapter(model.getNewsList().getValue(), NewsFragment.this);
-                RVnews.setAdapter(adapter);
+                if (connected) contentView.setText(s);
             }
         });
     }
@@ -80,41 +69,30 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.news, container, false);
+        View rootView = inflater.inflate(R.layout.news_page, container, false);
 
-        RVnews = rootView.findViewById(R.id.RVnews);
         progressBar = rootView.findViewById(R.id.progress);
         noConnection = rootView.findViewById(R.id.no_connection);
-        int orientation = getResources().getConfiguration().orientation;
-        int columns;  // number of columns depends on the orientation
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            columns = 2;
+        TextView titleView = rootView.findViewById(R.id.news_title);
+        titleView.setText(title);
+        ImageView image = rootView.findViewById(R.id.news_page_img);
+        if (imageURL != null) {
+            Picasso.get().load(imageURL).into(image);
         } else {
-            columns = 3;
+            image.setImageResource(R.drawable.no_image);
         }
-        RVnews.setLayoutManager(new GridLayoutManager(getContext(), columns, VERTICAL, false));
-
-        RVnews.setAdapter(adapter);
+        contentView = rootView.findViewById(R.id.news_text);
 
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
-        toolbar.setTitle("Новости");
+        toolbar.setTitle(title);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requireActivity().onBackPressed();
             }
         });
-        return rootView;
-    }
 
-    @Override
-    public void onNewsClick(String title, String imageURL, String linkURL) {
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-        Bundle args = new Bundle();
-        args.putString("title", title);
-        args.putString("imageURL", imageURL);
-        args.putString("linkURL", linkURL);
-        navController.navigate(R.id.action_newsFragment_to_newsItemFragment, args);
+        return rootView;
     }
 }
