@@ -81,6 +81,7 @@
             android:layout_height="wrap_content"
             android:text="12 апреля в 12:00 пройдет прямая трансляция на сайте abiturient.bmstu.ru с Борисом Васильевичем Падалкиным первым проректором - проректором по учебной работе, на трансляции вы узнаете больше про МГТУ им. Н.Э. Баумана, про направления подготовки и правила приема 2020."
             android:autoLink="all"
+            android:textIsSelectable="true"
             android:textColor="@color/black"
             android:textColorLink="@color/colorPrimaryDark"/>
      </androidx.cardview.widget.CardView>
