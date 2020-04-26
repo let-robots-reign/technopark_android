@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -81,6 +82,16 @@ public class NewsItemFragment extends Fragment {
             image.setImageResource(R.drawable.no_image);
         }
         contentView = rootView.findViewById(R.id.news_text);
+
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
+        toolbar.setTitle(title);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().onBackPressed();
+            }
+        });
 
         return rootView;
     }
