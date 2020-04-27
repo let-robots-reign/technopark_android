@@ -3,7 +3,6 @@ package com.edumage.bmstu_enrollee.Fragments;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
-import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.StatsFragmentViewModel;
 import com.github.mikephil.charting.animation.Easing;
@@ -151,7 +149,7 @@ public class StatsFragment extends Fragment {
             programsNames.add(getProgramShortName(program.getProgramName()));
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(),
                 android.R.layout.simple_spinner_item, programsNames);
 
         spinner.setAdapter(adapter);
@@ -161,7 +159,7 @@ public class StatsFragment extends Fragment {
         }
 
         lineChart.setNoDataText(getString(R.string.stats_screen_no_data));
-        lineChart.setNoDataTextColor(getActivity().getResources().getColor(R.color.gray));
+        lineChart.setNoDataTextColor(requireActivity().getResources().getColor(R.color.gray));
         lineChart.setHorizontalScrollBarEnabled(true);
 
         return v;

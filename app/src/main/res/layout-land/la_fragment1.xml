@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:baselineAligned="false"
@@ -22,7 +21,8 @@
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/logo_bmstu" />
 
         <TextView
             android:id="@+id/textView2"
@@ -90,7 +90,8 @@
                     android:hint="@string/welcome_hint1"
                     android:inputType="textCapWords"
                     android:padding="6dp"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:importantForAutofill="no" />
 
                 <EditText
                     android:id="@+id/edittextdate"
@@ -101,7 +102,8 @@
                     android:hint="@string/welcome_hint2"
                     android:inputType="none"
                     android:padding="6dp"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:importantForAutofill="no" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

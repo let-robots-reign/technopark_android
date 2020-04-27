@@ -77,7 +77,7 @@ public class NewsViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 final boolean conn = getConnectionStatus();
-                String content = "Error: couldn't get news content";;
+                String content = "Error: couldn't get news content";
                 NewsParsing newsParsing = NewsParsing.getInstance();
                 try {
                     content = newsParsing.parseNewsContent(URL);

@@ -10,15 +10,8 @@ public class Discipline implements Serializable {
     private String fullName;
     private String name;
     private String number;
-    private String description;
     private String form;
     private boolean enabled = false;
-    private ArrayList<ExamScore> exams;
-
-
-    private void LoadNesecaryExams(){
-        //Загрузка необходимых экзаменов дл поступления
-    }
 
     public boolean getStatus() {
         return enabled;
@@ -43,16 +36,8 @@ public class Discipline implements Serializable {
         return number;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public String getForm() {
         return form;
-    }
-
-    public void setForm(String form) {
-        this.form = form;
     }
 
     public String getFullName() {

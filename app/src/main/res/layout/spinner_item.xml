@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:id="@+id/spinner_text"
-        android:text="Математика прикладная информатика"
+        android:text="@string/name_speciality"
         android:textColor="@color/black"
         android:fontFamily="@font/roboto_regular"
         />

@@ -9,6 +9,7 @@ public class NewsItem {
         imgURL = img;
         title = text;
         linkURL = link;
+
     }
 
     public String getImgURL() {
@@ -22,4 +23,5 @@ public class NewsItem {
     public String getLinkURL() {
         return linkURL;
     }
+
 }

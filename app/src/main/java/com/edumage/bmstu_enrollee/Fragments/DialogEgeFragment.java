@@ -3,7 +3,6 @@ package com.edumage.bmstu_enrollee.Fragments;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import com.edumage.bmstu_enrollee.ViewModels.LASecondViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,10 +39,10 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
     @Override
     public void onResume() {
         super.onResume();
-        WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
+        WindowManager.LayoutParams params = Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).getAttributes();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
         params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes(params);
+        Objects.requireNonNull(getDialog().getWindow()).setAttributes(params);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
 
     // TODO: переписать этот метод
     private void LoadData() {
-        data = EGESubject.LoadEgeSubjects(getContext());
+        data = EGESubject.LoadEgeSubjects(requireContext());
     }
 
     @Override

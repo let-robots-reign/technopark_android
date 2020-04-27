@@ -1,7 +1,6 @@
 package com.edumage.bmstu_enrollee.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,13 +98,13 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
         private void setEnabled() {
             checkBox.setChecked(enabled);
             enabled = true;
-            discipline.setStatus(enabled);
+            discipline.setStatus(true);
         }
 
         private void setDisabled() {
             checkBox.setChecked(enabled);
             enabled = false;
-            discipline.setStatus(enabled);
+            discipline.setStatus(false);
         }
 
         void setDiscipline(Discipline d) {

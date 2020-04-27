@@ -83,13 +83,13 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
         date = editDate.getText().toString();
         if (name.length() == 0) {
             Toast.makeText(getContext(),
-                    getContext().getResources().getString(R.string.alert_name),
+                    requireContext().getResources().getString(R.string.alert_name),
                     Toast.LENGTH_SHORT).show();
             return false;
         }
         if (date.length() == 0) {
             Toast.makeText(getActivity(),
-                    getActivity().getResources().getString(R.string.alert_date),
+                    requireActivity().getResources().getString(R.string.alert_date),
                     Toast.LENGTH_SHORT).show();
             return false;
         }

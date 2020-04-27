@@ -92,7 +92,6 @@ public class SurfaceViewBackground extends SurfaceView implements SurfaceHolder.
             }
         }
 
-        @SuppressWarnings("unchecked")
         @Override
         public void run() {
             Canvas canvas = null;

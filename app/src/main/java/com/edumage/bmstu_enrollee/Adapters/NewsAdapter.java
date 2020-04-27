@@ -1,16 +1,12 @@
 package com.edumage.bmstu_enrollee.Adapters;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.NewsItem;
@@ -18,7 +14,6 @@ import com.edumage.bmstu_enrollee.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.Random;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 

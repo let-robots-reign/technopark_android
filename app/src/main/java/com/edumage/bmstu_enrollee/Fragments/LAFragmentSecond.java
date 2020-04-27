@@ -54,7 +54,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
                 objectInputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                data = EGESubject.LoadEgeSubjects(getActivity());
+                data = EGESubject.LoadEgeSubjects(requireActivity());
                 Toast.makeText(getContext(), "Unable to deserialize", Toast.LENGTH_SHORT).show();
             }
         } else {

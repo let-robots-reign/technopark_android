@@ -120,7 +120,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
 
     @Override
     public void onNewsClick(String title, String imageURL, String linkURL) {
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("imageURL", imageURL);

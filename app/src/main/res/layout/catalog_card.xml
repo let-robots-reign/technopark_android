@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:src="@drawable/bmstu"
-        android:alpha="0.5"/>
+        android:alpha="0.5"
+        android:contentDescription="@string/description_warning_catalog" />
 
 <!-- "фильтр" поверх изображения  -->
     <View
