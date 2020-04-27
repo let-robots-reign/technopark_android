@@ -23,6 +23,7 @@ import com.edumage.bmstu_enrollee.Adapters.NewsAdapter;
 import com.edumage.bmstu_enrollee.NewsItem;
 import com.edumage.bmstu_enrollee.R;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
@@ -46,7 +47,16 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
 
         final NewsViewModel model = ViewModelProviders.of(this).get(NewsViewModel.class);
         model.parseNewsList();
-        adapter = new NewsAdapter(model.getNewsList().getValue(), this);
+
+        final List<Integer> colors = Arrays.asList(
+                R.color.newsOrange,
+                R.color.newsRed,
+                R.color.newsYellow,
+                R.color.newsFiol,
+                R.color.newsGreen,
+                R.color.newsPink);
+
+        adapter = new NewsAdapter(model.getNewsList().getValue(), this, colors);
 
         model.getHasConnection().observe(this, new Observer<Boolean>() {
             @Override
@@ -71,7 +81,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
                 } else {
                     progressBar.setVisibility(View.GONE);
                 }
-                adapter = new NewsAdapter(model.getNewsList().getValue(), NewsFragment.this);
+                adapter = new NewsAdapter(model.getNewsList().getValue(), NewsFragment.this, colors);
                 RVnews.setAdapter(adapter);
             }
         });

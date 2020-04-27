@@ -1,9 +1,12 @@
 package com.edumage.bmstu_enrollee.Adapters;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,14 +18,17 @@ import com.edumage.bmstu_enrollee.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Random;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
     private List<NewsItem> cardsNews;
     private OnNewsListener newsListener;
-    public NewsAdapter(List<NewsItem> list, OnNewsListener listener){
+    private List<Integer> colorsNews;
+    public NewsAdapter(List<NewsItem> list, OnNewsListener listener, List<Integer> colors){
         cardsNews = list;
         newsListener = listener;
+        colorsNews = colors;
     }
 
     @NonNull
@@ -36,6 +42,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         holder.textOfNews.setText(cardsNews.get(position).getTitle());
         String imgURL = cardsNews.get(position).getImgURL();
+        holder.halfOfNews.setBackgroundResource(colorsNews.get(position % colorsNews.size()));
         if (imgURL != null) {
             Picasso.get().load(imgURL).into(holder.imageOfNews);
         } else {
@@ -52,12 +59,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         ImageView imageOfNews;
         TextView textOfNews;
         OnNewsListener newsListener;
+        View halfOfNews, half1, half2, filterNews;
 
         NewsViewHolder(@NonNull View itemView, OnNewsListener listener) {
             super(itemView);
             imageOfNews = itemView.findViewById(R.id.image_of_news);
             textOfNews = itemView.findViewById(R.id.text_of_news);
             newsListener = listener;
+            halfOfNews = itemView.findViewById(R.id.half_of_item_news);
+            half1 = itemView.findViewById(R.id.half1_news);
+            half2 = itemView.findViewById(R.id.half2_news);
+            filterNews = itemView.findViewById(R.id.filter_news);
             itemView.setOnClickListener(this);
         }
 

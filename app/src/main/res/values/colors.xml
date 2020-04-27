@@ -12,4 +12,11 @@
     <color name="black">#000000</color>
     <color name="gray">#81000000</color>
     <color name="lightgray">#43000000</color>
+    
+    <color name="newsOrange">#F77F00</color>
+    <color name="newsRed">#E63946</color>
+    <color name="newsYellow">#F9C74F</color>
+    <color name="newsFiol">#432371</color>
+    <color name="newsPink">#F08080</color>
+    <color name="newsGreen">#7Fb800</color>
 </resources>
