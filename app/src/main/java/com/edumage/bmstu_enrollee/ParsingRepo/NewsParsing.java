@@ -1,7 +1,5 @@
 package com.edumage.bmstu_enrollee.ParsingRepo;
 
-import android.util.Log;
-
 import com.edumage.bmstu_enrollee.NewsItem;
 
 import org.jsoup.Jsoup;

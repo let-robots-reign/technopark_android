@@ -18,10 +18,6 @@ public class LAThirdViewModel extends AndroidViewModel {
         repository = new DbRepository(application);
     }
 
-    public List<ChosenProgram> getAllChosenPrograms() {
-        return repository.getAllChosenPrograms();
-    }
-
     public void replaceAllPrograms(List<ChosenProgram> newPrograms) {
         repository.replaceAllPrograms(newPrograms);
     }

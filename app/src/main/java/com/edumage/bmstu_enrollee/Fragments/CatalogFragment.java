@@ -1,7 +1,6 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
-import android.content.Context;
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.edumage.bmstu_enrollee.Adapters.CatalogCardsAdapter;
 import com.edumage.bmstu_enrollee.CatalogCard;
-import com.edumage.bmstu_enrollee.MainActivity;
 import com.edumage.bmstu_enrollee.R;
 
 import java.util.ArrayList;
@@ -64,7 +62,7 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
     @Override
     public void onCardClick(int position) {
         if (position == 1) {
-            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+            @SuppressLint("UseRequireInsteadOfGet") NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.action_catalogFragment_to_newsFragment);
         }
     }

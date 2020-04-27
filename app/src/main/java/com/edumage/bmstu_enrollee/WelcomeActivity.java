@@ -10,10 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.edumage.bmstu_enrollee.Fragments.LAFragmentFirst;
 import com.edumage.bmstu_enrollee.Fragments.LAFragmentSecond;
 import com.edumage.bmstu_enrollee.Fragments.LAFragmentThird;
@@ -27,7 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
     LAFragmentThird thirdFragment;
     Button nextButton;
     Button prevButton;
-    FrameLayout backgroundFrame;
+    //FrameLayout backgroundFrame;
     SurfaceViewBackground backgroundView;
     ArrayList<CompletableFragment> fragments;
     private int state = 1;

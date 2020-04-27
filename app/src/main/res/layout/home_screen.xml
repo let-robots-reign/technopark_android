@@ -31,7 +31,8 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     app:srcCompat="@drawable/bmstu_icon"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/logo_bmstu" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -193,7 +194,8 @@
                         android:layout_alignParentEnd="true"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
-                        android:focusable="true"/>
+                        android:focusable="true"
+                        android:contentDescription="@string/update_inf" />
                 </RelativeLayout>
 
                 <View
@@ -272,7 +274,8 @@
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true"
                             android:focusable="true"
-                            app:srcCompat="@drawable/download_icon" />
+                            app:srcCompat="@drawable/download_icon"
+                            android:contentDescription="@string/download_contest" />
 
                     </RelativeLayout>
 
@@ -326,7 +329,8 @@
                             android:layout_alignParentEnd="true"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true"
-                            android:focusable="true"/>
+                            android:focusable="true"
+                            android:contentDescription="@string/download_contest" />
 
                     </RelativeLayout>
 
@@ -379,7 +383,8 @@
                             android:layout_alignParentEnd="true"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true"
-                            android:focusable="true"/>
+                            android:focusable="true"
+                            android:contentDescription="@string/download_contest" />
 
                     </RelativeLayout>
 

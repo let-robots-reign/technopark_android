@@ -1,7 +1,5 @@
 package com.edumage.bmstu_enrollee.ParsingRepo;
 
-import android.util.Log;
-
 import com.github.mikephil.charting.data.Entry;
 
 import org.jsoup.Jsoup;
@@ -16,7 +14,6 @@ import java.util.List;
 
 public class StatsScoresParsing {
 
-    private final String URL = "https://bmstu.ru/abitur/general/passing_scores/";
     private final Integer MAX_SCORE = 311;
     private static StatsScoresParsing instance;
 
@@ -37,6 +34,7 @@ public class StatsScoresParsing {
 
     private List<Entry> parseScores(String programName, int firstRowStart, int notFirstRowStart)
             throws IOException {
+        String URL = "https://bmstu.ru/abitur/general/passing_scores/";
         Document doc = Jsoup.connect(URL).get();
 
         Element specialities = doc.select("table").first();

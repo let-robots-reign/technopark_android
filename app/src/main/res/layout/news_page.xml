@@ -30,7 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/exampleimgnews_1"/>
+                android:src="@drawable/exampleimgnews_1"
+                android:contentDescription="@string/news_image" />
 
             <TextView
                 android:id="@+id/news_title"
@@ -38,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:paddingVertical="5dp"
-                android:text="День открытых дверей"
+                android:text="@string/open_doors"
                 android:gravity="center"
                 android:textColor="@android:color/black"
                 android:background="@color/white"
@@ -70,7 +71,8 @@
             app:srcCompat="@drawable/no_connection"
             android:layout_gravity="center"
             android:layout_margin="8dp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:contentDescription="@string/no_connection" />
 
         <TextView
             android:id="@+id/news_text"
@@ -79,7 +81,7 @@
             android:paddingEnd="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12 апреля в 12:00 пройдет прямая трансляция на сайте abiturient.bmstu.ru с Борисом Васильевичем Падалкиным первым проректором - проректором по учебной работе, на трансляции вы узнаете больше про МГТУ им. Н.Э. Баумана, про направления подготовки и правила приема 2020."
+            android:text="@string/text_news"
             android:autoLink="all"
             android:textIsSelectable="true"
             android:textColor="@color/black"

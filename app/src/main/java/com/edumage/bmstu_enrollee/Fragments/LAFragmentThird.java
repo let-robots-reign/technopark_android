@@ -42,6 +42,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
 
     private LAThirdViewModel model;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +57,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
                 stream.close();
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
-                data = Discipline.LoadDisciplines(getContext());
+                data = Discipline.LoadDisciplines(requireContext());
             }
         }
         chosenDisciplines = 0; // in the beginning, user chose nothing

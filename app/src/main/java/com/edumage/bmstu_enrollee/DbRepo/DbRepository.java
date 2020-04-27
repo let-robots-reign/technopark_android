@@ -39,16 +39,6 @@ public class DbRepository {
         thread.start();
     }
 
-    public void updateUserInfo(final UserInfo newInfo) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                userDao.updateUserInfo(newInfo);
-            }
-        });
-        thread.start();
-    }
-
     public void deleteAllInfo() {
         Thread thread = new Thread(new Runnable() {
             @Override

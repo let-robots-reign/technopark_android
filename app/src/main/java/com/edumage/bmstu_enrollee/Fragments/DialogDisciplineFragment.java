@@ -17,6 +17,7 @@ import com.edumage.bmstu_enrollee.ViewModels.LAThirdViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,16 +51,16 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
     @Override
     public void onResume() {
         super.onResume();
-        WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
+        WindowManager.LayoutParams params = Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).getAttributes();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
         params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes(params);
+        Objects.requireNonNull(getDialog().getWindow()).setAttributes(params);
     }
 
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         navController.navigate(R.id.action_home_tab_self);
     }
 
@@ -82,7 +83,7 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
 
     // TODO: переписать этот метод
     private void LoadData() {
-        data = Discipline.LoadDisciplines(getContext());
+        data = Discipline.LoadDisciplines(requireContext());
     }
 
     @Override

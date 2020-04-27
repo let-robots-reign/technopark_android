@@ -16,16 +16,8 @@ public class LAFirstViewModel extends AndroidViewModel {
         repository = new DbRepository(application);
     }
 
-    public UserInfo getUserInfo() {
-        return repository.getUserInfo();
-    }
-
     public void insertUserInfo(UserInfo info) {
         repository.insertUserInfo(info);
-    }
-
-    public void updateUserInfo(UserInfo newInfo) {
-        repository.updateUserInfo(newInfo);
     }
 
     public void deleteAllInfo() {

@@ -4,7 +4,6 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
@@ -19,9 +18,6 @@ public class LASecondViewModel extends AndroidViewModel {
         repository = new DbRepository(application);
     }
 
-    public List<ExamPoints> getAllPoints() {
-        return repository.getAllPoints();
-    }
 
     public void replaceAllPoints(List<ExamPoints> newPoints) {
         repository.replaceAllPoints(newPoints);
