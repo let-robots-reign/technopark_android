@@ -41,6 +41,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
 
     private LASecondViewModel model;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

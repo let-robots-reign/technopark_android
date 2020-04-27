@@ -1,4 +1,4 @@
-package com.edumage.bmstu_enrollee.ViewModels;
+package com.edumage.bmstu_enrollee;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -18,8 +18,8 @@ public class SquareRelativeLayout extends RelativeLayout {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(int w, int h) {
         // Set a square layout.
-        super.onMeasure(widthMeasureSpec, widthMeasureSpec);
+        super.onMeasure(w, w);
     }
 }
