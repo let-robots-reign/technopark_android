@@ -1,5 +1,6 @@
 package com.edumage.bmstu_enrollee.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.NewsItem;
 import com.edumage.bmstu_enrollee.R;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -20,10 +22,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     private List<NewsItem> cardsNews;
     private OnNewsListener newsListener;
     private List<Integer> colorsNews;
-    public NewsAdapter(List<NewsItem> list, OnNewsListener listener, List<Integer> colors){
+    private Context context;
+    public NewsAdapter(List<NewsItem> list, OnNewsListener listener, List<Integer> colors, Context c) {
         cardsNews = list;
         newsListener = listener;
         colorsNews = colors;
+        context = c;
     }
 
     @NonNull
@@ -39,7 +43,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         String imgURL = cardsNews.get(position).getImgURL();
         holder.halfOfNews.setBackgroundResource(colorsNews.get(position % colorsNews.size()));
         if (imgURL != null) {
-            Picasso.get().load(imgURL).into(holder.imageOfNews);
+            Picasso.with(context).load(imgURL).into(holder.imageOfNews);
         } else {
             holder.imageOfNews.setImageResource(R.drawable.no_image);
         }

@@ -56,7 +56,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
                 R.color.newsGreen,
                 R.color.newsPink);
 
-        adapter = new NewsAdapter(model.getNewsList().getValue(), this, colors);
+        adapter = new NewsAdapter(model.getNewsList().getValue(), this, colors, getActivity());
 
         model.getHasConnection().observe(this, new Observer<Boolean>() {
             @Override
@@ -81,7 +81,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
                 } else {
                     progressBar.setVisibility(View.GONE);
                 }
-                adapter = new NewsAdapter(model.getNewsList().getValue(), NewsFragment.this, colors);
+                adapter = new NewsAdapter(model.getNewsList().getValue(), NewsFragment.this, colors, getActivity());
                 RVnews.setAdapter(adapter);
             }
         });

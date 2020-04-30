@@ -76,7 +76,7 @@ public class NewsItemFragment extends Fragment {
         titleView.setText(title);
         ImageView image = rootView.findViewById(R.id.news_page_img);
         if (imageURL != null) {
-            Picasso.get().load(imageURL).into(image);
+            Picasso.with(getActivity()).load(imageURL).into(image);
         } else {
             image.setImageResource(R.drawable.no_image);
         }
