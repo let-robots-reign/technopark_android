@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.Adapters.DisciplineAdapter;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
@@ -89,13 +90,19 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
     @Override
     public void onClick(View v) {
         List<ChosenProgram> chosenPrograms = new ArrayList<>();
+        int count = 0;
         for (Discipline d : data) {
             if (d.getStatus()) {
+                ++count;
                 chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
             }
         }
-        model.replaceAllPrograms(chosenPrograms);
-        dismiss();
+        if (count > 3) {
+            Toast.makeText(getActivity(), R.string.alert_discipline_more, Toast.LENGTH_SHORT).show();
+        } else {
+            model.replaceAllPrograms(chosenPrograms);
+            dismiss();
+        }
     }
 
     @Override

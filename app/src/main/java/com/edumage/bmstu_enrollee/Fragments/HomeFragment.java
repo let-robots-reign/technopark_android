@@ -1,6 +1,7 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,10 +36,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private ExamScoresAdapter examScoresAdapter;
     private DocumentStepsAdapter stepsAdapter;
-    private List<DocumentStep> steps;
     private RecyclerView examResults;
 
     private List<TextView> scoresTexts;
@@ -50,6 +52,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private static final int EGE_EDIT_DIALOG = 0;
     private static final int DISCIPLINES_EDIT_DIALOG = 1;
+    private static final String APP_PREFERENCES = "APP_PREFERENCES";
+    private static final String CURRENT_STEP = "CURRENT_DOCUMENTS_STEP";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,13 +83,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void createDocumentStepsList() {
-        // sample data
-        steps = new ArrayList<>();
-        steps.add(new DocumentStep("Это предыдущий шаг №1", DocumentStepStatus.COMPLETED_STEP));
-        steps.add(new DocumentStep("Это предыдущий шаг №2", DocumentStepStatus.COMPLETED_STEP));
-        steps.add(new DocumentStep("Это текущий шаг", DocumentStepStatus.CURRENT_STEP));
-        steps.add(new DocumentStep("Это следующий шаг №1", DocumentStepStatus.FUTURE_STEP));
-        steps.add(new DocumentStep("Это следующий шаг №2", DocumentStepStatus.FUTURE_STEP));
+        List<DocumentStep> steps = new ArrayList<>();
+        String[] budgetSteps = getResources().getStringArray(R.array.application_steps);
+        for (int i = 0; i < budgetSteps.length; ++i) {
+            steps.add(new DocumentStep(budgetSteps[i], getDocumentCardStatus(i)));
+        }
 
         stepsAdapter = new DocumentStepsAdapter(steps);
     }
@@ -235,13 +237,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         examResults.setAdapter(examScoresAdapter);
     }
 
-    private int getCurrentStepPosition() {
-        // searching for the first step with status code CURRENT_STEP
-        int position = 0;
-        while (steps.get(position).getStepStatus() != DocumentStepStatus.CURRENT_STEP) {
-            position++;
+    private DocumentStepStatus getDocumentCardStatus(int cardNumber) {
+        int currentStep = getCurrentStepPosition();
+        if (cardNumber < currentStep) {
+            return DocumentStepStatus.COMPLETED_STEP;
+        } else if (cardNumber > currentStep) {
+            return DocumentStepStatus.FUTURE_STEP;
         }
-        return position;
+        return DocumentStepStatus.CURRENT_STEP;
+    }
+
+    private int getCurrentStepPosition() {
+        SharedPreferences preferences = requireActivity().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+        return preferences.getInt(CURRENT_STEP, 0);
     }
 
     private void showDialogFragment(int dialog_id) {
