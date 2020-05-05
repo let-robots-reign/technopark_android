@@ -1,6 +1,7 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,6 +110,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
         toolbar.setTitle("Новости");
+        toolbar.setTitleTextColor(Color.BLACK);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
