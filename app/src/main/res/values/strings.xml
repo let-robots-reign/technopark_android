@@ -44,6 +44,33 @@
 
     <string name="ok">ок</string>
 
+    <string name="press_back_again">Нажмите Назад еще раз, чтобы выйти</string>
+
+    <string name="placeholder_score">⠀⠀⠀</string>
+
+    <string name="disciplines_alert">Вы не можете подать документы более чем на 3 направления</string>
+    <string name="description_warning_catalog">CATALOG IMG</string>
+    <string name="number_of_spec">09.03.01</string>
+    <string name="category_of_study">Специалитет</string>
+    <string name="res_ege">Результаты ЕГЭ</string>
+    <string name="subject_icon">subject icon</string>
+    <string name="name_subject">Fizika</string>
+    <string name="logo_bmstu">LOGO BMSTU</string>
+    <string name="update_inf">update information</string>
+    <string name="download_contest">Download contest</string>
+    <string name="no_connection">No connection</string>
+    <string name="news_image">News image</string>
+    <string name="open_doors">День открытых дверей</string>
+    <string name="text_news">12 апреля в 12:00 пройдет прямая трансляция на сайте abiturient.bmstu.ru с Борисом Васильевичем Падалкиным первым проректором - проректором по учебной работе, на трансляции вы узнаете больше про МГТУ им. Н.Э. Баумана, про направления подготовки и правила приема 2020.</string>
+    <string name="name_speciality">Математика прикладная информатика</string>
+    <string name="loading_data">Loading data</string>
+    <string name="title_activity_building">BuildingActivity</string>
+
+    <string name="tab_text_campus">Корпуса</string>
+    <string name="tab_text_hostel">Общежития</string>
+    <string name="unable_to_load_data">Невозможно загрузить данные</string>
+
+
     <string-array name="disciplines">
         <item>01.03.02 Прикладная математика и информатика (Бакалавр)</item>
         <item>01.03.04 Прикладная математика (Бакалавр)</item>
@@ -95,7 +122,6 @@
         <item>40.05.03 Судебная экспертиза (Специалист)</item>
         <item>54.03.01 Дизайн (Бакалавр)</item>
     </string-array>
-
     <string-array name="subjects">
         <item>Русский язык</item>
         <item>Математика (профильная)</item>
@@ -106,24 +132,5 @@
         <item>Обществознание</item>
         <item>Английский язык</item>
     </string-array>
-
-    <string name="press_back_again">Нажмите Назад еще раз, чтобы выйти</string>
-    <string name="placeholder_score">⠀⠀⠀</string>
-    <string name="disciplines_alert">Вы не можете подать документы более чем на 3 направления</string>
-    <string name="description_warning_catalog">CATALOG IMG</string>
-    <string name="number_of_spec">09.03.01</string>
-    <string name="category_of_study">Специалитет</string>
-    <string name="res_ege">Результаты ЕГЭ</string>
-    <string name="subject_icon">subject icon</string>
-    <string name="name_subject">Fizika</string>
-    <string name="logo_bmstu">LOGO BMSTU</string>
-    <string name="update_inf">update information</string>
-    <string name="download_contest">Download contest</string>
-    <string name="no_connection">No connection</string>
-    <string name="news_image">News image</string>
-    <string name="open_doors">День открытых дверей</string>
-    <string name="text_news">12 апреля в 12:00 пройдет прямая трансляция на сайте abiturient.bmstu.ru с Борисом Васильевичем Падалкиным первым проректором - проректором по учебной работе, на трансляции вы узнаете больше про МГТУ им. Н.Э. Баумана, про направления подготовки и правила приема 2020.</string>
-    <string name="name_speciality">Математика прикладная информатика</string>
-    <string name="loading_data">Loading data</string>
 
 </resources>

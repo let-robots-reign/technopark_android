@@ -14,9 +14,12 @@ import com.edumage.bmstu_enrollee.R;
 
 import java.util.List;
 
-public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapter.CatalogViewHolder> {
+public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapter.CatalogViewHolder>  {
     private List<CatalogCard> cards;
     private OnCardListener onCardListener;
+
+
+
 
     public CatalogCardsAdapter(List<CatalogCard> list, OnCardListener cardListener) {
         cards = list;
@@ -27,6 +30,7 @@ public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapte
         private TextView title;
         private ImageView image;
         private OnCardListener onCardListener;
+        private CatalogCard card;
 
         CatalogViewHolder(@NonNull View itemView, OnCardListener cardListener) {
             super(itemView);
@@ -38,7 +42,7 @@ public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapte
 
         @Override
         public void onClick(View v) {
-            onCardListener.onCardClick(getAdapterPosition());
+            onCardListener.onCardClick(card.getId());
         }
     }
 
@@ -53,6 +57,7 @@ public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapte
     public void onBindViewHolder(@NonNull CatalogViewHolder holder, int position) {
         holder.title.setText(cards.get(position).getTitle());
         holder.image.setImageResource(cards.get(position).getImage());
+        holder.card=cards.get(position);
     }
 
     @Override
