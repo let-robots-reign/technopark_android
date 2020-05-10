@@ -1,4 +1,4 @@
-package com.edumage.bmstu_enrollee.ui.tabLayout;
+package com.edumage.bmstu_enrollee.Adapters;
 
 import android.content.Context;
 
@@ -8,19 +8,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.edumage.bmstu_enrollee.Fragments.BuildingFragment;
 import com.edumage.bmstu_enrollee.R;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class BuildingPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_campus, R.string.tab_text_hostel};
     private final Context mContext;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    public BuildingPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
     }
@@ -28,7 +29,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        return PlaceholderFragment.newInstance(position + 1);
+        return BuildingFragment.newInstance(position + 1);
     }
 
     @Nullable

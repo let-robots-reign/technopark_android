@@ -2,7 +2,7 @@ package com.edumage.bmstu_enrollee.DbRepo;
 
 import android.app.Application;
 
-import com.edumage.bmstu_enrollee.DataBase;
+
 import com.edumage.bmstu_enrollee.DbDaos.ChosenProgramDao;
 import com.edumage.bmstu_enrollee.DbDaos.ExamPointsDao;
 import com.edumage.bmstu_enrollee.DbDaos.UserInfoDao;

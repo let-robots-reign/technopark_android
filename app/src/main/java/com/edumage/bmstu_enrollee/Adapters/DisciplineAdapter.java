@@ -22,8 +22,7 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
     private ArrayList<Discipline> data;
     private DisciplineCardClick onDisciplineClick;
 
-    public DisciplineAdapter(ArrayList<Discipline> data, DisciplineCardClick clickListener) {
-        this.data = data;
+    public DisciplineAdapter(DisciplineCardClick clickListener) {
         onDisciplineClick = clickListener;
     }
 
@@ -45,7 +44,23 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return data.size();
+        if (data!=null) {
+            return data.size();
+        } else {
+            return 0;
+        }
+    }
+
+    public void setData(ArrayList<Discipline> data) {
+        this.data = data;
+    }
+
+    public ArrayList<Discipline> getEnabled(){
+        ArrayList<Discipline> res= new ArrayList<Discipline>();
+        for (Discipline d:data){
+            if (d.getStatus())res.add(d);
+        }
+        return res;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

@@ -69,6 +69,7 @@
     <string name="tab_text_campus">Корпуса</string>
     <string name="tab_text_hostel">Общежития</string>
     <string name="unable_to_load_data">Невозможно загрузить данные</string>
+    <string name="unable_to_show_map">Невозможно показать на карте</string>
 
 
     <string-array name="disciplines">

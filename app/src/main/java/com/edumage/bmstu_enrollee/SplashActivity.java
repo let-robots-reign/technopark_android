@@ -17,6 +17,9 @@ public class SplashActivity extends AppCompatActivity {
 
         SharedPreferences preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
+        //for testing
+        preferences.edit().putBoolean(FIRST_LAUNCH,true).apply();
+
         if (preferences.getBoolean(FIRST_LAUNCH, true)) {
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);

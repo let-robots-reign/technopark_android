@@ -26,6 +26,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,11 +43,12 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
 
     private LAThirdViewModel model;
 
-    @SuppressWarnings("unchecked")
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) {
+
+        /*if (savedInstanceState == null) {
             if (getContext() != null && data == null)
                 data = Discipline.LoadDisciplines(getContext());
         } else {
@@ -59,12 +61,22 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
                 e.printStackTrace();
                 data = Discipline.LoadDisciplines(requireContext());
             }
-        }
+        }*/
+
         chosenDisciplines = 0; // in the beginning, user chose nothing
-        adapter = new DisciplineAdapter(data, this);
-        adapter.notifyDataSetChanged();
+        adapter = new DisciplineAdapter( this);
+        //get all programm
 
         model = ViewModelProviders.of(this).get(LAThirdViewModel.class);
+
+        if(savedInstanceState==null) model.loadData();
+        model.data.observe(this, new Observer<ArrayList<Discipline>>() {
+            @Override
+            public void onChanged(ArrayList<Discipline> disciplines) {
+                adapter.setData(disciplines);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Nullable
@@ -85,7 +97,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         return v;
     }
 
-    @Override
+  /*  @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         try {
@@ -97,19 +109,20 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         } catch (IOException e) {
             Toast.makeText(getContext(), "Unable to serialize", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
     @Override
     public boolean isComplete() {
-        int count = 0;
-        List<ChosenProgram> chosenPrograms = new ArrayList<>();
+
+      /*  List<ChosenProgram> chosenPrograms = new ArrayList<>();
         for (Discipline d : data) {
             if (d.getStatus()) {
                 count++;
                 chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
             }
-        }
+        }*/
 
+        int count = adapter.getEnabled().size();
         if (count > 3) {
             Toast.makeText(getActivity(), R.string.alert_discipline_more, Toast.LENGTH_SHORT).show();
             return false;
@@ -117,7 +130,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
             Toast.makeText(getActivity(), R.string.alert_discipline_zero, Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            model.replaceAllPrograms(chosenPrograms);
+            model.replaceAllPrograms(adapter.getEnabled());
             return true;
         }
     }

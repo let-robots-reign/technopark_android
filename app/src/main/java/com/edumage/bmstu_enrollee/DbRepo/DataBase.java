@@ -1,6 +1,7 @@
-package com.edumage.bmstu_enrollee;
+package com.edumage.bmstu_enrollee.DbRepo;
 
 import android.content.Context;
+
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -24,6 +25,7 @@ public abstract class DataBase extends RoomDatabase {
 
     public static synchronized DataBase getInstance(Context context) {
         if (instance == null) {
+           
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     DataBase.class, "bmstu_db")
                     .fallbackToDestructiveMigration()

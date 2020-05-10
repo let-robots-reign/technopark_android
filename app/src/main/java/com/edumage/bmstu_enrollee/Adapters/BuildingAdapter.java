@@ -21,13 +21,14 @@ import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 public class BuildingAdapter extends Adapter<BuildingAdapter.ViewHolder> {
 
-    ArrayList<BuildingItem> data;
-    BuildingMap buildingMap;
+    private ArrayList<BuildingItem> data;
+    private BuildingMap buildingMap;
 
-    public BuildingAdapter(ArrayList<BuildingItem> data, BuildingMap buildingMap){
-        this.data=data;
+    public BuildingAdapter(BuildingMap buildingMap){
         this.buildingMap=buildingMap;
     }
+
+
 
 
     @NonNull
@@ -44,7 +45,15 @@ public class BuildingAdapter extends Adapter<BuildingAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
+        if(data!=null){
         return data.size();
+        } else{
+            return 0;
+        }
+    }
+
+    public void setData(ArrayList<BuildingItem> data) {
+        this.data = data;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -79,16 +88,13 @@ public class BuildingAdapter extends Adapter<BuildingAdapter.ViewHolder> {
 
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View v) { buildingMap.showMap(buildingItem);
 
-            if(buildingMap.showMap(buildingItem)<0){
-               //TODO make toast
-            }
         }
     }
 
     public interface BuildingMap{
-        int showMap(BuildingItem building);
+        void showMap(BuildingItem building);
     }
 
 

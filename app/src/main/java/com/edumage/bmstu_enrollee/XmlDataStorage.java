@@ -12,8 +12,6 @@ import java.util.ArrayList;
 
 public class XmlDataStorage {
 
-    private XmlPullParser parser;
-
     private static final String TAG_BUILDING="building";
     private static final String BUILDING_NAME="name";
     private static final String BUILDING_DESCR="description";
@@ -21,23 +19,16 @@ public class XmlDataStorage {
     private static final String BUILDING_ADDRESS="address";
     private static final String BUILDING_ID="id";
 
-
-
-
-    @SuppressLint("StaticFieldLeak")
-    private static XmlDataStorage storage;
+    private XmlDataStorage(){}
 
     public static XmlDataStorage getInstance(){
-        if (storage==null){
-           storage=new XmlDataStorage();
-        }
-        return storage;
+        return new XmlDataStorage();
     }
 
 
     public ArrayList<BuildingItem> parseBuilding(@NotNull Context context, int xml) throws XmlPullParserException, IOException {
-        parser=context.getResources().getXml(xml);
-        ArrayList<BuildingItem> res= new ArrayList<BuildingItem>();
+        XmlPullParser parser=context.getResources().getXml(xml);
+        ArrayList<BuildingItem> res= new ArrayList<>();
         while (parser.getEventType() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType()==XmlPullParser.START_TAG) {
                     if (!parser.getName().equals(TAG_BUILDING)){
@@ -71,8 +62,6 @@ public class XmlDataStorage {
             }
             parser.next();
         }
-
-        //parser=null;
         return res;
     }
 

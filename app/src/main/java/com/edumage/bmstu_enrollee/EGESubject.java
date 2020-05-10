@@ -1,9 +1,7 @@
 package com.edumage.bmstu_enrollee;
 
-import android.content.Context;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class EGESubject implements Serializable {
     private String name;
@@ -11,7 +9,7 @@ public class EGESubject implements Serializable {
     private boolean isPassed;
     private int img;
 
-    private EGESubject(String name, int img_id) {
+    public EGESubject(String name, int img_id) {
         this.name = name;
         this.img = img_id;
         isPassed = false;
@@ -41,7 +39,7 @@ public class EGESubject implements Serializable {
         return img;
     }
 
-    public static ArrayList<EGESubject> LoadEgeSubjects(Context context) {
+/*    public static ArrayList<EGESubject> LoadEgeSubjects(Context context) {
         ArrayList<EGESubject> res = new ArrayList<>();
         String[] str = context.getResources().getStringArray(R.array.subjects);
 
@@ -60,5 +58,5 @@ public class EGESubject implements Serializable {
             i++;
         }
         return res;
-    }
+    }*/
 }
