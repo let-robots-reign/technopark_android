@@ -5,9 +5,9 @@
     android:id="@+id/ege_card"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:layout_margin="5dp"
+    android:layout_margin="8dp"
     app:cardBackgroundColor="@color/colorPrimary"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="@dimen/default_cornerRadius"
     app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout

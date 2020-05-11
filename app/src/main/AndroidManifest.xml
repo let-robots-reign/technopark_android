@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.edumage.bmstu_enrollee" >
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    package="com.edumage.bmstu_enrollee">
 
     <application
         android:allowBackup="true"
@@ -16,10 +13,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-
+        <activity
+            android:name=".BuildingActivity"
+            android:label="@string/title_activity_building"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme" >
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,5 +29,8 @@
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".MainActivity" />
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
