@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.edumage.bmstu_enrollee.Adapters.EGEAdapter;
 import com.edumage.bmstu_enrollee.EGESubject;
 import com.edumage.bmstu_enrollee.R;
-import com.edumage.bmstu_enrollee.ViewModels.LASecondViewModel;
+import com.edumage.bmstu_enrollee.ViewModels.EgeSubjectsViewModel;
 import com.edumage.bmstu_enrollee.WelcomeActivity;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
     public static final String TAG = "LAFragmentSecond";
     //private static final String DATA = "SUBJECTS";
 
-    private LASecondViewModel model;
+    private EgeSubjectsViewModel model;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
 
         adapter = new EGEAdapter();
 
-        model = ViewModelProviders.of(this).get(LASecondViewModel.class);
+        model = ViewModelProviders.of(this).get(EgeSubjectsViewModel.class);
 
         if(savedInstanceState==null)model.loadData();
 
@@ -126,9 +126,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
             }
         }*/
 
-        if (!adapter.getPassed().isEmpty()) {
-            model.replaceAllPoints(adapter.getPassed());
-        }
+        model.replaceAllPoints(adapter.getPassed());
 
         return true;
     }

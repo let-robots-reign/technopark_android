@@ -7,15 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.edumage.bmstu_enrollee.Adapters.DisciplineAdapter;
 import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.R;
-import com.edumage.bmstu_enrollee.ViewModels.LAThirdViewModel;
+import com.edumage.bmstu_enrollee.ViewModels.DisciplinesViewModel;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -39,14 +37,14 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
 
     static final String TAG = "DialogDisciplineFragment";
 
-    private LAThirdViewModel model;
+    private DisciplinesViewModel model;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         adapter = new DisciplineAdapter(this);
-        model = ViewModelProviders.of(this).get(LAThirdViewModel.class);
+        model = ViewModelProviders.of(this).get(DisciplinesViewModel.class);
         if (savedInstanceState==null) {
             model.loadData();
             model.applyChosenProgram();
@@ -123,7 +121,7 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
         return adapter.getEnabled().size();
     }
 
-    @Override
+   /* @Override
     public void incrementChosen() {
         ++chosenDisciplines;
     }
@@ -131,5 +129,5 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
     @Override
     public void decrementChosen() {
         --chosenDisciplines;
-    }
+    }*/
 }

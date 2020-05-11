@@ -16,12 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-public class LAThirdViewModel extends AndroidViewModel {
+public class DisciplinesViewModel extends AndroidViewModel {
     private DbRepository repository;
 
     public final MutableLiveData<ArrayList<Discipline>> data =  new MutableLiveData<>();
 
-    public LAThirdViewModel(@NonNull Application application) {
+    public DisciplinesViewModel(@NonNull Application application) {
         super(application);
         repository = new DbRepository(application);
     }

@@ -16,13 +16,13 @@ import com.edumage.bmstu_enrollee.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LASecondViewModel extends AndroidViewModel {
+public class EgeSubjectsViewModel extends AndroidViewModel {
     private DbRepository repository;
 
 
     public final MutableLiveData<ArrayList<EGESubject>> data= new MutableLiveData<>();
 
-    public LASecondViewModel(@NonNull Application application) {
+    public EgeSubjectsViewModel(@NonNull Application application) {
         super(application);
         repository = new DbRepository(application);
     }

@@ -9,19 +9,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.Adapters.DisciplineAdapter;
-import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.R;
-import com.edumage.bmstu_enrollee.ViewModels.LAThirdViewModel;
+import com.edumage.bmstu_enrollee.ViewModels.DisciplinesViewModel;
 import com.edumage.bmstu_enrollee.WelcomeActivity;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,7 +34,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
     private static final String DATA = "DISCIPLINES";
     public static final String TAG = "LAFragmentThird";
 
-    private LAThirdViewModel model;
+    private DisciplinesViewModel model;
 
 
     @Override
@@ -67,7 +60,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         adapter = new DisciplineAdapter( this);
         //get all programm
 
-        model = ViewModelProviders.of(this).get(LAThirdViewModel.class);
+        model = ViewModelProviders.of(this).get(DisciplinesViewModel.class);
 
         if(savedInstanceState==null) model.loadData();
         model.data.observe(this, new Observer<ArrayList<Discipline>>() {
@@ -141,7 +134,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         return adapter.getEnabled().size();
     }
 
-    @Override
+   /* @Override
     public void incrementChosen() {
         ++chosenDisciplines;
     }
@@ -149,5 +142,5 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
     @Override
     public void decrementChosen() {
         --chosenDisciplines;
-    }
+    }*/
 }

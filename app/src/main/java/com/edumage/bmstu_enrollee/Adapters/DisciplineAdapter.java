@@ -92,13 +92,13 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
                         Toast.makeText(context, context.getText(R.string.disciplines_alert), Toast.LENGTH_SHORT).show();
                         enabled = false;
                         //checkBox.setChecked(enabled);
-                    } else {
+                    } /*else {
                         if (enabled) {
                             onDisciplineClick.incrementChosen();
                         } else {
                             onDisciplineClick.decrementChosen();
                         }
-                    }
+                    }*/
                     UpdateState();
                 }
             });
@@ -129,8 +129,8 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
     public interface DisciplineCardClick {
         int getChosenDisciplines();
 
-        void incrementChosen();
+        /*void incrementChosen();
 
-        void decrementChosen();
+        void decrementChosen();*/
     }
 }

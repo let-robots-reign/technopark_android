@@ -7,17 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.edumage.bmstu_enrollee.Adapters.EGEAdapter;
-import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.EGESubject;
 import com.edumage.bmstu_enrollee.R;
-import com.edumage.bmstu_enrollee.ViewModels.LASecondViewModel;
+import com.edumage.bmstu_enrollee.ViewModels.EgeSubjectsViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -33,7 +30,7 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
 
     private EGEAdapter adapter;
     private ArrayList<EGESubject> data;
-    private LASecondViewModel model;
+    private EgeSubjectsViewModel model;
     private HomeFragment homeFragment;
 
     static final String TAG = "DialogEgeFragment";
@@ -57,7 +54,7 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
 
         //LoadData();
         adapter = new EGEAdapter();
-        model = ViewModelProviders.of(this).get(LASecondViewModel.class);
+        model = ViewModelProviders.of(this).get(EgeSubjectsViewModel.class);
         if (savedInstanceState==null){
             model.loadData();
             model.applyEgeScore();
@@ -109,15 +106,12 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
                 points.add(new ExamPoints(subject.getName(), subject.getScore()));
             }
         }
-
-
 */
        int id=v.getId();
 
        if (id==R.id.ege_dialog_ok) {
-           if (!adapter.getPassed().isEmpty()) {
                model.replaceAllPoints(adapter.getPassed());
-           }
+
        }
 
         dismiss();
