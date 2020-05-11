@@ -137,7 +137,8 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
 
     @Override
     public int getChosenDisciplines() {
-        return chosenDisciplines;
+        //предыдещее решение не рабоает - некорректно считается chosenDisciplines
+        return adapter.getEnabled().size();
     }
 
     @Override

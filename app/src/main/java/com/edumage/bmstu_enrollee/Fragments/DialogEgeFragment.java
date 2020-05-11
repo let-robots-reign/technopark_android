@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.edumage.bmstu_enrollee.Adapters.EGEAdapter;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
@@ -87,8 +88,11 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false));
         }
-        Button button = v.findViewById(R.id.ege_dialog_button);
-        button.setOnClickListener(this);
+        TextView textViewOk = v.findViewById(R.id.ege_dialog_ok);
+        TextView textViewCancel = v.findViewById(R.id.ege_dialog_cancel);
+
+        textViewOk.setOnClickListener(this);
+        textViewCancel.setOnClickListener(this);
         return v;
     }
 
@@ -105,10 +109,16 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
                 points.add(new ExamPoints(subject.getName(), subject.getScore()));
             }
         }
+
+
 */
-        if (!adapter.getPassed().isEmpty()) {
-            model.replaceAllPoints(adapter.getPassed());
-        }
+       int id=v.getId();
+
+       if (id==R.id.ege_dialog_ok) {
+           if (!adapter.getPassed().isEmpty()) {
+               model.replaceAllPoints(adapter.getPassed());
+           }
+       }
 
         dismiss();
     }

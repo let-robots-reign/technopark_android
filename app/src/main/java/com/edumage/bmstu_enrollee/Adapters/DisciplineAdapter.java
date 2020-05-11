@@ -82,14 +82,16 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
             card = itemView.findViewById(R.id.discipline_card);
             checkBox = itemView.findViewById(R.id.d_checkBox);
             this.context = context;
-
+            checkBox.setOnCheckedChangeListener(null);
+            checkBox.setChecked(false);
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    enabled = checkBox.isChecked();
-                    if (enabled && onDisciplineClick.getChosenDisciplines() == 3) {
+                    enabled = isChecked;
+                    if (enabled && (onDisciplineClick.getChosenDisciplines() >= 3)) {
                         Toast.makeText(context, context.getText(R.string.disciplines_alert), Toast.LENGTH_SHORT).show();
                         enabled = false;
+                        //checkBox.setChecked(enabled);
                     } else {
                         if (enabled) {
                             onDisciplineClick.incrementChosen();
@@ -103,24 +105,10 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
         }
 
         private void UpdateState() {
-            if (enabled) {
-                setEnabled();
-            } else {
-                setDisabled();
-            }
+            checkBox.setChecked(enabled);
+            discipline.setStatus(enabled);
         }
 
-        private void setEnabled() {
-            checkBox.setChecked(enabled);
-            enabled = true;
-            discipline.setStatus(true);
-        }
-
-        private void setDisabled() {
-            checkBox.setChecked(enabled);
-            enabled = false;
-            discipline.setStatus(false);
-        }
 
         void setDiscipline(Discipline d) {
             discipline = d;

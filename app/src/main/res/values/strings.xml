@@ -71,6 +71,10 @@
     <string name="unable_to_load_data">Невозможно загрузить данные</string>
     <string name="unable_to_show_map">Невозможно показать на карте</string>
 
+    <string name="dialog_ok">Ок</string>
+    <string name="dialog_cancel">Закрыть</string>
+
+
 
     <string-array name="disciplines">
         <item>01.03.02 Прикладная математика и информатика (Бакалавр)</item>

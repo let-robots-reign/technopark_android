@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.edumage.bmstu_enrollee.Adapters.DisciplineAdapter;
 import com.edumage.bmstu_enrollee.Discipline;
@@ -88,8 +91,10 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false));
         }
 
-        Button button = v.findViewById(R.id.discipline_dialog_button);
-        button.setOnClickListener(this);
+        TextView textViewOk = v.findViewById(R.id.discipline_dialog_ok);
+        TextView textViewCancel = v.findViewById(R.id.discipline_dialog_cancel);
+        textViewOk.setOnClickListener(this);
+        textViewCancel.setOnClickListener(this);
         return v;
     }
 
@@ -100,13 +105,22 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
 
     @Override
     public void onClick(View v) {
-        model.replaceAllPrograms(adapter.getData());
+
+        if (v.getId()==R.id.discipline_dialog_ok){
+            if(chosenDisciplines>3){
+                Toast.makeText(getContext(),R.string.disciplines_alert,Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                model.replaceAllPrograms(adapter.getData());
+            }
+        }
+
         dismiss();
     }
 
     @Override
     public int getChosenDisciplines() {
-        return chosenDisciplines;
+        return adapter.getEnabled().size();
     }
 
     @Override
