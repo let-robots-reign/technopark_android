@@ -7,12 +7,12 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.edumage.bmstu_enrollee.ui.tabLayout.SectionsPagerAdapter;
+import com.edumage.bmstu_enrollee.Adapters.BuildingPagerAdapter;
 
 public class BuildingActivity extends AppCompatActivity {
 
     ViewPager viewPager;
-    SectionsPagerAdapter sectionsPagerAdapter;
+    BuildingPagerAdapter sectionsPagerAdapter;
     TabLayout tabs;
 
 
@@ -20,7 +20,7 @@ public class BuildingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_building);
-        sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        sectionsPagerAdapter = new BuildingPagerAdapter(this, getSupportFragmentManager());
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         tabs = findViewById(R.id.tabs);
