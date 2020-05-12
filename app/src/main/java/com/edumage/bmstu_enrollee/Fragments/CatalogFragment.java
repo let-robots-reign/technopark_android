@@ -38,7 +38,7 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
         super.onCreate(savedInstanceState);
 
         cards = new ArrayList<>();
-        cards.add(new CatalogCard("Об университете", R.drawable.bmstu));
+        cards.add(new CatalogCard("Об университете", R.drawable.bmstu,CatalogCard.UNIVERSIRTY_CARD_ID));
         cards.add(new CatalogCard("Новости", R.drawable.newspaper,CatalogCard.NEWS_CARD_ID));
         cards.add(new CatalogCard("Факультеты и кафедры", R.drawable.faculties));
         cards.add(new CatalogCard("Корпуса и общежития", R.drawable.ulk,CatalogCard.CAMPUS_CARD_ID));
@@ -80,9 +80,17 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
         }
 
         //TODO change way of start new activity, using MVP
+        //TODO do it through fragment, like upper
         if (catalogId == CatalogCard.CAMPUS_CARD_ID){
             Intent intent = new Intent(getContext(), BuildingActivity.class);
             startActivity(intent);
+        }
+
+        if (catalogId==CatalogCard.UNIVERSIRTY_CARD_ID){
+            @SuppressLint("UseRequireInsteadOfGet") NavController navController =
+                    Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            navController.navigate(R.id.action_catalog_tab_to_universityFragment);
+            //getParentFragmentManager().beginTransaction().show(UniversityFragment.newInstance()).commit();
         }
 
     }

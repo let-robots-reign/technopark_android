@@ -70,9 +70,30 @@
     <string name="tab_text_hostel">Общежития</string>
     <string name="unable_to_load_data">Невозможно загрузить данные</string>
     <string name="unable_to_show_map">Невозможно показать на карте</string>
+    <string name="unable_to_show_site">Сервис временно не доступен</string>
 
     <string name="dialog_ok">Ок</string>
     <string name="dialog_cancel">Закрыть</string>
+
+    <string name="useful_links">Полезные ссылки</string>
+    <string name="social_links">Социальные сети</string>
+
+    <string name="about_university">Об унивеситете</string>
+    <string name="university_description">
+        \tМГТУ им.н. э. Баумана (МГТУ им. н. э. Баумана) - ведущий российский вуз,
+        который на протяжении более чем 185-летней своей истории выпустил выдающихся
+        ученых и исследователей, ставших пионерами мировой ракетной техники, авиации и
+        тяжелой промышленности.
+\n
+\tМГТУ показан в ряде рейтинге QS. Заняв 299-е место в рейтинге QS World University
+        Rankings ® 2017/18, МГТУ им.н. э. Баумана доминирует в ряде технологических областей,
+        отраженных в рейтинге QS World University Rankings by Subject 2018, включая компьютерные
+        науки и информационные системы, электрическую и электронную инженерию, машиностроение, математику,
+        физику и астрономию.
+
+    </string>
+    <string name="university_site">Сайт университета</string>
+    <string name="qs_site">Рейтинг QS</string>
 
 
 

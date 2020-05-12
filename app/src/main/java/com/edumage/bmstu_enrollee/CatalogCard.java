@@ -6,6 +6,7 @@ public class CatalogCard {
 
     public static int CAMPUS_CARD_ID=1;
     public static int NEWS_CARD_ID=2;
+    public static int UNIVERSIRTY_CARD_ID=3;
 
 
     private String title;
