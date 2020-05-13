@@ -125,6 +125,26 @@
     <string name="text_news">12 апреля в 12:00 пройдет прямая трансляция на сайте abiturient.bmstu.ru с Борисом Васильевичем Падалкиным первым проректором - проректором по учебной работе, на трансляции вы узнаете больше про МГТУ им. Н.Э. Баумана, про направления подготовки и правила приема 2020.</string>
     <string name="name_speciality">Математика прикладная информатика</string>
     <string name="loading_data">Loading data</string>
+    <string name="current_apply_step">Текущий статус поступления</string>
+    <string name="current_step_title">Текущий шаг поступления</string>
+    <string name="news_tab">Новости</string>
+    <string name="application_tab">Процесс поступления</string>
+
+    <string-array name="application_descriptions">
+        <item>
+            Изучите шаги на странице "Главная". Начните процесс поступления уже сейчас!
+        </item>
+        <item>
+            Так держать! Вы уже выполнили первые шаги, можно продвигаться дальше.
+        </item>
+        <item>
+            Вы прошли самые сложные шаги, дело осталось за малым!
+        </item>
+        <item>
+            Осталось всего несколько шагов, поднажмите! Будьте внимательны при подаче оригиналов,
+            взвесьте все "за" и "против".
+        </item>
+    </string-array>
 
 
     <string-array name="application_steps">

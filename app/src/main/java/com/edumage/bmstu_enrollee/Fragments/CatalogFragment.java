@@ -36,7 +36,7 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
         cards.add(new CatalogCard("Факультеты и кафедры", R.drawable.faculties));
         cards.add(new CatalogCard("Корпуса и общежития", R.drawable.ulk));
         cards.add(new CatalogCard("Внеучебная деятельность", R.drawable.studsovet));
-        cards.add(new CatalogCard("Подача документов", R.drawable.application));
+        cards.add(new CatalogCard("Процесс поступления", R.drawable.application));
         cards.add(new CatalogCard("О приложении", R.drawable.info));
         adapter = new CatalogCardsAdapter(cards, this);
     }
