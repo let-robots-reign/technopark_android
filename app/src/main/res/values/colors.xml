@@ -19,4 +19,7 @@
     <color name="newsFiol">#432371</color>
     <color name="newsPink">#F08080</color>
     <color name="newsGreen">#7Fb800</color>
+
+    <color name="progress_filled">#aeea00</color>
+    <color name="progress_unfilled">#90d3d3d3</color>
 </resources>
