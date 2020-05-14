@@ -117,4 +117,6 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
     private String getDateComponent(int date) {
         return (date < 10) ? "0" + date : String.valueOf(date);
     }
+
+
 }

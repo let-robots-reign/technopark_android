@@ -13,6 +13,13 @@
         <action
             android:id="@+id/action_home_tab_self"
             app:destination="@id/home_tab" />
+        <action
+            android:id="@+id/action_home_tab_to_userFragment"
+            app:destination="@id/userFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/stats_tab"
@@ -34,6 +41,9 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_catalog_tab_to_buildingActivity"
+            app:destination="@id/buildingActivity" />
     </fragment>
     <fragment
         android:id="@+id/newsFragment"
@@ -68,4 +78,13 @@
         android:name="com.edumage.bmstu_enrollee.Fragments.UniversityFragment"
         android:label="university_fragment"
         tools:layout="@layout/university_fragment" />
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.edumage.bmstu_enrollee.Fragments.UserFragment"
+        android:label="UserFragment" />
+    <activity
+        android:id="@+id/buildingActivity"
+        android:name="com.edumage.bmstu_enrollee.BuildingActivity"
+        android:label="activity_building"
+        tools:layout="@layout/activity_building" />
 </navigation>

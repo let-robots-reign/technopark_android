@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.UniversityFragment">
+  >
 
     <Button
         android:id="@+id/university_site_btn"
@@ -26,6 +26,7 @@
         android:layout_margin="@dimen/default_margin"
         android:padding="@dimen/inner_components_spacing"
         android:src="@drawable/bmstu_image"
+        android:contentDescription="@string/content_descr_bmstu_img"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +41,7 @@
         android:layout_marginTop="8dp"
         android:scaleType="fitCenter"
         android:src="@drawable/instagram_icon"
+        android:contentDescription="@string/content_descr_instagram_img"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,6 +58,7 @@
         android:src="@drawable/vk_icon"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintDimensionRatio="1"
+        android:contentDescription="@string/content_descr_vk_img"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/inst_social"
         app:layout_constraintHorizontal_bias="0.5"

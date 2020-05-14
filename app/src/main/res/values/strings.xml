@@ -75,8 +75,13 @@
     <string name="dialog_ok">Ок</string>
     <string name="dialog_cancel">Закрыть</string>
 
+    <string name="content_descr_bmstu_img">Изображение университета</string>
+    <string name="content_descr_vk_img">Вконтакте</string>
+    <string name="content_descr_instagram_img">Инстаграм</string>
+
     <string name="useful_links">Полезные ссылки</string>
     <string name="social_links">Социальные сети</string>
+
 
     <string name="about_university">Об унивеситете</string>
     <string name="university_description">
@@ -95,6 +100,18 @@
     <string name="university_site">Сайт университета</string>
     <string name="qs_site">Рейтинг QS</string>
 
+
+
+
+    <string name="user_info">Информация о поступающем</string>
+    <string name="user_info_privacy">Эти данные используются исключительно в целях
+        персонализации приложения, они не передаются сторонним
+        сервисам. Пользователь не обязан указывать свои реальные данные.</string>
+    <string name="confirm_changes">Подтвердить изменения</string>
+    <string name="why_inf">Зачем вам эта информация?</string>
+
+
+    <string name="date_is_up_to_date">Данные обновлены</string>
 
 
     <string-array name="disciplines">

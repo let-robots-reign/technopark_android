@@ -59,7 +59,7 @@ public class UniversityFragment extends Fragment implements View.OnClickListener
 
         Toolbar toolbar = v.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
-        toolbar.setTitle("Об университете");
+        toolbar.setTitle(R.string.about_university);
         toolbar.setTitleTextColor(Color.BLACK);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

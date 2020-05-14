@@ -79,11 +79,11 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
             navController.navigate(R.id.action_catalogFragment_to_newsFragment);
         }
 
-        //TODO change way of start new activity, using MVP
-        //TODO do it through fragment, like upper
+
         if (catalogId == CatalogCard.CAMPUS_CARD_ID){
-            Intent intent = new Intent(getContext(), BuildingActivity.class);
-            startActivity(intent);
+            @SuppressLint("UseRequireInsteadOfGet") NavController navController =
+                    Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            navController.navigate(R.id.action_catalog_tab_to_buildingActivity);
         }
 
         if (catalogId==CatalogCard.UNIVERSIRTY_CARD_ID){
