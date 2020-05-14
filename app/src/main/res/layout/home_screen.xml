@@ -141,7 +141,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/documents_steps"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:clipToPadding="false"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

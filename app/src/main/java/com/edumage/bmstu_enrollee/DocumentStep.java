@@ -45,4 +45,8 @@ public class DocumentStep {
                 return Color.BLACK;
         }
     }
+
+    public void setStepStatus(DocumentStepStatus stepStatus) {
+        this.stepStatus = stepStatus;
+    }
 }

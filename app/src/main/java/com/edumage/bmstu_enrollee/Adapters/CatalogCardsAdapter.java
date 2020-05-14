@@ -23,22 +23,20 @@ public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapte
         onCardListener = cardListener;
     }
 
-    static class CatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class CatalogViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
         private ImageView image;
-        private OnCardListener onCardListener;
 
-        CatalogViewHolder(@NonNull View itemView, OnCardListener cardListener) {
+        CatalogViewHolder(@NonNull View itemView, final OnCardListener cardListener) {
             super(itemView);
             title = itemView.findViewById(R.id.catalog_text);
             image = itemView.findViewById(R.id.catalog_image);
-            onCardListener = cardListener;
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            onCardListener.onCardClick(getAdapterPosition());
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    cardListener.onCardClick(getAdapterPosition());
+                }
+            });
         }
     }
 

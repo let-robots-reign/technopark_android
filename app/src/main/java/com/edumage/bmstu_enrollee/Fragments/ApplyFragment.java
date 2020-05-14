@@ -40,25 +40,35 @@ public class ApplyFragment extends Fragment {
             }
         });
 
+        View nestedCard = rootView.findViewById(R.id.step_card);
+
         SharedPreferences preferences = requireActivity().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
         int currentStep = preferences.getInt(CURRENT_STEP, 0);
         String[] budgetSteps = getResources().getStringArray(R.array.application_steps);
-        String step = budgetSteps[currentStep];
+        String step;
+        if (currentStep == budgetSteps.length) {
+            step = getResources().getString(R.string.all_steps_completed);
+            nestedCard.setVisibility(View.GONE);
+        } else {
+            step = budgetSteps[currentStep];
+        }
 
         ProgressBar progressBar = rootView.findViewById(R.id.circularProgressBar);
         TextView progressTitle = rootView.findViewById(R.id.progress_title);
-        int percent = (int) Math.round((double)currentStep / (budgetSteps.length - 1) * 100);
+        int percent = (int) Math.round((double)currentStep / budgetSteps.length * 100);
         progressTitle.setText(percent + "%");
         ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, 0, percent);
-        animation.setDuration(800);
+        animation.setDuration(percent * 10);
         progressBar.startAnimation(animation);
 
         TextView progressDescription = rootView.findViewById(R.id.progress_description);
         String[] descriptions = getResources().getStringArray(R.array.application_descriptions);
-        progressDescription.setText(descriptions[percent / (100 / descriptions.length)]);
+        if (percent == 100) {
+            progressDescription.setText(step);
+        } else {
+            progressDescription.setText(descriptions[percent / (100 / descriptions.length)]);
+        }
 
-        View nestedCard = rootView.findViewById(R.id.step_card);
-        nestedCard.setMinimumHeight(0); // height will be wrap_content
         ((TextView)nestedCard.findViewById(R.id.step_title)).setText(R.string.current_step_title);
         ((TextView)nestedCard.findViewById(R.id.step_text)).setText(step);
 

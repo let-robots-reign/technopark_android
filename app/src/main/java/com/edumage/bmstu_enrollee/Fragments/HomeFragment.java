@@ -38,10 +38,11 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment implements View.OnClickListener, DocumentStepsAdapter.DoneClickListener {
     private ExamScoresAdapter examScoresAdapter;
     private DocumentStepsAdapter stepsAdapter;
     private RecyclerView examResults;
+    private RecyclerView steps;
 
     private List<TextView> scoresTexts;
     private List<ProgressBar> progressBars;
@@ -88,8 +89,34 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         for (int i = 0; i < budgetSteps.length; ++i) {
             steps.add(new DocumentStep(budgetSteps[i], getDocumentCardStatus(i)));
         }
+        if (getCurrentStepPosition() == budgetSteps.length) {
+            steps.add(new DocumentStep(getResources().getString(R.string.all_steps_completed),
+                    DocumentStepStatus.COMPLETED_STEP));
+        }
 
-        stepsAdapter = new DocumentStepsAdapter(steps);
+        stepsAdapter = new DocumentStepsAdapter(steps, this);
+    }
+
+    @Override
+    public void onButtonClick(final int current) {
+        List<DocumentStep> newList = stepsAdapter.getStepsList();
+        SharedPreferences preferences = requireActivity().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+        preferences.edit().putInt(CURRENT_STEP, current + 1).apply();
+        newList.get(current).setStepStatus(DocumentStepStatus.COMPLETED_STEP);
+        if (current == stepsAdapter.getItemCount() - 1) {
+            newList.add(new DocumentStep(getResources().getString(R.string.all_steps_completed),
+                    DocumentStepStatus.COMPLETED_STEP));
+        } else {
+            newList.get(current + 1).setStepStatus(DocumentStepStatus.CURRENT_STEP);
+        }
+
+        stepsAdapter.setStepsList(newList);
+        stepsAdapter.notifyItemChanged(current);
+        stepsAdapter.notifyItemChanged(current + 1);
+        LinearLayoutManager manager = (LinearLayoutManager)steps.getLayoutManager();
+        if (manager != null) {
+            manager.scrollToPositionWithOffset(current + 1, 0);
+        }
     }
 
     private void startParsing() {
@@ -174,7 +201,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 RecyclerView.VERTICAL, false));
         examResults.setAdapter(examScoresAdapter);
 
-        RecyclerView steps = rootView.findViewById(R.id.documents_steps);
+        steps = rootView.findViewById(R.id.documents_steps);
         // we need to scroll horizontally so horizontal LinearLayout is needed
         steps.setLayoutManager(new LinearLayoutManager(getActivity(),
                 RecyclerView.HORIZONTAL, false));
@@ -219,7 +246,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             progressBars.get(i).setVisibility(View.GONE);
             downloadIcons.get(i).setVisibility(View.GONE);
         }
-
 
         ImageView icRefresh = rootView.findViewById(R.id.refresh);
         icRefresh.setOnClickListener(new View.OnClickListener() {
