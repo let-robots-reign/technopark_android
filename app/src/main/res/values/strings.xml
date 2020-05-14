@@ -129,6 +129,7 @@
     <string name="current_step_title">Текущий шаг поступления</string>
     <string name="news_tab">Новости</string>
     <string name="application_tab">Процесс поступления</string>
+    <string name="done">Готово</string>
 
     <string-array name="application_descriptions">
         <item>

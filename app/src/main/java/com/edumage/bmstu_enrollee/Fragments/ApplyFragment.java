@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toolbar;
@@ -46,17 +48,45 @@ public class ApplyFragment extends Fragment {
         ProgressBar progressBar = rootView.findViewById(R.id.circularProgressBar);
         TextView progressTitle = rootView.findViewById(R.id.progress_title);
         int percent = (int) Math.round((double)currentStep / (budgetSteps.length - 1) * 100);
-        progressBar.setProgress(percent);
         progressTitle.setText(percent + "%");
+        ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, 0, percent);
+        animation.setDuration(800);
+        progressBar.startAnimation(animation);
 
         TextView progressDescription = rootView.findViewById(R.id.progress_description);
         String[] descriptions = getResources().getStringArray(R.array.application_descriptions);
         progressDescription.setText(descriptions[percent / (100 / descriptions.length)]);
 
         View nestedCard = rootView.findViewById(R.id.step_card);
+        nestedCard.setMinimumHeight(0); // height will be wrap_content
         ((TextView)nestedCard.findViewById(R.id.step_title)).setText(R.string.current_step_title);
         ((TextView)nestedCard.findViewById(R.id.step_text)).setText(step);
 
+        // animate text
+        progressTitle.setAlpha(0f);
+        progressTitle.animate().alpha(1f).setDuration(1000);
+        progressDescription.setAlpha(0f);
+        progressDescription.animate().alpha(1f).setDuration(1000);
+
         return rootView;
+    }
+
+    private static class ProgressBarAnimation extends Animation {
+        private ProgressBar progressBar;
+        private float fromValue;
+        private float toValue;
+
+        ProgressBarAnimation(ProgressBar progress, float fromV, float toV) {
+            progressBar = progress;
+            fromValue = fromV;
+            toValue = toV;
+        }
+
+        @Override
+        protected void applyTransformation(float interpolatedTime, Transformation t) {
+            super.applyTransformation(interpolatedTime, t);
+            float progressValue = fromValue + (toValue - fromValue) * interpolatedTime;
+            progressBar.setProgress((int)progressValue);
+        }
     }
 }
