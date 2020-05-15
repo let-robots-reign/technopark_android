@@ -13,6 +13,13 @@
         <action
             android:id="@+id/action_home_tab_self"
             app:destination="@id/home_tab" />
+        <action
+            android:id="@+id/action_home_tab_to_userFragment"
+            app:destination="@id/userFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/stats_tab"
@@ -28,8 +35,20 @@
             android:id="@+id/action_catalogFragment_to_newsFragment"
             app:destination="@id/newsFragment" />
         <action
+
+            android:id="@+id/action_catalog_tab_to_universityFragment"
+            app:destination="@id/universityFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_catalog_tab_to_buildingActivity"
+            app:destination="@id/buildingActivity" />
+         <action
             android:id="@+id/action_catalog_Fragment_to_applyFragment"
             app:destination="@id/applyFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/newsFragment"
@@ -57,8 +76,24 @@
             app:argType="string" />
     </fragment>
     <fragment
+
+        android:id="@+id/universityFragment"
+        android:name="com.edumage.bmstu_enrollee.Fragments.UniversityFragment"
+        android:label="university_fragment"
+        tools:layout="@layout/university_fragment" />
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.edumage.bmstu_enrollee.Fragments.UserFragment"
+        android:label="UserFragment" />
+    <activity
+        android:id="@+id/buildingActivity"
+        android:name="com.edumage.bmstu_enrollee.BuildingActivity"
+        android:label="activity_building"
+        tools:layout="@layout/activity_building" />
+<fragment
         android:id="@+id/applyFragment"
         android:name="com.edumage.bmstu_enrollee.Fragments.ApplyFragment"
         android:label="ApplyFragment"
         tools:layout="@layout/apply_screen" />
+
 </navigation>

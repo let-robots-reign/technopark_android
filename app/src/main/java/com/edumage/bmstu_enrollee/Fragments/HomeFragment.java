@@ -1,5 +1,6 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -19,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -195,6 +198,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
 
         TextView name = rootView.findViewById(R.id.user_name);
         name.setText(model.getUserInfo().getUserName());
+
+        //testing new fragment
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                @SuppressLint("UseRequireInsteadOfGet") NavController navController =
+                        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.action_home_tab_to_userFragment);
+            }
+        });
+
+
 
         examResults = rootView.findViewById(R.id.exam_scores_list);
         examResults.setLayoutManager(new LinearLayoutManager(getActivity(),

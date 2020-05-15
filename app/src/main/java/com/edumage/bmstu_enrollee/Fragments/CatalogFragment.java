@@ -31,6 +31,7 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         List<CatalogCard> cards = new ArrayList<>();
         cards.add(new CatalogCard("Об университете", R.drawable.bmstu, CatalogCard.ABOUT_CARD_ID));
         cards.add(new CatalogCard("Новости", R.drawable.newspaper, CatalogCard.NEWS_CARD_ID));
@@ -39,6 +40,7 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
         cards.add(new CatalogCard("Внеучебная деятельность", R.drawable.studsovet, CatalogCard.EVENTS_CARD_ID));
         cards.add(new CatalogCard("Процесс поступления", R.drawable.application, CatalogCard.APPLY_CARD_ID));
         cards.add(new CatalogCard("О приложении", R.drawable.info, CatalogCard.INFO_CARD_ID));
+
 
         adapter = new CatalogCardsAdapter(cards, this);
     }
@@ -71,10 +73,25 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
             navController.navigate(R.id.action_catalog_Fragment_to_applyFragment);
         }
 
+
+
+        if (catalogId == CatalogCard.CAMPUS_CARD_ID){
+            @SuppressLint("UseRequireInsteadOfGet") NavController navController =
+                    Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            navController.navigate(R.id.action_catalog_tab_to_buildingActivity);
+        }
+
+        if (catalogId==CatalogCard.UNIVERSIRTY_CARD_ID){
+            @SuppressLint("UseRequireInsteadOfGet") NavController navController =
+                    Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            navController.navigate(R.id.action_catalog_tab_to_universityFragment);
+            //getParentFragmentManager().beginTransaction().show(UniversityFragment.newInstance()).commit();
+
         //TODO change way of start new activity, using MVP
         if (catalogId == CatalogCard.CAMPUS_CARD_ID) {
             Intent intent = new Intent(getContext(), BuildingActivity.class);
             startActivity(intent);
+
         }
     }
 }
