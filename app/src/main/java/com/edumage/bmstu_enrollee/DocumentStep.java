@@ -5,7 +5,7 @@ import android.graphics.Color;
 public class DocumentStep {
 
     private String stepContent;
-    private DocumentStepStatus stepStatus;  // can be -1 (completed), 0 (current), 1 (next)
+    private DocumentStepStatus stepStatus;
 
     public DocumentStep(String content, DocumentStepStatus status) {
         stepContent = content;
@@ -25,7 +25,7 @@ public class DocumentStep {
             case COMPLETED_STEP:
                 return "Предыдущий шаг";
             case CURRENT_STEP:
-                return "Текущий шаг подачи документов";
+                return "Текущий шаг поступления";
             case FUTURE_STEP:
                 return "Следующий шаг";
             default:
@@ -44,5 +44,9 @@ public class DocumentStep {
             default:
                 return Color.BLACK;
         }
+    }
+
+    public void setStepStatus(DocumentStepStatus stepStatus) {
+        this.stepStatus = stepStatus;
     }
 }

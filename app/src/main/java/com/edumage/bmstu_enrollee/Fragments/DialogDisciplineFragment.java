@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,7 +104,6 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
 
     @Override
     public void onClick(View v) {
-
         if (v.getId()==R.id.discipline_dialog_ok){
             if(chosenDisciplines>3){
                 Toast.makeText(getContext(),R.string.disciplines_alert,Toast.LENGTH_SHORT).show();

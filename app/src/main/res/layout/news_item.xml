@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:contentDescription="@string/news_image"
+        android:background="@color/white"
         android:scaleType="centerCrop"
         tools:src="@drawable/exampleimgnews_1" />
 
@@ -20,7 +21,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.2"
-        android:background="#05668d" />
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/text_without_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:paddingStart="8dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="6dp"
+        android:textSize="18sp"
+        app:fontFamily="@font/cuprum"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,12 +64,15 @@
                 android:id="@+id/text_of_news"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="6dp"
+                android:paddingStart="8dp"
                 android:paddingEnd="6dp"
                 android:paddingBottom="6dp"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:paddingTop="7dp"
+                android:textSize="15sp"
                 app:fontFamily="@font/cuprum"
+                android:maxLines="4"
+                android:ellipsize="end"
                 tools:text="Hello" />
         </RelativeLayout>
     </LinearLayout>

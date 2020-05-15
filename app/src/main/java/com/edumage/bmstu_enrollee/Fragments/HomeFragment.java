@@ -1,6 +1,7 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,11 +36,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements View.OnClickListener {
+import static android.content.Context.MODE_PRIVATE;
+
+public class HomeFragment extends Fragment implements View.OnClickListener, DocumentStepsAdapter.DoneClickListener {
     private ExamScoresAdapter examScoresAdapter;
     private DocumentStepsAdapter stepsAdapter;
-    private List<DocumentStep> steps;
     private RecyclerView examResults;
+    private RecyclerView steps;
 
     private List<TextView> scoresTexts;
     private List<ProgressBar> progressBars;
@@ -50,6 +53,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private static final int EGE_EDIT_DIALOG = 0;
     private static final int DISCIPLINES_EDIT_DIALOG = 1;
+    private static final String APP_PREFERENCES = "APP_PREFERENCES";
+    private static final String CURRENT_STEP = "CURRENT_DOCUMENTS_STEP";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,15 +84,39 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void createDocumentStepsList() {
-        // sample data
-        steps = new ArrayList<>();
-        steps.add(new DocumentStep("Это предыдущий шаг №1", DocumentStepStatus.COMPLETED_STEP));
-        steps.add(new DocumentStep("Это предыдущий шаг №2", DocumentStepStatus.COMPLETED_STEP));
-        steps.add(new DocumentStep("Это текущий шаг", DocumentStepStatus.CURRENT_STEP));
-        steps.add(new DocumentStep("Это следующий шаг №1", DocumentStepStatus.FUTURE_STEP));
-        steps.add(new DocumentStep("Это следующий шаг №2", DocumentStepStatus.FUTURE_STEP));
+        List<DocumentStep> steps = new ArrayList<>();
+        String[] budgetSteps = getResources().getStringArray(R.array.application_steps);
+        for (int i = 0; i < budgetSteps.length; ++i) {
+            steps.add(new DocumentStep(budgetSteps[i], getDocumentCardStatus(i)));
+        }
+        if (getCurrentStepPosition() == budgetSteps.length) {
+            steps.add(new DocumentStep(getResources().getString(R.string.all_steps_completed),
+                    DocumentStepStatus.COMPLETED_STEP));
+        }
 
-        stepsAdapter = new DocumentStepsAdapter(steps);
+        stepsAdapter = new DocumentStepsAdapter(steps, this);
+    }
+
+    @Override
+    public void onButtonClick(final int current) {
+        List<DocumentStep> newList = stepsAdapter.getStepsList();
+        SharedPreferences preferences = requireActivity().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+        preferences.edit().putInt(CURRENT_STEP, current + 1).apply();
+        newList.get(current).setStepStatus(DocumentStepStatus.COMPLETED_STEP);
+        if (current == stepsAdapter.getItemCount() - 1) {
+            newList.add(new DocumentStep(getResources().getString(R.string.all_steps_completed),
+                    DocumentStepStatus.COMPLETED_STEP));
+        } else {
+            newList.get(current + 1).setStepStatus(DocumentStepStatus.CURRENT_STEP);
+        }
+
+        stepsAdapter.setStepsList(newList);
+        stepsAdapter.notifyItemChanged(current);
+        stepsAdapter.notifyItemChanged(current + 1);
+        LinearLayoutManager manager = (LinearLayoutManager)steps.getLayoutManager();
+        if (manager != null) {
+            manager.scrollToPositionWithOffset(current + 1, 0);
+        }
     }
 
     private void startParsing() {
@@ -96,13 +125,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public void onChanged(List<String> scores) {
 
                 if (scores.size() == 0) {
-                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload, "")); // last reload TextView
+                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload)); // last reload TextView
                     for (int i = 1; i < programs.size() + 1; ++i) {
                         scoresTexts.get(i).setVisibility(View.INVISIBLE);
                         progressBars.get(i - 1).setVisibility(View.VISIBLE);
                     }
                 } else {
-                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload, scores.get(0)));
+                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload) + " " + scores.get(0));
                     for (int i = 1; i < scores.size(); ++i) {
                         scoresTexts.get(i).setVisibility(View.VISIBLE);
                         scoresTexts.get(i).setText(scores.get(i));
@@ -172,7 +201,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 RecyclerView.VERTICAL, false));
         examResults.setAdapter(examScoresAdapter);
 
-        RecyclerView steps = rootView.findViewById(R.id.documents_steps);
+        steps = rootView.findViewById(R.id.documents_steps);
         // we need to scroll horizontally so horizontal LinearLayout is needed
         steps.setLayoutManager(new LinearLayoutManager(getActivity(),
                 RecyclerView.HORIZONTAL, false));
@@ -218,7 +247,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             downloadIcons.get(i).setVisibility(View.GONE);
         }
 
-
         ImageView icRefresh = rootView.findViewById(R.id.refresh);
         icRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,13 +263,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         examResults.setAdapter(examScoresAdapter);
     }
 
-    private int getCurrentStepPosition() {
-        // searching for the first step with status code CURRENT_STEP
-        int position = 0;
-        while (steps.get(position).getStepStatus() != DocumentStepStatus.CURRENT_STEP) {
-            position++;
+    private DocumentStepStatus getDocumentCardStatus(int cardNumber) {
+        int currentStep = getCurrentStepPosition();
+        if (cardNumber < currentStep) {
+            return DocumentStepStatus.COMPLETED_STEP;
+        } else if (cardNumber > currentStep) {
+            return DocumentStepStatus.FUTURE_STEP;
         }
-        return position;
+        return DocumentStepStatus.CURRENT_STEP;
+    }
+
+    private int getCurrentStepPosition() {
+        SharedPreferences preferences = requireActivity().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+        return preferences.getInt(CURRENT_STEP, 0);
     }
 
     private void showDialogFragment(int dialog_id) {

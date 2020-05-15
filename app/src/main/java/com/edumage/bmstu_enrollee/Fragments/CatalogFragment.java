@@ -43,7 +43,7 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
         cards.add(new CatalogCard("Факультеты и кафедры", R.drawable.faculties));
         cards.add(new CatalogCard("Корпуса и общежития", R.drawable.ulk,CatalogCard.CAMPUS_CARD_ID));
         cards.add(new CatalogCard("Внеучебная деятельность", R.drawable.studsovet));
-        cards.add(new CatalogCard("Подача документов", R.drawable.application));
+        cards.add(new CatalogCard("Процесс поступления", R.drawable.application));
         cards.add(new CatalogCard("О приложении", R.drawable.info));
 
 
@@ -73,10 +73,12 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
 
     @Override
     public void onCardClick(int catalogId) {
-
         if (catalogId ==CatalogCard.NEWS_CARD_ID) {
             @SuppressLint("UseRequireInsteadOfGet") NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.action_catalogFragment_to_newsFragment);
+        } else if (position == 5) {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            navController.navigate(R.id.action_catalog_Fragment_to_applyFragment);
         }
 
         //TODO change way of start new activity, using MVP

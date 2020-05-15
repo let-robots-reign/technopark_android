@@ -1,5 +1,6 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +77,7 @@ public class NewsItemFragment extends Fragment {
         titleView.setText(title);
         ImageView image = rootView.findViewById(R.id.news_page_img);
         if (imageURL != null) {
-            Picasso.get().load(imageURL).into(image);
+            Picasso.with(getActivity()).load(imageURL).into(image);
         } else {
             image.setImageResource(R.drawable.no_image);
         }
@@ -85,6 +86,7 @@ public class NewsItemFragment extends Fragment {
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
         toolbar.setTitle(title);
+        toolbar.setTitleTextColor(Color.BLACK);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

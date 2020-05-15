@@ -1,5 +1,7 @@
 package com.edumage.bmstu_enrollee.Adapters;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +22,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     private List<NewsItem> cardsNews;
     private OnNewsListener newsListener;
     private List<Integer> colorsNews;
-    public NewsAdapter(List<NewsItem> list, OnNewsListener listener, List<Integer> colors){
+    private Context context;
+    public NewsAdapter(List<NewsItem> list, OnNewsListener listener, List<Integer> colors, Context c) {
         cardsNews = list;
         newsListener = listener;
         colorsNews = colors;
+        context = c;
     }
 
     @NonNull
@@ -35,13 +39,25 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        holder.textOfNews.setText(cardsNews.get(position).getTitle());
         String imgURL = cardsNews.get(position).getImgURL();
-        holder.halfOfNews.setBackgroundResource(colorsNews.get(position % colorsNews.size()));
         if (imgURL != null) {
-            Picasso.get().load(imgURL).into(holder.imageOfNews);
+            Picasso.with(context).load(imgURL).into(holder.imageOfNews);
+            holder.filterNews.setAlpha(0.2f);
+            holder.textOfNews.setText(cardsNews.get(position).getTitle());
+            holder.halfOfNews.setBackgroundResource(colorsNews.get(position % colorsNews.size()));
+            holder.halfOfNews.setAlpha(0.9f);
+            holder.textWithoutImg.setText("");
+            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                holder.textOfNews.setMaxLines(6);
+            } else {
+                holder.textOfNews.setMaxLines(4);
+            }
         } else {
-            holder.imageOfNews.setImageResource(R.drawable.no_image);
+            holder.imageOfNews.setImageResource(R.drawable.bmstu_icon);
+            holder.filterNews.setAlpha(0.9f);
+            holder.textOfNews.setText("");
+            holder.halfOfNews.setAlpha(0);
+            holder.textWithoutImg.setText(cardsNews.get(position).getTitle());
         }
     }
 
@@ -54,6 +70,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         ImageView imageOfNews;
         TextView textOfNews;
         OnNewsListener newsListener;
+        TextView textWithoutImg;
         View halfOfNews, half1, half2, filterNews;
 
         NewsViewHolder(@NonNull View itemView, OnNewsListener listener) {
@@ -65,6 +82,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             half1 = itemView.findViewById(R.id.half1_news);
             half2 = itemView.findViewById(R.id.half2_news);
             filterNews = itemView.findViewById(R.id.filter_news);
+            textWithoutImg = itemView.findViewById(R.id.text_without_img);
             itemView.setOnClickListener(this);
         }
 
