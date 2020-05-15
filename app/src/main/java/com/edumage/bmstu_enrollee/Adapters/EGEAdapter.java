@@ -25,20 +25,13 @@ import androidx.recyclerview.widget.RecyclerView;
 public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
     private ArrayList<EGESubject> data;
 
-    public EGEAdapter() {
-
-    }
-
     public ArrayList<EGESubject> getPassed() {
-        ArrayList<EGESubject>  res  =  new ArrayList<>();
-        for (EGESubject subject: data){
-            if (subject.isPassed())res.add(subject);
+        ArrayList<EGESubject> res = new ArrayList<>();
+        for (EGESubject subject : data) {
+            if (subject.isPassed()) res.add(subject);
         }
         return res;
     }
-
-
-
 
     @NonNull
     @Override
@@ -53,12 +46,11 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if(data!=null){
+        if (data != null) {
             return data.size();
         } else {
             return 0;
         }
-       // return data.size();
     }
 
     public void setData(ArrayList<EGESubject> data) {

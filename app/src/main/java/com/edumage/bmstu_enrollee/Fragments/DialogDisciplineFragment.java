@@ -32,11 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DialogDisciplineFragment extends DialogFragment implements View.OnClickListener, DisciplineAdapter.DisciplineCardClick {
 
     private DisciplineAdapter adapter;
-    //private ArrayList<Discipline> data;
-    private int chosenDisciplines = 0;
-
     static final String TAG = "DialogDisciplineFragment";
-
     private DisciplinesViewModel model;
 
     @Override
@@ -44,11 +40,13 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
         super.onCreate(savedInstanceState);
 
         adapter = new DisciplineAdapter(this);
+
         model = ViewModelProviders.of(this).get(DisciplinesViewModel.class);
-        if (savedInstanceState==null) {
+        if (savedInstanceState == null) {
             model.loadData();
             model.applyChosenProgram();
         }
+
         model.data.observe(this, new Observer<ArrayList<Discipline>>() {
             @Override
             public void onChanged(ArrayList<Discipline> disciplines) {
@@ -56,8 +54,6 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
                 adapter.notifyDataSetChanged();
             }
         });
-
-
     }
 
     // TODO: need another solution
@@ -103,10 +99,9 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
 
     @Override
     public void onClick(View v) {
-
-        if (v.getId()==R.id.discipline_dialog_ok){
-            if(chosenDisciplines>3){
-                Toast.makeText(getContext(),R.string.disciplines_alert,Toast.LENGTH_SHORT).show();
+        if (v.getId() == R.id.discipline_dialog_ok) {
+            if (getChosenDisciplines() > 3) {
+                Toast.makeText(getContext(), R.string.disciplines_alert, Toast.LENGTH_SHORT).show();
                 return;
             } else {
                 model.replaceAllPrograms(adapter.getData());

@@ -10,28 +10,23 @@ public class BuildingItem {
     private Uri geoLocation;
     private int id;
 
-
-    public  BuildingItem(){
-
-    }
-
-    //for testing
-    public static BuildingItem generate(){
+    // for testing
+    public static BuildingItem generate() {
         BuildingItem item = new BuildingItem();
-        item.address="Рубцовская наб., 2/18, Москва";
-        item.description="Общая площадь — более 80 тыс. м². Рассчитан"+
-        "на одновременный приём более 5 тыс. студентов."+
-                "В нём 100 аудиторий, 20 компьютерных классов, 19 лифтов,"+
-                "библиотека (рассчитанная на хранение 800 тыс. томов книг),"+
+        item.address = "Рубцовская наб., 2/18, Москва";
+        item.description = "Общая площадь — более 80 тыс. м². Рассчитан" +
+                "на одновременный приём более 5 тыс. студентов." +
+                "В нём 100 аудиторий, 20 компьютерных классов, 19 лифтов," +
+                "библиотека (рассчитанная на хранение 800 тыс. томов книг)," +
                 "читальный зал на 680 мест.";
-        item.name="Учебно-лабораторный корпус (УЛК)";
-        item.img_id=R.drawable.ulk;
+        item.name = "Учебно-лабораторный корпус (УЛК)";
+        item.img_id = R.drawable.ulk;
         item.generateGeoLocation();
         return item;
     }
 
-    void generateGeoLocation(){
-        geoLocation= Uri.parse("geo:55.771818, 37.693002?z=3");
+    private void generateGeoLocation() {
+        geoLocation = Uri.parse("geo:55.771818, 37.693002?z=3");
     }
 
     public String getName() {
@@ -46,27 +41,27 @@ public class BuildingItem {
         return img_id;
     }
 
-    public void setId(int id){
-        this.id=id;
+    public void setId(int id) {
+        this.id = id;
         defineImgByXmlId();
     }
 
-    public void defineImgByXmlId(){
-        switch (id){
+    private void defineImgByXmlId() {
+        switch (id) {
             case 1:
-                img_id=R.drawable.guk;
+                img_id = R.drawable.guk;
                 break;
             case 2:
-                img_id=R.drawable.ulk;
+                img_id = R.drawable.ulk;
                 break;
             case 3:
-                img_id=R.drawable.ulk;
+                img_id = R.drawable.sk;
                 break;
             case 4:
-                img_id=R.drawable.izmailovo;
+                img_id = R.drawable.izmailovo;
                 break;
             case 5:
-                img_id=R.drawable.nomts;
+                img_id = R.drawable.nomts;
                 break;
         }
     }
@@ -75,7 +70,7 @@ public class BuildingItem {
         return address;
     }
 
-    public Uri getGeoLocation(){
+    public Uri getGeoLocation() {
         return geoLocation;
     }
 

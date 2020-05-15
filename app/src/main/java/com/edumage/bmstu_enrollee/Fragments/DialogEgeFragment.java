@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DialogEgeFragment extends DialogFragment implements View.OnClickListener {
 
     private EGEAdapter adapter;
-    private ArrayList<EGESubject> data;
     private EgeSubjectsViewModel model;
     private HomeFragment homeFragment;
 
@@ -49,16 +48,17 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
         super.onCreate(savedInstanceState);
 
         if (getParentFragment() instanceof HomeFragment) {
-            homeFragment = (HomeFragment)getParentFragment();
+            homeFragment = (HomeFragment) getParentFragment();
         }
 
         //LoadData();
         adapter = new EGEAdapter();
         model = ViewModelProviders.of(this).get(EgeSubjectsViewModel.class);
-        if (savedInstanceState==null){
+        if (savedInstanceState == null) {
             model.loadData();
             model.applyEgeScore();
         }
+
         model.data.observe(this, new Observer<ArrayList<EGESubject>>() {
             @Override
             public void onChanged(ArrayList<EGESubject> egeSubjects) {
@@ -107,12 +107,11 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
             }
         }
 */
-       int id=v.getId();
+        int id = v.getId();
 
-       if (id==R.id.ege_dialog_ok) {
-               model.replaceAllPoints(adapter.getPassed());
-
-       }
+        if (id == R.id.ege_dialog_ok) {
+            model.replaceAllPoints(adapter.getPassed());
+        }
 
         dismiss();
     }

@@ -44,7 +44,7 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
 
     @Override
     public int getItemCount() {
-        if (data!=null) {
+        if (data != null) {
             return data.size();
         } else {
             return 0;
@@ -55,10 +55,10 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
         this.data = data;
     }
 
-    public ArrayList<Discipline> getEnabled(){
-        ArrayList<Discipline> res= new ArrayList<Discipline>();
-        for (Discipline d:data){
-            if (d.getStatus())res.add(d);
+    public ArrayList<Discipline> getEnabled() {
+        ArrayList<Discipline> res = new ArrayList<Discipline>();
+        for (Discipline d : data) {
+            if (d.getStatus()) res.add(d);
         }
         return res;
     }
@@ -88,7 +88,7 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     enabled = isChecked;
-                    if (enabled && (onDisciplineClick.getChosenDisciplines() >= 3)) {
+                    if (enabled && (onDisciplineClick.getChosenDisciplines() > 3)) {
                         Toast.makeText(context, context.getText(R.string.disciplines_alert), Toast.LENGTH_SHORT).show();
                         enabled = false;
                         //checkBox.setChecked(enabled);
@@ -108,7 +108,6 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
             checkBox.setChecked(enabled);
             discipline.setStatus(enabled);
         }
-
 
         void setDiscipline(Discipline d) {
             discipline = d;

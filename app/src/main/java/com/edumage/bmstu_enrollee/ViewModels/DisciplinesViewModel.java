@@ -1,8 +1,6 @@
 package com.edumage.bmstu_enrollee.ViewModels;
 
 import android.app.Application;
-import android.content.res.Resources;
-import android.os.AsyncTask;
 
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
@@ -19,7 +17,7 @@ import androidx.lifecycle.MutableLiveData;
 public class DisciplinesViewModel extends AndroidViewModel {
     private DbRepository repository;
 
-    public final MutableLiveData<ArrayList<Discipline>> data =  new MutableLiveData<>();
+    public final MutableLiveData<ArrayList<Discipline>> data = new MutableLiveData<>();
 
     public DisciplinesViewModel(@NonNull Application application) {
         super(application);
@@ -27,7 +25,7 @@ public class DisciplinesViewModel extends AndroidViewModel {
     }
 
     public void replaceAllPrograms(List<Discipline> data) {
-        List<ChosenProgram> chosenPrograms =  new ArrayList<>();
+        List<ChosenProgram> chosenPrograms = new ArrayList<>();
         for (Discipline d : data) {
             if (d.getStatus()) {
                 chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
@@ -36,31 +34,26 @@ public class DisciplinesViewModel extends AndroidViewModel {
         repository.replaceAllPrograms(chosenPrograms);
     }
 
-
     //применяет к текущим данным значение из базы данных
-
-    public void applyChosenProgram(){
-
+    public void applyChosenProgram() {
         //TODO maybe need another thread
         List<ChosenProgram> programs = repository.getAllChosenPrograms();
-        ArrayList<Discipline> list= data.getValue();
-        if (list==null)return;
-        for (ChosenProgram program: programs){
-            for(Discipline d: list){
-                if (d.getFullName().equals(program.getProgramName())){
+        ArrayList<Discipline> list = data.getValue();
+        if (list == null) return;
+        for (ChosenProgram program : programs) {
+            for (Discipline d : list) {
+                if (d.getFullName().equals(program.getProgramName())) {
                     d.setStatus(true);
                     break;
                 }
             }
         }
-
     }
 
-    public void loadData(){
+    public void loadData() {
         String[] array = getApplication().getResources().getStringArray(R.array.disciplines);
         ArrayList<Discipline> list = new ArrayList<>();
         for (String value : array) {
-
             String[] s = value.split(" ");
             String number = s[0];
             StringBuilder name = new StringBuilder();

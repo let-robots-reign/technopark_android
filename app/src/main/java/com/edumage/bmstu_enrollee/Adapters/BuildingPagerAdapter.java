@@ -2,14 +2,16 @@ package com.edumage.bmstu_enrollee.Adapters;
 
 import android.content.Context;
 
+import com.edumage.bmstu_enrollee.Fragments.BuildingFragment;
+import com.edumage.bmstu_enrollee.R;
+
+import org.jetbrains.annotations.NotNull;
+
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
-import com.edumage.bmstu_enrollee.Fragments.BuildingFragment;
-import com.edumage.bmstu_enrollee.R;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -26,9 +28,9 @@ public class BuildingPagerAdapter extends FragmentPagerAdapter {
         mContext = context;
     }
 
+    @NotNull
     @Override
     public Fragment getItem(int position) {
-
         return BuildingFragment.newInstance(position + 1);
     }
 

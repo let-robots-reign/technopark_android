@@ -1,90 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="@dimen/default_cardElevation"
     android:layout_margin="@dimen/default_margin"
-    >
-<androidx.constraintlayout.widget.ConstraintLayout
+    android:elevation="@dimen/default_cardElevation">
 
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <Button
+            android:id="@+id/show_map_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Показать на карте"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/building_address" />
 
-    <ImageView
-        android:id="@+id/building_image"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_margin="@dimen/inner_components_spacing"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1"
-        android:src="@drawable/ulk"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/building_name"
-        app:layout_constraintVertical_bias="0.0"
-        android:scaleType="centerCrop"
-        />
+        <ImageView
+            android:id="@+id/building_image"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_margin="@dimen/inner_components_spacing"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ulk"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/building_name"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/building_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        android:fontFamily="@font/roboto_light"
-        android:text="Учебно-лабораторный корпус (УЛК)"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/building_descr"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        android:text="Общая площадь — более 80 тыс. м². Рассчитан
+        <TextView
+            android:id="@+id/building_descr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:text="Общая площадь — более 80 тыс. м². Рассчитан
          на одновременный приём более 5 тыс. студентов.
          В нём 100 аудиторий, 20 компьютерных классов, 19 лифтов,
           библиотека (рассчитанная на хранение 800 тыс. томов книг),
-          читальный зал на 680 мест.
-"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/show_map_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/building_image"
-        app:layout_constraintTop_toBottomOf="@+id/building_name"
-        app:layout_constraintVertical_bias="0.0" />
+          читальный зал на 680 мест."
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/show_map_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/building_image"
+            app:layout_constraintTop_toBottomOf="@+id/building_name"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/building_address"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_marginTop="33dp"
-        android:text="Рубцовская наб., 2/18, Москва"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/building_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/building_image"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/building_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_marginTop="33dp"
+            android:text="Рубцовская наб., 2/18, Москва"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/building_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/building_image"
+            app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/show_map_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Показать на карте"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/building_address" />
+        <TextView
+            android:id="@+id/building_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:fontFamily="@font/roboto_light"
+            android:text="Учебно-лабораторный корпус (УЛК)"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
