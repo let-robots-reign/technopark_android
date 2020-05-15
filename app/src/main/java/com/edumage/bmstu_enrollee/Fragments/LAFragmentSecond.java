@@ -15,7 +15,6 @@ import com.edumage.bmstu_enrollee.WelcomeActivity;
 
 import java.util.ArrayList;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -27,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class LAFragmentSecond extends Fragment implements WelcomeActivity.CompletableFragment {
 
-  // private ArrayList<EGESubject> data;
+    // private ArrayList<EGESubject> data;
     private EGEAdapter adapter;
 
     public static final String TAG = "LAFragmentSecond";
@@ -61,7 +60,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
 
         model = ViewModelProviders.of(this).get(EgeSubjectsViewModel.class);
 
-        if(savedInstanceState==null)model.loadData();
+        if (savedInstanceState == null) model.loadData();
 
         model.data.observe(this, new Observer<ArrayList<EGESubject>>() {
             @Override

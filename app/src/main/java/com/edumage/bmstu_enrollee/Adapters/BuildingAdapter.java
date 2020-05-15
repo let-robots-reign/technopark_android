@@ -1,14 +1,11 @@
 package com.edumage.bmstu_enrollee.Adapters;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.BuildingItem;
 import com.edumage.bmstu_enrollee.R;
@@ -24,30 +21,27 @@ public class BuildingAdapter extends Adapter<BuildingAdapter.ViewHolder> {
     private ArrayList<BuildingItem> data;
     private BuildingMap buildingMap;
 
-    public BuildingAdapter(BuildingMap buildingMap){
-        this.buildingMap=buildingMap;
+    public BuildingAdapter(BuildingMap buildingMap) {
+        this.buildingMap = buildingMap;
     }
-
-
-
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.building_item,parent,false));
+                inflate(R.layout.building_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.setBuildingItem(data.get(position),buildingMap);
+        holder.setBuildingItem(data.get(position), buildingMap);
     }
 
     @Override
     public int getItemCount() {
-        if(data!=null){
-        return data.size();
-        } else{
+        if (data != null) {
+            return data.size();
+        } else {
             return 0;
         }
     }
@@ -65,37 +59,33 @@ public class BuildingAdapter extends Adapter<BuildingAdapter.ViewHolder> {
         BuildingMap buildingMap;
         Button btn;
 
-
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name =itemView.findViewById(R.id.building_name);
+            name = itemView.findViewById(R.id.building_name);
             descr = itemView.findViewById(R.id.building_descr);
-            address= itemView.findViewById(R.id.building_address);
-            img=itemView.findViewById(R.id.building_image);
-            btn=itemView.findViewById(R.id.show_map_button);
+            address = itemView.findViewById(R.id.building_address);
+            img = itemView.findViewById(R.id.building_image);
+            btn = itemView.findViewById(R.id.show_map_button);
             btn.setOnClickListener(this);
         }
 
-        public void setBuildingItem(BuildingItem buildingItem,BuildingMap buildingMap) {
+        void setBuildingItem(BuildingItem buildingItem, BuildingMap buildingMap) {
             this.buildingItem = buildingItem;
             name.setText(buildingItem.getName());
             descr.setText(buildingItem.getDescription());
             img.setImageResource(buildingItem.getImg_id());
             address.setText(buildingItem.getAddress());
-            this.buildingMap=buildingMap;
+            this.buildingMap = buildingMap;
         }
-
-
 
         @Override
-        public void onClick(View v) { buildingMap.showMap(buildingItem);
+        public void onClick(View v) {
+            buildingMap.showMap(buildingItem);
 
         }
     }
 
-    public interface BuildingMap{
+    public interface BuildingMap {
         void showMap(BuildingItem building);
     }
-
-
 }

@@ -6,40 +6,40 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.edumage.bmstu_enrollee.CatalogCard;
 import com.edumage.bmstu_enrollee.R;
 
 import java.util.List;
 
-public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapter.CatalogViewHolder>  {
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapter.CatalogViewHolder> {
     private List<CatalogCard> cards;
     private OnCardListener onCardListener;
-
-
-
 
     public CatalogCardsAdapter(List<CatalogCard> list, OnCardListener cardListener) {
         cards = list;
         onCardListener = cardListener;
     }
 
-    static class CatalogViewHolder extends RecyclerView.ViewHolder {
+    static class CatalogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView title;
         private ImageView image;
+        private OnCardListener onCardListener;
+        private CatalogCard card;
 
-        CatalogViewHolder(@NonNull View itemView, final OnCardListener cardListener) {
+        CatalogViewHolder(@NonNull View itemView, OnCardListener cardListener) {
             super(itemView);
             title = itemView.findViewById(R.id.catalog_text);
             image = itemView.findViewById(R.id.catalog_image);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    cardListener.onCardClick(getAdapterPosition());
-                }
-            });
+            onCardListener = cardListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onCardListener.onCardClick(card.getId());
         }
     }
 
@@ -54,7 +54,7 @@ public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapte
     public void onBindViewHolder(@NonNull CatalogViewHolder holder, int position) {
         holder.title.setText(cards.get(position).getTitle());
         holder.image.setImageResource(cards.get(position).getImage());
-        holder.card=cards.get(position);
+        holder.card = cards.get(position);
     }
 
     @Override

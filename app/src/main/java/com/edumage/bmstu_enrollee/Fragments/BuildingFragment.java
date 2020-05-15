@@ -8,23 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import com.edumage.bmstu_enrollee.Adapters.BuildingAdapter;
 import com.edumage.bmstu_enrollee.BuildingItem;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.BuildingViewModel;
-import com.edumage.bmstu_enrollee.XmlDataStorage;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -32,8 +29,8 @@ import java.util.ArrayList;
 public class BuildingFragment extends Fragment implements BuildingAdapter.BuildingMap {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private static final int CAMPUS_NUMBER=1;
-    private static final int HOSTEL_NUMBER=2;
+    private static final int CAMPUS_NUMBER = 1;
+    private static final int HOSTEL_NUMBER = 2;
 
     private RecyclerView recyclerView;
     private BuildingAdapter adapter;
@@ -50,20 +47,20 @@ public class BuildingFragment extends Fragment implements BuildingAdapter.Buildi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int section_number=0;
+        int section_number = 0;
         Bundle bundle = getArguments();
-        if (bundle!=null) {
+        if (bundle != null) {
             section_number = bundle.getInt(ARG_SECTION_NUMBER);
         }
 
-        final  BuildingViewModel model = ViewModelProviders.of(this).get(BuildingViewModel.class);
+        final BuildingViewModel model = ViewModelProviders.of(this).get(BuildingViewModel.class);
 
         model.state.observe(this, new Observer<BuildingViewModel.ParsingState>() {
             @Override
             public void onChanged(BuildingViewModel.ParsingState parsingState) {
-                switch (parsingState){
+                switch (parsingState) {
                     case FAILURE:
-                        Toast.makeText(getContext(),R.string.unable_to_load_data,Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), R.string.unable_to_load_data, Toast.LENGTH_LONG).show();
                         recyclerView.setVisibility(View.INVISIBLE);
                         break;
                     case SUCCESS:
@@ -80,25 +77,24 @@ public class BuildingFragment extends Fragment implements BuildingAdapter.Buildi
         model.list.observe(this, new Observer<ArrayList<BuildingItem>>() {
             @Override
             public void onChanged(ArrayList<BuildingItem> buildingItems) {
-                if (buildingItems!=null){
+                if (buildingItems != null) {
                     adapter.setData(buildingItems);
                     adapter.notifyDataSetChanged();
                 }
             }
         });
 
-        BuildingViewModel.BuildingType type= BuildingViewModel.BuildingType.HOSTEL;
-        switch (section_number){
+        BuildingViewModel.BuildingType type = BuildingViewModel.BuildingType.HOSTEL;
+        switch (section_number) {
             case CAMPUS_NUMBER:
-                type= BuildingViewModel.BuildingType.CAMPUS;
+                type = BuildingViewModel.BuildingType.CAMPUS;
                 break;
             case HOSTEL_NUMBER:
-                type= BuildingViewModel.BuildingType.HOSTEL;
+                type = BuildingViewModel.BuildingType.HOSTEL;
                 break;
         }
         model.loadData(type);
         adapter = new BuildingAdapter(this);
-
     }
 
     @Override
@@ -106,14 +102,14 @@ public class BuildingFragment extends Fragment implements BuildingAdapter.Buildi
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        View v =  inflater.inflate(R.layout.building_fragment,container, false);
+        View v = inflater.inflate(R.layout.building_fragment, container, false);
         recyclerView = v.findViewById(R.id.placeholder_recyclerview);
-        RecyclerView.LayoutManager layoutManager=null;
+        RecyclerView.LayoutManager layoutManager;
 
-        if(getContext().getResources().getConfiguration().orientation== Configuration.ORIENTATION_PORTRAIT){
-            layoutManager= new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         } else {
-            layoutManager =  new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+            layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         }
 
         recyclerView.setLayoutManager(layoutManager);
@@ -148,11 +144,10 @@ public class BuildingFragment extends Fragment implements BuildingAdapter.Buildi
     public void showMap(BuildingItem building) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(building.getGeoLocation());
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+        if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
             startActivity(intent);
         } else {
-            Toast.makeText(getContext(),R.string.unable_to_show_map,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.unable_to_show_map, Toast.LENGTH_SHORT).show();
         }
-
     }
 }

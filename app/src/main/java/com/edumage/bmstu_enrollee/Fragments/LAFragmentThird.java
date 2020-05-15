@@ -28,10 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class LAFragmentThird extends Fragment implements WelcomeActivity.CompletableFragment, DisciplineAdapter.DisciplineCardClick {
 
     private DisciplineAdapter adapter;
-    private ArrayList<Discipline> data;
-    private int chosenDisciplines;
-
-    private static final String DATA = "DISCIPLINES";
     public static final String TAG = "LAFragmentThird";
 
     private DisciplinesViewModel model;
@@ -56,13 +52,11 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
             }
         }*/
 
-        chosenDisciplines = 0; // in the beginning, user chose nothing
         adapter = new DisciplineAdapter( this);
-        //get all programm
-
+        // get all programm
         model = ViewModelProviders.of(this).get(DisciplinesViewModel.class);
 
-        if(savedInstanceState==null) model.loadData();
+        if (savedInstanceState == null) model.loadData();
         model.data.observe(this, new Observer<ArrayList<Discipline>>() {
             @Override
             public void onChanged(ArrayList<Discipline> disciplines) {
@@ -115,7 +109,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
             }
         }*/
 
-        int count = adapter.getEnabled().size();
+        int count = getChosenDisciplines();
         if (count > 3) {
             Toast.makeText(getActivity(), R.string.alert_discipline_more, Toast.LENGTH_SHORT).show();
             return false;

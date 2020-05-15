@@ -27,7 +27,7 @@ public class SurfaceViewBackground extends SurfaceView implements SurfaceHolder.
         getHolder().addCallback(this);
     }
 
-    private boolean enabled=true;
+    private boolean enabled = true;
 
     private DrawThread drawThread;
 
@@ -35,11 +35,11 @@ public class SurfaceViewBackground extends SurfaceView implements SurfaceHolder.
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
     }
 
-    public void setAnimationEnabled(boolean enabled){
-        if(drawThread!=null)
-        drawThread.setRunning(enabled);
+    public void setAnimationEnabled(boolean enabled) {
+        if (drawThread != null)
+            drawThread.setRunning(enabled);
 
-        this.enabled=enabled;
+        this.enabled = enabled;
     }
 
     @Override
