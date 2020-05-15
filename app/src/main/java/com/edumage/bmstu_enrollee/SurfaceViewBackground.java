@@ -27,16 +27,25 @@ public class SurfaceViewBackground extends SurfaceView implements SurfaceHolder.
         getHolder().addCallback(this);
     }
 
+    private boolean enabled=true;
+
     private DrawThread drawThread;
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
     }
 
+    public void setAnimationEnabled(boolean enabled){
+        if(drawThread!=null)
+        drawThread.setRunning(enabled);
+
+        this.enabled=enabled;
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         drawThread = new DrawThread(getHolder(), getResources());
-        drawThread.setRunning(true);
+        drawThread.setRunning(enabled);
         drawThread.start();
     }
 

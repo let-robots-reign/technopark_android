@@ -73,7 +73,9 @@ public class StatsFragment extends Fragment {
 
         chosenProgramList = model.getAllChosenPrograms();
         // to get the program name from its full name, we need to slice an array of words)
-        curProgram = getProgramShortName(chosenProgramList.get(0).getProgramName());
+        if(chosenProgramList!=null && !chosenProgramList.isEmpty()) {
+            curProgram = getProgramShortName(chosenProgramList.get(0).getProgramName());
+        }
 
         if (savedInstanceState == null) {
             model.init(curProgram);
@@ -131,7 +133,11 @@ public class StatsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 noConnection.setVisibility(View.GONE);
-                curProgram = spinner.getSelectedItem().toString();
+                if (spinner.getSelectedItem()!=null) {
+                    curProgram = spinner.getSelectedItem().toString();
+                } else {
+                    return;
+                }
                 if (budgetBox.isChecked()) {
                     model.loadBudgetFundedScores(curProgram);
                 }

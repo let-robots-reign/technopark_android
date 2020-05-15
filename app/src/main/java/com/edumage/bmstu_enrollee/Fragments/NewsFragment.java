@@ -110,6 +110,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
         toolbar.setTitle(R.string.news_tab);
+
         toolbar.setTitleTextColor(Color.BLACK);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

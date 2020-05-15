@@ -2,6 +2,8 @@ package com.edumage.bmstu_enrollee;
 
 import android.content.Context;
 
+import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -21,7 +23,7 @@ public class Discipline implements Serializable {
         this.enabled = enabled;
     }
 
-    private Discipline(String fullName, String name, String number, String form) {
+    public Discipline(String fullName, String name, String number, String form) {
         this.fullName = fullName;
         this.name = name;
         this.number = number;
@@ -44,7 +46,7 @@ public class Discipline implements Serializable {
         return fullName;
     }
 
-    public static ArrayList<Discipline> LoadDisciplines(Context context) {
+/*    public static ArrayList<Discipline> LoadDisciplines(Context context) {
         String[] array = context.getResources().getStringArray(R.array.disciplines);
         ArrayList<Discipline> list = new ArrayList<>();
         for (String value : array) {
@@ -60,5 +62,13 @@ public class Discipline implements Serializable {
             list.add(new Discipline(value, name.toString(), number, form));
         }
         return list;
-    }
+    }*/
+
+   /* public void applyProgram(ChosenProgram program){
+        name=program.getProgramName();
+        number=program.
+    }*/
+
+
+
 }

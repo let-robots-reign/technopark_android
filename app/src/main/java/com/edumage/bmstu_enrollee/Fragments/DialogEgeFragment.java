@@ -7,21 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.TextView;
 
 import com.edumage.bmstu_enrollee.Adapters.EGEAdapter;
-import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.EGESubject;
 import com.edumage.bmstu_enrollee.R;
-import com.edumage.bmstu_enrollee.ViewModels.LASecondViewModel;
+import com.edumage.bmstu_enrollee.ViewModels.EgeSubjectsViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,7 +30,7 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
 
     private EGEAdapter adapter;
     private ArrayList<EGESubject> data;
-    private LASecondViewModel model;
+    private EgeSubjectsViewModel model;
     private HomeFragment homeFragment;
 
     static final String TAG = "DialogEgeFragment";
@@ -53,9 +52,20 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
             homeFragment = (HomeFragment)getParentFragment();
         }
 
-        LoadData();
-        adapter = new EGEAdapter(data);
-        model = ViewModelProviders.of(this).get(LASecondViewModel.class);
+        //LoadData();
+        adapter = new EGEAdapter();
+        model = ViewModelProviders.of(this).get(EgeSubjectsViewModel.class);
+        if (savedInstanceState==null){
+            model.loadData();
+            model.applyEgeScore();
+        }
+        model.data.observe(this, new Observer<ArrayList<EGESubject>>() {
+            @Override
+            public void onChanged(ArrayList<EGESubject> egeSubjects) {
+                adapter.setData(egeSubjects);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -75,28 +85,34 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false));
         }
-        Button button = v.findViewById(R.id.ege_dialog_button);
-        button.setOnClickListener(this);
+        TextView textViewOk = v.findViewById(R.id.ege_dialog_ok);
+        TextView textViewCancel = v.findViewById(R.id.ege_dialog_cancel);
+
+        textViewOk.setOnClickListener(this);
+        textViewCancel.setOnClickListener(this);
         return v;
     }
 
-    // TODO: переписать этот метод
+   /* // TODO: переписать этот метод
     private void LoadData() {
         data = EGESubject.LoadEgeSubjects(requireContext());
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
-        List<ExamPoints> points = new ArrayList<>();
+       /* List<ExamPoints> points = new ArrayList<>();
         for (EGESubject subject : data) {
             if (subject.isPassed()) {
                 points.add(new ExamPoints(subject.getName(), subject.getScore()));
             }
         }
+*/
+       int id=v.getId();
 
-        if (!points.isEmpty()) {
-            model.replaceAllPoints(points);
-        }
+       if (id==R.id.ege_dialog_ok) {
+               model.replaceAllPoints(adapter.getPassed());
+
+       }
 
         dismiss();
     }

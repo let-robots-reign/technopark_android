@@ -8,21 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.Adapters.DisciplineAdapter;
-import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.R;
-import com.edumage.bmstu_enrollee.ViewModels.LAThirdViewModel;
+import com.edumage.bmstu_enrollee.ViewModels.DisciplinesViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -33,19 +33,32 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DialogDisciplineFragment extends DialogFragment implements View.OnClickListener, DisciplineAdapter.DisciplineCardClick {
 
     private DisciplineAdapter adapter;
-    private ArrayList<Discipline> data;
+    //private ArrayList<Discipline> data;
     private int chosenDisciplines = 0;
 
     static final String TAG = "DialogDisciplineFragment";
 
-    private LAThirdViewModel model;
+    private DisciplinesViewModel model;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LoadData();
-        adapter = new DisciplineAdapter(data, this);
-        model = ViewModelProviders.of(this).get(LAThirdViewModel.class);
+
+        adapter = new DisciplineAdapter(this);
+        model = ViewModelProviders.of(this).get(DisciplinesViewModel.class);
+        if (savedInstanceState==null) {
+            model.loadData();
+            model.applyChosenProgram();
+        }
+        model.data.observe(this, new Observer<ArrayList<Discipline>>() {
+            @Override
+            public void onChanged(ArrayList<Discipline> disciplines) {
+                adapter.setData(disciplines);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
     }
 
     // TODO: need another solution
@@ -77,40 +90,38 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false));
         }
 
-        Button button = v.findViewById(R.id.discipline_dialog_button);
-        button.setOnClickListener(this);
+        TextView textViewOk = v.findViewById(R.id.discipline_dialog_ok);
+        TextView textViewCancel = v.findViewById(R.id.discipline_dialog_cancel);
+        textViewOk.setOnClickListener(this);
+        textViewCancel.setOnClickListener(this);
         return v;
     }
 
-    // TODO: переписать этот метод
+   /* // TODO: переписать этот метод
     private void LoadData() {
         data = Discipline.LoadDisciplines(requireContext());
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
-        List<ChosenProgram> chosenPrograms = new ArrayList<>();
-        int count = 0;
-        for (Discipline d : data) {
-            if (d.getStatus()) {
-                ++count;
-                chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
+        if (v.getId()==R.id.discipline_dialog_ok){
+            if(chosenDisciplines>3){
+                Toast.makeText(getContext(),R.string.disciplines_alert,Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                model.replaceAllPrograms(adapter.getData());
             }
         }
-        if (count > 3) {
-            Toast.makeText(getActivity(), R.string.alert_discipline_more, Toast.LENGTH_SHORT).show();
-        } else {
-            model.replaceAllPrograms(chosenPrograms);
-            dismiss();
-        }
+
+        dismiss();
     }
 
     @Override
     public int getChosenDisciplines() {
-        return chosenDisciplines;
+        return adapter.getEnabled().size();
     }
 
-    @Override
+   /* @Override
     public void incrementChosen() {
         ++chosenDisciplines;
     }
@@ -118,5 +129,5 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
     @Override
     public void decrementChosen() {
         --chosenDisciplines;
-    }
+    }*/
 }
