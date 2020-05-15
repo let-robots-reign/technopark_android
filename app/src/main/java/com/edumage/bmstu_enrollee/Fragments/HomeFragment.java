@@ -125,13 +125,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
             public void onChanged(List<String> scores) {
 
                 if (scores.size() == 0) {
-                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload, "")); // last reload TextView
+                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload)); // last reload TextView
                     for (int i = 1; i < programs.size() + 1; ++i) {
                         scoresTexts.get(i).setVisibility(View.INVISIBLE);
                         progressBars.get(i - 1).setVisibility(View.VISIBLE);
                     }
                 } else {
-                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload, scores.get(0)));
+                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload) + " " + scores.get(0));
                     for (int i = 1; i < scores.size(); ++i) {
                         scoresTexts.get(i).setVisibility(View.VISIBLE);
                         scoresTexts.get(i).setText(scores.get(i));

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toolbar;
@@ -23,6 +24,13 @@ import static android.content.Context.MODE_PRIVATE;
 public class ApplyFragment extends Fragment {
     private static final String APP_PREFERENCES = "APP_PREFERENCES";
     private static final String CURRENT_STEP = "CURRENT_DOCUMENTS_STEP";
+    private int currentStep;
+    private String[] budgetSteps;
+    private int percent;
+    private ProgressBar progressBar;
+    private TextView progressTitle;
+    private TextView progressDescription;
+    private View nestedCard;
 
     @Nullable
     @Override
@@ -40,37 +48,24 @@ public class ApplyFragment extends Fragment {
             }
         });
 
-        View nestedCard = rootView.findViewById(R.id.step_card);
+        nestedCard = rootView.findViewById(R.id.step_card);
 
-        SharedPreferences preferences = requireActivity().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
-        int currentStep = preferences.getInt(CURRENT_STEP, 0);
-        String[] budgetSteps = getResources().getStringArray(R.array.application_steps);
-        String step;
-        if (currentStep == budgetSteps.length) {
-            step = getResources().getString(R.string.all_steps_completed);
-            nestedCard.setVisibility(View.GONE);
-        } else {
-            step = budgetSteps[currentStep];
-        }
+        final SharedPreferences preferences = requireActivity().getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+        currentStep = preferences.getInt(CURRENT_STEP, 0);
+        budgetSteps = getResources().getStringArray(R.array.application_steps);
+        String step = getCurrentStepText();
 
-        ProgressBar progressBar = rootView.findViewById(R.id.circularProgressBar);
-        TextView progressTitle = rootView.findViewById(R.id.progress_title);
-        int percent = (int) Math.round((double)currentStep / budgetSteps.length * 100);
-        progressTitle.setText(percent + "%");
-        ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, 0, percent);
-        animation.setDuration(percent * 10);
-        progressBar.startAnimation(animation);
+        progressBar = rootView.findViewById(R.id.circularProgressBar);
+        progressBar.setProgress(0);
+        progressTitle = rootView.findViewById(R.id.progress_title);
+        progressDescription = rootView.findViewById(R.id.progress_description);
+        percent = 0;
+        updateProgressCard(step, percent);
 
-        TextView progressDescription = rootView.findViewById(R.id.progress_description);
-        String[] descriptions = getResources().getStringArray(R.array.application_descriptions);
-        if (percent == 100) {
-            progressDescription.setText(step);
-        } else {
-            progressDescription.setText(descriptions[percent / (100 / descriptions.length)]);
-        }
-
-        ((TextView)nestedCard.findViewById(R.id.step_title)).setText(R.string.current_step_title);
-        ((TextView)nestedCard.findViewById(R.id.step_text)).setText(step);
+        TextView title = nestedCard.findViewById(R.id.step_title);
+        title.setText(R.string.current_step_title);
+        final TextView stepContent = nestedCard.findViewById(R.id.step_text);
+        stepContent.setText(step);
 
         // animate text
         progressTitle.setAlpha(0f);
@@ -78,7 +73,47 @@ public class ApplyFragment extends Fragment {
         progressDescription.setAlpha(0f);
         progressDescription.animate().alpha(1f).setDuration(1000);
 
+        Button doneButton = nestedCard.findViewById(R.id.button_done);
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ++currentStep;
+                preferences.edit().putInt(CURRENT_STEP, currentStep).apply();
+                String newStep = getCurrentStepText();
+                stepContent.animate().alpha(0f).setDuration(500);
+                stepContent.setText(newStep);
+                stepContent.animate().alpha(1f).setDuration(500);
+                updateProgressCard(newStep, percent);
+            }
+        });
+
         return rootView;
+    }
+
+    private String getCurrentStepText() {
+        String step;
+        if (currentStep == budgetSteps.length) {
+            step = getResources().getString(R.string.all_steps_completed);
+            nestedCard.setVisibility(View.GONE);
+        } else {
+            step = budgetSteps[currentStep];
+        }
+        return step;
+    }
+
+    private void updateProgressCard(String step, int oldPercent) {
+        percent = (int) Math.round((double)currentStep / budgetSteps.length * 100);
+        progressTitle.setText(percent + "%");
+        ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, oldPercent, percent);
+        animation.setDuration((percent - oldPercent) * 10);
+        progressBar.startAnimation(animation);
+
+        String[] descriptions = getResources().getStringArray(R.array.application_descriptions);
+        if (percent == 100) {
+            progressDescription.setText(step);
+        } else {
+            progressDescription.setText(descriptions[percent / (100 / descriptions.length)]);
+        }
     }
 
     private static class ProgressBarAnimation extends Animation {

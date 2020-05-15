@@ -11,7 +11,7 @@
     <string name="prev_step">Предыдущий шаг</string>
     <string name="next_step">Следующий шаг</string>
     <string name="current_contest">Текущий конкурс на Ваших направлениях</string>
-    <string name="last_reload">Последнее обновление баллов: %1$s</string>
+    <string name="last_reload">Последнее обновление баллов:</string>
 
     <string name="welcome_header">Добро пожаловать!</string>
     <string name="welcome_command_1">Заполните информацию о себе</string>
@@ -35,7 +35,8 @@
     <string name="alert_date">Введите дату рождения</string>
 
     <string name="alert_ege">Результат ЕГЭ должен быть в пределах от 0 до 100</string>
-    <string name="welcome_command_3">Выберите не более трех приоритетных направления для поступления.\nВ любой момент вы можете изменить свой выбор</string>
+    <string name="welcome_command_3">Выберите не более трех приоритетных направления для поступления.
+        \nВ любой момент вы можете изменить свой выбор</string>
     <string name="alert_discipline_zero">Выберите хотя бы одно направление</string>
     <string name="alert_discipline_more">Вы не можете выбрать более трех направлений</string>
 
