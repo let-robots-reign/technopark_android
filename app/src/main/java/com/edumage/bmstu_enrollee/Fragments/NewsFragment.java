@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -28,9 +29,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
-
-import androidx.lifecycle.ViewModelProviders;
-
 import com.edumage.bmstu_enrollee.ViewModels.NewsViewModel;
 
 public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener {
@@ -46,7 +44,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final NewsViewModel model = ViewModelProviders.of(this).get(NewsViewModel.class);
+        final NewsViewModel model = new ViewModelProvider(this).get(NewsViewModel.class);
         model.parseNewsList();
 
         final List<Integer> colors = Arrays.asList(

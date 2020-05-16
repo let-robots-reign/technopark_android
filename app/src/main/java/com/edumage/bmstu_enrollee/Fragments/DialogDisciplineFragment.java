@@ -22,7 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -41,7 +41,7 @@ public class DialogDisciplineFragment extends DialogFragment implements View.OnC
 
         adapter = new DisciplineAdapter(this);
 
-        model = ViewModelProviders.of(this).get(DisciplinesViewModel.class);
+        model = new ViewModelProvider(this).get(DisciplinesViewModel.class);
         if (savedInstanceState == null) {
             model.loadData();
             model.applyChosenProgram();

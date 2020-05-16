@@ -28,7 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,7 +69,7 @@ public class StatsFragment extends Fragment {
             targetBoxValue = false;
         }
 
-        model = ViewModelProviders.of(this).get(StatsFragmentViewModel.class);
+        model = new ViewModelProvider(this).get(StatsFragmentViewModel.class);
 
         chosenProgramList = model.getAllChosenPrograms();
         // to get the program name from its full name, we need to slice an array of words)

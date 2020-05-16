@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,7 +53,7 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
 
         //LoadData();
         adapter = new EGEAdapter();
-        model = ViewModelProviders.of(this).get(EgeSubjectsViewModel.class);
+        model = new ViewModelProvider(this).get(EgeSubjectsViewModel.class);
         if (savedInstanceState == null) {
             model.loadData();
             model.applyEgeScore();

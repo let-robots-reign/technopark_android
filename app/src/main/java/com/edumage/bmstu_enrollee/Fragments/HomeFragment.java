@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -70,6 +72,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
 
         createScoresList();
         createDocumentStepsList();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         startParsing();
     }
 
@@ -195,6 +202,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
 
         TextView name = rootView.findViewById(R.id.user_name);
         name.setText(model.getUserInfo().getUserName());
+
+        ImageView editIcon = rootView.findViewById(R.id.edit);
+        editIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.action_home_tab_to_userFragment);
+            }
+        });
 
         examResults = rootView.findViewById(R.id.exam_scores_list);
         examResults.setLayoutManager(new LinearLayoutManager(getActivity(),

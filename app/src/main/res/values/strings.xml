@@ -279,5 +279,6 @@
     <string name="all_steps_completed">
         Вы выполнили все шаги! Желаем удачи поступить на выбранную специальность!
     </string>
+    <string name="edit_icon">Редактировать</string>
 
 </resources>

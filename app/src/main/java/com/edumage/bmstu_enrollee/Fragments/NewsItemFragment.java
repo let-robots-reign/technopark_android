@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.NewsViewModel;
@@ -37,7 +37,7 @@ public class NewsItemFragment extends Fragment {
             linkURL = getArguments().getString("linkURL");
         }
 
-        NewsViewModel model = ViewModelProviders.of(this).get(NewsViewModel.class);
+        NewsViewModel model = new ViewModelProvider(this).get(NewsViewModel.class);
         model.getHasConnection().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
