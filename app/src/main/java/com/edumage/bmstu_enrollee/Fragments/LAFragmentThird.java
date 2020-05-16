@@ -56,7 +56,10 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         // get all programm
         model = ViewModelProviders.of(this).get(DisciplinesViewModel.class);
 
-        if (savedInstanceState == null) model.loadData();
+        if (savedInstanceState == null){
+            model.loadData();
+            model.applyChosenSubjects();
+        }
         model.data.observe(this, new Observer<ArrayList<Discipline>>() {
             @Override
             public void onChanged(ArrayList<Discipline> disciplines) {

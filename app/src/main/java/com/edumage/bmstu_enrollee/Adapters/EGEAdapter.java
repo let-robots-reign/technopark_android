@@ -57,7 +57,7 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
         this.data = data;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
         EditText editText;

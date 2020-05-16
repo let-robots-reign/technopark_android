@@ -27,7 +27,7 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
     public void replaceAllPoints(List<EGESubject> egeSubjectList) {
         List<ExamPoints> points = new ArrayList<>();
         for (EGESubject subject : egeSubjectList) {
-            points.add(new ExamPoints(subject.getName(), subject.getScore()));
+            points.add(new ExamPoints(subject.getName(), subject.getScore(),subject.getId()));
         }
         repository.replaceAllPoints(points);
     }
@@ -39,7 +39,12 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
         if (list == null) return;
         for (ExamPoints exam : exams) {
             for (EGESubject ege : list) {
-                if (ege.getName().equals(exam.getExamName())) {
+                /*if (ege.getName().equals(exam.getExamName())) {
+                    ege.setPassed(true);
+                    ege.setScore(exam.getExamScore());
+                    break;
+                }*/
+                if(ege.getId()==exam.getSubjectId()){
                     ege.setPassed(true);
                     ege.setScore(exam.getExamScore());
                     break;
@@ -63,7 +68,8 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
         drawables[7] = R.drawable.english;
         int i = 0;
         for (String s : str) {
-            res.add(new EGESubject(s, drawables[i]));
+            EGESubject subject = new EGESubject(s, drawables[i],i);
+            res.add(subject);
             i++;
         }
         data.setValue(res);

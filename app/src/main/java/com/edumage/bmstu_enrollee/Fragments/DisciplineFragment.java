@@ -43,6 +43,7 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
         if (savedInstanceState == null) {
             model.loadData();
             model.applyChosenProgram();
+            model.applyChosenSubjects();
         }
 
         model.data.observe(this, new Observer<ArrayList<Discipline>>() {
