@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.edumage.bmstu_enrollee.Adapters.CatalogCardsAdapter;
 import com.edumage.bmstu_enrollee.CatalogCard;
+import com.edumage.bmstu_enrollee.FeedType;
 import com.edumage.bmstu_enrollee.R;
 
 import java.util.ArrayList;
@@ -64,9 +65,14 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
         if (catalogId == CatalogCard.ABOUT_CARD_ID) {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.action_catalog_tab_to_universityFragment);
-        } else if (catalogId == CatalogCard.NEWS_CARD_ID) {
+        } else if (catalogId == CatalogCard.NEWS_CARD_ID || catalogId == CatalogCard.EVENTS_CARD_ID) {
+            Bundle args = new Bundle();
+            if (catalogId == CatalogCard.NEWS_CARD_ID)
+                args.putSerializable("type", FeedType.NEWS);
+            else
+                args.putSerializable("type", FeedType.EVENTS);
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-            navController.navigate(R.id.action_catalogFragment_to_newsFragment);
+            navController.navigate(R.id.action_catalogFragment_to_newsFragment, args);
         } else if (catalogId == CatalogCard.CAMPUS_CARD_ID) {
             NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.action_catalog_tab_to_buildingActivity);

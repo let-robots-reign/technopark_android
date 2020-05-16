@@ -101,9 +101,6 @@
     <string name="university_site">Сайт университета</string>
     <string name="qs_site">Рейтинг QS</string>
 
-
-
-
     <string name="user_info">Информация о поступающем</string>
     <string name="user_info_privacy">Эти данные используются исключительно в целях
         персонализации приложения, они не передаются сторонним
@@ -180,6 +177,7 @@
     <string name="current_apply_step">Текущий статус поступления</string>
     <string name="current_step_title">Текущий шаг поступления</string>
     <string name="news_tab">Новости</string>
+    <string name="events_tab">Внеучебная деятельность</string>
     <string name="application_tab">Процесс поступления</string>
     <string name="done">Готово</string>
 

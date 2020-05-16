@@ -1,5 +1,6 @@
 package com.edumage.bmstu_enrollee.ParsingRepo;
 
+import com.edumage.bmstu_enrollee.FeedType;
 import com.edumage.bmstu_enrollee.NewsItem;
 
 import org.jsoup.Jsoup;
@@ -22,11 +23,19 @@ public class NewsParsing {
         return instance;
     }
 
-    public List<NewsItem> parseNewsList() throws IOException {
-        final String URL = "https://bmstu.ru/mstu/info/bauman-news/";
+    public List<NewsItem> parseNewsList(FeedType type) throws IOException {
         List<NewsItem> news = new ArrayList<>();
-        Document doc = Jsoup.connect(URL).get();
 
+        final String URL;
+        if (type == FeedType.NEWS) {
+            URL = "https://bmstu.ru/mstu/info/bauman-news/";
+        } else if (type == FeedType.EVENTS) {
+            URL = "https://www.bmstu.ru/mstu/info/upcoming-events/";
+        } else {
+            return news;
+        }
+
+        Document doc = Jsoup.connect(URL).get();
         Elements items = doc.select("div.col-md-3");
         Element link;
         String title, linkURL, imageURL;
@@ -34,8 +43,8 @@ public class NewsParsing {
             title = item.select("a").last().text();
             link = item.select("a").first();
             linkURL = BASE_URL + link.attr("href");
-            if (link.select("img").size() != 0) {
-                imageURL = BASE_URL + link.select("img").attr("src");
+            if (item.select("img").size() != 0) {
+                imageURL = BASE_URL + item.select("img.img-responsive").attr("src");
             } else {
                 imageURL = null;
             }

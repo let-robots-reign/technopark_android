@@ -58,6 +58,10 @@
         <action
             android:id="@+id/action_newsFragment_to_newsItemFragment"
             app:destination="@id/newsItemFragment" />
+        <argument
+            android:name="type"
+            app:argType="com.edumage.bmstu_enrollee.FeedType"
+            android:defaultValue="NEWS" />
     </fragment>
     <fragment
         android:id="@+id/newsItemFragment"
