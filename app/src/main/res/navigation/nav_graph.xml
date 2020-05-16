@@ -20,6 +20,20 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_home_tab_to_disciplineFragment"
+            app:destination="@id/disciplineFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_home_tab_to_egeFragment"
+            app:destination="@id/egeFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/stats_tab"
@@ -95,5 +109,13 @@
         android:name="com.edumage.bmstu_enrollee.Fragments.ApplyFragment"
         android:label="ApplyFragment"
         tools:layout="@layout/apply_screen" />
+    <fragment
+        android:id="@+id/disciplineFragment"
+        android:name="com.edumage.bmstu_enrollee.Fragments.DisciplineFragment"
+        android:label="DisciplineFragment" />
+    <fragment
+        android:id="@+id/egeFragment"
+        android:name="com.edumage.bmstu_enrollee.Fragments.EgeFragment"
+        android:label="EgeFragment" />
 
 </navigation>

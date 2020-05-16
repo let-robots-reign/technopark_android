@@ -59,16 +59,35 @@
                         android:fontFamily="@font/daysone"
                         android:gravity="center"/>
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp">
+
+                   <TextView
                         android:id="@+id/user_name"
-                        android:layout_width="wrap_content"
+                       android:layout_weight="4"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         tools:text="Зотов Алексей Олегович"
                         android:textColor="@android:color/black"
                         android:textSize="14sp"
                         android:fontFamily="@font/daysone"
-                        android:layout_marginTop="12dp"
                         android:gravity="center"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:textAlignment="viewEnd"
+                            android:layout_height="wrap_content"
+                            android:text="@string/edit"
+                            android:textSize="16sp"
+                            android:textStyle="italic"
+                            android:fontFamily="@font/cuprum"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:id="@+id/textView_edit_name"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -94,6 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginEnd="@dimen/default_margin"
                    >
                     <TextView
                         android:paddingStart="12dp"
@@ -112,11 +132,9 @@
                         android:textAlignment="viewEnd"
                         android:layout_height="wrap_content"
                         android:text="@string/edit"
-                        android:textSize="12sp"
+                        android:textSize="16sp"
                         android:textStyle="italic"
                         android:fontFamily="@font/cuprum"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
                         android:id="@+id/textView_edit_ege"/>
 
                 </LinearLayout>
@@ -165,6 +183,7 @@
                     android:paddingEnd="12dp"
                     android:paddingBottom="4dp">
 
+
                     <TextView
                         android:id="@+id/current_contest"
                         android:layout_width="wrap_content"
@@ -175,6 +194,8 @@
                         android:textColor="@android:color/black"
                         android:textSize="17sp"
                         android:fontFamily="@font/cuprum"/>
+
+
 
                     <TextView
                         android:id="@+id/last_reload"
@@ -207,17 +228,38 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"/>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
                 <TextView
-                    android:layout_width="match_parent"
-                    android:textAlignment="viewEnd"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/textView_question_about_score"
                     android:layout_height="wrap_content"
-                    android:text="@string/edit"
-                    android:textSize="12sp"
-                    android:textStyle="italic"
                     android:fontFamily="@font/cuprum"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:id="@+id/textView_edit_disciplines" />
+                    android:text="@string/about_passing_score"
+                    android:textAlignment="viewEnd"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+
+
+                <TextView
+                    android:id="@+id/textView_edit_disciplines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cuprum"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="@string/edit"
+                    android:textAlignment="viewEnd"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
 
 
                 <LinearLayout

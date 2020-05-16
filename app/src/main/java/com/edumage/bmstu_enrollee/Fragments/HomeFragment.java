@@ -13,18 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
 import com.edumage.bmstu_enrollee.Adapters.ExamScoresAdapter;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
@@ -38,6 +26,17 @@ import com.edumage.bmstu_enrollee.ViewModels.HomeFragmentViewModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -199,8 +198,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         TextView name = rootView.findViewById(R.id.user_name);
         name.setText(model.getUserInfo().getUserName());
 
-        //testing new fragment
-        name.setOnClickListener(new View.OnClickListener() {
+        TextView changeName= rootView.findViewById(R.id.textView_edit_name);
+        changeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 @SuppressLint("UseRequireInsteadOfGet") NavController navController =
@@ -270,7 +269,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
             }
         });
 
+        TextView questionTextView = rootView.findViewById(R.id.textView_question_about_score);
+        questionTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogAboutPassScore();
+            }
+        });
+
+
+
         return rootView;
+    }
+
+    private void showDialogAboutPassScore(){
+        if (getContext()==null)return;
+        AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
+        adb.setTitle(R.string.passing_score);
+        adb.setMessage(R.string.explanation_passing_score);
+        AlertDialog ad =adb.create();
+        ad.show();
     }
 
     void notifyEGEChanged() {
@@ -294,25 +312,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     }
 
     private void showDialogFragment(int dialog_id) {
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+     /*   FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         DialogFragment dialogFragment = null;
-        String tag = "";
-        switch (dialog_id) {
+        String tag = "";*/
+    /*    switch (dialog_id) {
             case DISCIPLINES_EDIT_DIALOG:
-                dialogFragment = new DialogDisciplineFragment();
-                tag = DialogDisciplineFragment.TAG;
+                dialogFragment = new DisciplineFragment();
+                tag = DisciplineFragment.TAG;
                 break;
             case EGE_EDIT_DIALOG:
                 dialogFragment = new DialogEgeFragment();
                 tag = DialogEgeFragment.TAG;
                 break;
-        }
-
+        }*/
+/*
         Fragment prev = getChildFragmentManager().findFragmentByTag(tag);
         if (prev != null) {
             ft.remove(prev);
         }
         ft.addToBackStack(tag);
-        if (dialogFragment != null) dialogFragment.show(ft, tag);
+        if (dialogFragment != null) dialogFragment.show(ft, tag);*/
+        @SuppressLint("UseRequireInsteadOfGet") NavController navController =
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            switch (dialog_id) {
+            case DISCIPLINES_EDIT_DIALOG:
+                navController.navigate(R.id.action_home_tab_to_disciplineFragment);
+                break;
+            case EGE_EDIT_DIALOG:
+                navController.navigate(R.id.action_home_tab_to_egeFragment);
+                break;
+        }
+
     }
 }
