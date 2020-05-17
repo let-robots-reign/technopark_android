@@ -64,6 +64,9 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
         if (position == 1) {
             @SuppressLint("UseRequireInsteadOfGet") NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.action_catalogFragment_to_newsFragment);
+        } else if (position == 2) {
+            @SuppressLint("UseRequireInsteadOfGet") NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            navController.navigate(R.id.action_catalogFragment_to_facultetFragment);
         }
     }
 }
