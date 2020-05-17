@@ -8,6 +8,9 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         installTrustManager();
         setupFragments();
+        scheduleJob();
     }
 
     private void setupFragments() {
@@ -80,6 +84,20 @@ public class MainActivity extends AppCompatActivity {
             }, 2000);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    public void scheduleJob() {
+        ComponentName componentName = new ComponentName(this, ParsingJobService.class);
+        int PARSING_JOB_ID = 1;
+        JobInfo info = new JobInfo.Builder(PARSING_JOB_ID, componentName)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPersisted(true)
+                .setPeriodic(15 * 60 * 1000)
+                .build();
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        if (scheduler != null) {
+            scheduler.schedule(info);
         }
     }
 

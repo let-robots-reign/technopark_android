@@ -33,7 +33,7 @@ import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
 import com.edumage.bmstu_enrollee.ViewModels.NewsViewModel;
 
 public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener {
-    private FeedType type = null;
+    private FeedType type = FeedType.NEWS;
     private NewsAdapter adapter;
     private RecyclerView RVnews;
     private ProgressBar progressBar;

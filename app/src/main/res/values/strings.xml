@@ -278,5 +278,7 @@
         Вы выполнили все шаги! Желаем удачи поступить на выбранную специальность!
     </string>
     <string name="edit_icon">Редактировать</string>
+    <string name="news_channel">Уведомления о свежих новостях</string>
+    <string name="fresh_news">Свежая новость</string>
 
 </resources>
