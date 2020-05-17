@@ -44,14 +44,15 @@ public class ParsingJobService extends JobService {
                     e.printStackTrace();
                 }
 
-                SharedPreferences preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
-                if (preferences.contains(NEWS_COUNT)) {
-                    if (news.size() > preferences.getInt(NEWS_COUNT, 0)) {
-                        showNotification(news.get(0));
-                    }
-                } else {
-                    preferences.edit().putInt(NEWS_COUNT, news.size()).apply();
-                }
+//                SharedPreferences preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+//                if (preferences.contains(NEWS_COUNT)) {
+//                    if (news.size() > preferences.getInt(NEWS_COUNT, 0)) {
+//                        showNotification(news.get(0));
+//                    }
+//                } else {
+//                    preferences.edit().putInt(NEWS_COUNT, news.size()).apply();
+//                }
+                showNotification(news.get(0));
                 jobFinished(params, false);
             }
         }).start();
