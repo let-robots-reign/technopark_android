@@ -7,6 +7,7 @@ import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class LAFirstViewModel extends AndroidViewModel {
@@ -42,11 +43,11 @@ public class LAFirstViewModel extends AndroidViewModel {
         repository.deleteAllInfo();
     }
 
-    public MutableLiveData<String> getName() {
+    public LiveData<String> getName() {
         return name;
     }
 
-    public MutableLiveData<String> getDate() {
+    public LiveData<String> getDate() {
         return date;
     }
 
@@ -61,10 +62,10 @@ public class LAFirstViewModel extends AndroidViewModel {
     // if returning value > 0 is ok
     // int returning value < 0 is warning
     public int validateData() {
-        if (name.getValue().length() == 0) {
+        if (name.getValue() != null && name.getValue().length() == 0) {
             return NO_NAME_WARNING;
         }
-        if (date.getValue().length() == 0) {
+        if (date.getValue() != null && date.getValue().length() == 0) {
             return NO_DATE_WARNING;
         }
         return NO_WARNINGS;

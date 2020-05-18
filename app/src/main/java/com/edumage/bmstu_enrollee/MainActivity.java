@@ -7,16 +7,20 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+import androidx.work.Constraints;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
-import android.content.ComponentName;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         installTrustManager();
         setupFragments();
-        scheduleJob();
+        scheduleWork();
     }
 
     private void setupFragments() {
@@ -87,18 +91,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void scheduleJob() {
-        ComponentName componentName = new ComponentName(this, ParsingJobService.class);
-        int PARSING_JOB_ID = 1;
-        JobInfo info = new JobInfo.Builder(PARSING_JOB_ID, componentName)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
-                .setPersisted(true)
-                .setPeriodic(15 * 60 * 1000)
-                .build();
-        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        if (scheduler != null) {
-            scheduler.schedule(info);
-        }
+    public void scheduleWork() {
+        String TAG = "PARSING_WORK";
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(ParsingWorker.class,
+                15, TimeUnit.MINUTES)
+                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).build())
+                .addTag(TAG).build();
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork("PARSING_WORK",
+                ExistingPeriodicWorkPolicy.REPLACE, workRequest);
     }
 
     public void installTrustManager() {

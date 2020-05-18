@@ -35,9 +35,6 @@
 
         <activity android:name=".MainActivity"/>
 
-        <service android:name=".ParsingJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/notification_icon"/>

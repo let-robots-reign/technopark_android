@@ -3,8 +3,7 @@ package com.edumage.bmstu_enrollee;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.job.JobParameters;
-import android.app.job.JobService;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
@@ -15,27 +14,34 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.navigation.NavDeepLinkBuilder;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 
-public class ParsingJobService extends JobService {
+public class ParsingWorker extends Worker {
     private static final String APP_PREFERENCES = "APP_PREFERENCES";
     private static final String NEWS_COUNT = "NEWS_COUNT";
     private static final String NEWS_CHANNEL_ID = "NEWS_CHANNEL";
     private static final int NEWS_NOTIFY_ID = 1;
-    private boolean jobCancelled = false;
+    private static final String TAG = "WORKER";
 
-    @Override
-    public boolean onStartJob(JobParameters jobParameters) {
-        parseInBackground(jobParameters);
-        return true;
+    public ParsingWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+        super(context, workerParams);
     }
 
-    private void parseInBackground(final JobParameters params) {
+    @NonNull
+    @Override
+    public Result doWork() {
+        parseInBackground();
+        return Result.success();
+    }
+
+    private void parseInBackground() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                if (jobCancelled) return;
                 List<NewsItem> news = new ArrayList<>();
                 NewsParsing newsParsing = NewsParsing.getInstance();
                 try {
@@ -44,7 +50,7 @@ public class ParsingJobService extends JobService {
                     e.printStackTrace();
                 }
 
-//                SharedPreferences preferences = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
+//                SharedPreferences preferences = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 //                if (preferences.contains(NEWS_COUNT)) {
 //                    if (news.size() > preferences.getInt(NEWS_COUNT, 0)) {
 //                        showNotification(news.get(0));
@@ -53,30 +59,25 @@ public class ParsingJobService extends JobService {
 //                    preferences.edit().putInt(NEWS_COUNT, news.size()).apply();
 //                }
                 showNotification(news.get(0));
-                jobFinished(params, false);
             }
         }).start();
     }
 
-    @Override
-    public boolean onStopJob(JobParameters jobParameters) {
-        jobCancelled = true;
-        return true;
-    }
-
     private void showNotification(NewsItem newsItem) {
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext()
+                .getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager == null) return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(NEWS_CHANNEL_ID,
-                    getResources().getString(R.string.news_channel), NotificationManager.IMPORTANCE_DEFAULT);
+                    getApplicationContext().getResources().getString(R.string.news_channel),
+                    NotificationManager.IMPORTANCE_DEFAULT);
             channel.enableLights(true);
             channel.setLightColor(Color.GREEN);
             channel.enableVibration(false);
             notificationManager.createNotificationChannel(channel);
         }
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, NEWS_CHANNEL_ID)
-                .setContentTitle(getResources().getString(R.string.fresh_news))
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext(), NEWS_CHANNEL_ID)
+                .setContentTitle(getApplicationContext().getResources().getString(R.string.fresh_news))
                 .setContentText(newsItem.getTitle())
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentIntent(createPendingIntent());
@@ -84,7 +85,7 @@ public class ParsingJobService extends JobService {
     }
 
     private PendingIntent createPendingIntent() {
-        return new NavDeepLinkBuilder(this)
+        return new NavDeepLinkBuilder(getApplicationContext())
                 .setComponentName(MainActivity.class)
                 .setGraph(R.navigation.nav_graph)
                 .setDestination(R.id.newsFragment)
