@@ -42,6 +42,7 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
         adapter = new DisciplineAdapter(this);
 
         model = new ViewModelProvider(this).get(DisciplinesViewModel.class);
+
         model.loadData();
         model.applyChosenSubjects();
         model.applyChosenProgram();

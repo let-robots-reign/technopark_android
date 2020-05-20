@@ -44,7 +44,6 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
 
         model.loadData();
         model.applyChosenSubjects();
-
     }
 
     @Nullable
