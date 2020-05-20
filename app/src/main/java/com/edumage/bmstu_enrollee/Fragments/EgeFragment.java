@@ -30,16 +30,16 @@ public class EgeFragment extends Fragment implements View.OnClickListener {
 
     private EGEAdapter adapter;
     private EgeSubjectsViewModel model;
-    private HomeFragment homeFragment;
 
-    static final String TAG = "DialogEgeFragment";
+
+   // static final String TAG = "DialogEgeFragment";
 
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        HomeFragment homeFragment;
         if (getParentFragment() instanceof HomeFragment) {
             homeFragment = (HomeFragment) getParentFragment();
         }
@@ -96,7 +96,9 @@ public class EgeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-            model.replaceAllPoints(adapter.getPassed());
+
+        model.replaceAllPoints(adapter.getPassed());
+        requireActivity().onBackPressed();
         }
 
 }

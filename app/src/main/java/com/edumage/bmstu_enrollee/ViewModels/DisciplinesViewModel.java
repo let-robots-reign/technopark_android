@@ -1,8 +1,12 @@
 package com.edumage.bmstu_enrollee.ViewModels;
 
 import android.app.Application;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Handler;
+import android.util.Log;
+import android.webkit.HttpAuthHandler;
+import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
@@ -14,6 +18,10 @@ import com.edumage.bmstu_enrollee.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 
 import androidx.annotation.NonNull;
@@ -24,96 +32,175 @@ public class DisciplinesViewModel extends AndroidViewModel {
     private DbRepository repository;
 
     public final MutableLiveData<ArrayList<Discipline>> data = new MutableLiveData<>();
+   private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private HandlerThread handlerThread;
+    private Handler backgroundHandler;
 
     public DisciplinesViewModel(@NonNull Application application) {
         super(application);
         repository = new DbRepository(application);
+        handlerThread= new HandlerThread("HandlerThread");
+        handlerThread.start();
+        backgroundHandler =new Handler(handlerThread.getLooper());
     }
 
-    public void replaceAllPrograms(List<Discipline> data) {
-        List<ChosenProgram> chosenPrograms = new ArrayList<>();
-        for (Discipline d : data) {
-            if (d.getStatus()) {
-                chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
-            }
-        }
-        repository.replaceAllPrograms(chosenPrograms);
+    public void replaceAllPrograms(final List<Discipline> data) {
+      Runnable runnable =  new Runnable() {
+           @Override
+           public void run() {
+               List<ChosenProgram> chosenPrograms = new ArrayList<>();
+               for (int i=0; i<data.size(); i++) {
+                   Discipline d = data.get(i);
+                   if (d.getStatus()) {
+                       chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
+                   }
+               }
+               repository.replaceAllPrograms(chosenPrograms);
+           }
+       };
+
+
+       executorService.execute(runnable);
+
+        //backgroundHandler.post(runnable);
+
     }
+
 
     //применяет к текущим данным значение из базы данных
     public void applyChosenProgram() {
-        //TODO maybe need another thread
-        List<ChosenProgram> programs = repository.getAllChosenPrograms();
-        ArrayList<Discipline> list = data.getValue();
-        if (list == null) return;
-        for (ChosenProgram program : programs) {
-            for (Discipline d : list) {
-                if (d.getFullName().equals(program.getProgramName())) {
-                    d.setStatus(true);
-                    break;
-                }
+
+        final Handler handler =new Handler(Looper.getMainLooper());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final List<ChosenProgram> programs = repository.getAllChosenPrograms();
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayList<Discipline> list = data.getValue();
+                        Log.d("TH_TEST","Apply program NULL");
+                        if (list == null) return;
+                        for (ChosenProgram program : programs) {
+                            boolean found=false;
+                            for (Discipline d : list) {
+                                if (d.getFullName().equals(program.getProgramName())) {
+                                    d.setStatus(true);
+                                    found=true;
+                                    break;
+                                }
+                            }
+                            if (!found){
+                                programs.remove(program);
+                            }
+                        }
+                        Log.d("TH_TEST","Apply program");
+                        data.setValue(list);
+
+
+                        executorService.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                repository.replaceAllPrograms(programs);
+                            }
+                        });
+                    }
+                });
+
+
             }
-        }
+        };
+        executorService.execute(runnable);
+
+    }
+
+    public void applySubjectThenProgram(){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        };
     }
 
 
     public void applyChosenSubjects(){
 
         final Handler handler =new Handler(Looper.getMainLooper());
-        new Thread(new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 final List<ExamPoints> exams = repository.getAllPoints();
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<Integer> id= new ArrayList<>();
+                       final  ArrayList<Integer> id= new ArrayList<>();
                         for (ExamPoints exam:exams){
                             id.add(exam.getSubjectId());
                         }
-                        ArrayList<Discipline> list = data.getValue();
-                        if (list==null) return;
-                        for (int j=0; j<list.size(); j++){
-                            Discipline d=list.get(j);
-                            int[] arr=d.getSubjects();
-                            for (int i=0; i<arr.length; i++){
-                                int c=arr[i];
-                                if(!id.contains(c)){
-                                    list.remove(d);
-                                    j--;
-                                    break;
-                                    //TODO check iterator
+                Log.d("TH_TEST","Apply Subject NULL");
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                ArrayList<Discipline> list = data.getValue();
+                                if (list==null) return;
+                                for (int j=0; j<list.size(); j++){
+                                    Discipline d=list.get(j);
+                                    int[] arr=d.getSubjects();
+                                    for (int i=0; i<arr.length; i++){
+                                        int c=arr[i];
+                                        if(!id.contains(c)){
+                                            list.remove(j);
+                                            j--;
+                                            break;
+                                        }
+                                    }
                                 }
+                                Log.d("TH_TEST","Apply Subject");
+                                data.setValue(list);
                             }
-                        }
-                        data.setValue(list);
-                    }
-                });
+                        });
+
             }
-        }).start();
+        };
+
+       executorService.execute(runnable);
+       // backgroundHandler.post(runnable);
+       // executorService.su
+        //executorService.ex
+
+
 
     }
 
 
 
     public void loadData() {
-        String[] array = getApplication().getResources().getStringArray(R.array.disciplines);
-        ArrayList<Discipline> list = new ArrayList<>();
-        for (String value : array) {
-            String[] s = value.split(" ");
-            String number = s[0];
-            StringBuilder name = new StringBuilder();
-            for (int k = 1; k < s.length - 1; k++) {
-                name.append(s[k]).append(" ");
+        Runnable runnable = new Runnable(){
+
+            @Override
+            public void run() {
+                String[] array = getApplication().getResources().getStringArray(R.array.disciplines);
+                ArrayList<Discipline> list = new ArrayList<>();
+                for (String value : array) {
+                    String[] s = value.split(" ");
+                    String number = s[0];
+                    StringBuilder name = new StringBuilder();
+                    for (int k = 1; k < s.length - 1; k++) {
+                        name.append(s[k]).append(" ");
+                    }
+                    String form = s[s.length - 1];
+                    form = form.substring(1, form.length() - 1);
+                    Discipline d= new Discipline(value, name.toString(), number, form);
+                    d.setSubjects(subjectsIdByCode(number));
+                    list.add(d);
+                }
+                Log.d("TH_TEST","Load data");
+                data.postValue(list);
             }
-            String form = s[s.length - 1];
-            form = form.substring(1, form.length() - 1);
-            Discipline d= new Discipline(value, name.toString(), number, form);
-            d.setSubjects(subjectsIdByCode(number));
-            list.add(d);
-        }
-        data.setValue(list);
+        };
+
+        executorService.execute(runnable);
+        //backgroundHandler.post(runnable);
+
     }
 
 

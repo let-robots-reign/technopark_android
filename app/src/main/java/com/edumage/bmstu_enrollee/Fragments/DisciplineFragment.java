@@ -30,7 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DisciplineFragment extends Fragment implements View.OnClickListener, DisciplineAdapter.DisciplineCardClick {
 
     private DisciplineAdapter adapter;
-    static final String TAG = "DisciplineFragment";
+    //static final String TAG = "DisciplineFragment";
     private DisciplinesViewModel model;
 
     @Override
@@ -40,11 +40,13 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
         adapter = new DisciplineAdapter(this);
 
         model = ViewModelProviders.of(this).get(DisciplinesViewModel.class);
-        if (savedInstanceState == null) {
+        /*if (savedInstanceState == null) {*/
+            //strict sequence
             model.loadData();
-            model.applyChosenProgram();
             model.applyChosenSubjects();
-        }
+            model.applyChosenProgram();
+
+        /*}*/
 
         model.data.observe(this, new Observer<ArrayList<Discipline>>() {
             @Override
@@ -53,6 +55,8 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
                 adapter.notifyDataSetChanged();
             }
         });
+
+
     }
 
 
@@ -60,7 +64,7 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.discipline_fragment, container, false);
-        RecyclerView recyclerView = v.findViewById(R.id.discipline_dialog_recyclerview);
+        final RecyclerView recyclerView = v.findViewById(R.id.discipline_dialog_recyclerview);
         recyclerView.setAdapter(adapter);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
@@ -81,6 +85,20 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
             }
         });
 
+
+        final TextView noData_textView  =  v.findViewById(R.id.no_discipline_textView);
+        model.data.observe(getViewLifecycleOwner(), new Observer<ArrayList<Discipline>>() {
+            @Override
+            public void onChanged(ArrayList<Discipline> disciplines) {
+                if (disciplines.size()==0){
+                    noData_textView.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.INVISIBLE);
+                } else {
+                    noData_textView.setVisibility(View.INVISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         return v;
     }
 
@@ -91,7 +109,7 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
                 Toast.makeText(getContext(), R.string.disciplines_alert, Toast.LENGTH_SHORT).show();
             } else {
                 model.replaceAllPrograms(adapter.getData());
-                //TODO maybe should do navigation step back afters click
+                requireActivity().onBackPressed();
             }
     }
 

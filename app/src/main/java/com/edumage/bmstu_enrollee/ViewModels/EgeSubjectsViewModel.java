@@ -2,6 +2,7 @@ package com.edumage.bmstu_enrollee.ViewModels;
 
 import android.app.Application;
 
+import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 import com.edumage.bmstu_enrollee.EGESubject;
@@ -24,12 +25,20 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
         repository = new DbRepository(application);
     }
 
-    public void replaceAllPoints(List<EGESubject> egeSubjectList) {
-        List<ExamPoints> points = new ArrayList<>();
-        for (EGESubject subject : egeSubjectList) {
-            points.add(new ExamPoints(subject.getName(), subject.getScore(),subject.getId()));
-        }
-        repository.replaceAllPoints(points);
+    public void replaceAllPoints(final List<EGESubject> egeSubjectList) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<ExamPoints> points = new ArrayList<>();
+                for (int i=0; i<egeSubjectList.size(); i++) {
+                    EGESubject subject = egeSubjectList.get(i);
+                    points.add(new ExamPoints(subject.getName(), subject.getScore(),subject.getId()));
+                }
+                repository.replaceAllPoints(points);
+                //if(!updateDiscipline)return;
+            }
+        }).start();
+
     }
 
     public void applyEgeScore() {
@@ -73,5 +82,10 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
             i++;
         }
         data.setValue(res);
+    }
+
+
+    public void updateDisciplines(){
+
     }
 }

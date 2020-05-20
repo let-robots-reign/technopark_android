@@ -75,6 +75,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         startParsing();
     }
 
+
+
     private void createScoresList() {
         // get exam scores from DB
         List<ExamPoints> points = model.getExamPoints();

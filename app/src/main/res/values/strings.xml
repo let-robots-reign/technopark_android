@@ -39,6 +39,7 @@
         \nВ любой момент вы можете изменить свой выбор</string>
     <string name="alert_discipline_zero">Выберите хотя бы одно направление</string>
     <string name="alert_discipline_more">Вы не можете выбрать более трех направлений</string>
+    <string name="no_discipline_match">Отсутвуют направления для выбранных предметов ЕГЭ</string>
 
     <string name="ege_results">Результаты ЕГЭ</string>
     <string name="disciplines">Ваши направления</string>

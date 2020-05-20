@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.Adapters.DisciplineAdapter;
@@ -37,42 +38,22 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*if (savedInstanceState == null) {
-            if (getContext() != null && data == null)
-                data = Discipline.LoadDisciplines(getContext());
-        } else {
-            try {
-                ObjectInputStream stream =
-                        new ObjectInputStream(new ByteArrayInputStream(savedInstanceState.getByteArray(DATA)));
-                data = (ArrayList<Discipline>) stream.readObject();
-                stream.close();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-                data = Discipline.LoadDisciplines(requireContext());
-            }
-        }*/
-
         adapter = new DisciplineAdapter( this);
         // get all programm
         model = ViewModelProviders.of(this).get(DisciplinesViewModel.class);
 
-        if (savedInstanceState == null){
-            model.loadData();
-            model.applyChosenSubjects();
-        }
-        model.data.observe(this, new Observer<ArrayList<Discipline>>() {
-            @Override
-            public void onChanged(ArrayList<Discipline> disciplines) {
-                adapter.setData(disciplines);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        model.loadData();
+        model.applyChosenSubjects();
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.la_fragment3, container, false);
+
+
+
         RecyclerView recyclerView = v.findViewById(R.id.discipline_list);
         recyclerView.setAdapter(adapter);
 
@@ -84,33 +65,40 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             recyclerView.setLayoutManager(new GridLayoutManager(appContext, 2, RecyclerView.VERTICAL, false));
         }
+        final TextView textView = v.findViewById(R.id.no_discipline_textView);
+        model.data.observe(getViewLifecycleOwner(), new Observer<ArrayList<Discipline>>() {
+            @Override
+            public void onChanged(ArrayList<Discipline> disciplines) {
+                adapter.setData(disciplines);
+                adapter.notifyDataSetChanged();
+                if (disciplines.size()==0){
+                    textView.setVisibility(View.VISIBLE);
+                } else{
+                    textView.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+
         return v;
     }
 
-  /*  @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream ObjOut = new ObjectOutputStream(baos);
-            ObjOut.writeObject(adapter.getData());
-            ObjOut.flush();
-            outState.putByteArray(DATA, baos.toByteArray());
-        } catch (IOException e) {
-            Toast.makeText(getContext(), "Unable to serialize", Toast.LENGTH_SHORT).show();
-        }
-    }*/
+    @Override
+    public void onResume() {
+        super.onResume();
+        model.loadData();
+        model.applyChosenSubjects();
+    }
+
+    @Override
+    public void onPause() {
+        //model.replaceAllPrograms();
+        super.onPause();
+    }
+
 
     @Override
     public boolean isComplete() {
-
-      /*  List<ChosenProgram> chosenPrograms = new ArrayList<>();
-        for (Discipline d : data) {
-            if (d.getStatus()) {
-                count++;
-                chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
-            }
-        }*/
 
         int count = getChosenDisciplines();
         if (count > 3) {

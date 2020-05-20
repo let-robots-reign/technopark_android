@@ -99,33 +99,16 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
         super.onResume();
     }
 
-/*    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (adapter != null) {
-            try {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ObjectOutputStream ObjOut = new ObjectOutputStream(baos);
-                ObjOut.writeObject(adapter.getData());
-                ObjOut.flush();
-                outState.putByteArray(DATA, baos.toByteArray());
-            } catch (IOException e) {
-                Toast.makeText(getContext(), "Unable to serialize", Toast.LENGTH_SHORT).show();
-            }
-        }
-        super.onSaveInstanceState(outState);
-    }*/
+    @Override
+    public void onPause() {
+       // model.replaceAllPoints(adapter.getPassed());
+        super.onPause();
+    }
+
+
 
     @Override
     public boolean isComplete() {
-        // условие завершения
-        // выгрузка информации
-
-     /*   List<ExamPoints> points = new ArrayList<>();
-        for (EGESubject subject : data) {
-            if (subject.isPassed()) {
-                points.add(new ExamPoints(subject.getName(), subject.getScore()));
-            }
-        }*/
 
         model.replaceAllPoints(adapter.getPassed());
 
