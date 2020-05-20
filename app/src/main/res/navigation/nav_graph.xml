@@ -48,6 +48,9 @@
          <action
             android:id="@+id/action_catalog_Fragment_to_applyFragment"
             app:destination="@id/applyFragment" />
+        <action
+            android:id="@+id/action_catalog_tab_to_informationFragment"
+            app:destination="@id/informationFragment" />
 
     </fragment>
     <fragment
@@ -99,5 +102,10 @@
         android:name="com.edumage.bmstu_enrollee.Fragments.ApplyFragment"
         android:label="ApplyFragment"
         tools:layout="@layout/apply_screen" />
+    <fragment
+        android:id="@+id/informationFragment"
+        android:name="com.edumage.bmstu_enrollee.Fragments.InformationFragment"
+        android:label="InformationFragment"
+        tools:layout="@layout/app_information"/>
 
 </navigation>

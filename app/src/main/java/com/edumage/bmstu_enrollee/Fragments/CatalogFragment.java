@@ -62,8 +62,8 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
 
     @Override
     public void onCardClick(int catalogId) {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         if (catalogId == CatalogCard.ABOUT_CARD_ID) {
-            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.action_catalog_tab_to_universityFragment);
         } else if (catalogId == CatalogCard.NEWS_CARD_ID || catalogId == CatalogCard.EVENTS_CARD_ID) {
             Bundle args = new Bundle();
@@ -71,14 +71,13 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
                 args.putSerializable("type", FeedType.NEWS);
             else
                 args.putSerializable("type", FeedType.EVENTS);
-            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.action_catalogFragment_to_newsFragment, args);
         } else if (catalogId == CatalogCard.CAMPUS_CARD_ID) {
-            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.action_catalog_tab_to_buildingActivity);
         } else if (catalogId == CatalogCard.APPLY_CARD_ID) {
-            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
             navController.navigate(R.id.action_catalog_Fragment_to_applyFragment);
+        } else if (catalogId == CatalogCard.INFO_CARD_ID) {
+            navController.navigate(R.id.action_catalog_tab_to_informationFragment);
         }
     }
 }

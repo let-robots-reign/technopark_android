@@ -179,6 +179,7 @@
     <string name="news_tab">Новости</string>
     <string name="events_tab">Внеучебная деятельность</string>
     <string name="application_tab">Процесс поступления</string>
+    <string name="information_tab">О приложении</string>
     <string name="done">Готово</string>
 
     <string-array name="application_descriptions">
@@ -280,5 +281,11 @@
     <string name="edit_icon">Редактировать</string>
     <string name="news_channel">Уведомления о свежих новостях</string>
     <string name="fresh_news">Свежая новость</string>
+
+    <string name="version">Версия приложения: 1.0</string>
+    <string name="contact_us">Хотите сообщить об ошибке или внести предложение? Напишите нам!</string>
+    <string name="about_authors">Приложение разработали: Пудовкин Дмитрий, Лучков Николай, Зотов Алексей</string>
+    <string name="icons_attribution">Авторы иконок: Freepik, Roundicons, Pixel perfect,
+        DinosoftLabs (сайт flaticon.com)</string>
 
 </resources>
