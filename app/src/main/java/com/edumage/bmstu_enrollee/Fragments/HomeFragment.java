@@ -17,7 +17,7 @@ import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
 import com.edumage.bmstu_enrollee.Adapters.ExamScoresAdapter;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
-import com.edumage.bmstu_enrollee.DocumentStep;
+
 import com.edumage.bmstu_enrollee.DocumentStepStatus;
 import com.edumage.bmstu_enrollee.ExamScore;
 import com.edumage.bmstu_enrollee.R;
@@ -37,6 +37,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.edumage.bmstu_enrollee.DocumentStep;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -49,6 +50,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     private List<TextView> scoresTexts;
     private List<ProgressBar> progressBars;
     private List<ImageView> downloadIcons;
+    private List<TextView> userscores;
+    private List<TextView> yourscores;
 
     private List<ChosenProgram> programs;
     private HomeFragmentViewModel model;
@@ -74,6 +77,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         createDocumentStepsList();
         startParsing();
     }
+
+
 
 
 
@@ -133,6 +138,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                     for (int i = 1; i < programs.size() + 1; ++i) {
                         scoresTexts.get(i).setVisibility(View.INVISIBLE);
                         progressBars.get(i - 1).setVisibility(View.VISIBLE);
+                        //userscores.get(i).setVisibility(View.INVISIBLE);
                     }
                 } else {
                     scoresTexts.get(0).setText(getResources().getString(R.string.last_reload) + " " + scores.get(0));
@@ -241,6 +247,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 (ImageView) rootView.findViewById(R.id.ic2),
                 (ImageView) rootView.findViewById(R.id.ic3));
 
+        yourscores = Arrays.asList(
+                (TextView) rootView.findViewById(R.id.yourscore1),
+                (TextView) rootView.findViewById(R.id.yourscore2),
+                (TextView) rootView.findViewById(R.id.yourscore3));
+
+
+
         TextView edit_ege = rootView.findViewById(R.id.textView_edit_ege);
         TextView edit_disciplines = rootView.findViewById(R.id.textView_edit_disciplines);
         edit_ege.setOnClickListener(this);
@@ -252,6 +265,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 (TextView) rootView.findViewById(R.id.program2),
                 (TextView) rootView.findViewById(R.id.program3));
 
+        userscores =  Arrays.asList(
+                (TextView) rootView.findViewById(R.id.userscore1),
+                (TextView) rootView.findViewById(R.id.userscore2),
+                (TextView) rootView.findViewById(R.id.userscore3));
+
+        model.userscoresLiveData.observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
+            @Override
+            public void onChanged(List<Integer> integers) {
+
+                for (int i=0; i<integers.size(); i++){
+                    userscores.get(i).setText(String.valueOf(integers.get(i)));
+                }
+            }
+        });
+
         for (int i = 0; i < programs.size(); ++i) {
             programsTexts.get(i).setText(programs.get(i).getProgramName());
         }
@@ -261,6 +289,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
             scoresTexts.get(i + 1).setVisibility(View.GONE);
             progressBars.get(i).setVisibility(View.GONE);
             downloadIcons.get(i).setVisibility(View.GONE);
+            userscores.get(i).setVisibility(View.GONE);
+            yourscores.get(i).setVisibility(View.GONE);
         }
 
         ImageView icRefresh = rootView.findViewById(R.id.refresh);
@@ -283,6 +313,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
 
         return rootView;
     }
+
+
 
     private void showDialogAboutPassScore(){
         if (getContext()==null)return;

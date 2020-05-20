@@ -82,7 +82,8 @@ public class DisciplinesViewModel extends AndroidViewModel {
                         ArrayList<Discipline> list = data.getValue();
                         Log.d("TH_TEST","Apply program NULL");
                         if (list == null) return;
-                        for (ChosenProgram program : programs) {
+                        for (int i=0; i<programs.size(); i++) {
+                            ChosenProgram program =programs.get(i);
                             boolean found=false;
                             for (Discipline d : list) {
                                 if (d.getFullName().equals(program.getProgramName())) {
@@ -92,7 +93,8 @@ public class DisciplinesViewModel extends AndroidViewModel {
                                 }
                             }
                             if (!found){
-                                programs.remove(program);
+                                programs.remove(i);
+                                i--;
                             }
                         }
                         Log.d("TH_TEST","Apply program");
@@ -204,7 +206,7 @@ public class DisciplinesViewModel extends AndroidViewModel {
     }
 
 
-    private int[] subjectsIdByCode(String code){
+    public static int[] subjectsIdByCode(String code){
         /*EGESubject.Subject[] res = new EGESubject.Subject[Discipline.NUMBER_OF_PASSING_EXAMS];
         switch (code){
             case "01.03.02":
