@@ -3,8 +3,9 @@ package com.edumage.bmstu_enrollee;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 
@@ -14,28 +15,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.navigation.NavDeepLinkBuilder;
-import androidx.work.Worker;
-import androidx.work.WorkerParameters;
 
-public class ParsingWorker extends Worker {
+public class AlertReceiver extends BroadcastReceiver {
     private static final String APP_PREFERENCES = "APP_PREFERENCES";
     private static final String NEWS_COUNT = "NEWS_COUNT";
     private static final String NEWS_CHANNEL_ID = "NEWS_CHANNEL";
     private static final int NEWS_NOTIFY_ID = 1;
-    private static final String TAG = "WORKER";
+    private Context context;
 
-    public ParsingWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
-        super(context, workerParams);
-    }
-
-    @NonNull
     @Override
-    public Result doWork() {
+    public void onReceive(Context context, Intent intent) {
+        this.context = context;
         parseInBackground();
-        return Result.success();
     }
 
     private void parseInBackground() {
@@ -64,20 +57,19 @@ public class ParsingWorker extends Worker {
     }
 
     private void showNotification(NewsItem newsItem) {
-        NotificationManager notificationManager = (NotificationManager) getApplicationContext()
-                .getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager == null) return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(NEWS_CHANNEL_ID,
-                    getApplicationContext().getResources().getString(R.string.news_channel),
+                    context.getResources().getString(R.string.news_channel),
                     NotificationManager.IMPORTANCE_DEFAULT);
             channel.enableLights(true);
             channel.setLightColor(Color.GREEN);
             channel.enableVibration(false);
             notificationManager.createNotificationChannel(channel);
         }
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext(), NEWS_CHANNEL_ID)
-                .setContentTitle(getApplicationContext().getResources().getString(R.string.fresh_news))
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NEWS_CHANNEL_ID)
+                .setContentTitle(context.getResources().getString(R.string.fresh_news))
                 .setContentText(newsItem.getTitle())
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentIntent(createPendingIntent());
@@ -85,7 +77,7 @@ public class ParsingWorker extends Worker {
     }
 
     private PendingIntent createPendingIntent() {
-        return new NavDeepLinkBuilder(getApplicationContext())
+        return new NavDeepLinkBuilder(context)
                 .setComponentName(MainActivity.class)
                 .setGraph(R.navigation.nav_graph)
                 .setDestination(R.id.newsFragment)

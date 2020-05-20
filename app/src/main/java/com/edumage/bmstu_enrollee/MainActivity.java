@@ -7,20 +7,16 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-import androidx.work.Constraints;
-import androidx.work.ExistingPeriodicWorkPolicy;
-import androidx.work.NetworkType;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -38,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         installTrustManager();
         setupFragments();
-        scheduleWork();
+        startAlarm();
     }
 
     private void setupFragments() {
@@ -91,14 +87,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void scheduleWork() {
-        String TAG = "PARSING_WORK";
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(ParsingWorker.class,
-                15, TimeUnit.MINUTES)
-                .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).build())
-                .addTag(TAG).build();
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork("PARSING_WORK",
-                ExistingPeriodicWorkPolicy.REPLACE, workRequest);
+    public void startAlarm() {
+        Intent intent = new Intent(this, AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (alarm != null)
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
     }
 
     public void installTrustManager() {

@@ -35,6 +35,8 @@
 
         <activity android:name=".MainActivity"/>
 
+        <receiver android:name=".AlertReceiver"/>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/notification_icon"/>
