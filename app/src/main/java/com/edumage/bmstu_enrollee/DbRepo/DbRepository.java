@@ -39,6 +39,16 @@ public class DbRepository {
         thread.start();
     }
 
+    public void replaceUserInfo(final UserInfo info) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                userDao.replaceUserInfo(info);
+            }
+        });
+        thread.start();
+    }
+
     public void deleteAllInfo() {
         Thread thread = new Thread(new Runnable() {
             @Override

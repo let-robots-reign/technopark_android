@@ -1,6 +1,5 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -17,7 +16,7 @@ import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
 import com.edumage.bmstu_enrollee.Adapters.ExamScoresAdapter;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
-
+import com.edumage.bmstu_enrollee.DocumentStep;
 import com.edumage.bmstu_enrollee.DocumentStepStatus;
 import com.edumage.bmstu_enrollee.ExamScore;
 import com.edumage.bmstu_enrollee.R;
@@ -32,12 +31,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.edumage.bmstu_enrollee.DocumentStep;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -51,7 +49,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     private List<ProgressBar> progressBars;
     private List<ImageView> downloadIcons;
     private List<TextView> userscores;
-    private List<TextView> yourscores;
 
     private List<ChosenProgram> programs;
     private HomeFragmentViewModel model;
@@ -65,7 +62,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        model = ViewModelProviders.of(this).get(HomeFragmentViewModel.class);
+        model = new ViewModelProvider(this).get(HomeFragmentViewModel.class);
         programs = model.getChosenPrograms();
 
         if (savedInstanceState == null) {
@@ -77,10 +74,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         createDocumentStepsList();
         startParsing();
     }
-
-
-
-
 
     private void createScoresList() {
         // get exam scores from DB
@@ -122,7 +115,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         stepsAdapter.setStepsList(newList);
         stepsAdapter.notifyItemChanged(current);
         stepsAdapter.notifyItemChanged(current + 1);
-        LinearLayoutManager manager = (LinearLayoutManager)steps.getLayoutManager();
+        LinearLayoutManager manager = (LinearLayoutManager) steps.getLayoutManager();
         if (manager != null) {
             manager.scrollToPositionWithOffset(current + 1, 0);
         }
@@ -206,17 +199,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         TextView name = rootView.findViewById(R.id.user_name);
         name.setText(model.getUserInfo().getUserName());
 
-        TextView changeName= rootView.findViewById(R.id.textView_edit_name);
+        TextView changeName = rootView.findViewById(R.id.textView_edit_name);
         changeName.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                @SuppressLint("UseRequireInsteadOfGet") NavController navController =
-                        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
                 navController.navigate(R.id.action_home_tab_to_userFragment);
             }
         });
-
-
 
         examResults = rootView.findViewById(R.id.exam_scores_list);
         examResults.setLayoutManager(new LinearLayoutManager(getActivity(),
@@ -247,12 +237,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 (ImageView) rootView.findViewById(R.id.ic2),
                 (ImageView) rootView.findViewById(R.id.ic3));
 
-        yourscores = Arrays.asList(
+        List<TextView> yourscores = Arrays.asList(
                 (TextView) rootView.findViewById(R.id.yourscore1),
                 (TextView) rootView.findViewById(R.id.yourscore2),
                 (TextView) rootView.findViewById(R.id.yourscore3));
-
-
 
         TextView edit_ege = rootView.findViewById(R.id.textView_edit_ege);
         TextView edit_disciplines = rootView.findViewById(R.id.textView_edit_disciplines);
@@ -265,7 +253,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 (TextView) rootView.findViewById(R.id.program2),
                 (TextView) rootView.findViewById(R.id.program3));
 
-        userscores =  Arrays.asList(
+        userscores = Arrays.asList(
                 (TextView) rootView.findViewById(R.id.userscore1),
                 (TextView) rootView.findViewById(R.id.userscore2),
                 (TextView) rootView.findViewById(R.id.userscore3));
@@ -274,7 +262,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
             @Override
             public void onChanged(List<Integer> integers) {
 
-                for (int i=0; i<integers.size(); i++){
+                for (int i = 0; i < integers.size(); i++) {
                     userscores.get(i).setText(String.valueOf(integers.get(i)));
                 }
             }
@@ -309,19 +297,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
             }
         });
 
-
-
         return rootView;
     }
 
-
-
-    private void showDialogAboutPassScore(){
-        if (getContext()==null)return;
+    private void showDialogAboutPassScore() {
+        if (getContext() == null) return;
         AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
         adb.setTitle(R.string.passing_score);
         adb.setMessage(R.string.explanation_passing_score);
-        AlertDialog ad =adb.create();
+        AlertDialog ad = adb.create();
         ad.show();
     }
 
@@ -346,29 +330,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     }
 
     private void showDialogFragment(int dialog_id) {
-     /*   FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        DialogFragment dialogFragment = null;
-        String tag = "";*/
-    /*    switch (dialog_id) {
-            case DISCIPLINES_EDIT_DIALOG:
-                dialogFragment = new DisciplineFragment();
-                tag = DisciplineFragment.TAG;
-                break;
-            case EGE_EDIT_DIALOG:
-                dialogFragment = new DialogEgeFragment();
-                tag = DialogEgeFragment.TAG;
-                break;
-        }*/
-/*
-        Fragment prev = getChildFragmentManager().findFragmentByTag(tag);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(tag);
-        if (dialogFragment != null) dialogFragment.show(ft, tag);*/
-        @SuppressLint("UseRequireInsteadOfGet") NavController navController =
-                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-            switch (dialog_id) {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        switch (dialog_id) {
             case DISCIPLINES_EDIT_DIALOG:
                 navController.navigate(R.id.action_home_tab_to_disciplineFragment);
                 break;
@@ -376,6 +339,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 navController.navigate(R.id.action_home_tab_to_egeFragment);
                 break;
         }
-
     }
 }

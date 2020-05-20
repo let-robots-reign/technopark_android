@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +40,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
 
         adapter = new DisciplineAdapter( this);
         // get all programm
-        model = ViewModelProviders.of(this).get(DisciplinesViewModel.class);
+        model = new ViewModelProvider(this).get(DisciplinesViewModel.class);
 
         model.loadData();
         model.applyChosenSubjects();

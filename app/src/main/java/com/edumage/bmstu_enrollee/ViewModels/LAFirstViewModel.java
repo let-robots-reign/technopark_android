@@ -1,82 +1,66 @@
 package com.edumage.bmstu_enrollee.ViewModels;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.os.AsyncTask;
-import android.widget.Toast;
+
+import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
+import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
-import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
-import com.edumage.bmstu_enrollee.R;
-
 public class LAFirstViewModel extends AndroidViewModel {
     private DbRepository repository;
 
-    public final MutableLiveData<String> name= new MutableLiveData<>();
+    public final MutableLiveData<String> name = new MutableLiveData<>();
     public final MutableLiveData<String> date = new MutableLiveData<>();
 
-    public final int NO_NAME_WARNING=-1;
-    public final int NO_DATE_WARNING=-2;
-    public final int NO_WARNINGS=1;
+    public final int NO_NAME_WARNING = -1;
+    public final int NO_DATE_WARNING = -2;
+    public final int NO_WARNINGS = 1;
 
     public LAFirstViewModel(@NonNull Application application) {
         super(application);
         repository = new DbRepository(application);
     }
 
+    public void init() {
+        UserInfo userInfo = repository.getUserInfo();
+        name.postValue(userInfo.getUserName());
+        date.postValue(userInfo.getUserBirthday());
+    }
+
     public void insertUserInfo(UserInfo info) {
         repository.insertUserInfo(info);
+    }
+
+    public void replaceUserInfo(UserInfo info) {
+        repository.replaceUserInfo(info);
     }
 
     public void deleteAllInfo() {
         repository.deleteAllInfo();
     }
 
-
-    public void loadData(){
-       /* AsyncTask<Void,Void,UserInfo> asyncTask = new AsyncTask<Void, Void, UserInfo>() {
-
-            @Override
-            protected UserInfo doInBackground(Void... voids) {
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(UserInfo userInfo) {
-                super.onPostExecute(userInfo);
-
-            }
-        };*/
-
-       new Thread(new Runnable() {
-           @Override
-           public void run() {
-            UserInfo userInfo = repository.getUserInfo();
-            name.postValue(userInfo.getUserName());
-            date.postValue(userInfo.getUserBirthday());
-           }
-       }).start();
+    public MutableLiveData<String> getName() {
+        return name;
     }
 
-    public void insertUserInfo(){
-        final UserInfo userInfo = new UserInfo(name.getValue(), date.getValue());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //repository.deleteAllInfo();
-                repository.insertUserInfo(userInfo);
-
-            }
-        }).start();
+    public MutableLiveData<String> getDate() {
+        return date;
     }
 
-    // if returning value>0 is ok
-    // int returning value<0 is warning
-    public int validateData(){
+    public void setName(String n) {
+        name.setValue(n);
+    }
+
+    public void setDate(String d) {
+        date.setValue(d);
+    }
+
+    // if returning value > 0 is ok
+    // int returning value < 0 is warning
+    public int validateData() {
         if (name.getValue().length() == 0) {
             return NO_NAME_WARNING;
         }
@@ -85,8 +69,4 @@ public class LAFirstViewModel extends AndroidViewModel {
         }
         return NO_WARNINGS;
     }
-
-
-
-
 }

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -53,7 +53,7 @@ public class BuildingFragment extends Fragment implements BuildingAdapter.Buildi
             section_number = bundle.getInt(ARG_SECTION_NUMBER);
         }
 
-        final BuildingViewModel model = ViewModelProviders.of(this).get(BuildingViewModel.class);
+        final BuildingViewModel model = new ViewModelProvider(this).get(BuildingViewModel.class);
 
         model.state.observe(this, new Observer<BuildingViewModel.ParsingState>() {
             @Override

@@ -22,7 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,14 +41,10 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
 
         adapter = new DisciplineAdapter(this);
 
-        model = ViewModelProviders.of(this).get(DisciplinesViewModel.class);
-        /*if (savedInstanceState == null) {*/
-            //strict sequence
-            model.loadData();
-            model.applyChosenSubjects();
-            model.applyChosenProgram();
-
-        /*}*/
+        model = new ViewModelProvider(this).get(DisciplinesViewModel.class);
+        model.loadData();
+        model.applyChosenSubjects();
+        model.applyChosenProgram();
 
         model.data.observe(this, new Observer<ArrayList<Discipline>>() {
             @Override
@@ -55,10 +53,7 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
                 adapter.notifyDataSetChanged();
             }
         });
-
-
     }
-
 
     @Nullable
     @Override
@@ -81,16 +76,16 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().onBackPressed();
+                navigateBack();
             }
         });
 
 
-        final TextView noData_textView  =  v.findViewById(R.id.no_discipline_textView);
+        final TextView noData_textView = v.findViewById(R.id.no_discipline_textView);
         model.data.observe(getViewLifecycleOwner(), new Observer<ArrayList<Discipline>>() {
             @Override
             public void onChanged(ArrayList<Discipline> disciplines) {
-                if (disciplines.size()==0){
+                if (disciplines.size() == 0) {
                     noData_textView.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.INVISIBLE);
                 } else {
@@ -102,15 +97,14 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
         return v;
     }
 
-
     @Override
     public void onClick(View v) {
-            if (getChosenDisciplines() > 3) {
-                Toast.makeText(getContext(), R.string.disciplines_alert, Toast.LENGTH_SHORT).show();
-            } else {
-                model.replaceAllPrograms(adapter.getData());
-                requireActivity().onBackPressed();
-            }
+        if (getChosenDisciplines() > 3) {
+            Toast.makeText(getContext(), R.string.disciplines_alert, Toast.LENGTH_SHORT).show();
+        } else {
+            model.replaceAllPrograms(adapter.getData());
+            navigateBack();
+        }
     }
 
     @Override
@@ -118,5 +112,8 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
         return adapter.getEnabled().size();
     }
 
-
+    private void navigateBack() {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        navController.navigate(R.id.action_disciplineFragment_to_home_tab);
+    }
 }
