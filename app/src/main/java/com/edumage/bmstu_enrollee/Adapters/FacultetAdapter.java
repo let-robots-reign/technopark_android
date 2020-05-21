@@ -79,11 +79,11 @@ public class FacultetAdapter extends RecyclerView.Adapter<FacultetAdapter.Facult
         public void onClick(View v) {
             int position = getAdapterPosition();
             FacultetItem item = facultets.get(position);
-            facultetListener.onFacultetClick(item.getNameShort(), Integer.toString(position));
+            facultetListener.onFacultetClick(item.getNameShort());
         }
     }
 
     public interface OnFacultetListener {
-        void onFacultetClick(String nameFacultet, String numFacultet);
+        void onFacultetClick(String nameFacultet);
     }
 }

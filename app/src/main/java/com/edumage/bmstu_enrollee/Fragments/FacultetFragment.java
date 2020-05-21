@@ -83,11 +83,10 @@ public class FacultetFragment extends Fragment implements FacultetAdapter.OnFacu
     }
 
     @Override
-    public void onFacultetClick(String nameFacultet, String num) {
+    public void onFacultetClick(String nameFacultet) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         Bundle args = new Bundle();
         args.putString("nameFacultet", nameFacultet);
-        args.putString("num", num);
         navController.navigate(R.id.action_facultetFragment_to_cafedraFragment, args);
     }
 }

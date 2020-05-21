@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+<Toolbar
+    android:id="@+id/toolbar"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
+    android:elevation="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    android:background="@android:color/white"/>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/full_name_cafedra"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        tools:text = "Cafedra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="15dp"
+        android:paddingStart="10dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Наименования специальностей"
+        android:textSize="17sp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:paddingVertical="8dp"
+        android:paddingStart="10dp"/>
+    <TextView
+        android:id="@+id/kod_spec"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="153.0.0.5"
+
+        android:paddingStart="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Описание кафедры"
+        android:textSize="17sp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:paddingVertical="8dp"
+        android:paddingStart="10dp"/>
+    <TextView
+        android:id="@+id/full_describe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        tools:text = "Describe cafedra"
+        android:autoLink="all"
+        android:textIsSelectable="true"
+        android:paddingStart="5dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Учебный план"
+        android:textSize="17sp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:paddingVertical="8dp"
+        android:paddingStart="10dp"/>
+    <TextView
+        android:id="@+id/plan_of_study"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        tools:text="Plan"
+        android:textIsSelectable="true"
+        android:autoLink="all"
+        android:paddingStart="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ссылка на сайт кафедры"
+        android:textSize="17sp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:paddingVertical="8dp"
+        android:paddingStart="10dp"/>
+    <TextView
+        android:id="@+id/link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        tools:text="Link"
+        android:textIsSelectable="true"
+        android:autoLink="all"
+        android:paddingStart="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Общежитие"
+        android:textSize="17sp"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/white"
+        android:paddingVertical="8dp"
+        android:paddingStart="10dp"/>
+    <TextView
+        android:id="@+id/hostel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        tools:text="Hostel"
+        android:paddingStart="5dp"/>
+
+</LinearLayout>
+</ScrollView>
+</LinearLayout>

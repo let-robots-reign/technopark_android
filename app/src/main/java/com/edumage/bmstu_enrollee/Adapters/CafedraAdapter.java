@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.CafedraItem;
 import com.edumage.bmstu_enrollee.Data.CafedraNames;
 import com.edumage.bmstu_enrollee.R;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,21 +27,20 @@ public class CafedraAdapter extends RecyclerView.Adapter<CafedraAdapter.CafedraH
 
     private Context context;
     private String nmFac;
-    private String nmCaf;
     CafedraNames cafedraNames = new CafedraNames();
-    //private ArrayMap<String, ArrayList<CafedraItem>> namesCaf = cafedraNames.getData();
+    private OnCafedraListener cafedraListener;
 
-    public CafedraAdapter(Context c, String nameFac, String num){
+    public CafedraAdapter(Context c, String nameFac, OnCafedraListener listener){
         context = c;
         nmFac = nameFac;
-        nmCaf = num;
+        cafedraListener = listener;
     }
 
     @NonNull
     @Override
     public CafedraHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cafedra_item, parent, false);
-        return new CafedraHolder(view);
+        return new CafedraHolder(view, cafedraListener);
     }
 
     @SuppressLint("SetTextI18n")
@@ -52,6 +53,7 @@ public class CafedraAdapter extends RecyclerView.Adapter<CafedraAdapter.CafedraH
 
         holder.nameFac.setText(cafedraNames.getData().get(nmFac).keyAt(position) + str);
         holder.nameCaf.setText(Objects.requireNonNull(cafedraNames.getData().get(nmFac)).valueAt(position).getNameCaf());
+        holder.shortDescribe.setText(cafedraNames.getData().get(nmFac).valueAt(position).getShortDesc());
     }
 
     @Override
@@ -59,15 +61,31 @@ public class CafedraAdapter extends RecyclerView.Adapter<CafedraAdapter.CafedraH
         return Objects.requireNonNull(cafedraNames.getData().get(nmFac)).size();
     }
 
-    static class CafedraHolder extends RecyclerView.ViewHolder {
+    class CafedraHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView nameFac, nameCaf;
+        OnCafedraListener cafedraListener;
+        TextView nameFac, nameCaf, shortDescribe;
 
-        CafedraHolder(@NonNull View itemView) {
+        CafedraHolder(@NonNull View itemView, OnCafedraListener listener) {
             super(itemView);
             nameFac = itemView.findViewById(R.id.nmFac);
             nameCaf = itemView.findViewById(R.id.caf);
+            shortDescribe = itemView.findViewById(R.id.short_describe);
+            cafedraListener = listener;
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            String cafName = cafedraNames.getData().get(nmFac).keyAt(position);
+            cafedraListener.onCafedraClick(cafName);
+        }
+
+    }
+
+    public interface OnCafedraListener {
+        void onCafedraClick(String cafName);
     }
 
 }

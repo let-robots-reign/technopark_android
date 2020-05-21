@@ -13,20 +13,18 @@ import android.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.Adapters.CafedraAdapter;
-import com.edumage.bmstu_enrollee.CafedraItem;
-import com.edumage.bmstu_enrollee.CatalogCard;
-import com.edumage.bmstu_enrollee.Data.CafedraNames;
 import com.edumage.bmstu_enrollee.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class CafedraFragment extends Fragment {
+public class CafedraFragment extends Fragment implements CafedraAdapter.OnCafedraListener{
 
     private CafedraAdapter adapter;
     private RecyclerView RVcafedra;
@@ -45,9 +43,8 @@ public class CafedraFragment extends Fragment {
         desc.add("Целевая подготовка специалистов для базовых предприятий ОАО «ГСКБ» «Алмаз-Антей»; Центр Научно-исследовательский электромеханический институт (НИЭМИ).");
 
         nameFac = getArguments().getString("nameFacultet");
-        num = getArguments().getString("num");
 
-        adapter = new CafedraAdapter(getActivity(), nameFac, num);
+        adapter = new CafedraAdapter(getActivity(), nameFac, this);
     }
 
     @Nullable
@@ -83,5 +80,13 @@ public class CafedraFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onCafedraClick(String cafName) {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        Bundle args = new Bundle();
+        args.putString("nameFacultet", cafName);
+        navController.navigate(R.id.action_cafedraItem_to_cafedraPage, args);
     }
 }

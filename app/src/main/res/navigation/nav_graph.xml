@@ -73,11 +73,20 @@
         android:name="com.edumage.bmstu_enrollee.Fragments.CafedraFragment"
         android:label="CafedraFragment"
         tools:layout="@layout/cafedra_catalog">
+        <action
+            android:id="@+id/action_cafedraItem_to_cafedraPage"
+            app:destination="@id/cafedraPage" />
         <argument
             android:name="nameFacultet"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/cafedraPage"
+        android:name="com.edumage.bmstu_enrollee.Fragments.CafedraPage"
+        android:label="CafedraPage"
+        tools:layout="@layout/cafedra_page">
         <argument
-            android:name="num"
+            android:name="nameFacultet"
             app:argType="string" />
     </fragment>
 </navigation>
