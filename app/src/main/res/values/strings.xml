@@ -243,9 +243,9 @@
         <item>
             Дополнительно:
             \nКопии документов, подтверждающих возможное наличие у Вас прав:
-            \n- на приём по результатам вступительных испытаний, проводимых МГТУ им. Н.Э. Баумана самостоятельно;
-            \n- на приём на места в пределах 10 % квоты;
-            \n- преимущественное право зачисления;
+            \n- на приём по результатам вступительных испытаний, проводимых МГТУ им. Н.Э. Баумана самостоятельно
+            \n- на приём на места в пределах 10 % квоты
+            \n- преимущественное право зачисления
         </item>
         <item>
             Дополнительно:
@@ -285,6 +285,13 @@
     <string name="version">Версия приложения: 1.0</string>
     <string name="contact_us">Хотите сообщить об ошибке или внести предложение? Напишите нам!</string>
     <string name="about_authors">Приложение разработали: Пудовкин Дмитрий, Лучков Николай, Зотов Алексей</string>
+    <string name="bmstu_links">Источники информации:
+    \n1) Текущие проходные баллы: priem.bmstu.ru/ru/points
+    \n2) Проходные баллы прошлых лет: https://bmstu.ru/abitur/general/passing_scores
+    \n3) Документы для поступления: https://www.bmstu.ru/abitur/general/list_of_doc
+    \n4) Новости: https://bmstu.ru/mstu/info/bauman-news
+    \n5) Внеучебная деятельность: https://www.bmstu.ru/mstu/info/upcoming-events
+    </string>
     <string name="icons_attribution">Авторы иконок: Freepik, Roundicons, Pixel perfect,
         DinosoftLabs (сайт flaticon.com)</string>
 
