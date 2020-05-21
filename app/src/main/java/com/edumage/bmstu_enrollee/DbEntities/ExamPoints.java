@@ -15,13 +15,13 @@ public class ExamPoints {
     @ColumnInfo(name = "exam_score")
     private int examScore;
 
-    @ColumnInfo(name="subject_id")
+    @ColumnInfo(name = "subject_id")
     private int subjectId;
 
     public ExamPoints(String examName, int examScore, int subjectId) {
         this.examName = examName;
         this.examScore = examScore;
-        this.subjectId=subjectId;
+        this.subjectId = subjectId;
     }
 
     public String getExamName() {

@@ -34,8 +34,8 @@ public class ChosenProgram implements Comparable<ChosenProgram> {
 
     @Override
     public int compareTo(ChosenProgram program) {
-        if (program.id!=id)return -1;
-        if (!program.programName.equals(programName))return -1;
+        if (program.id != id) return -1;
+        if (!program.programName.equals(programName)) return -1;
         return 0;
     }
 }

@@ -64,7 +64,7 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
             model.loadData();
         }
 
-        model.data.observe(this, new Observer<ArrayList<EGESubject>>() {
+        model.getData().observe(this, new Observer<ArrayList<EGESubject>>() {
             @Override
             public void onChanged(ArrayList<EGESubject> egeSubjects) {
                 adapter.setData(egeSubjects);

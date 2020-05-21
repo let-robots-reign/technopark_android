@@ -65,7 +65,7 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
             recyclerView.setLayoutManager(new GridLayoutManager(appContext, 2, RecyclerView.VERTICAL, false));
         }
         final TextView textView = v.findViewById(R.id.no_discipline_textView);
-        model.data.observe(getViewLifecycleOwner(), new Observer<ArrayList<Discipline>>() {
+        model.getData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Discipline>>() {
             @Override
             public void onChanged(ArrayList<Discipline> disciplines) {
                 adapter.setData(disciplines);

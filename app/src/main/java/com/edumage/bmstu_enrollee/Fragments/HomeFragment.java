@@ -14,9 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -184,10 +182,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.textView_edit_ege:
+            case R.id.edit_ege:
                 showDialogFragment(EGE_EDIT_DIALOG);
                 break;
-            case R.id.textView_edit_disciplines:
+            case R.id.edit_disciplines:
                 showDialogFragment(DISCIPLINES_EDIT_DIALOG);
                 break;
         }
@@ -216,7 +214,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         TextView name = rootView.findViewById(R.id.user_name);
         name.setText(model.getUserInfo().getUserName());
 
-        TextView changeName = rootView.findViewById(R.id.textView_edit_name);
+        ImageView changeName = rootView.findViewById(R.id.edit_name);
         changeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -259,8 +257,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 (TextView) rootView.findViewById(R.id.yourscore2),
                 (TextView) rootView.findViewById(R.id.yourscore3));
 
-        TextView edit_ege = rootView.findViewById(R.id.textView_edit_ege);
-        TextView edit_disciplines = rootView.findViewById(R.id.textView_edit_disciplines);
+        ImageView edit_ege = rootView.findViewById(R.id.edit_ege);
+        ImageView edit_disciplines = rootView.findViewById(R.id.edit_disciplines);
         edit_ege.setOnClickListener(this);
         edit_disciplines.setOnClickListener(this);
 
@@ -275,10 +273,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 (TextView) rootView.findViewById(R.id.userscore2),
                 (TextView) rootView.findViewById(R.id.userscore3));
 
-        model.userscoresLiveData.observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
+        model.getUserscoresLiveData().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
             @Override
             public void onChanged(List<Integer> integers) {
-
                 for (int i = 0; i < integers.size(); i++) {
                     userscores.get(i).setText(String.valueOf(integers.get(i)));
                 }
@@ -307,12 +304,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         });
 
         TextView questionTextView = rootView.findViewById(R.id.textView_question_about_score);
-        questionTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialogAboutPassScore();
-            }
-        });
+        if (programs.size() == 0) {
+            questionTextView.setText(getResources().getString(R.string.no_programs_chosen));
+        } else {
+            questionTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialogAboutPassScore();
+                }
+            });
+        }
 
         return rootView;
     }

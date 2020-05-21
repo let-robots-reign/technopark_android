@@ -2,7 +2,6 @@ package com.edumage.bmstu_enrollee.ViewModels;
 
 import android.app.Application;
 
-import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 import com.edumage.bmstu_enrollee.EGESubject;
@@ -13,16 +12,21 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class EgeSubjectsViewModel extends AndroidViewModel {
     private DbRepository repository;
 
-    public final MutableLiveData<ArrayList<EGESubject>> data = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<EGESubject>> data = new MutableLiveData<>();
 
     public EgeSubjectsViewModel(@NonNull Application application) {
         super(application);
         repository = new DbRepository(application);
+    }
+
+    public LiveData<ArrayList<EGESubject>> getData() {
+        return data;
     }
 
     public void replaceAllPoints(final List<EGESubject> egeSubjectList) {
@@ -30,15 +34,14 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 List<ExamPoints> points = new ArrayList<>();
-                for (int i=0; i<egeSubjectList.size(); i++) {
+                for (int i = 0; i < egeSubjectList.size(); i++) {
                     EGESubject subject = egeSubjectList.get(i);
-                    points.add(new ExamPoints(subject.getName(), subject.getScore(),subject.getId()));
+                    points.add(new ExamPoints(subject.getName(), subject.getScore(), subject.getId()));
                 }
                 repository.replaceAllPoints(points);
                 //if(!updateDiscipline)return;
             }
         }).start();
-
     }
 
     public void applyEgeScore() {
@@ -53,7 +56,7 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
                     ege.setScore(exam.getExamScore());
                     break;
                 }*/
-                if(ege.getId()==exam.getSubjectId()){
+                if (ege.getId() == exam.getSubjectId()) {
                     ege.setPassed(true);
                     ege.setScore(exam.getExamScore());
                     break;
@@ -77,7 +80,7 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
         drawables[7] = R.drawable.english;
         int i = 0;
         for (String s : str) {
-            EGESubject subject = new EGESubject(s, drawables[i],i);
+            EGESubject subject = new EGESubject(s, drawables[i], i);
             res.add(subject);
             i++;
         }
@@ -85,7 +88,7 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
     }
 
 
-    public void updateDisciplines(){
+    public void updateDisciplines() {
 
     }
 }

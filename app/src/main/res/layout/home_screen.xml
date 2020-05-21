@@ -62,30 +62,34 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/user_name"
-                            android:layout_weight="4"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="5"
                             tools:text="Зотов Алексей Олегович"
                             android:textColor="@android:color/black"
                             android:textSize="14sp"
                             android:fontFamily="@font/daysone"
+                            android:layout_marginTop="12dp"
                             android:gravity="center"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:textAlignment="viewEnd"
-                            android:layout_height="wrap_content"
-                            android:text="@string/edit"
-                            android:textSize="16sp"
-                            android:textStyle="italic"
-                            android:fontFamily="@font/cuprum"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:id="@+id/textView_edit_name"/>
+                        <ImageView
+                            android:id="@+id/edit_name"
+                            android:layout_width="0dp"
+                            android:layout_height="14dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_edit"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:contentDescription="@string/edit_icon"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_gravity="center"/>
 
                     </LinearLayout>
 
@@ -109,35 +113,37 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginEnd="@dimen/default_margin">
 
                     <TextView
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
                         android:paddingBottom="4dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/state_exam_points"
                         android:textColor="@android:color/black"
                         android:textSize="17sp"
                         android:fontFamily="@font/cuprum"/>
 
-                    <TextView
+                    <ImageView
+                        android:id="@+id/edit_ege"
                         android:layout_width="wrap_content"
-                        android:textAlignment="viewEnd"
-                        android:layout_height="wrap_content"
-                        android:text="@string/edit"
-                        android:textSize="16sp"
-                        android:textStyle="italic"
-                        android:fontFamily="@font/cuprum"
-                        android:id="@+id/textView_edit_ege"/>
+                        android:layout_height="14dp"
+                        app:srcCompat="@drawable/ic_edit"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="@string/edit_icon"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_alignParentEnd="true"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -225,36 +231,37 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"/>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
                     <TextView
-                        android:layout_width="wrap_content"
                         android:id="@+id/textView_question_about_score"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:maxWidth="320dp"
                         android:fontFamily="@font/cuprum"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
                         android:text="@string/about_passing_score"
-                        android:textAlignment="viewEnd"
                         android:textSize="16sp"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"/>
 
-                    <TextView
-                        android:id="@+id/textView_edit_disciplines"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/cuprum"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:text="@string/edit"
-                        android:textAlignment="viewEnd"
-                        android:textSize="16sp"
-                        android:textStyle="italic" />
+                    <ImageView
+                        android:id="@+id/edit_disciplines"
+                        android:layout_width="wrap_content"
+                        android:layout_height="14dp"
+                        app:srcCompat="@drawable/ic_edit"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:contentDescription="@string/edit_icon"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_alignParentEnd="true"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

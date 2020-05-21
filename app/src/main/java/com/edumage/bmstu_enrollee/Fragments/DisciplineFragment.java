@@ -47,7 +47,7 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
         model.applyChosenSubjects();
         model.applyChosenProgram();
 
-        model.data.observe(this, new Observer<ArrayList<Discipline>>() {
+        model.getData().observe(this, new Observer<ArrayList<Discipline>>() {
             @Override
             public void onChanged(ArrayList<Discipline> disciplines) {
                 adapter.setData(disciplines);
@@ -83,7 +83,7 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
 
 
         final TextView noData_textView = v.findViewById(R.id.no_discipline_textView);
-        model.data.observe(getViewLifecycleOwner(), new Observer<ArrayList<Discipline>>() {
+        model.getData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Discipline>>() {
             @Override
             public void onChanged(ArrayList<Discipline> disciplines) {
                 if (disciplines.size() == 0) {

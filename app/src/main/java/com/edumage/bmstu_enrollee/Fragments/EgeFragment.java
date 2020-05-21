@@ -23,7 +23,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +34,6 @@ public class EgeFragment extends Fragment implements View.OnClickListener {
 
 
     // static final String TAG = "DialogEgeFragment";
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +47,7 @@ public class EgeFragment extends Fragment implements View.OnClickListener {
             model.applyEgeScore();
         }
 
-        model.data.observe(this, new Observer<ArrayList<EGESubject>>() {
+        model.getData().observe(this, new Observer<ArrayList<EGESubject>>() {
             @Override
             public void onChanged(ArrayList<EGESubject> egeSubjects) {
                 adapter.setData(egeSubjects);
@@ -85,7 +83,6 @@ public class EgeFragment extends Fragment implements View.OnClickListener {
 
         return v;
     }
-
 
     @Override
     public void onClick(View v) {

@@ -1,12 +1,9 @@
 package com.edumage.bmstu_enrollee.ViewModels;
 
 import android.app.Application;
-import android.os.HandlerThread;
-import android.os.Looper;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
-import android.webkit.HttpAuthHandler;
-import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
@@ -16,61 +13,51 @@ import com.edumage.bmstu_enrollee.EGESubject;
 import com.edumage.bmstu_enrollee.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class DisciplinesViewModel extends AndroidViewModel {
     private DbRepository repository;
 
-    public final MutableLiveData<ArrayList<Discipline>> data = new MutableLiveData<>();
-   private ExecutorService executorService = Executors.newSingleThreadExecutor();
-    private HandlerThread handlerThread;
-    private Handler backgroundHandler;
+    private MutableLiveData<ArrayList<Discipline>> data = new MutableLiveData<>();
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public DisciplinesViewModel(@NonNull Application application) {
         super(application);
         repository = new DbRepository(application);
-        handlerThread= new HandlerThread("HandlerThread");
-        handlerThread.start();
-        backgroundHandler =new Handler(handlerThread.getLooper());
+    }
+
+    public LiveData<ArrayList<Discipline>> getData() {
+        return data;
     }
 
     public void replaceAllPrograms(final List<Discipline> data) {
-      Runnable runnable =  new Runnable() {
-           @Override
-           public void run() {
-               List<ChosenProgram> chosenPrograms = new ArrayList<>();
-               for (int i=0; i<data.size(); i++) {
-                   Discipline d = data.get(i);
-                   if (d.getStatus()) {
-                       chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
-                   }
-               }
-               repository.replaceAllPrograms(chosenPrograms);
-           }
-       };
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                List<ChosenProgram> chosenPrograms = new ArrayList<>();
+                for (int i = 0; i < data.size(); i++) {
+                    Discipline d = data.get(i);
+                    if (d.getStatus()) {
+                        chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
+                    }
+                }
+                repository.replaceAllPrograms(chosenPrograms);
+            }
+        };
 
-
-       executorService.execute(runnable);
-
-        //backgroundHandler.post(runnable);
-
+        executorService.execute(runnable);
     }
-
 
     //применяет к текущим данным значение из базы данных
     public void applyChosenProgram() {
-
-        final Handler handler =new Handler(Looper.getMainLooper());
+        final Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -80,26 +67,25 @@ public class DisciplinesViewModel extends AndroidViewModel {
                     @Override
                     public void run() {
                         ArrayList<Discipline> list = data.getValue();
-                        Log.d("TH_TEST","Apply program NULL");
+                        Log.d("TH_TEST", "Apply program NULL");
                         if (list == null) return;
-                        for (int i=0; i<programs.size(); i++) {
-                            ChosenProgram program =programs.get(i);
-                            boolean found=false;
+                        for (int i = 0; i < programs.size(); i++) {
+                            ChosenProgram program = programs.get(i);
+                            boolean found = false;
                             for (Discipline d : list) {
                                 if (d.getFullName().equals(program.getProgramName())) {
                                     d.setStatus(true);
-                                    found=true;
+                                    found = true;
                                     break;
                                 }
                             }
-                            if (!found){
+                            if (!found) {
                                 programs.remove(i);
                                 i--;
                             }
                         }
-                        Log.d("TH_TEST","Apply program");
+                        Log.d("TH_TEST", "Apply program");
                         data.setValue(list);
-
 
                         executorService.execute(new Runnable() {
                             @Override
@@ -109,15 +95,12 @@ public class DisciplinesViewModel extends AndroidViewModel {
                         });
                     }
                 });
-
-
             }
         };
         executorService.execute(runnable);
-
     }
 
-    public void applySubjectThenProgram(){
+    public void applySubjectThenProgram() {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -126,57 +109,45 @@ public class DisciplinesViewModel extends AndroidViewModel {
         };
     }
 
-
-    public void applyChosenSubjects(){
-
-        final Handler handler =new Handler(Looper.getMainLooper());
+    public void applyChosenSubjects() {
+        final Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 final List<ExamPoints> exams = repository.getAllPoints();
-                       final  ArrayList<Integer> id= new ArrayList<>();
-                        for (ExamPoints exam:exams){
-                            id.add(exam.getSubjectId());
-                        }
-                Log.d("TH_TEST","Apply Subject NULL");
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                ArrayList<Discipline> list = data.getValue();
-                                if (list==null) return;
-                                for (int j=0; j<list.size(); j++){
-                                    Discipline d=list.get(j);
-                                    int[] arr=d.getSubjects();
-                                    for (int i=0; i<arr.length; i++){
-                                        int c=arr[i];
-                                        if(!id.contains(c)){
-                                            list.remove(j);
-                                            j--;
-                                            break;
-                                        }
-                                    }
+                final ArrayList<Integer> id = new ArrayList<>();
+                for (ExamPoints exam : exams) {
+                    id.add(exam.getSubjectId());
+                }
+                Log.d("TH_TEST", "Apply Subject NULL");
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayList<Discipline> list = data.getValue();
+                        if (list == null) return;
+                        for (int j = 0; j < list.size(); j++) {
+                            Discipline d = list.get(j);
+                            int[] arr = d.getSubjects();
+                            for (int c : arr) {
+                                if (!id.contains(c)) {
+                                    list.remove(j);
+                                    j--;
+                                    break;
                                 }
-                                Log.d("TH_TEST","Apply Subject");
-                                data.setValue(list);
                             }
-                        });
-
+                        }
+                        Log.d("TH_TEST", "Apply Subject");
+                        data.setValue(list);
+                    }
+                });
             }
         };
 
-       executorService.execute(runnable);
-       // backgroundHandler.post(runnable);
-       // executorService.su
-        //executorService.ex
-
-
-
+        executorService.execute(runnable);
     }
 
-
-
     public void loadData() {
-        Runnable runnable = new Runnable(){
+        Runnable runnable = new Runnable() {
 
             @Override
             public void run() {
@@ -191,128 +162,68 @@ public class DisciplinesViewModel extends AndroidViewModel {
                     }
                     String form = s[s.length - 1];
                     form = form.substring(1, form.length() - 1);
-                    Discipline d= new Discipline(value, name.toString(), number, form);
+                    Discipline d = new Discipline(value, name.toString(), number, form);
                     d.setSubjects(subjectsIdByCode(number));
                     list.add(d);
                 }
-                Log.d("TH_TEST","Load data");
+                Log.d("TH_TEST", "Load data");
                 data.postValue(list);
             }
         };
 
         executorService.execute(runnable);
-        //backgroundHandler.post(runnable);
-
     }
 
-
-    public static int[] subjectsIdByCode(String code){
-        /*EGESubject.Subject[] res = new EGESubject.Subject[Discipline.NUMBER_OF_PASSING_EXAMS];
-        switch (code){
-            case "01.03.02":
-            case "02.03.01":
-            case "09.03.01":
-            case "09.03.02":
-            case "09.03.03":
-            case "09.03.04":
-                res[0]= EGESubject.Subject.INFORMATICS;
-                res[1]= EGESubject.Subject.MATH;
-                res[2]= EGESubject.Subject.RUSSIAN;
-                break;
-            case "01.03.04":
-                res[0]= EGESubject.Subject.MATH;
-                res[1]= EGESubject.Subject.PHYSICS;
-                res[2]= EGESubject.Subject.RUSSIAN;
-                break;
-            case "35.03.01":
-            case "35.03.10":
-                res[0]= EGESubject.Subject.BIOLOGY;
-                res[1]= EGESubject.Subject.MATH;
-                res[2]= EGESubject.Subject.RUSSIAN;
-                break;
-            case "38.03.01":
-            case "38.03.02":
-            case "38.03.05":
-            case "39.03.01":
-            case "44.03.04":
-                res[0]= EGESubject.Subject.MATH;
-                res[1]= EGESubject.Subject.SOCIAL;
-                res[2]= EGESubject.Subject.RUSSIAN;
-                break;
-            case "45.03.02":
-                res[0]= EGESubject.Subject.ENGLISH;
-                res[1]= EGESubject.Subject.RUSSIAN;
-                res[2]= EGESubject.Subject.SOCIAL;
-                break;
-            case "54.03.01":
-                //TODO for design need to add LITERATURE, now is useless
-                res[0]= EGESubject.Subject.CUSTOM;
-                res[1]= EGESubject.Subject.CUSTOM;
-                res[2]= EGESubject.Subject.CUSTOM;
-                break;
-            default:
-                res[0]= EGESubject.Subject.PHYSICS;
-                res[1]=EGESubject.Subject.MATH;
-                res[2]= EGESubject.Subject.RUSSIAN;
-                break;
-        }*/
-
-
+    static int[] subjectsIdByCode(String code) {
         int[] res = new int[Discipline.NUMBER_OF_PASSING_EXAMS];
-        switch (code){
+        switch (code) {
             case "01.03.02":
             case "02.03.01":
             case "09.03.01":
             case "09.03.02":
             case "09.03.03":
             case "09.03.04":
-                res[0]= EGESubject.INFORMATICS_ID;
-                res[1]= EGESubject.MATH_ID;
-                res[2]= EGESubject.RUSSIAN_ID;
+                res[0] = EGESubject.INFORMATICS_ID;
+                res[1] = EGESubject.MATH_ID;
+                res[2] = EGESubject.RUSSIAN_ID;
                 break;
             case "01.03.04":
-                res[0]= EGESubject.MATH_ID;
-                res[1]= EGESubject.PHYSICS_ID;
-                res[2]= EGESubject.RUSSIAN_ID;
+                res[0] = EGESubject.MATH_ID;
+                res[1] = EGESubject.PHYSICS_ID;
+                res[2] = EGESubject.RUSSIAN_ID;
                 break;
             case "35.03.01":
             case "35.03.10":
-                res[0]= EGESubject.BIOLOGY_ID;
-                res[1]= EGESubject.MATH_ID;
-                res[2]= EGESubject.RUSSIAN_ID;
+                res[0] = EGESubject.BIOLOGY_ID;
+                res[1] = EGESubject.MATH_ID;
+                res[2] = EGESubject.RUSSIAN_ID;
                 break;
             case "38.03.01":
             case "38.03.02":
             case "38.03.05":
             case "39.03.01":
             case "44.03.04":
-                res[0]= EGESubject.MATH_ID;
-                res[1]= EGESubject.SOCIAL_ID;
-                res[2]= EGESubject.RUSSIAN_ID;
+                res[0] = EGESubject.MATH_ID;
+                res[1] = EGESubject.SOCIAL_ID;
+                res[2] = EGESubject.RUSSIAN_ID;
                 break;
             case "45.03.02":
-                res[0]= EGESubject.ENGLISH_ID;
-                res[1]= EGESubject.RUSSIAN_ID;
-                res[2]= EGESubject.SOCIAL_ID;
+                res[0] = EGESubject.ENGLISH_ID;
+                res[1] = EGESubject.RUSSIAN_ID;
+                res[2] = EGESubject.SOCIAL_ID;
                 break;
             case "54.03.01":
                 //TODO for design need to add LITERATURE, now is useless
-                res[0]= EGESubject.CUSTOM_ID;
-                res[1]= EGESubject.CUSTOM_ID;
-                res[2]= EGESubject.CUSTOM_ID;
+                res[0] = EGESubject.CUSTOM_ID;
+                res[1] = EGESubject.CUSTOM_ID;
+                res[2] = EGESubject.CUSTOM_ID;
                 break;
             default:
-                res[0]= EGESubject.PHYSICS_ID;
-                res[1]=EGESubject.MATH_ID;
-                res[2]= EGESubject.RUSSIAN_ID;
+                res[0] = EGESubject.PHYSICS_ID;
+                res[1] = EGESubject.MATH_ID;
+                res[2] = EGESubject.RUSSIAN_ID;
                 break;
         }
         return res;
     }
-
-
-
-
-
-
 }
