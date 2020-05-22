@@ -1,36 +1,27 @@
 package com.edumage.bmstu_enrollee.Adapters;
 
 import android.content.Context;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.edumage.bmstu_enrollee.FacultetItem;
-import com.edumage.bmstu_enrollee.Fragments.FacultetFragment;
-import com.edumage.bmstu_enrollee.NewsItem;
 import com.edumage.bmstu_enrollee.R;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class FacultetAdapter extends RecyclerView.Adapter<FacultetAdapter.FacultetViewHolder> {
 
     private List<FacultetItem> facultets;
-    private Context context;
     private OnFacultetListener facultetListener;
 
-    public FacultetAdapter(List<FacultetItem> list, Context c, OnFacultetListener listener) {
+    public FacultetAdapter(List<FacultetItem> list, OnFacultetListener listener) {
         facultets = list;
-        context = c;
         facultetListener = listener;
     }
 
@@ -59,7 +50,7 @@ public class FacultetAdapter extends RecyclerView.Adapter<FacultetAdapter.Facult
         return facultets.size();
     }
 
-    public class FacultetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class FacultetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView facultetNm, facultetName, statatusFacultet;
         ImageView imgFacultet;

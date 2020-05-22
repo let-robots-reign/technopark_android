@@ -8,15 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 public class CafedraNames {
-
-    public static ArrayMap<String, ArrayMap <String, CafedraItem>> nameCafedra;
-    public ArrayMap <String, CafedraItem> mt, iu, rl, fn, sm, e, rk, bmt, ibm, l, oep, rkt, ak, ps, rt, sgn, ur, fvo, guimc, fmop, fof;
+    private static ArrayMap<String, ArrayMap <String, CafedraItem>> nameCafedra;
 
     public CafedraNames() {
 
         nameCafedra = new ArrayMap<>();
+        ArrayMap<String, CafedraItem> mt, iu, rl, fn, sm, e, rk, bmt, ibm, l, oep, rkt, ak, ps, rt, sgn, ur, fvo, guimc, fmop, fof;
 
         mt=new ArrayMap<>();
         mt.put("МТ1", new CafedraItem("Металлорежущие станки", "Кафедра «Металлорежущие станки», организованная в 1930 г., осуществляет подготовку специалистов по специализации «Проектирование металлорежущих станков и автоматизированных станочных комплексов». Профиль подготовки бакалавров «Технология оборудования и автоматизация машиностроительных производств». Магистерская программа «Автоматизированные станочные комплексы машиностроительного производства»."));
@@ -235,5 +233,4 @@ public class CafedraNames {
     public ArrayMap<String, ArrayMap <String, CafedraItem>> getData() {
         return nameCafedra;
     }
-
 }

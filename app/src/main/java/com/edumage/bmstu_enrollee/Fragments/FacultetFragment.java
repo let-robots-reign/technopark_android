@@ -1,13 +1,18 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toolbar;
+
+import com.edumage.bmstu_enrollee.Adapters.FacultetAdapter;
+import com.edumage.bmstu_enrollee.FacultetItem;
+import com.edumage.bmstu_enrollee.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,17 +22,9 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.edumage.bmstu_enrollee.Adapters.FacultetAdapter;
-import com.edumage.bmstu_enrollee.FacultetItem;
-import com.edumage.bmstu_enrollee.R;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class FacultetFragment extends Fragment implements FacultetAdapter.OnFacultetListener {
 
     private FacultetAdapter adapter;
-    private RecyclerView RVfacultet;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +53,7 @@ public class FacultetFragment extends Fragment implements FacultetAdapter.OnFacu
         facultetItems.add(new FacultetItem("ФОФ", "Физкультурно-оздоровительный факультет", R.drawable.fof));
 
 
-        adapter = new FacultetAdapter(facultetItems, getActivity(), this);
+        adapter = new FacultetAdapter(facultetItems, this);
     }
 
     @Nullable
@@ -64,7 +61,7 @@ public class FacultetFragment extends Fragment implements FacultetAdapter.OnFacu
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.facultet_catalog, container, false);
 
-        RVfacultet = rootView.findViewById(R.id.RVfacultet);
+        RecyclerView RVfacultet = rootView.findViewById(R.id.RVfacultet);
         RVfacultet.setLayoutManager(new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false));
         RVfacultet.setAdapter(adapter);
 
