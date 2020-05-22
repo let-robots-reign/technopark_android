@@ -63,6 +63,21 @@ public class BuildingItem {
             case 5:
                 img_id = R.drawable.nomts;
                 break;
+            case 20:
+                img_id = R.drawable.hostel_iu;
+                break;
+            case 21:
+                img_id = R.drawable.hostel_rl;
+                break;
+            case 22:
+                img_id = R.drawable.hostel_rk;
+                break;
+            case 23:
+                img_id = R.drawable.hostel_mt;
+                break;
+            case 24:
+                img_id = R.drawable.hostel_sm;
+                break;
         }
     }
 

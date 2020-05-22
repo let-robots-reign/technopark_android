@@ -286,6 +286,15 @@
     </string>
     <string name="edit_icon">Редактировать</string>
 
+    <string name="it_is_important">Это важно!</string>
+    <string name="hostel_info">Место в общежитии предоставляется на конкурсной основе!\n
+    Лица, которые нуждаются в общежитии и набрали балл, достаточный
+    для зачисления на образовательную программу, но не достаточный
+    для предоставления общежития, будут зачисляться без
+    предоставления общежития.</string>
+
+    <string name="do_not_show_again">Больше не показывать</string>
+
     <string name="news_channel">Уведомления о свежих новостях</string>
     <string name="fresh_news">Свежая новость</string>
 
@@ -303,6 +312,5 @@
         DinosoftLabs (сайт flaticon.com)</string>
 
     <string name="your_scores">Ваши баллы:</string>
-
 
 </resources>
