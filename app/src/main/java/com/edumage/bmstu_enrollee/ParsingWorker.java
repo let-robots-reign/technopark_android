@@ -48,9 +48,8 @@ public class ParsingWorker extends Worker {
             if (news.size() > preferences.getInt(NEWS_COUNT, 0)) {
                 showNotification(news.get(0));
             }
-        } else {
-            preferences.edit().putInt(NEWS_COUNT, news.size()).apply();
         }
+        preferences.edit().putInt(NEWS_COUNT, news.size()).apply();
 
         return Result.success();
     }
