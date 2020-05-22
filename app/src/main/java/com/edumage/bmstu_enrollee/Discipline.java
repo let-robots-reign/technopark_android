@@ -14,6 +14,9 @@ public class Discipline implements Serializable {
     private String number;
     private String form;
     private boolean enabled = false;
+    private int[] subjects;
+
+    public static final int NUMBER_OF_PASSING_EXAMS=3;
 
     public boolean getStatus() {
         return enabled;
@@ -46,28 +49,15 @@ public class Discipline implements Serializable {
         return fullName;
     }
 
-/*    public static ArrayList<Discipline> LoadDisciplines(Context context) {
-        String[] array = context.getResources().getStringArray(R.array.disciplines);
-        ArrayList<Discipline> list = new ArrayList<>();
-        for (String value : array) {
+    public void setSubjects(int[] subjects) {
+        this.subjects = subjects;
+    }
 
-            String[] s = value.split(" ");
-            String number = s[0];
-            StringBuilder name = new StringBuilder();
-            for (int k = 1; k < s.length - 1; k++) {
-                name.append(s[k]).append(" ");
-            }
-            String form = s[s.length - 1];
-            form = form.substring(1, form.length() - 1);
-            list.add(new Discipline(value, name.toString(), number, form));
-        }
-        return list;
-    }*/
+    public int[] getSubjects() {
+        return subjects;
+    }
 
-   /* public void applyProgram(ChosenProgram program){
-        name=program.getProgramName();
-        number=program.
-    }*/
+
 
 
 

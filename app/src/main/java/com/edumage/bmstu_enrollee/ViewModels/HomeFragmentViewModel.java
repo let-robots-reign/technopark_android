@@ -25,8 +25,9 @@ import static com.edumage.bmstu_enrollee.ConnectionCheck.isNetworkConnected;
 
 public class HomeFragmentViewModel extends AndroidViewModel {
     private DbRepository repository;
-    private final MutableLiveData<List<String>> scoresLiveData = new MutableLiveData<>();
-    private final MutableLiveData<List<String>> filesLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<String>> scoresLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<String>> filesLiveData = new MutableLiveData<>();
+    private MutableLiveData<List<Integer>> userscoresLiveData = new MutableLiveData<>();
     private List<ChosenProgram> programsNames;
     private final Handler handler = new Handler(Looper.getMainLooper());
 
@@ -39,9 +40,36 @@ public class HomeFragmentViewModel extends AndroidViewModel {
         programsNames = programs;
         scoresLiveData.setValue(new ArrayList<String>());
         filesLiveData.setValue(new ArrayList<String>());
+
+        ArrayList<Integer> list =  new ArrayList<>();
+
+        for(ChosenProgram program:programs){
+            int add=0;
+            String[] s = program.getProgramName().split(" ");
+            String code = s[0];
+            ArrayList<Integer> subjects=new ArrayList<>();
+            int[] arr =DisciplinesViewModel.subjectsIdByCode(code);
+            for(Integer e:arr){
+                subjects.add(e);
+            }
+
+           // int[] subjects =;
+            List<ExamPoints> exams = getExamPoints();
+            for (ExamPoints exam: exams){
+
+                if(subjects.contains(exam.getSubjectId())){
+                    add+=exam.getExamScore();
+                }
+            }
+            list.add(add);
+        }
+
+        userscoresLiveData.setValue(list);
+
         loadScores();
         loadFiles();
     }
+
 
     public UserInfo getUserInfo() {
         return repository.getUserInfo();
@@ -53,6 +81,10 @@ public class HomeFragmentViewModel extends AndroidViewModel {
 
     public List<ChosenProgram> getChosenPrograms() {
         return repository.getAllChosenPrograms();
+    }
+
+    public MutableLiveData<List<Integer>> getUserscoresLiveData() {
+        return userscoresLiveData;
     }
 
     public LiveData<List<String>> getParsingScores() {
