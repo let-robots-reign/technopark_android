@@ -14,9 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -38,6 +36,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment implements View.OnClickListener, DocumentStepsAdapter.DoneClickListener {
@@ -49,6 +58,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     private List<TextView> scoresTexts;
     private List<ProgressBar> progressBars;
     private List<ImageView> downloadIcons;
+    private List<TextView> userscores;
 
     private List<ChosenProgram> programs;
     private HomeFragmentViewModel model;
@@ -120,7 +130,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         stepsAdapter.setStepsList(newList);
         stepsAdapter.notifyItemChanged(current);
         stepsAdapter.notifyItemChanged(current + 1);
-        LinearLayoutManager manager = (LinearLayoutManager)steps.getLayoutManager();
+        LinearLayoutManager manager = (LinearLayoutManager) steps.getLayoutManager();
         if (manager != null) {
             manager.scrollToPositionWithOffset(current + 1, 0);
         }
@@ -136,6 +146,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                     for (int i = 1; i < programs.size() + 1; ++i) {
                         scoresTexts.get(i).setVisibility(View.INVISIBLE);
                         progressBars.get(i - 1).setVisibility(View.VISIBLE);
+                        //userscores.get(i).setVisibility(View.INVISIBLE);
                     }
                 } else {
                     scoresTexts.get(0).setText(getResources().getString(R.string.last_reload) + " " + scores.get(0));
@@ -171,10 +182,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.textView_edit_ege:
+            case R.id.edit_ege:
                 showDialogFragment(EGE_EDIT_DIALOG);
                 break;
-            case R.id.textView_edit_disciplines:
+            case R.id.edit_disciplines:
                 showDialogFragment(DISCIPLINES_EDIT_DIALOG);
                 break;
         }
@@ -203,8 +214,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         TextView name = rootView.findViewById(R.id.user_name);
         name.setText(model.getUserInfo().getUserName());
 
-        ImageView editIcon = rootView.findViewById(R.id.edit);
-        editIcon.setOnClickListener(new View.OnClickListener() {
+        ImageView changeName = rootView.findViewById(R.id.edit_name);
+        changeName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
@@ -241,8 +252,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 (ImageView) rootView.findViewById(R.id.ic2),
                 (ImageView) rootView.findViewById(R.id.ic3));
 
-        TextView edit_ege = rootView.findViewById(R.id.textView_edit_ege);
-        TextView edit_disciplines = rootView.findViewById(R.id.textView_edit_disciplines);
+        List<TextView> yourscores = Arrays.asList(
+                (TextView) rootView.findViewById(R.id.yourscore1),
+                (TextView) rootView.findViewById(R.id.yourscore2),
+                (TextView) rootView.findViewById(R.id.yourscore3));
+
+        ImageView edit_ege = rootView.findViewById(R.id.edit_ege);
+        ImageView edit_disciplines = rootView.findViewById(R.id.edit_disciplines);
         edit_ege.setOnClickListener(this);
         edit_disciplines.setOnClickListener(this);
 
@@ -251,6 +267,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 (TextView) rootView.findViewById(R.id.program1),
                 (TextView) rootView.findViewById(R.id.program2),
                 (TextView) rootView.findViewById(R.id.program3));
+
+        userscores = Arrays.asList(
+                (TextView) rootView.findViewById(R.id.userscore1),
+                (TextView) rootView.findViewById(R.id.userscore2),
+                (TextView) rootView.findViewById(R.id.userscore3));
+
+        model.getUserscoresLiveData().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
+            @Override
+            public void onChanged(List<Integer> integers) {
+                for (int i = 0; i < integers.size(); i++) {
+                    userscores.get(i).setText(String.valueOf(integers.get(i)));
+                }
+            }
+        });
 
         for (int i = 0; i < programs.size(); ++i) {
             programsTexts.get(i).setText(programs.get(i).getProgramName());
@@ -261,6 +291,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
             scoresTexts.get(i + 1).setVisibility(View.GONE);
             progressBars.get(i).setVisibility(View.GONE);
             downloadIcons.get(i).setVisibility(View.GONE);
+            userscores.get(i).setVisibility(View.GONE);
+            yourscores.get(i).setVisibility(View.GONE);
         }
 
         ImageView icRefresh = rootView.findViewById(R.id.refresh);
@@ -271,7 +303,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
             }
         });
 
+        TextView questionTextView = rootView.findViewById(R.id.textView_question_about_score);
+        if (programs.size() == 0) {
+            questionTextView.setText(getResources().getString(R.string.no_programs_chosen));
+        } else {
+            questionTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialogAboutPassScore();
+                }
+            });
+        }
+
         return rootView;
+    }
+
+    private void showDialogAboutPassScore() {
+        if (getContext() == null) return;
+        AlertDialog.Builder adb = new AlertDialog.Builder(getContext());
+        adb.setTitle(R.string.passing_score);
+        adb.setMessage(R.string.explanation_passing_score);
+        AlertDialog ad = adb.create();
+        ad.show();
     }
 
     void notifyEGEChanged() {
@@ -295,25 +348,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     }
 
     private void showDialogFragment(int dialog_id) {
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        DialogFragment dialogFragment = null;
-        String tag = "";
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         switch (dialog_id) {
             case DISCIPLINES_EDIT_DIALOG:
-                dialogFragment = new DialogDisciplineFragment();
-                tag = DialogDisciplineFragment.TAG;
+                navController.navigate(R.id.action_home_tab_to_disciplineFragment);
                 break;
             case EGE_EDIT_DIALOG:
-                dialogFragment = new DialogEgeFragment();
-                tag = DialogEgeFragment.TAG;
+                navController.navigate(R.id.action_home_tab_to_egeFragment);
                 break;
         }
-
-        Fragment prev = getChildFragmentManager().findFragmentByTag(tag);
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(tag);
-        if (dialogFragment != null) dialogFragment.show(ft, tag);
     }
 }

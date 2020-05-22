@@ -57,8 +57,10 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
 
     public ArrayList<Discipline> getEnabled() {
         ArrayList<Discipline> res = new ArrayList<Discipline>();
-        for (Discipline d : data) {
-            if (d.getStatus()) res.add(d);
+        if(data!=null){
+            for (Discipline d : data) {
+                if (d.getStatus()) res.add(d);
+            }
         }
         return res;
     }

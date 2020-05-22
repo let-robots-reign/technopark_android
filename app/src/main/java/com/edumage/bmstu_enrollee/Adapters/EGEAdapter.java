@@ -21,8 +21,9 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
 
-public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
+public class EGEAdapter extends Adapter<EGEAdapter.ViewHolder> {
     private ArrayList<EGESubject> data;
 
     public ArrayList<EGESubject> getPassed() {
@@ -57,7 +58,7 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
         this.data = data;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
         EditText editText;

@@ -13,8 +13,8 @@ import androidx.lifecycle.MutableLiveData;
 public class LAFirstViewModel extends AndroidViewModel {
     private DbRepository repository;
 
-    public final MutableLiveData<String> name = new MutableLiveData<>();
-    public final MutableLiveData<String> date = new MutableLiveData<>();
+    private final MutableLiveData<String> name = new MutableLiveData<>();
+    private final MutableLiveData<String> date = new MutableLiveData<>();
 
     public final int NO_NAME_WARNING = -1;
     public final int NO_DATE_WARNING = -2;
