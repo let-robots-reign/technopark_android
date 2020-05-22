@@ -5,6 +5,11 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/home_tab">
 
+    <activity
+        android:id="@+id/buildingActivity"
+        android:name="com.edumage.bmstu_enrollee.BuildingActivity"
+        android:label="activity_building"
+        tools:layout="@layout/activity_building" />
     <fragment
         android:id="@+id/home_tab"
         android:name="com.edumage.bmstu_enrollee.Fragments.HomeFragment"
@@ -16,6 +21,20 @@
         <action
             android:id="@+id/action_home_tab_to_userFragment"
             app:destination="@id/userFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_home_tab_to_disciplineFragment"
+            app:destination="@id/disciplineFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_home_tab_to_egeFragment"
+            app:destination="@id/egeFragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
@@ -45,9 +64,12 @@
         <action
             android:id="@+id/action_catalog_tab_to_buildingActivity"
             app:destination="@id/buildingActivity" />
-         <action
+        <action
             android:id="@+id/action_catalog_Fragment_to_applyFragment"
             app:destination="@id/applyFragment" />
+        <action
+            android:id="@+id/action_catalog_tab_to_informationFragment"
+            app:destination="@id/informationFragment" />
 
     </fragment>
     <fragment
@@ -58,6 +80,10 @@
         <action
             android:id="@+id/action_newsFragment_to_newsItemFragment"
             app:destination="@id/newsItemFragment" />
+        <argument
+            android:name="type"
+            app:argType="com.edumage.bmstu_enrollee.FeedType"
+            android:defaultValue="NEWS" />
     </fragment>
     <fragment
         android:id="@+id/newsItemFragment"
@@ -76,7 +102,6 @@
             app:argType="string" />
     </fragment>
     <fragment
-
         android:id="@+id/universityFragment"
         android:name="com.edumage.bmstu_enrollee.Fragments.UniversityFragment"
         android:label="university_fragment"
@@ -84,16 +109,48 @@
     <fragment
         android:id="@+id/userFragment"
         android:name="com.edumage.bmstu_enrollee.Fragments.UserFragment"
-        android:label="UserFragment" />
-    <activity
-        android:id="@+id/buildingActivity"
-        android:name="com.edumage.bmstu_enrollee.BuildingActivity"
-        android:label="activity_building"
-        tools:layout="@layout/activity_building" />
-<fragment
+        android:label="UserFragment">
+        <action
+            android:id="@+id/action_userFragment_to_home_tab"
+            app:destination="@id/home_tab"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+    <fragment
         android:id="@+id/applyFragment"
         android:name="com.edumage.bmstu_enrollee.Fragments.ApplyFragment"
         android:label="ApplyFragment"
         tools:layout="@layout/apply_screen" />
+    <fragment
+        android:id="@+id/informationFragment"
+        android:name="com.edumage.bmstu_enrollee.Fragments.InformationFragment"
+        android:label="InformationFragment"
+        tools:layout="@layout/app_information"/>
 
+    <fragment
+        android:id="@+id/disciplineFragment"
+        android:name="com.edumage.bmstu_enrollee.Fragments.DisciplineFragment"
+        android:label="DisciplineFragment">
+        <action
+            android:id="@+id/action_disciplineFragment_to_home_tab"
+            app:destination="@id/home_tab"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/egeFragment"
+        android:name="com.edumage.bmstu_enrollee.Fragments.EgeFragment"
+        android:label="EgeFragment">
+        <action
+            android:id="@+id/action_egeFragment_to_home_tab"
+            app:destination="@id/home_tab"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
 </navigation>

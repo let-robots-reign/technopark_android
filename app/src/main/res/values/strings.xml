@@ -35,10 +35,11 @@
     <string name="alert_date">Введите дату рождения</string>
 
     <string name="alert_ege">Результат ЕГЭ должен быть в пределах от 0 до 100</string>
-    <string name="welcome_command_3">Выберите не более трех приоритетных направления для поступления.
-        \nВ любой момент вы можете изменить свой выбор</string>
+    <string name="welcome_command_3">Выберите не более трех приоритетных направлений для поступления.
+        \nВ любой момент вы сможете изменить свой выбор</string>
     <string name="alert_discipline_zero">Выберите хотя бы одно направление</string>
     <string name="alert_discipline_more">Вы не можете выбрать более трех направлений</string>
+    <string name="no_discipline_match">Отсутствуют направления для выбранных предметов ЕГЭ</string>
 
     <string name="ege_results">Результаты ЕГЭ</string>
     <string name="disciplines">Ваши направления</string>
@@ -83,7 +84,6 @@
     <string name="useful_links">Полезные ссылки</string>
     <string name="social_links">Социальные сети</string>
 
-
     <string name="about_university">Об унивеситете</string>
     <string name="university_description">
         \tМГТУ им.н. э. Баумана (МГТУ им. н. э. Баумана) - ведущий российский вуз,
@@ -96,24 +96,28 @@
         отраженных в рейтинге QS World University Rankings by Subject 2018, включая компьютерные
         науки и информационные системы, электрическую и электронную инженерию, машиностроение, математику,
         физику и астрономию.
-
     </string>
     <string name="university_site">Сайт университета</string>
     <string name="qs_site">Рейтинг QS</string>
 
-
-
-
     <string name="user_info">Информация о поступающем</string>
     <string name="user_info_privacy">Эти данные используются исключительно в целях
-        персонализации приложения, они не передаются сторонним
-        сервисам. Пользователь не обязан указывать свои реальные данные.</string>
+        персонализации приложения, они не передаются сторонним сервисам и хранятся только на
+        Вашем устройстве. Пользователь не обязан указывать свои реальные данные.</string>
     <string name="confirm_changes">Подтвердить изменения</string>
     <string name="why_inf">Зачем вам эта информация?</string>
 
+    <string name="about_passing_score">Что означают эти цифры?⠀</string>
+    <string name="passing_score">Проходной балл</string>
+    <string name="explanation_passing_score">Проходной балл - это минимальное количество баллов,
+        которое необходимо, чтобы поступить на выбранное направление. Другими словами,
+        если бы приемная компания закончилась прямо сейчас, поступили бы только те абитуренты,
+        у которых сумма баллов выше или равна текущему проходному баллу.\n
+        Проходной балл изменятеся в период всей приемной компании и зависит от количества
+        поданных оригиналов аттестатов.</string>
+    <string name="no_programs_chosen">Вы не выбрали ни одну программу или изменили выбранные предметы ЕГЭ</string>
 
     <string name="date_is_up_to_date">Данные обновлены</string>
-
 
     <string-array name="disciplines">
         <item>01.03.02 Прикладная математика и информатика (Бакалавр)</item>
@@ -180,7 +184,9 @@
     <string name="current_apply_step">Текущий статус поступления</string>
     <string name="current_step_title">Текущий шаг поступления</string>
     <string name="news_tab">Новости</string>
+    <string name="events_tab">Внеучебная деятельность</string>
     <string name="application_tab">Процесс поступления</string>
+    <string name="information_tab">О приложении</string>
     <string name="done">Готово</string>
 
     <string-array name="application_descriptions">
@@ -198,7 +204,6 @@
             аттестата, взвесьте все \"за\" и \"против\".
         </item>
     </string-array>
-
 
     <string-array name="application_steps">
         <item>
@@ -244,9 +249,9 @@
         <item>
             Дополнительно:
             \nКопии документов, подтверждающих возможное наличие у Вас прав:
-            \n- на приём по результатам вступительных испытаний, проводимых МГТУ им. Н.Э. Баумана самостоятельно;
-            \n- на приём на места в пределах 10 % квоты;
-            \n- преимущественное право зачисления;
+            \n- на приём по результатам вступительных испытаний, проводимых МГТУ им. Н.Э. Баумана самостоятельно
+            \n- на приём на места в пределах 10 % квоты
+            \n- преимущественное право зачисления
         </item>
         <item>
             Дополнительно:
@@ -283,11 +288,29 @@
 
     <string name="it_is_important">Это важно!</string>
     <string name="hostel_info">Место в общежитии предоставляется на конкурсной основе!\n
-        Лица, нуждающиеся в общежитии, набравшие балл, достаточный
-        для зачисления на образовательную программу, но не достаточный
-        для предоставления общежития, будут зачисляться без
-        предоставления общежития.</string>
+    Лица, которые нуждаются в общежитии и набрали балл, достаточный
+    для зачисления на образовательную программу, но не достаточный
+    для предоставления общежития, будут зачисляться без
+    предоставления общежития.</string>
 
     <string name="do_not_show_again">Больше не показывать</string>
+
+    <string name="news_channel">Уведомления о свежих новостях</string>
+    <string name="fresh_news">Свежая новость</string>
+
+    <string name="version">Версия приложения: 1.0</string>
+    <string name="contact_us">Хотите сообщить об ошибке или внести предложение? Напишите нам!</string>
+    <string name="about_authors">Приложение разработали: Пудовкин Дмитрий, Лучков Николай, Зотов Алексей</string>
+    <string name="bmstu_links">Источники информации:
+    \n1) Текущие проходные баллы: priem.bmstu.ru/ru/points
+    \n2) Проходные баллы прошлых лет: https://bmstu.ru/abitur/general/passing_scores
+    \n3) Документы для поступления: https://www.bmstu.ru/abitur/general/list_of_doc
+    \n4) Новости: https://bmstu.ru/mstu/info/bauman-news
+    \n5) Внеучебная деятельность: https://www.bmstu.ru/mstu/info/upcoming-events
+    </string>
+    <string name="icons_attribution">Авторы иконок: Freepik, Roundicons, Pixel perfect,
+        DinosoftLabs (сайт flaticon.com)</string>
+
+    <string name="your_scores">Ваши баллы:</string>
 
 </resources>

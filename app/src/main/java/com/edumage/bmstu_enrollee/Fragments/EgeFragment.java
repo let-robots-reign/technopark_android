@@ -1,13 +1,13 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
-import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.Toolbar;
 
 import com.edumage.bmstu_enrollee.Adapters.EGEAdapter;
 import com.edumage.bmstu_enrollee.EGESubject;
@@ -15,41 +15,29 @@ import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.EgeSubjectsViewModel;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class DialogEgeFragment extends DialogFragment implements View.OnClickListener {
+public class EgeFragment extends Fragment implements View.OnClickListener {
 
     private EGEAdapter adapter;
     private EgeSubjectsViewModel model;
-    private HomeFragment homeFragment;
 
-    static final String TAG = "DialogEgeFragment";
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        WindowManager.LayoutParams params = Objects.requireNonNull(Objects.requireNonNull(getDialog()).getWindow()).getAttributes();
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        Objects.requireNonNull(getDialog().getWindow()).setAttributes(params);
-    }
+    // static final String TAG = "DialogEgeFragment";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getParentFragment() instanceof HomeFragment) {
-            homeFragment = (HomeFragment) getParentFragment();
-        }
 
         //LoadData();
         adapter = new EGEAdapter();
@@ -59,7 +47,7 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
             model.applyEgeScore();
         }
 
-        model.data.observe(this, new Observer<ArrayList<EGESubject>>() {
+        model.getData().observe(this, new Observer<ArrayList<EGESubject>>() {
             @Override
             public void onChanged(ArrayList<EGESubject> egeSubjects) {
                 adapter.setData(egeSubjects);
@@ -68,16 +56,10 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
         });
     }
 
-    @Override
-    public void onDismiss(@NonNull DialogInterface dialog) {
-        super.onDismiss(dialog);
-        homeFragment.notifyEGEChanged();
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.ege_dialog_fragment, container, false);
+        View v = inflater.inflate(R.layout.ege_fragment, container, false);
         RecyclerView recyclerView = v.findViewById(R.id.ege_dialog_recyclerview);
         recyclerView.setAdapter(adapter);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -85,34 +67,31 @@ public class DialogEgeFragment extends DialogFragment implements View.OnClickLis
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false));
         }
-        TextView textViewOk = v.findViewById(R.id.ege_dialog_ok);
-        TextView textViewCancel = v.findViewById(R.id.ege_dialog_cancel);
+        Button confirmBtn = v.findViewById(R.id.button);
+        confirmBtn.setOnClickListener(this);
 
-        textViewOk.setOnClickListener(this);
-        textViewCancel.setOnClickListener(this);
+        Toolbar toolbar = v.findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
+        toolbar.setTitle(R.string.ege_results);
+        toolbar.setTitleTextColor(Color.BLACK);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateBack();
+            }
+        });
+
         return v;
     }
 
-   /* // TODO: переписать этот метод
-    private void LoadData() {
-        data = EGESubject.LoadEgeSubjects(requireContext());
-    }*/
-
     @Override
     public void onClick(View v) {
-       /* List<ExamPoints> points = new ArrayList<>();
-        for (EGESubject subject : data) {
-            if (subject.isPassed()) {
-                points.add(new ExamPoints(subject.getName(), subject.getScore()));
-            }
-        }
-*/
-        int id = v.getId();
+        model.replaceAllPoints(adapter.getPassed());
+        navigateBack();
+    }
 
-        if (id == R.id.ege_dialog_ok) {
-            model.replaceAllPoints(adapter.getPassed());
-        }
-
-        dismiss();
+    private void navigateBack() {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        navController.navigate(R.id.action_egeFragment_to_home_tab);
     }
 }

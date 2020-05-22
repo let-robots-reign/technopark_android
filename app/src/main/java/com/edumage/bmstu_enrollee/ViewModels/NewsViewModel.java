@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.edumage.bmstu_enrollee.FeedType;
 import com.edumage.bmstu_enrollee.NewsItem;
 import com.edumage.bmstu_enrollee.ParsingRepo.NewsParsing;
 
@@ -48,15 +49,15 @@ public class NewsViewModel extends AndroidViewModel {
         return isNetworkConnected(getApplication()) && hasInternetAccess();
     }
 
-    public void parseNewsList() {
-        Thread thread = new Thread(new Runnable() {
+    public void parseNewsList(final FeedType type) {
+        final Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 final boolean conn = getConnectionStatus();
                 final List<NewsItem> news = new ArrayList<>();
                 NewsParsing newsParsing = NewsParsing.getInstance();
                 try {
-                    news.addAll(newsParsing.parseNewsList());
+                    news.addAll(newsParsing.parseNewsList(type));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

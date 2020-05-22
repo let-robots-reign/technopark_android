@@ -4,15 +4,37 @@ package com.edumage.bmstu_enrollee;
 import java.io.Serializable;
 
 public class EGESubject implements Serializable {
+
+
+    public static final int CUSTOM_ID=-1;
+    public static final int RUSSIAN_ID=0;
+    public static final int MATH_ID=1;
+    public static final int INFORMATICS_ID=2;
+    public static final int PHYSICS_ID=3;
+    public static final int CHEMISTRY_ID=4;
+    public static final int BIOLOGY_ID=5;
+    public static final int SOCIAL_ID=6;
+    public static final int ENGLISH_ID=7;
+
+     public enum Subject{
+        RUSSIAN,MATH,INFORMATICS,PHYSICS,CHEMISTRY,BIOLOGY,SOCIAL,ENGLISH,CUSTOM;
+    }
+
     private String name;
     private int score;
     private boolean isPassed;
     private int img;
+    private int id= Integer.MIN_VALUE;
 
-    public EGESubject(String name, int img_id) {
+    public EGESubject(String name, int img_id, int id) {
         this.name = name;
         this.img = img_id;
+        this.id=id;
         isPassed = false;
+    }
+
+    public int getId(){
+        return id;
     }
 
     public String getName() {

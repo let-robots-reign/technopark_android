@@ -25,6 +25,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 public class UserFragment extends Fragment {
     private EditText editName;
@@ -103,7 +105,7 @@ public class UserFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().onBackPressed();
+                navigateBack();
             }
         });
 
@@ -132,7 +134,7 @@ public class UserFragment extends Fragment {
                     Toast.makeText(getActivity(),
                             requireActivity().getResources().getString(R.string.date_is_up_to_date),
                             Toast.LENGTH_SHORT).show();
-                    requireActivity().onBackPressed();
+                    navigateBack();
                 }
             }
         });
@@ -166,5 +168,10 @@ public class UserFragment extends Fragment {
 
     private String getDateComponent(int date) {
         return (date < 10) ? "0" + date : String.valueOf(date);
+    }
+
+    private void navigateBack() {
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+        navController.navigate(R.id.action_userFragment_to_home_tab);
     }
 }

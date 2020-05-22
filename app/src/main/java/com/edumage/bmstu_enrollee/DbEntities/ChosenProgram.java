@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "chosen_programs")
-public class ChosenProgram {
+public class ChosenProgram implements Comparable<ChosenProgram> {
     @PrimaryKey(autoGenerate = true)
     public long id;
 
@@ -30,5 +30,12 @@ public class ChosenProgram {
 
     public int getProgramCurScore() {
         return programCurScore;
+    }
+
+    @Override
+    public int compareTo(ChosenProgram program) {
+        if (program.id != id) return -1;
+        if (!program.programName.equals(programName)) return -1;
+        return 0;
     }
 }
