@@ -62,10 +62,10 @@ public class LAFirstViewModel extends AndroidViewModel {
     // if returning value > 0 is ok
     // int returning value < 0 is warning
     public int validateData() {
-        if (name.getValue().length() == 0) {
+        if (name.getValue() != null && name.getValue().length() == 0) {
             return NO_NAME_WARNING;
         }
-        if (date.getValue().length() == 0) {
+        if (date.getValue() != null && date.getValue().length() == 0) {
             return NO_DATE_WARNING;
         }
         return NO_WARNINGS;

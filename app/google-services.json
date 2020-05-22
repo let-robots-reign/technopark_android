@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "456103449008",
+    "firebase_url": "https://bmstuenrollee.firebaseio.com",
+    "project_id": "bmstuenrollee",
+    "storage_bucket": "bmstuenrollee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456103449008:android:209c883dbc5694768bc675",
+        "android_client_info": {
+          "package_name": "com.edumage.bmstu_enrollee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456103449008-5n99aiebnomrqlkeq0st9vgk8tuhre5e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.edumage.bmstu_enrollee",
+            "certificate_hash": "2a3d60ea887ef9515fb668f065c29d4448e641e4"
+          }
+        },
+        {
+          "client_id": "456103449008-0049ioa218spqjk78p6o6b2pgsc2cl9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGm0cEFowZhkZ-Ec0qqZpQN6LgYBgSdqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "456103449008-0049ioa218spqjk78p6o6b2pgsc2cl9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

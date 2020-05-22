@@ -67,6 +67,9 @@
         <action
             android:id="@+id/action_catalog_Fragment_to_applyFragment"
             app:destination="@id/applyFragment" />
+        <action
+            android:id="@+id/action_catalog_tab_to_informationFragment"
+            app:destination="@id/informationFragment" />
 
     </fragment>
     <fragment
@@ -77,6 +80,10 @@
         <action
             android:id="@+id/action_newsFragment_to_newsItemFragment"
             app:destination="@id/newsItemFragment" />
+        <argument
+            android:name="type"
+            app:argType="com.edumage.bmstu_enrollee.FeedType"
+            android:defaultValue="NEWS" />
     </fragment>
     <fragment
         android:id="@+id/newsItemFragment"
@@ -117,6 +124,12 @@
         android:label="ApplyFragment"
         tools:layout="@layout/apply_screen" />
     <fragment
+        android:id="@+id/informationFragment"
+        android:name="com.edumage.bmstu_enrollee.Fragments.InformationFragment"
+        android:label="InformationFragment"
+        tools:layout="@layout/app_information"/>
+
+    <fragment
         android:id="@+id/disciplineFragment"
         android:name="com.edumage.bmstu_enrollee.Fragments.DisciplineFragment"
         android:label="DisciplineFragment">
@@ -140,5 +153,4 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right"/>
     </fragment>
-
 </navigation>
