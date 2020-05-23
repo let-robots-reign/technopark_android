@@ -90,17 +90,27 @@
                     android:textColor="@color/white"
                     android:textSize="17sp" />
 
-                <TextView
-                    android:id="@+id/plan_of_study"
+                <LinearLayout
+                    android:id="@+id/plans_texts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autoLink="all"
-                    android:textColor="@color/black"
-                    android:textIsSelectable="true"
-                    tools:text="Plan"
-                    android:textSize="24sp"
-                    android:padding="8dp"
-                    android:focusable="false"/>
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/plan_of_study"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:textColor="@color/black"
+                        android:textIsSelectable="true"
+                        tools:text="Plan"
+                        android:textSize="24sp"
+                        android:focusable="false"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
 
                 <TextView
                     android:layout_width="match_parent"

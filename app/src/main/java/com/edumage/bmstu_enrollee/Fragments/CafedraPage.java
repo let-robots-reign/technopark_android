@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
@@ -32,6 +33,8 @@ public class CafedraPage extends Fragment {
     private PDFView pdfView;
     private OnBackPressedCallback callback;
     private OnBackPressedDispatcher backPressedDispatcher;
+    private String[] plans;
+    private String currentPlan;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class CafedraPage extends Fragment {
                 e.printStackTrace();
             }
         }
+
+        plans = item.getPlan().split("\n");
 
         callback = new OnBackPressedCallback(false) {
             @Override
@@ -78,51 +83,63 @@ public class CafedraPage extends Fragment {
             }
         });
 
+        LinearLayout linearLayout = rootView.findViewById(R.id.plans_texts);
+        for (final String plan : plans) {
+            TextView planText = getPlanTextView();
+            planText.setText(plan.substring(plan.indexOf("_") + 1));
+            planText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    currentPlan = plan;
+                    openPdf(currentPlan);
+                    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            backPressedDispatcher.onBackPressed();
+                        }
+                    });
+                    callback.setEnabled(true);
+                }
+            });
+            linearLayout.addView(planText);
+        }
+
         pdfView = rootView.findViewById(R.id.pdfView);
         if (savedInstanceState == null) {
             pdfView.setVisibility(View.GONE);
         } else {
-            openPdf();
+            openPdf(currentPlan);
         }
 
         TextView fullNameCafedra = rootView.findViewById(R.id.full_name_cafedra);
         TextView kodSpec = rootView.findViewById(R.id.kod_spec);
         TextView fullDescribe = rootView.findViewById(R.id.full_describe);
-        TextView studyPlan = rootView.findViewById(R.id.plan_of_study);
         TextView site = rootView.findViewById(R.id.link);
         TextView hostel = rootView.findViewById(R.id.hostel);
 
         fullNameCafedra.setText(item.getName());
         kodSpec.setText(item.getCode());
         fullDescribe.setText(item.getDescription());
-        studyPlan.setText(item.getPlan());
         site.setText(item.getSiteLink());
         hostel.setText(item.getHostel());
-
-        studyPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openPdf();
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        backPressedDispatcher.onBackPressed();
-                    }
-                });
-                callback.setEnabled(true);
-            }
-        });
 
         return rootView;
     }
 
 
-    private void openPdf() {
+    private void openPdf(String fileName) {
         pdfView.setVisibility(View.VISIBLE);
-        pdfView.fromAsset(item.getPlan())
+        pdfView.fromAsset(fileName)
                 .password(null)
                 .defaultPage(0)
                 .load();
+    }
+
+    private TextView getPlanTextView() {
+        TextView planText = new TextView(getActivity());
+        planText.setTextColor(Color.BLACK);
+        planText.setTextSize(24);
+        return planText;
     }
 
     private static Map<String, String> createMap() {
