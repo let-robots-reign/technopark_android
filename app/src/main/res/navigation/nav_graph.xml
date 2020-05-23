@@ -88,5 +88,8 @@
         <argument
             android:name="nameFacultet"
             app:argType="string" />
+        <action
+            android:id="@+id/action_cafedraPage_self"
+            app:destination="@id/cafedraPage" />
     </fragment>
 </navigation>
