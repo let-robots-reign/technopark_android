@@ -28,8 +28,6 @@ public abstract class DataBase extends RoomDatabase {
            
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     DataBase.class, "bmstu_db")
-                    .fallbackToDestructiveMigration()
-                    .allowMainThreadQueries()
                     .build();
         }
         return instance;

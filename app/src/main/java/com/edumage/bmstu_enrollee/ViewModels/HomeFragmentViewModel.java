@@ -4,11 +4,6 @@ import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
@@ -19,6 +14,11 @@ import com.edumage.bmstu_enrollee.ParsingRepo.CurrentScoresParsing;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import static com.edumage.bmstu_enrollee.ConnectionCheck.hasInternetAccess;
 import static com.edumage.bmstu_enrollee.ConnectionCheck.isNetworkConnected;
@@ -41,45 +41,46 @@ public class HomeFragmentViewModel extends AndroidViewModel {
         scoresLiveData.setValue(new ArrayList<String>());
         filesLiveData.setValue(new ArrayList<String>());
 
-        ArrayList<Integer> list =  new ArrayList<>();
+        loadScores();
+        loadFiles();
+    }
 
-        for(ChosenProgram program:programs){
-            int add=0;
+    public void initUserScores(List<ChosenProgram> programs, List<ExamPoints> exams) {
+        ArrayList<Integer> list = new ArrayList<>();
+
+        for (ChosenProgram program : programs) {
+            int add = 0;
             String[] s = program.getProgramName().split(" ");
             String code = s[0];
-            ArrayList<Integer> subjects=new ArrayList<>();
-            int[] arr =DisciplinesViewModel.subjectsIdByCode(code);
-            for(Integer e:arr){
+            ArrayList<Integer> subjects = new ArrayList<>();
+            int[] arr = DisciplinesViewModel.subjectsIdByCode(code);
+            for (Integer e : arr) {
                 subjects.add(e);
             }
 
-           // int[] subjects =;
-            List<ExamPoints> exams = getExamPoints();
-            for (ExamPoints exam: exams){
+            // int[] subjects =;
+            for (ExamPoints exam : exams) {
 
-                if(subjects.contains(exam.getSubjectId())){
-                    add+=exam.getExamScore();
+                if (subjects.contains(exam.getSubjectId())) {
+                    add += exam.getExamScore();
                 }
             }
             list.add(add);
         }
 
         userscoresLiveData.setValue(list);
-
-        loadScores();
-        loadFiles();
     }
 
 
-    public UserInfo getUserInfo() {
+    public LiveData<UserInfo> getUserInfo() {
         return repository.getUserInfo();
     }
 
-    public List<ExamPoints> getExamPoints() {
+    public LiveData<List<ExamPoints>> getExamPoints() {
         return repository.getAllPoints();
     }
 
-    public List<ChosenProgram> getChosenPrograms() {
+    public LiveData<List<ChosenProgram>> getChosenPrograms() {
         return repository.getAllChosenPrograms();
     }
 
@@ -144,7 +145,7 @@ public class HomeFragmentViewModel extends AndroidViewModel {
                 final List<String> fileUrls = new ArrayList<>();
                 CurrentFilesParsing instance = CurrentFilesParsing.getInstance();
                 String fileUrl = null;
-                for (ChosenProgram program: programsNames) {
+                for (ChosenProgram program : programsNames) {
                     try {
                         fileUrl = instance.parseFile(program.getProgramName());
                     } catch (IOException e) {

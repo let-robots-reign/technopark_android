@@ -40,7 +40,14 @@ public class UserFragment extends Fragment {
         model = new ViewModelProvider(this).get(LAFirstViewModel.class);
 
         if (savedInstanceState == null) {
-            model.init();
+            model.getUserInfo().observe(this, new Observer<UserInfo>() {
+                @Override
+                public void onChanged(UserInfo userInfo) {
+                    if (userInfo != null) {
+                        model.init(userInfo);
+                    }
+                }
+            });
         }
 
         model.getDate().observe(this, new Observer<String>() {

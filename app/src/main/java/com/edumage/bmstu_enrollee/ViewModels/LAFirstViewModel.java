@@ -25,10 +25,13 @@ public class LAFirstViewModel extends AndroidViewModel {
         repository = new DbRepository(application);
     }
 
-    public void init() {
-        UserInfo userInfo = repository.getUserInfo();
-        name.postValue(userInfo.getUserName());
-        date.postValue(userInfo.getUserBirthday());
+    public void init(UserInfo userInfo) {
+        name.setValue(userInfo.getUserName());
+        date.setValue(userInfo.getUserBirthday());
+    }
+
+    public LiveData<UserInfo> getUserInfo() {
+        return repository.getUserInfo();
     }
 
     public void insertUserInfo(UserInfo info) {

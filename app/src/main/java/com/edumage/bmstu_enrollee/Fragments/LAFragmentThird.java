@@ -10,12 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.Adapters.DisciplineAdapter;
+import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
+import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.DisciplinesViewModel;
 import com.edumage.bmstu_enrollee.WelcomeActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,9 +44,6 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         adapter = new DisciplineAdapter( this);
         // get all programm
         model = new ViewModelProvider(this).get(DisciplinesViewModel.class);
-
-        model.loadData();
-        model.applyChosenSubjects();
     }
 
     @Nullable
@@ -86,7 +86,14 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
     public void onResume() {
         super.onResume();
         model.loadData();
-        model.applyChosenSubjects();
+        model.getExamPoints().observe(this, new Observer<List<ExamPoints>>() {
+            @Override
+            public void onChanged(List<ExamPoints> examPoints) {
+                if (examPoints != null) {
+                    model.applyChosenSubjects(examPoints);
+                }
+            }
+        });
     }
 
     @Override

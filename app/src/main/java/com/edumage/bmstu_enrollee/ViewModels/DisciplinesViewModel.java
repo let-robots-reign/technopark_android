@@ -55,14 +55,20 @@ public class DisciplinesViewModel extends AndroidViewModel {
         executorService.execute(runnable);
     }
 
-    //применяет к текущим данным значение из базы данных
-    public void applyChosenProgram() {
+    public LiveData<List<ChosenProgram>> getChosenPrograms() {
+        return repository.getAllChosenPrograms();
+    }
+
+    public LiveData<List<ExamPoints>> getExamPoints() {
+        return repository.getAllPoints();
+    }
+
+    // применяет к текущим данным значение из базы данных
+    public void applyChosenProgram(final List<ChosenProgram> programs) {
         final Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                final List<ChosenProgram> programs = repository.getAllChosenPrograms();
-
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -100,21 +106,12 @@ public class DisciplinesViewModel extends AndroidViewModel {
         executorService.execute(runnable);
     }
 
-    public void applySubjectThenProgram() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
 
-            }
-        };
-    }
-
-    public void applyChosenSubjects() {
+    public void applyChosenSubjects(final List<ExamPoints> exams) {
         final Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                final List<ExamPoints> exams = repository.getAllPoints();
                 final ArrayList<Integer> id = new ArrayList<>();
                 for (ExamPoints exam : exams) {
                     id.add(exam.getSubjectId());

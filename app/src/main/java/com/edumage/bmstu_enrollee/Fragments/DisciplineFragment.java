@@ -12,11 +12,14 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.edumage.bmstu_enrollee.Adapters.DisciplineAdapter;
+import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
+import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.DisciplinesViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,8 +47,22 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
         model = new ViewModelProvider(this).get(DisciplinesViewModel.class);
 
         model.loadData();
-        model.applyChosenSubjects();
-        model.applyChosenProgram();
+        model.getExamPoints().observe(this, new Observer<List<ExamPoints>>() {
+            @Override
+            public void onChanged(List<ExamPoints> examPoints) {
+                if (examPoints != null) {
+                    model.applyChosenSubjects(examPoints);
+                }
+            }
+        });
+        model.getChosenPrograms().observe(this, new Observer<List<ChosenProgram>>() {
+            @Override
+            public void onChanged(List<ChosenProgram> chosenPrograms) {
+                if (chosenPrograms != null) {
+                    model.applyChosenProgram(chosenPrograms);
+                }
+            }
+        });
 
         model.getData().observe(this, new Observer<ArrayList<Discipline>>() {
             @Override
