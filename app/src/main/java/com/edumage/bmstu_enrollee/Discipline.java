@@ -2,6 +2,8 @@ package com.edumage.bmstu_enrollee;
 
 import android.content.Context;
 
+import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -12,6 +14,9 @@ public class Discipline implements Serializable {
     private String number;
     private String form;
     private boolean enabled = false;
+    private int[] subjects;
+
+    public static final int NUMBER_OF_PASSING_EXAMS=3;
 
     public boolean getStatus() {
         return enabled;
@@ -21,7 +26,7 @@ public class Discipline implements Serializable {
         this.enabled = enabled;
     }
 
-    private Discipline(String fullName, String name, String number, String form) {
+    public Discipline(String fullName, String name, String number, String form) {
         this.fullName = fullName;
         this.name = name;
         this.number = number;
@@ -44,21 +49,16 @@ public class Discipline implements Serializable {
         return fullName;
     }
 
-    public static ArrayList<Discipline> LoadDisciplines(Context context) {
-        String[] array = context.getResources().getStringArray(R.array.disciplines);
-        ArrayList<Discipline> list = new ArrayList<>();
-        for (String value : array) {
-
-            String[] s = value.split(" ");
-            String number = s[0];
-            StringBuilder name = new StringBuilder();
-            for (int k = 1; k < s.length - 1; k++) {
-                name.append(s[k]).append(" ");
-            }
-            String form = s[s.length - 1];
-            form = form.substring(1, form.length() - 1);
-            list.add(new Discipline(value, name.toString(), number, form));
-        }
-        return list;
+    public void setSubjects(int[] subjects) {
+        this.subjects = subjects;
     }
+
+    public int[] getSubjects() {
+        return subjects;
+    }
+
+
+
+
+
 }

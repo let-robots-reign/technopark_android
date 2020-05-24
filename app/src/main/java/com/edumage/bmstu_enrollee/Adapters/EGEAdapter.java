@@ -21,16 +21,17 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
 
-public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
+public class EGEAdapter extends Adapter<EGEAdapter.ViewHolder> {
     private ArrayList<EGESubject> data;
 
-    public EGEAdapter(ArrayList<EGESubject> data) {
-        this.data = data;
-    }
-
-    public ArrayList<EGESubject> getData() {
-        return data;
+    public ArrayList<EGESubject> getPassed() {
+        ArrayList<EGESubject> res = new ArrayList<>();
+        for (EGESubject subject : data) {
+            if (subject.isPassed()) res.add(subject);
+        }
+        return res;
     }
 
     @NonNull
@@ -46,10 +47,18 @@ public class EGEAdapter extends RecyclerView.Adapter<EGEAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return data.size();
+        if (data != null) {
+            return data.size();
+        } else {
+            return 0;
+        }
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public void setData(ArrayList<EGESubject> data) {
+        this.data = data;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
         EditText editText;

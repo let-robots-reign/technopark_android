@@ -46,6 +46,8 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_first_launch);
 
         backgroundView = findViewById(R.id.surface_view);
+        //for debugging need turn off animation background
+//        backgroundView.setAnimationEnabled(false);
 
         nextButton = findViewById(R.id.button_next);
         prevButton = findViewById(R.id.button_prev);

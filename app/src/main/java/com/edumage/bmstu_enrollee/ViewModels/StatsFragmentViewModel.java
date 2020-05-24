@@ -7,7 +7,9 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
@@ -26,12 +28,44 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> hasConnection = new MutableLiveData<>();
     private final MutableLiveData<List<Entry>> budgetFundedScores = new MutableLiveData<>();
     private final MutableLiveData<List<Entry>> industryFundedScores = new MutableLiveData<>();
+    public final MediatorLiveData<List<List<Entry>>> mainData= new MediatorLiveData<>();
     private final MutableLiveData<Boolean> finishedParsing = new MutableLiveData<>();
     private Handler handler = new Handler(Looper.getMainLooper());
+
+    public static final int BUDGET_INDEX=0;
+    public static final int INDUSTRY_INDEX=1;
+
 
     public StatsFragmentViewModel(@NonNull Application application) {
         super(application);
         repository = new DbRepository(application);
+        mainData.addSource(budgetFundedScores, new Observer<List<Entry>>() {
+            @Override
+            public void onChanged(List<Entry> entries) {
+                List<List<Entry>> list = mainData.getValue();
+                if(list==null) {
+                    list = new ArrayList<>();
+                    list.add(new ArrayList<Entry>());
+                    list.add(new ArrayList<Entry>());
+                }
+                list.set(BUDGET_INDEX,entries);
+                mainData.setValue(list);
+            }
+        });
+
+        mainData.addSource(industryFundedScores, new Observer<List<Entry>>() {
+            @Override
+            public void onChanged(List<Entry> entries) {
+                List<List<Entry>> list = mainData.getValue();
+                if(list==null){
+                    list = new ArrayList<>();
+                    list.add(new ArrayList<Entry>());
+                    list.add(new ArrayList<Entry>());
+                }
+                list.set(INDUSTRY_INDEX,entries);
+                mainData.setValue(list);
+            }
+        });
     }
 
     public void init(String programName) {
@@ -59,6 +93,14 @@ public class StatsFragmentViewModel extends AndroidViewModel {
 
     public MutableLiveData<Boolean> getFinishedParsing() {
         return finishedParsing;
+    }
+
+    public void clearBudgetFundedScores(){
+        budgetFundedScores.setValue(new ArrayList<Entry>());
+    }
+
+    public void clearIndustryFundedScores(){
+        industryFundedScores.setValue(new ArrayList<Entry>());
     }
 
     private boolean getConnectionStatus() {

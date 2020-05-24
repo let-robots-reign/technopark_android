@@ -6,13 +6,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.edumage.bmstu_enrollee.CatalogCard;
 import com.edumage.bmstu_enrollee.R;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapter.CatalogViewHolder> {
     private List<CatalogCard> cards;
@@ -27,6 +27,7 @@ public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapte
         private TextView title;
         private ImageView image;
         private OnCardListener onCardListener;
+        private CatalogCard card;
 
         CatalogViewHolder(@NonNull View itemView, OnCardListener cardListener) {
             super(itemView);
@@ -38,7 +39,7 @@ public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapte
 
         @Override
         public void onClick(View v) {
-            onCardListener.onCardClick(getAdapterPosition());
+            onCardListener.onCardClick(card.getId());
         }
     }
 
@@ -53,6 +54,7 @@ public class CatalogCardsAdapter extends RecyclerView.Adapter<CatalogCardsAdapte
     public void onBindViewHolder(@NonNull CatalogViewHolder holder, int position) {
         holder.title.setText(cards.get(position).getTitle());
         holder.image.setImageResource(cards.get(position).getImage());
+        holder.card = cards.get(position);
     }
 
     @Override

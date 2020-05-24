@@ -51,7 +51,7 @@
                     android:paddingVertical="5dp"
                     android:text="@string/open_doors"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

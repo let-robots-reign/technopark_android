@@ -17,7 +17,7 @@ import com.edumage.bmstu_enrollee.WelcomeActivity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Calendar;
 
@@ -46,7 +46,7 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
             date = "";
         }
 
-        model = ViewModelProviders.of(this).get(LAFirstViewModel.class);
+        model = new ViewModelProvider(this).get(LAFirstViewModel.class);
         model.deleteAllInfo();
     }
 
@@ -117,4 +117,6 @@ public class LAFragmentFirst extends Fragment implements WelcomeActivity.Complet
     private String getDateComponent(int date) {
         return (date < 10) ? "0" + date : String.valueOf(date);
     }
+
+
 }

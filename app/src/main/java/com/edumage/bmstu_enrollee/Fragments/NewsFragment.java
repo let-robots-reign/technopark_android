@@ -15,12 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.Adapters.NewsAdapter;
+import com.edumage.bmstu_enrollee.FeedType;
 import com.edumage.bmstu_enrollee.NewsItem;
 import com.edumage.bmstu_enrollee.R;
 
@@ -28,13 +30,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
-
-import androidx.lifecycle.ViewModelProviders;
-
 import com.edumage.bmstu_enrollee.ViewModels.NewsViewModel;
 
 public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener {
-
+    private FeedType type = FeedType.NEWS;
     private NewsAdapter adapter;
     private RecyclerView RVnews;
     private ProgressBar progressBar;
@@ -46,8 +45,12 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final NewsViewModel model = ViewModelProviders.of(this).get(NewsViewModel.class);
-        model.parseNewsList();
+        if (getArguments() != null) {
+            type = (FeedType) getArguments().getSerializable("type");
+        }
+
+        final NewsViewModel model = new ViewModelProvider(this).get(NewsViewModel.class);
+        model.parseNewsList(type);
 
         final List<Integer> colors = Arrays.asList(
                 R.color.newsOrange,
@@ -109,7 +112,11 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
 
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
-        toolbar.setTitle("Новости");
+        if (type == FeedType.EVENTS) {
+            toolbar.setTitle(R.string.events_tab);
+        } else {
+            toolbar.setTitle(R.string.news_tab);
+        }
         toolbar.setTitleTextColor(Color.BLACK);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

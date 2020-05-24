@@ -22,8 +22,7 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
     private ArrayList<Discipline> data;
     private DisciplineCardClick onDisciplineClick;
 
-    public DisciplineAdapter(ArrayList<Discipline> data, DisciplineCardClick clickListener) {
-        this.data = data;
+    public DisciplineAdapter(DisciplineCardClick clickListener) {
         onDisciplineClick = clickListener;
     }
 
@@ -45,7 +44,25 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return data.size();
+        if (data != null) {
+            return data.size();
+        } else {
+            return 0;
+        }
+    }
+
+    public void setData(ArrayList<Discipline> data) {
+        this.data = data;
+    }
+
+    public ArrayList<Discipline> getEnabled() {
+        ArrayList<Discipline> res = new ArrayList<Discipline>();
+        if(data!=null){
+            for (Discipline d : data) {
+                if (d.getStatus()) res.add(d);
+            }
+        }
+        return res;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -67,44 +84,31 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
             card = itemView.findViewById(R.id.discipline_card);
             checkBox = itemView.findViewById(R.id.d_checkBox);
             this.context = context;
-
+            checkBox.setOnCheckedChangeListener(null);
+            checkBox.setChecked(false);
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    enabled = checkBox.isChecked();
-                    if (enabled && onDisciplineClick.getChosenDisciplines() == 3) {
+                    enabled = isChecked;
+                    if (enabled && (onDisciplineClick.getChosenDisciplines() > 3)) {
                         Toast.makeText(context, context.getText(R.string.disciplines_alert), Toast.LENGTH_SHORT).show();
                         enabled = false;
-                    } else {
+                        //checkBox.setChecked(enabled);
+                    } /*else {
                         if (enabled) {
                             onDisciplineClick.incrementChosen();
                         } else {
                             onDisciplineClick.decrementChosen();
                         }
-                    }
+                    }*/
                     UpdateState();
                 }
             });
         }
 
         private void UpdateState() {
-            if (enabled) {
-                setEnabled();
-            } else {
-                setDisabled();
-            }
-        }
-
-        private void setEnabled() {
             checkBox.setChecked(enabled);
-            enabled = true;
-            discipline.setStatus(true);
-        }
-
-        private void setDisabled() {
-            checkBox.setChecked(enabled);
-            enabled = false;
-            discipline.setStatus(false);
+            discipline.setStatus(enabled);
         }
 
         void setDiscipline(Discipline d) {
@@ -126,8 +130,8 @@ public class DisciplineAdapter extends RecyclerView.Adapter<DisciplineAdapter.Vi
     public interface DisciplineCardClick {
         int getChosenDisciplines();
 
-        void incrementChosen();
+        /*void incrementChosen();
 
-        void decrementChosen();
+        void decrementChosen();*/
     }
 }

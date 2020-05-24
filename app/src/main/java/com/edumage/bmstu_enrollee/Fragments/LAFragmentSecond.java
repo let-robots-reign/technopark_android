@@ -6,47 +6,39 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.edumage.bmstu_enrollee.Adapters.EGEAdapter;
-import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
+
 import com.edumage.bmstu_enrollee.EGESubject;
 import com.edumage.bmstu_enrollee.R;
-import com.edumage.bmstu_enrollee.ViewModels.LASecondViewModel;
+import com.edumage.bmstu_enrollee.ViewModels.EgeSubjectsViewModel;
 import com.edumage.bmstu_enrollee.WelcomeActivity;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
-
+import com.edumage.bmstu_enrollee.Adapters.EGEAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class LAFragmentSecond extends Fragment implements WelcomeActivity.CompletableFragment {
 
-    private ArrayList<EGESubject> data;
+    // private ArrayList<EGESubject> data;
     private EGEAdapter adapter;
 
     public static final String TAG = "LAFragmentSecond";
-    private static final String DATA = "SUBJECTS";
+    //private static final String DATA = "SUBJECTS";
 
-    private LASecondViewModel model;
+    private EgeSubjectsViewModel model;
 
-    @SuppressWarnings("unchecked")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null) {
+       /* if (savedInstanceState != null) {
             ObjectInputStream objectInputStream;
             try {
                 objectInputStream = new ObjectInputStream(
@@ -62,9 +54,23 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
             if (data == null && getActivity() != null) {
                 data = EGESubject.LoadEgeSubjects(getActivity());
             }
+        }*/
+
+        adapter = new EGEAdapter();
+
+        model = new ViewModelProvider(this).get(EgeSubjectsViewModel.class);
+
+        if (savedInstanceState == null) {
+            model.loadData();
         }
 
-        model = ViewModelProviders.of(this).get(LASecondViewModel.class);
+        model.getData().observe(this, new Observer<ArrayList<EGESubject>>() {
+            @Override
+            public void onChanged(ArrayList<EGESubject> egeSubjects) {
+                adapter.setData(egeSubjects);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Nullable
@@ -73,7 +79,6 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
         View rootView = inflater.inflate(R.layout.la_fragment2, container, false);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.ege_list);
-        adapter = new EGEAdapter(data);
         recyclerView.setAdapter(adapter);
 
         Context appContext = getContext();
@@ -95,36 +100,17 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (adapter != null) {
-            try {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ObjectOutputStream ObjOut = new ObjectOutputStream(baos);
-                ObjOut.writeObject(adapter.getData());
-                ObjOut.flush();
-                outState.putByteArray(DATA, baos.toByteArray());
-            } catch (IOException e) {
-                Toast.makeText(getContext(), "Unable to serialize", Toast.LENGTH_SHORT).show();
-            }
-        }
-        super.onSaveInstanceState(outState);
+    public void onPause() {
+       // model.replaceAllPoints(adapter.getPassed());
+        super.onPause();
     }
+
+
 
     @Override
     public boolean isComplete() {
-        // условие завершения
-        // выгрузка информации
 
-        List<ExamPoints> points = new ArrayList<>();
-        for (EGESubject subject : data) {
-            if (subject.isPassed()) {
-                points.add(new ExamPoints(subject.getName(), subject.getScore()));
-            }
-        }
-
-        if (!points.isEmpty()) {
-            model.replaceAllPoints(points);
-        }
+        model.replaceAllPoints(adapter.getPassed());
 
         return true;
     }

@@ -2,7 +2,7 @@ package com.edumage.bmstu_enrollee.DbRepo;
 
 import android.app.Application;
 
-import com.edumage.bmstu_enrollee.DataBase;
+
 import com.edumage.bmstu_enrollee.DbDaos.ChosenProgramDao;
 import com.edumage.bmstu_enrollee.DbDaos.ExamPointsDao;
 import com.edumage.bmstu_enrollee.DbDaos.UserInfoDao;
@@ -34,6 +34,16 @@ public class DbRepository {
             @Override
             public void run() {
                 userDao.insertUserInfo(info);
+            }
+        });
+        thread.start();
+    }
+
+    public void replaceUserInfo(final UserInfo info) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                userDao.replaceUserInfo(info);
             }
         });
         thread.start();
