@@ -43,9 +43,8 @@ public class CafedraPage extends Fragment {
         final Bundle args = getArguments();
         if (args != null) {
             String nameFacultet = args.getString("nameFacultet");
-            int cafedraNumber = args.getInt("cafedraNumber");
             nameCaf = args.getString("nameCafedra");
-            String fileName = disciplinesMap.get(nameFacultet) + cafedraNumber;
+            String fileName = disciplinesMap.get(nameFacultet) + nameCaf.replaceAll("\\D+","");;
             try {
                 item = XmlCafedraParser.getInstance().parseCafedraInfo(requireActivity(), fileName);
             } catch (XmlPullParserException | IOException e) {

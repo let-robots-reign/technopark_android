@@ -42,13 +42,12 @@ public class CafedraNames {
         iu.put("ИУ7", new CafedraItem("Программное обеспечение ЭВМ и информационные технологии"));
         iu.put("ИУ8", new CafedraItem("Информационная безопасность"));
         iu.put("ИУ9", new CafedraItem("Теоретическая информатика и компьютерные технологии"));
-        iu.put("ИУ11", new CafedraItem("Космические приборы и системы"));
+        iu.put("ИУ10", new CafedraItem("Защита информации"));
         nameCafedra.put("ИУ",iu);
 
         rl=new ArrayMap<>();
         rl.put("РЛ1", new CafedraItem("Радиоэлектронные системы и устройства"));
         rl.put("РЛ2", new CafedraItem("Лазерные и оптико-электронные системы"));
-        rl.put("РЛ5", new CafedraItem("Элементы приборных устройств"));
         rl.put("РЛ6", new CafedraItem("Технологии приборостроения"));
         nameCafedra.put("РЛ",rl);
 

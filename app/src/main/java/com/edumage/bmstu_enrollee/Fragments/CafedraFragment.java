@@ -97,7 +97,6 @@ public class CafedraFragment extends Fragment implements CafedraAdapter.OnCafedr
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         Bundle args = new Bundle();
         args.putString("nameFacultet", nameFac);
-        args.putInt("cafedraNumber", position + 1);
         args.putString("nameCafedra", cafName);
         navController.navigate(R.id.action_cafedraItem_to_cafedraPage, args);
     }
