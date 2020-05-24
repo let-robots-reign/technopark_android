@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.edumage.bmstu_enrollee.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        android:id="@+id/img_facultet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#99FFFFFF" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/facultet_nm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            tools:text="Hello" />
+        <TextView
+            android:id="@+id/status_facultet"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_marginVertical="5dp"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="10dp"
+            android:text="Отраслевой факультет"
+            android:background="@drawable/rounded_form"
+            android:textColor="@color/colorPrimary" />
+        <TextView
+            android:id="@+id/facultet_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="World"
+            android:textColor="@color/black"
+            android:gravity="center" />
+    </LinearLayout>
+</com.edumage.bmstu_enrollee.SquareRelativeLayout>

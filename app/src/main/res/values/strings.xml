@@ -45,6 +45,7 @@
     <string name="disciplines">Ваши направления</string>
 
     <string name="ok">ок</string>
+    <string name="no_pdf_viewer">Не удалось найти приложение для прочтения pdf файла</string>
 
     <string name="press_back_again">Нажмите Назад еще раз, чтобы выйти</string>
 

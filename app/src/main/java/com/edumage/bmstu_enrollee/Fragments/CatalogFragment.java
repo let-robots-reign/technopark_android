@@ -72,6 +72,8 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
             else
                 args.putSerializable("type", FeedType.EVENTS);
             navController.navigate(R.id.action_catalogFragment_to_newsFragment, args);
+        } else if (catalogId == CatalogCard.FACULTIES_CARD_ID) {
+            navController.navigate(R.id.action_catalogFragment_to_facultetFragment);
         } else if (catalogId == CatalogCard.CAMPUS_CARD_ID) {
             navController.navigate(R.id.action_catalog_tab_to_buildingActivity);
         } else if (catalogId == CatalogCard.APPLY_CARD_ID) {
