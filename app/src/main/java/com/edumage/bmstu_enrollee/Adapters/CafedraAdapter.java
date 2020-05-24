@@ -1,6 +1,5 @@
 package com.edumage.bmstu_enrollee.Adapters;
 
-import android.content.Context;
 import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +42,6 @@ public class CafedraAdapter extends RecyclerView.Adapter<CafedraAdapter.CafedraH
         if (fac != null) {
             holder.nameFac.setText(fac.keyAt(position) + str);
             holder.nameCaf.setText(fac.valueAt(position).getNameCaf());
-            holder.shortDescribe.setText(fac.valueAt(position).getShortDesc());
         }
     }
 
@@ -55,13 +53,12 @@ public class CafedraAdapter extends RecyclerView.Adapter<CafedraAdapter.CafedraH
     class CafedraHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         OnCafedraListener cafedraListener;
-        TextView nameFac, nameCaf, shortDescribe;
+        TextView nameFac, nameCaf;
 
         CafedraHolder(@NonNull View itemView, OnCafedraListener listener) {
             super(itemView);
             nameFac = itemView.findViewById(R.id.nmFac);
             nameCaf = itemView.findViewById(R.id.caf);
-            shortDescribe = itemView.findViewById(R.id.short_describe);
             cafedraListener = listener;
             itemView.setOnClickListener(this);
         }

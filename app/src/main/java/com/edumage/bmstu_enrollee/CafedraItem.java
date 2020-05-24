@@ -2,16 +2,14 @@ package com.edumage.bmstu_enrollee;
 
 public class CafedraItem {
 
-    String nameCaf, shortDesc;
+    private String nameCaf;
 
-
-    public CafedraItem(String name, String shortDesribe){
+    public CafedraItem(String name) {
         nameCaf = name;
-        shortDesc = shortDesribe;
     }
 
     public String getNameCaf() {
         return nameCaf;
     }
-    public String getShortDesc() { return shortDesc;}
+
 }
