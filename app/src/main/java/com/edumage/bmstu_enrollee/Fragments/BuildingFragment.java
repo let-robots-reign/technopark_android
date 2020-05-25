@@ -1,7 +1,6 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
 import android.animation.Animator;
-import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 import com.edumage.bmstu_enrollee.Adapters.BuildingAdapter;
 import com.edumage.bmstu_enrollee.BuildingItem;
 import com.edumage.bmstu_enrollee.R;
-import com.edumage.bmstu_enrollee.SplashActivity;
 import com.edumage.bmstu_enrollee.ViewModels.BuildingViewModel;
 
 import java.util.ArrayList;

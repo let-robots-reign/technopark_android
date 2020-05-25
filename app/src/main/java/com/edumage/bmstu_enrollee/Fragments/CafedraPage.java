@@ -44,7 +44,7 @@ public class CafedraPage extends Fragment {
         if (args != null) {
             String nameFacultet = args.getString("nameFacultet");
             nameCaf = args.getString("nameCafedra");
-            String fileName = disciplinesMap.get(nameFacultet) + nameCaf.replaceAll("\\D+","");;
+            String fileName = disciplinesMap.get(nameFacultet) + nameCaf.replaceAll("\\D+","");
             try {
                 item = XmlCafedraParser.getInstance().parseCafedraInfo(requireActivity(), fileName);
             } catch (XmlPullParserException | IOException e) {

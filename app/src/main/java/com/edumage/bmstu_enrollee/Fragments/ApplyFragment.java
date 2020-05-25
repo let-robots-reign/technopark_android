@@ -103,7 +103,8 @@ public class ApplyFragment extends Fragment {
 
     private void updateProgressCard(String step, int oldPercent) {
         percent = (int) Math.round((double)currentStep / budgetSteps.length * 100);
-        progressTitle.setText(percent + "%");
+        String per = percent + "%";
+        progressTitle.setText(per);
         ProgressBarAnimation animation = new ProgressBarAnimation(progressBar, oldPercent, percent);
         animation.setDuration((percent - oldPercent) * 10);
         progressBar.startAnimation(animation);

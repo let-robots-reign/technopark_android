@@ -23,7 +23,7 @@ public class BmstuApplication extends Application {
         scheduleWork();
     }
 
-    public void scheduleWork() {
+    private void scheduleWork() {
         String TAG = "PARSING_WORK";
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(ParsingWorker.class,
                 1, TimeUnit.HOURS)
@@ -33,7 +33,7 @@ public class BmstuApplication extends Application {
                 ExistingPeriodicWorkPolicy.KEEP, workRequest);
     }
 
-    public void installTrustManager() {
+    private void installTrustManager() {
         // Create a trust manager that does not validate certificate chains
         TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {

@@ -38,8 +38,8 @@ public class HomeFragmentViewModel extends AndroidViewModel {
 
     public void init(List<ChosenProgram> programs) throws InterruptedException {
         programsNames = programs;
-        scoresLiveData.setValue(new ArrayList<String>());
-        filesLiveData.setValue(new ArrayList<String>());
+        scoresLiveData.setValue(new ArrayList<>());
+        filesLiveData.setValue(new ArrayList<>());
 
         ArrayList<Integer> list =  new ArrayList<>();
 

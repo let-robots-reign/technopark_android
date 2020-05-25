@@ -40,7 +40,8 @@ public class CafedraAdapter extends RecyclerView.Adapter<CafedraAdapter.CafedraH
         }
 
         if (fac != null) {
-            holder.nameFac.setText(fac.keyAt(position) + str);
+            String facIndex = fac.keyAt(position) + str;
+            holder.nameFac.setText(facIndex);
             holder.nameCaf.setText(fac.valueAt(position).getNameCaf());
         }
     }

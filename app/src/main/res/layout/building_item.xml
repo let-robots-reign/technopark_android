@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="@dimen/default_margin"
     android:elevation="@dimen/default_cardElevation">
 
@@ -14,7 +15,7 @@
             android:id="@+id/show_map_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Показать на карте"
+            android:text="@string/show_on_map"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,14 +36,15 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/building_name"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            android:contentDescription="@string/building_image" />
 
         <TextView
             android:id="@+id/building_descr"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_margin"
-            android:text="Общая площадь — более 80 тыс. м². Рассчитан
+            tools:text="Общая площадь — более 80 тыс. м². Рассчитан
          на одновременный приём более 5 тыс. студентов.
          В нём 100 аудиторий, 20 компьютерных классов, 19 лифтов,
           библиотека (рассчитанная на хранение 800 тыс. томов книг),
@@ -60,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_margin"
             android:layout_marginTop="33dp"
-            android:text="Рубцовская наб., 2/18, Москва"
+            tools:text="Рубцовская наб., 2/18, Москва"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/building_image"
@@ -74,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_margin"
             android:fontFamily="@font/roboto_light"
-            android:text="Учебно-лабораторный корпус (УЛК)"
+            tools:text="Учебно-лабораторный корпус (УЛК)"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"

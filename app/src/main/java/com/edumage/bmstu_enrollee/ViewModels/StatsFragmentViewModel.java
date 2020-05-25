@@ -45,8 +45,8 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 List<List<Entry>> list = mainData.getValue();
                 if(list==null) {
                     list = new ArrayList<>();
-                    list.add(new ArrayList<Entry>());
-                    list.add(new ArrayList<Entry>());
+                    list.add(new ArrayList<>());
+                    list.add(new ArrayList<>());
                 }
                 list.set(BUDGET_INDEX,entries);
                 mainData.setValue(list);
@@ -59,8 +59,8 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 List<List<Entry>> list = mainData.getValue();
                 if(list==null){
                     list = new ArrayList<>();
-                    list.add(new ArrayList<Entry>());
-                    list.add(new ArrayList<Entry>());
+                    list.add(new ArrayList<>());
+                    list.add(new ArrayList<>());
                 }
                 list.set(INDUSTRY_INDEX,entries);
                 mainData.setValue(list);
@@ -69,8 +69,8 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     }
 
     public void init(String programName) {
-        budgetFundedScores.setValue(new ArrayList<Entry>());
-        industryFundedScores.setValue(new ArrayList<Entry>());
+        budgetFundedScores.setValue(new ArrayList<>());
+        industryFundedScores.setValue(new ArrayList<>());
         hasConnection.setValue(true);
         loadBudgetFundedScores(programName);
     }
@@ -96,11 +96,11 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     }
 
     public void clearBudgetFundedScores(){
-        budgetFundedScores.setValue(new ArrayList<Entry>());
+        budgetFundedScores.setValue(new ArrayList<>());
     }
 
     public void clearIndustryFundedScores(){
-        industryFundedScores.setValue(new ArrayList<Entry>());
+        industryFundedScores.setValue(new ArrayList<>());
     }
 
     private boolean getConnectionStatus() {

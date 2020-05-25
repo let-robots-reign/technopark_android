@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void hideBottomNav() {
+    private void hideBottomNav() {
         bottomNavigation.setVisibility(View.GONE);
     }
 
-    public void showBottomNav() {
+    private void showBottomNav() {
         bottomNavigation.setVisibility(View.VISIBLE);
     }
 

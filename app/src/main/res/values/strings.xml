@@ -321,5 +321,19 @@
         DinosoftLabs (сайт flaticon.com)</string>
 
     <string name="your_scores">Ваши баллы:</string>
+    <string name="mail_us">Mail us!</string>
+    <string name="like_icon">like icon</string>
+    <string name="building_image">Building image</string>
+    <string name="production_faculty">Отраслевой факультет</string>
+    <string name="faculty_card">Faculty card</string>
+    <string name="instagram">Instagram</string>
+    <string name="vk">VK</string>
+    <string name="user_image">User Image</string>
+    <string name="specialties_names">Наименования специальностей</string>
+    <string name="cafedra_description">Описание кафедры</string>
+    <string name="educational_plan">Учебный план</string>
+    <string name="link_to_site">Ссылка на сайт кафедры</string>
+    <string name="hostel">Общежитие</string>
+    <string name="show_on_map">Показать на карте</string>
 
 </resources>

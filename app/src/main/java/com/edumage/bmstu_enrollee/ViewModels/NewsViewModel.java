@@ -28,7 +28,7 @@ public class NewsViewModel extends AndroidViewModel {
 
     public NewsViewModel(@NonNull Application application) {
         super(application);
-        newsList.setValue(new ArrayList<NewsItem>());
+        newsList.setValue(new ArrayList<>());
         newsContent.setValue(null);
         hasConnection.setValue(true);
     }
