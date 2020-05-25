@@ -134,6 +134,7 @@
         <action
             android:id="@+id/action_cafedraPage_self"
             app:destination="@id/cafedraPage" />
+    </fragment>
     <fragment
         android:id="@+id/universityFragment"
         android:name="com.edumage.bmstu_enrollee.Fragments.UniversityFragment"
