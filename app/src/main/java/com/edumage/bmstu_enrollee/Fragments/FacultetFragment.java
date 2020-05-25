@@ -35,22 +35,23 @@ public class FacultetFragment extends Fragment implements FacultetAdapter.OnFacu
         facultetItems.add(new FacultetItem("РЛ", "Радиоэлектроника и лазерная техника", R.drawable.rl));
         facultetItems.add(new FacultetItem("ФН", "Фундаментальные науки", R.drawable.fn));
         facultetItems.add(new FacultetItem("СМ", "Специальное машиностроение", R.drawable.sm));
-        facultetItems.add(new FacultetItem("Э", "Энергомашиностроение", R.drawable.e));
-        facultetItems.add(new FacultetItem("РК", "Робототехника и комплексная автоматизация", R.drawable.rk));
-        facultetItems.add(new FacultetItem("БМТ", "Биомедицинская техника", R.drawable.bmt));
-        facultetItems.add(new FacultetItem("ИБМ", "Инженерный бизнес и менеджмент", R.drawable.ibm));
-        facultetItems.add(new FacultetItem("Л", "Теоретическая и Прикладная лингвистика", R.drawable.l));
-        facultetItems.add(new FacultetItem("ОЭП", "Оптико-электронное приборостроение", R.drawable.oep));
-        facultetItems.add(new FacultetItem("РКТ", "Ракетно-космическая техника", R.drawable.rkt));
-        facultetItems.add(new FacultetItem("АК", "Аэрокосмический", R.drawable.ak));
-        facultetItems.add(new FacultetItem("ПС", "Приборостроительный", R.drawable.ps));
-        facultetItems.add(new FacultetItem("РТ", "Радиотехнический", R.drawable.rt));
-        facultetItems.add(new FacultetItem("СГН", "Социальные и гуманитарные науки", R.drawable.sgn));
-        facultetItems.add(new FacultetItem("ЮР", "Кафедра «Юриспруденция, интеллектуальная собственность и судебная экспертиза»", R.drawable.ur));
-        facultetItems.add(new FacultetItem("ФВО", "Военный институт", R.drawable.fvo));
-        facultetItems.add(new FacultetItem("ГУИМЦ", "Головной учебно-исследовательский и методический центр", R.drawable.guimc));
-        facultetItems.add(new FacultetItem("ФМОП", "Факультет международных образовательных программ", R.drawable.fmop));
-        facultetItems.add(new FacultetItem("ФОФ", "Физкультурно-оздоровительный факультет", R.drawable.fof));
+        // TODO: add educational plans for the following faculties
+//        facultetItems.add(new FacultetItem("Э", "Энергомашиностроение", R.drawable.e));
+//        facultetItems.add(new FacultetItem("РК", "Робототехника и комплексная автоматизация", R.drawable.rk));
+//        facultetItems.add(new FacultetItem("БМТ", "Биомедицинская техника", R.drawable.bmt));
+//        facultetItems.add(new FacultetItem("ИБМ", "Инженерный бизнес и менеджмент", R.drawable.ibm));
+//        facultetItems.add(new FacultetItem("Л", "Теоретическая и Прикладная лингвистика", R.drawable.l));
+//        facultetItems.add(new FacultetItem("ОЭП", "Оптико-электронное приборостроение", R.drawable.oep));
+//        facultetItems.add(new FacultetItem("РКТ", "Ракетно-космическая техника", R.drawable.rkt));
+//        facultetItems.add(new FacultetItem("АК", "Аэрокосмический", R.drawable.ak));
+//        facultetItems.add(new FacultetItem("ПС", "Приборостроительный", R.drawable.ps));
+//        facultetItems.add(new FacultetItem("РТ", "Радиотехнический", R.drawable.rt));
+//        facultetItems.add(new FacultetItem("СГН", "Социальные и гуманитарные науки", R.drawable.sgn));
+//        facultetItems.add(new FacultetItem("ЮР", "Кафедра «Юриспруденция, интеллектуальная собственность и судебная экспертиза»", R.drawable.ur));
+//        facultetItems.add(new FacultetItem("ФВО", "Военный институт", R.drawable.fvo));
+//        facultetItems.add(new FacultetItem("ГУИМЦ", "Головной учебно-исследовательский и методический центр", R.drawable.guimc));
+//        facultetItems.add(new FacultetItem("ФМОП", "Факультет международных образовательных программ", R.drawable.fmop));
+//        facultetItems.add(new FacultetItem("ФОФ", "Физкультурно-оздоровительный факультет", R.drawable.fof));
 
 
         adapter = new FacultetAdapter(facultetItems, this);
