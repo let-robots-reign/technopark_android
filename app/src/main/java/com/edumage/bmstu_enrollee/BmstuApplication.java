@@ -30,7 +30,7 @@ public class BmstuApplication extends Application {
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).build())
                 .addTag(TAG).build();
         WorkManager.getInstance(this).enqueueUniquePeriodicWork("PARSING_WORK",
-                ExistingPeriodicWorkPolicy.REPLACE, workRequest);
+                ExistingPeriodicWorkPolicy.KEEP, workRequest);
     }
 
     public void installTrustManager() {

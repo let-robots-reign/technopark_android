@@ -2,7 +2,6 @@ package com.edumage.bmstu_enrollee.DbRepo;
 
 import android.app.Application;
 
-
 import com.edumage.bmstu_enrollee.DbDaos.ChosenProgramDao;
 import com.edumage.bmstu_enrollee.DbDaos.ExamPointsDao;
 import com.edumage.bmstu_enrollee.DbDaos.UserInfoDao;
@@ -10,7 +9,10 @@ import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class DbRepository {
     private UserInfoDao userDao;
@@ -25,8 +27,18 @@ public class DbRepository {
     }
 
     // Table user_info
-    public UserInfo getUserInfo() {
-        return userDao.getUserInfo();
+    public UserInfo getUserInfo() throws InterruptedException {
+        final UserInfo[] userInfo = new UserInfo[1];
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                userInfo[0] = userDao.getUserInfo();
+                countDownLatch.countDown();
+            }
+        }).start();
+        countDownLatch.await(2, TimeUnit.SECONDS);
+        return userInfo[0];
     }
 
     public void insertUserInfo(final UserInfo info) {
@@ -61,8 +73,18 @@ public class DbRepository {
     //
 
     // Table exam_points
-    public List<ExamPoints> getAllPoints() {
-        return pointsDao.getAllPoints();
+    public List<ExamPoints> getAllPoints() throws InterruptedException {
+        final List<ExamPoints> points = new ArrayList<>();
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                points.addAll(pointsDao.getAllPoints());
+                countDownLatch.countDown();
+            }
+        }).start();
+        countDownLatch.await(2, TimeUnit.SECONDS);
+        return points;
     }
 
     public void replaceAllPoints(final List<ExamPoints> newPoints) {
@@ -77,8 +99,18 @@ public class DbRepository {
     //
 
     // Table chosen_programs
-    public List<ChosenProgram> getAllChosenPrograms() {
-        return chosenProgramDao.getAllChosenPrograms();
+    public List<ChosenProgram> getAllChosenPrograms() throws InterruptedException {
+        final List<ChosenProgram> programs = new ArrayList<>();
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                programs.addAll(chosenProgramDao.getAllChosenPrograms());
+                countDownLatch.countDown();
+            }
+        }).start();
+        countDownLatch.await(2, TimeUnit.SECONDS);
+        return programs;
     }
 
     public void replaceAllPrograms(final List<ChosenProgram> newPrograms) {

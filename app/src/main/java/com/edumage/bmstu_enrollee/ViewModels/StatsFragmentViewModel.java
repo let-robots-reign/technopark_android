@@ -79,7 +79,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
         return hasConnection;
     }
 
-    public List<ChosenProgram> getAllChosenPrograms() {
+    public List<ChosenProgram> getAllChosenPrograms() throws InterruptedException {
         return repository.getAllChosenPrograms();
     }
 

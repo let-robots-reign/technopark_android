@@ -73,14 +73,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         super.onCreate(savedInstanceState);
 
         model = new ViewModelProvider(this).get(HomeFragmentViewModel.class);
-        programs = model.getChosenPrograms();
+        try {
+            programs = model.getChosenPrograms();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         if (savedInstanceState == null) {
             // don't reload data after rotation
-            model.init(programs);
+            try {
+                model.init(programs);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
-        createScoresList();
+        try {
+            createScoresList();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         createDocumentStepsList();
     }
 
@@ -90,7 +102,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         startParsing();
     }
 
-    private void createScoresList() {
+    private void createScoresList() throws InterruptedException {
         // get exam scores from DB
         List<ExamPoints> points = model.getExamPoints();
         List<ExamScore> examResults = new ArrayList<>();
@@ -212,7 +224,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         View rootView = inflater.inflate(R.layout.home_screen, container, false);
 
         TextView name = rootView.findViewById(R.id.user_name);
-        name.setText(model.getUserInfo().getUserName());
+        try {
+            name.setText(model.getUserInfo().getUserName());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         ImageView changeName = rootView.findViewById(R.id.edit_name);
         changeName.setOnClickListener(new View.OnClickListener() {
@@ -299,7 +315,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         icRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.init(programs);
+                try {
+                    model.init(programs);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -325,11 +345,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         adb.setMessage(R.string.explanation_passing_score);
         AlertDialog ad = adb.create();
         ad.show();
-    }
-
-    void notifyEGEChanged() {
-        createScoresList();
-        examResults.setAdapter(examScoresAdapter);
     }
 
     private DocumentStepStatus getDocumentCardStatus(int cardNumber) {

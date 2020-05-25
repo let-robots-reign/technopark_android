@@ -40,7 +40,11 @@ public class UserFragment extends Fragment {
         model = new ViewModelProvider(this).get(LAFirstViewModel.class);
 
         if (savedInstanceState == null) {
-            model.init();
+            try {
+                model.init();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         model.getDate().observe(this, new Observer<String>() {

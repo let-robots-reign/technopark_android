@@ -25,7 +25,7 @@ public class LAFirstViewModel extends AndroidViewModel {
         repository = new DbRepository(application);
     }
 
-    public void init() {
+    public void init() throws InterruptedException {
         UserInfo userInfo = repository.getUserInfo();
         name.postValue(userInfo.getUserName());
         date.postValue(userInfo.getUserBirthday());

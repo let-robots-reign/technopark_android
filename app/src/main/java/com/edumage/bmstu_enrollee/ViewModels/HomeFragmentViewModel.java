@@ -36,7 +36,7 @@ public class HomeFragmentViewModel extends AndroidViewModel {
         repository = new DbRepository(application);
     }
 
-    public void init(List<ChosenProgram> programs) {
+    public void init(List<ChosenProgram> programs) throws InterruptedException {
         programsNames = programs;
         scoresLiveData.setValue(new ArrayList<String>());
         filesLiveData.setValue(new ArrayList<String>());
@@ -71,15 +71,15 @@ public class HomeFragmentViewModel extends AndroidViewModel {
     }
 
 
-    public UserInfo getUserInfo() {
+    public UserInfo getUserInfo() throws InterruptedException {
         return repository.getUserInfo();
     }
 
-    public List<ExamPoints> getExamPoints() {
+    public List<ExamPoints> getExamPoints() throws InterruptedException {
         return repository.getAllPoints();
     }
 
-    public List<ChosenProgram> getChosenPrograms() {
+    public List<ChosenProgram> getChosenPrograms() throws InterruptedException {
         return repository.getAllChosenPrograms();
     }
 

@@ -44,7 +44,7 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
         }).start();
     }
 
-    public void applyEgeScore() {
+    public void applyEgeScore() throws InterruptedException {
         //TODO maybe need another thread
         List<ExamPoints> exams = repository.getAllPoints();
         ArrayList<EGESubject> list = data.getValue();
@@ -85,10 +85,5 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
             i++;
         }
         data.setValue(res);
-    }
-
-
-    public void updateDisciplines() {
-
     }
 }

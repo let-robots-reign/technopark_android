@@ -73,8 +73,12 @@ public class StatsFragment extends Fragment  {
 
         model = new ViewModelProvider(this).get(StatsFragmentViewModel.class);
 
-        chosenProgramList = model.getAllChosenPrograms();
-        // to get the program name from its full name, we need to slice an array of words)
+        try {
+            chosenProgramList = model.getAllChosenPrograms();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // to get the program name from its full name, we need to slice an arrDjghcjjay of words)
         if(chosenProgramList!=null && !chosenProgramList.isEmpty()) {
             curProgram = getProgramShortName(chosenProgramList.get(0).getProgramName());
         }

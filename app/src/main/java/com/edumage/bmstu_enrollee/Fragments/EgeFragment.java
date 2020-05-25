@@ -44,7 +44,11 @@ public class EgeFragment extends Fragment implements View.OnClickListener {
         model = new ViewModelProvider(this).get(EgeSubjectsViewModel.class);
         if (savedInstanceState == null) {
             model.loadData();
-            model.applyEgeScore();
+            try {
+                model.applyEgeScore();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         model.getData().observe(this, new Observer<ArrayList<EGESubject>>() {

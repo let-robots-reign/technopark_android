@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-  >
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/university_site_btn"
@@ -15,18 +11,19 @@
         android:text="@string/university_site"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titlelink_textView"
-        app:layout_constraintVertical_bias="0.32" />
+        app:layout_constraintVertical_bias="0.35" />
 
     <ImageView
         android:id="@+id/bmstu_image"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:layout_margin="@dimen/default_margin"
+        android:contentDescription="@string/content_descr_bmstu_img"
         android:padding="@dimen/inner_components_spacing"
         android:src="@drawable/bmstu_image"
-        android:contentDescription="@string/content_descr_bmstu_img"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,9 +36,9 @@
         android:layout_height="0dp"
         android:layout_margin="@dimen/default_margin"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/content_descr_instagram_img"
         android:scaleType="fitCenter"
         android:src="@drawable/instagram_icon"
-        android:contentDescription="@string/content_descr_instagram_img"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,11 +51,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/default_margin"
+        android:contentDescription="@string/content_descr_vk_img"
         android:scaleType="fitCenter"
         android:src="@drawable/vk_icon"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintDimensionRatio="1"
-        android:contentDescription="@string/content_descr_vk_img"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/inst_social"
         app:layout_constraintHorizontal_bias="0.5"
@@ -135,7 +132,7 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="439dp"
+        app:layout_constraintGuide_percent="0.7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/bmstu_image" />
 
