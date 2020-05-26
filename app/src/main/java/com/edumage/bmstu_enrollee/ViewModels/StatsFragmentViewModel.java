@@ -45,8 +45,8 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 List<List<Entry>> list = mainData.getValue();
                 if(list==null) {
                     list = new ArrayList<>();
-                    list.add(new ArrayList<>());
-                    list.add(new ArrayList<>());
+                    list.add(new ArrayList<Entry>());
+                    list.add(new ArrayList<Entry>());
                 }
                 list.set(BUDGET_INDEX,entries);
                 mainData.setValue(list);
@@ -59,8 +59,8 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 List<List<Entry>> list = mainData.getValue();
                 if(list==null){
                     list = new ArrayList<>();
-                    list.add(new ArrayList<>());
-                    list.add(new ArrayList<>());
+                    list.add(new ArrayList<Entry>());
+                    list.add(new ArrayList<Entry>());
                 }
                 list.set(INDUSTRY_INDEX,entries);
                 mainData.setValue(list);
@@ -69,8 +69,8 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     }
 
     public void init(String programName) {
-        budgetFundedScores.setValue(new ArrayList<>());
-        industryFundedScores.setValue(new ArrayList<>());
+        budgetFundedScores.setValue(new ArrayList<Entry>());
+        industryFundedScores.setValue(new ArrayList<Entry>());
         hasConnection.setValue(true);
         loadBudgetFundedScores(programName);
     }
@@ -96,11 +96,11 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     }
 
     public void clearBudgetFundedScores(){
-        budgetFundedScores.setValue(new ArrayList<>());
+        budgetFundedScores.setValue(new ArrayList<Entry>());
     }
 
     public void clearIndustryFundedScores(){
-        industryFundedScores.setValue(new ArrayList<>());
+        industryFundedScores.setValue(new ArrayList<Entry>());
     }
 
     private boolean getConnectionStatus() {
@@ -108,7 +108,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     }
 
     public void loadBudgetFundedScores(final String programName) {
-        finishedParsing.setValue(false);
+        /*finishedParsing.setValue(false);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -132,12 +132,36 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 });
             }
         });
-        thread.start();
+        thread.start();*/
+        finishedParsing.setValue(false);
+      StatsScoresParsing.getInstance().pushTask(new Runnable() {
+          @Override
+          public void run() {
+              final boolean conn = getConnectionStatus();
+              final List<Entry> scores = new ArrayList<>();
+              StatsScoresParsing instance = StatsScoresParsing.getInstance();
+
+              try {
+                  scores.addAll(instance.parseBudgetFundedScores(programName));
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+
+              handler.post(new Runnable() {
+                  @Override
+                  public void run() {
+                      hasConnection.setValue(conn);
+                      budgetFundedScores.setValue(scores);
+                      finishedParsing.setValue(true);
+                  }
+              });
+          }
+      });
     }
 
     public void loadIndustryFundedScores(final String programName) {
         finishedParsing.setValue(false);
-        Thread thread = new Thread(new Runnable() {
+      /*  Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 final boolean conn = getConnectionStatus();
@@ -160,6 +184,30 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 });
             }
         });
-        thread.start();
+        thread.start();*/
+
+      StatsScoresParsing.getInstance().pushTask(new Runnable() {
+          @Override
+          public void run() {
+              final boolean conn = getConnectionStatus();
+              final List<Entry> scores = new ArrayList<>();
+              StatsScoresParsing instance = StatsScoresParsing.getInstance();
+
+              try {
+                  scores.addAll(instance.parseIndustryFundedScores(programName));
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+
+              handler.post(new Runnable() {
+                  @Override
+                  public void run() {
+                      hasConnection.setValue(conn);
+                      industryFundedScores.setValue(scores);
+                      finishedParsing.setValue(true);
+                  }
+              });
+          }
+      });
     }
 }

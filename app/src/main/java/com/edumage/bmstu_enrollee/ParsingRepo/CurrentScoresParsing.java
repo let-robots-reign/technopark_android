@@ -6,11 +6,24 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CurrentScoresParsing {
 
     private final String URL = "http://priem.bmstu.ru/ru/points";
     private static CurrentScoresParsing instance;
+
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+    public void pushTask(Runnable runnable){
+        executorService.execute(runnable);
+    }
+
+    public static void init(){
+        instance= new CurrentScoresParsing();
+    }
 
     public static CurrentScoresParsing getInstance() {
         if (instance == null) {
@@ -18,6 +31,9 @@ public class CurrentScoresParsing {
         }
         return instance;
     }
+
+
+
 
     public String getLastUpdate() throws IOException {
         Document doc = Jsoup.connect(URL).get();

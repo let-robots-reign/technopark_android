@@ -8,16 +8,32 @@ import com.edumage.bmstu_enrollee.DbDaos.UserInfoDao;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class DbRepository {
     private UserInfoDao userDao;
     private ExamPointsDao pointsDao;
     private ChosenProgramDao chosenProgramDao;
+
+    private static DbRepository repository;
+
+    private ExecutorService executorService=Executors.newSingleThreadExecutor();
+
+    public static void init(Application application){
+        repository = new DbRepository(application);
+    }
+
+    public static DbRepository getInstance(){
+        return repository;
+    }
+
 
     public DbRepository(Application application) {
         DataBase dataBase = DataBase.getInstance(application);
@@ -29,7 +45,7 @@ public class DbRepository {
     // Table user_info
     public UserInfo getUserInfo() throws InterruptedException {
         final UserInfo[] userInfo = new UserInfo[1];
-        CountDownLatch countDownLatch = new CountDownLatch(1);
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -37,43 +53,43 @@ public class DbRepository {
                 countDownLatch.countDown();
             }
         }).start();
+        //TODO add runnable to executor
         countDownLatch.await(2, TimeUnit.SECONDS);
         return userInfo[0];
     }
 
     public void insertUserInfo(final UserInfo info) {
-        Thread thread = new Thread(new Runnable() {
+        Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 userDao.insertUserInfo(info);
             }
-        });
-        thread.start();
+        };
+        executorService.execute(runnable);
     }
 
     public void replaceUserInfo(final UserInfo info) {
-        Thread thread = new Thread(new Runnable() {
+        Runnable runable = new Runnable() {
             @Override
             public void run() {
                 userDao.replaceUserInfo(info);
             }
-        });
-        thread.start();
+        };
+        executorService.execute(runable);
     }
 
     public void deleteAllInfo() {
-        Thread thread = new Thread(new Runnable() {
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
                 userDao.deleteAllInfo();
             }
         });
-        thread.start();
     }
-    //
 
-    // Table exam_points
     public List<ExamPoints> getAllPoints() throws InterruptedException {
+
+        //TODO add runnbale to executor
         final List<ExamPoints> points = new ArrayList<>();
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         new Thread(new Runnable() {
@@ -88,13 +104,12 @@ public class DbRepository {
     }
 
     public void replaceAllPoints(final List<ExamPoints> newPoints) {
-        Thread thread = new Thread(new Runnable() {
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
                 pointsDao.replaceAllPoints(newPoints);
             }
         });
-        thread.start();
     }
     //
 
@@ -110,17 +125,16 @@ public class DbRepository {
             }
         }).start();
         countDownLatch.await(2, TimeUnit.SECONDS);
+        //TODO add to executor service
         return programs;
     }
 
     public void replaceAllPrograms(final List<ChosenProgram> newPrograms) {
-        Thread thread = new Thread(new Runnable() {
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
                 chosenProgramDao.replaceAllPrograms(newPrograms);
             }
         });
-        thread.start();
     }
-    //
 }
