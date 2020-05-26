@@ -11,11 +11,18 @@ import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 public class DbRepository {
     private UserInfoDao userDao;
     private ExamPointsDao pointsDao;
     private ChosenProgramDao chosenProgramDao;
+
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public DbRepository(Application application) {
         DataBase dataBase = DataBase.getInstance(application);
@@ -25,70 +32,86 @@ public class DbRepository {
     }
 
     // Table user_info
-    public UserInfo getUserInfo() {
-        return userDao.getUserInfo();
+    public LiveData<UserInfo> getUserInfo() {
+        MutableLiveData<UserInfo> userInfo = new MutableLiveData<>();
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                userInfo.postValue(userDao.getUserInfo());
+            }
+        });
+        return userInfo;
     }
 
     public void insertUserInfo(final UserInfo info) {
-        Thread thread = new Thread(new Runnable() {
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
                 userDao.insertUserInfo(info);
             }
         });
-        thread.start();
     }
 
     public void replaceUserInfo(final UserInfo info) {
-        Thread thread = new Thread(new Runnable() {
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
                 userDao.replaceUserInfo(info);
             }
         });
-        thread.start();
     }
 
     public void deleteAllInfo() {
-        Thread thread = new Thread(new Runnable() {
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
                 userDao.deleteAllInfo();
             }
         });
-        thread.start();
     }
     //
 
     // Table exam_points
-    public List<ExamPoints> getAllPoints() {
-        return pointsDao.getAllPoints();
+    public MutableLiveData<List<ExamPoints>> getAllPoints() {
+        MutableLiveData<List<ExamPoints>> points = new MutableLiveData<>();
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                points.postValue(pointsDao.getAllPoints());
+            }
+        });
+        return points;
     }
 
     public void replaceAllPoints(final List<ExamPoints> newPoints) {
-        Thread thread = new Thread(new Runnable() {
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
                 pointsDao.replaceAllPoints(newPoints);
             }
         });
-        thread.start();
     }
     //
 
     // Table chosen_programs
-    public List<ChosenProgram> getAllChosenPrograms() {
-        return chosenProgramDao.getAllChosenPrograms();
+    public MutableLiveData<List<ChosenProgram>> getAllChosenPrograms() {
+        MutableLiveData<List<ChosenProgram>> programs = new MutableLiveData<>();
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                programs.postValue(chosenProgramDao.getAllChosenPrograms());
+            }
+        });
+        return programs;
     }
 
     public void replaceAllPrograms(final List<ChosenProgram> newPrograms) {
-        Thread thread = new Thread(new Runnable() {
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
                 chosenProgramDao.replaceAllPrograms(newPrograms);
             }
         });
-        thread.start();
     }
     //
 }

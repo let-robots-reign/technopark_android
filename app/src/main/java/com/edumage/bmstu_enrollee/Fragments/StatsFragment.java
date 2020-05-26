@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -26,17 +25,17 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public class StatsFragment extends Fragment  {
+public class StatsFragment extends Fragment {
 
     private Spinner spinner;
     private CheckBox budgetBox;
@@ -73,15 +72,23 @@ public class StatsFragment extends Fragment  {
 
         model = new ViewModelProvider(this).get(StatsFragmentViewModel.class);
 
-        chosenProgramList = model.getAllChosenPrograms();
-        // to get the program name from its full name, we need to slice an array of words)
-        if(chosenProgramList!=null && !chosenProgramList.isEmpty()) {
-            curProgram = getProgramShortName(chosenProgramList.get(0).getProgramName());
-        }
+        model.getAllChosenPrograms().observe(this, new Observer<List<ChosenProgram>>() {
+            @Override
+            public void onChanged(List<ChosenProgram> chosenPrograms) {
+                if (chosenPrograms != null) {
+                    chosenProgramList = chosenPrograms;
+                    // to get the program name from its full name, we need to slice an array of words)
+                    if (!chosenProgramList.isEmpty()) {
+                        curProgram = getProgramShortName(chosenProgramList.get(0).getProgramName());
+                    }
 
-        if (savedInstanceState == null) {
-            model.init(curProgram);
-        }
+                    if (savedInstanceState == null) {
+                        model.init(curProgram);
+                    }
+                }
+            }
+        });
+
 
         model.getHasConnection().observe(StatsFragment.this, new Observer<Boolean>() {
             @Override
@@ -134,6 +141,56 @@ public class StatsFragment extends Fragment  {
         budgetBox.setChecked(budgetBoxValue);
         targetBox.setChecked(targetBoxValue);
 
+        model.getAllChosenPrograms().observe(getViewLifecycleOwner(), new Observer<List<ChosenProgram>>() {
+            @Override
+            public void onChanged(List<ChosenProgram> chosenPrograms) {
+                if (chosenPrograms != null)
+                    initViews();
+            }
+        });
+
+
+        model.getMainData().observe(getViewLifecycleOwner(), new Observer<List<List<Entry>>>() {
+            @Override
+            public void onChanged(List<List<Entry>> lists) {
+
+                LineData lineData = new LineData();
+
+                List<Entry> budgetList = lists.get(StatsFragmentViewModel.BUDGET_INDEX);
+                LineDataSet dataSet = new LineDataSet(budgetList,
+                        getResources().getString(R.string.stats_screen_budget_label));
+                dataSet.setLineWidth(3f);
+
+                dataSet.setCircleColor(getResources().getColor(R.color.darkGreen));
+                dataSet.setColor(getResources().getColor(R.color.darkGreen));
+                dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+                lineData.addDataSet(dataSet);
+
+
+                List<Entry> entries = lists.get(StatsFragmentViewModel.INDUSTRY_INDEX);
+                LineDataSet nextDataSet = new LineDataSet(entries,
+                        getResources().getString(R.string.stats_screen_target_label));
+                nextDataSet.setLineWidth(3f);
+                nextDataSet.setCircleColor(getResources().getColor(R.color.targetYellow));
+                nextDataSet.setColor(getResources().getColor(R.color.targetYellow));
+                nextDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+                lineData.addDataSet(nextDataSet);
+
+                lineChart.setData(lineData);
+                Description desc = new Description();
+                desc.setText(getString(R.string.stats_screen_description));
+                desc.setTextAlign(Paint.Align.RIGHT);
+                lineChart.setDescription(desc);
+                lineChart.animateY(1200, Easing.EaseOutCubic);
+                lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+                lineChart.getLegend().setWordWrapEnabled(true);
+            }
+        });
+
+        return v;
+    }
+
+    private void initViews() {
         List<String> programsNames = new ArrayList<>();
         for (ChosenProgram program : chosenProgramList) {
             programsNames.add(getProgramShortName(program.getProgramName()));
@@ -157,7 +214,7 @@ public class StatsFragment extends Fragment  {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 noConnection.setVisibility(View.GONE);
-                if (spinner.getSelectedItem()!=null) {
+                if (spinner.getSelectedItem() != null) {
                     curProgram = spinner.getSelectedItem().toString();
                 } else {
                     return;
@@ -171,12 +228,11 @@ public class StatsFragment extends Fragment  {
         });
 
 
-
         targetBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 noConnection.setVisibility(View.GONE);
-                if (spinner.getSelectedItem()!=null) {
+                if (spinner.getSelectedItem() != null) {
                     curProgram = spinner.getSelectedItem().toString();
                 } else {
                     return;
@@ -193,7 +249,7 @@ public class StatsFragment extends Fragment  {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 noConnection.setVisibility(View.GONE);
-                if (spinner.getSelectedItem()!=null) {
+                if (spinner.getSelectedItem() != null) {
                     curProgram = spinner.getSelectedItem().toString();
                 } else {
                     return;
@@ -212,49 +268,6 @@ public class StatsFragment extends Fragment  {
 
             }
         });
-
-        model.mainData.observe(getViewLifecycleOwner(), new Observer<List<List<Entry>>>() {
-            @Override
-            public void onChanged(List<List<Entry>> lists) {
-
-                LineData lineData = new LineData();
-
-
-            List<Entry> budgetList = lists.get(StatsFragmentViewModel.BUDGET_INDEX);
-            LineDataSet dataSet = new LineDataSet(budgetList,
-                    getResources().getString(R.string.stats_screen_budget_label));
-            dataSet.setLineWidth(3f);
-
-            dataSet.setCircleColor(getResources().getColor(R.color.darkGreen));
-            dataSet.setColor(getResources().getColor(R.color.darkGreen));
-            dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-            lineData.addDataSet(dataSet);
-
-
-            List<Entry> entries =  lists.get(StatsFragmentViewModel.INDUSTRY_INDEX);
-            LineDataSet nextDataSet = new LineDataSet(entries,
-                    getResources().getString(R.string.stats_screen_target_label));
-            nextDataSet.setLineWidth(3f);
-            nextDataSet.setCircleColor(getResources().getColor(R.color.targetYellow));
-            nextDataSet.setColor(getResources().getColor(R.color.targetYellow));
-            nextDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-            lineData.addDataSet(nextDataSet);
-
-                lineChart.setData(lineData);
-                Description desc = new Description();
-                desc.setText(getString(R.string.stats_screen_description));
-                desc.setTextAlign(Paint.Align.RIGHT);
-                lineChart.setDescription(desc);
-                lineChart.animateY(1200, Easing.EaseOutCubic);
-                lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTH_SIDED);
-                lineChart.getLegend().setWordWrapEnabled(true);
-
-
-
-            }
-        });
-
-        return v;
     }
 
    /* private void UpdateChart(boolean budget, boolean target) {

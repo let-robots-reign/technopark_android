@@ -28,7 +28,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> hasConnection = new MutableLiveData<>();
     private final MutableLiveData<List<Entry>> budgetFundedScores = new MutableLiveData<>();
     private final MutableLiveData<List<Entry>> industryFundedScores = new MutableLiveData<>();
-    public final MediatorLiveData<List<List<Entry>>> mainData= new MediatorLiveData<>();
+    private final MediatorLiveData<List<List<Entry>>> mainData= new MediatorLiveData<>();
     private final MutableLiveData<Boolean> finishedParsing = new MutableLiveData<>();
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -79,7 +79,11 @@ public class StatsFragmentViewModel extends AndroidViewModel {
         return hasConnection;
     }
 
-    public List<ChosenProgram> getAllChosenPrograms() {
+    public LiveData<List<List<Entry>>> getMainData() {
+        return mainData;
+    }
+
+    public LiveData<List<ChosenProgram>> getAllChosenPrograms() {
         return repository.getAllChosenPrograms();
     }
 

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,6 +27,7 @@ import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
 import com.edumage.bmstu_enrollee.Adapters.ExamScoresAdapter;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
+import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
 import com.edumage.bmstu_enrollee.DocumentStep;
 import com.edumage.bmstu_enrollee.DocumentStepStatus;
 import com.edumage.bmstu_enrollee.ExamScore;
@@ -61,6 +63,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     private List<TextView> userscores;
 
     private List<ChosenProgram> programs;
+    private List<ExamPoints> examPoints;
     private HomeFragmentViewModel model;
 
     private static final int EGE_EDIT_DIALOG = 0;
@@ -73,28 +76,41 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         super.onCreate(savedInstanceState);
 
         model = new ViewModelProvider(this).get(HomeFragmentViewModel.class);
-        programs = model.getChosenPrograms();
 
-        if (savedInstanceState == null) {
-            // don't reload data after rotation
-            model.init(programs);
-        }
+        model.getMainData().observe(this, new Observer<Pair<List<ExamPoints>, List<ChosenProgram>>>() {
+            @Override
+            public void onChanged(Pair<List<ExamPoints>, List<ChosenProgram>> pair) {
+                if (pair.first != null && pair.second != null) {
+                    examPoints = pair.first;
+                    programs = pair.second;
+                    if (savedInstanceState == null) {
+                        // don't reload data after rotation
+                        model.init(programs, pair.first);
+                    }
 
-        createScoresList();
-        createDocumentStepsList();
+                    createScoresList();
+                    createDocumentStepsList();
+                }
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        startParsing();
+        model.getMainData().observe(this, new Observer<Pair<List<ExamPoints>, List<ChosenProgram>>>() {
+            @Override
+            public void onChanged(Pair<List<ExamPoints>, List<ChosenProgram>> pair) {
+                if (pair.first != null && pair.second != null)
+                    startParsing();
+            }
+        });
     }
 
     private void createScoresList() {
         // get exam scores from DB
-        List<ExamPoints> points = model.getExamPoints();
         List<ExamScore> examResults = new ArrayList<>();
-        for (ExamPoints p : points) {
+        for (ExamPoints p : examPoints) {
             examResults.add(new ExamScore(p.getExamName(), p.getExamScore()));
         }
         examScoresAdapter = new ExamScoresAdapter(examResults);
@@ -212,7 +228,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         View rootView = inflater.inflate(R.layout.home_screen, container, false);
 
         TextView name = rootView.findViewById(R.id.user_name);
-        name.setText(model.getUserInfo().getUserName());
+        model.getUserInfo().observe(getViewLifecycleOwner(), new Observer<UserInfo>() {
+            @Override
+            public void onChanged(UserInfo userInfo) {
+                if (userInfo != null)
+                    name.setText(userInfo.getUserName());
+            }
+        });
 
         ImageView changeName = rootView.findViewById(R.id.edit_name);
         changeName.setOnClickListener(new View.OnClickListener() {
@@ -223,6 +245,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
             }
         });
 
+        model.getMainData().observe(getViewLifecycleOwner(), new Observer<Pair<List<ExamPoints>, List<ChosenProgram>>>() {
+            @Override
+            public void onChanged(Pair<List<ExamPoints>, List<ChosenProgram>> pair) {
+                if (pair.first != null && pair.second != null)
+                    initViews(rootView);
+            }
+        });
+
+        return rootView;
+    }
+
+    private void initViews(View rootView) {
         examResults = rootView.findViewById(R.id.exam_scores_list);
         examResults.setLayoutManager(new LinearLayoutManager(getActivity(),
                 RecyclerView.VERTICAL, false));
@@ -299,7 +333,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         icRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.init(programs);
+                model.init(programs, examPoints);
             }
         });
 
@@ -314,8 +348,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 }
             });
         }
-
-        return rootView;
     }
 
     private void showDialogAboutPassScore() {

@@ -39,20 +39,13 @@ public class UserFragment extends Fragment {
 
         model = new ViewModelProvider(this).get(LAFirstViewModel.class);
 
-        if (savedInstanceState == null) {
-            model.init();
-        }
-
-        model.getDate().observe(this, new Observer<String>() {
+        model.getUserInfo().observe(this, new Observer<UserInfo>() {
             @Override
-            public void onChanged(String s) {
-                editDate.setText(s);
-            }
-        });
-        model.getName().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                editName.setText(s);
+            public void onChanged(UserInfo userInfo) {
+                if (userInfo != null) {
+                    editName.setText(userInfo.getUserName());
+                    editDate.setText(userInfo.getUserBirthday());
+                }
             }
         });
     }
