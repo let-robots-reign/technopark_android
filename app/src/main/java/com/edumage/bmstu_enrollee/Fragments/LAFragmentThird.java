@@ -10,12 +10,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edumage.bmstu_enrollee.Adapters.DisciplineAdapter;
+import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.DisciplinesViewModel;
 import com.edumage.bmstu_enrollee.WelcomeActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,20 +40,23 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new DisciplineAdapter( this);
+        adapter = new DisciplineAdapter(this);
         // get all programm
         model = new ViewModelProvider(this).get(DisciplinesViewModel.class);
 
         model.loadData();
-        model.applyChosenSubjects();
+        model.getExamPoints().observe(this, new Observer<List<ExamPoints>>() {
+            @Override
+            public void onChanged(List<ExamPoints> examPoints) {
+                model.applyChosenSubjects(examPoints);
+            }
+        });
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.la_fragment3, container, false);
-
-
 
         RecyclerView recyclerView = v.findViewById(R.id.discipline_list);
         recyclerView.setAdapter(adapter);
@@ -65,19 +70,19 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
             recyclerView.setLayoutManager(new GridLayoutManager(appContext, 2, RecyclerView.VERTICAL, false));
         }
         final TextView textView = v.findViewById(R.id.no_discipline_textView);
+
         model.getData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Discipline>>() {
             @Override
             public void onChanged(ArrayList<Discipline> disciplines) {
                 adapter.setData(disciplines);
                 adapter.notifyDataSetChanged();
-                if (disciplines.size()==0){
+                if (disciplines.size() == 0) {
                     textView.setVisibility(View.VISIBLE);
-                } else{
+                } else {
                     textView.setVisibility(View.INVISIBLE);
                 }
             }
         });
-
 
         return v;
     }
@@ -85,8 +90,14 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
     @Override
     public void onResume() {
         super.onResume();
+        // TODO: consider removing duplicating code
         model.loadData();
-        model.applyChosenSubjects();
+        model.getExamPoints().observe(this, new Observer<List<ExamPoints>>() {
+            @Override
+            public void onChanged(List<ExamPoints> examPoints) {
+                model.applyChosenSubjects(examPoints);
+            }
+        });
     }
 
     @Override

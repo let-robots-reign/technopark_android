@@ -10,11 +10,13 @@ import android.widget.Button;
 import android.widget.Toolbar;
 
 import com.edumage.bmstu_enrollee.Adapters.EGEAdapter;
+import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.EGESubject;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.EgeSubjectsViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,20 +44,20 @@ public class EgeFragment extends Fragment implements View.OnClickListener {
         //LoadData();
         adapter = new EGEAdapter();
         model = new ViewModelProvider(this).get(EgeSubjectsViewModel.class);
-        if (savedInstanceState == null) {
-            model.loadData();
-            try {
-                model.applyEgeScore();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
 
-        model.getData().observe(this, new Observer<ArrayList<EGESubject>>() {
+        model.loadData();
+        model.getExamPoints().observe(this, new Observer<List<ExamPoints>>() {
             @Override
-            public void onChanged(ArrayList<EGESubject> egeSubjects) {
-                adapter.setData(egeSubjects);
-                adapter.notifyDataSetChanged();
+            public void onChanged(List<ExamPoints> examPoints) {
+                if (examPoints != null)
+                    model.applyEgeScore(examPoints);
+                model.getData().observe(EgeFragment.this, new Observer<ArrayList<EGESubject>>() {
+                    @Override
+                    public void onChanged(ArrayList<EGESubject> egeSubjects) {
+                        adapter.setData(egeSubjects);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
     }

@@ -55,19 +55,20 @@ public class DisciplinesViewModel extends AndroidViewModel {
         executorService.execute(runnable);
     }
 
+    public LiveData<List<ExamPoints>> getExamPoints() {
+        return repository.getAllPoints();
+    }
+
+    public LiveData<List<ChosenProgram>> getChosenPrograms() {
+        return repository.getAllChosenPrograms();
+    }
+
     //применяет к текущим данным значение из базы данных
-    public void applyChosenProgram() {
+    public void applyChosenProgram(final List<ChosenProgram> programs) {
         final Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                final List<ChosenProgram> programs = new ArrayList<>();
-                try {
-                    programs.addAll(repository.getAllChosenPrograms());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -105,26 +106,11 @@ public class DisciplinesViewModel extends AndroidViewModel {
         executorService.execute(runnable);
     }
 
-    public void applySubjectThenProgram() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        };
-    }
-
-    public void applyChosenSubjects() {
+    public void applyChosenSubjects(final List<ExamPoints> exams) {
         final Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                final List<ExamPoints> exams = new ArrayList<>();
-                try {
-                    exams.addAll(repository.getAllPoints());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 final ArrayList<Integer> id = new ArrayList<>();
                 for (ExamPoints exam : exams) {
                     id.add(exam.getSubjectId());
@@ -147,7 +133,7 @@ public class DisciplinesViewModel extends AndroidViewModel {
                             }
                         }
                         Log.d("TH_TEST", "Apply Subject");
-                        data.setValue(list);
+                        data.postValue(list);
                     }
                 });
             }

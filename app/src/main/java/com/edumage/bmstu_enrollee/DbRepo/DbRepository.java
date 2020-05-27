@@ -12,6 +12,9 @@ import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,6 +24,7 @@ public class DbRepository {
     private UserInfoDao userDao;
     private ExamPointsDao pointsDao;
     private ChosenProgramDao chosenProgramDao;
+
 
     private static DbRepository repository;
 
@@ -34,7 +38,6 @@ public class DbRepository {
         return repository;
     }
 
-
     public DbRepository(Application application) {
         DataBase dataBase = DataBase.getInstance(application);
         userDao = dataBase.userInfoDao();
@@ -43,30 +46,27 @@ public class DbRepository {
     }
 
     // Table user_info
-    public UserInfo getUserInfo() throws InterruptedException {
-        final UserInfo[] userInfo = new UserInfo[1];
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        new Thread(new Runnable() {
+
+    public LiveData<UserInfo> getUserInfo() {
+        MutableLiveData<UserInfo> userInfo = new MutableLiveData<>();
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
-                userInfo[0] = userDao.getUserInfo();
-                countDownLatch.countDown();
+                userInfo.postValue(userDao.getUserInfo());
             }
-        }).start();
-        //TODO add runnable to executor
-        countDownLatch.await(2, TimeUnit.SECONDS);
-        return userInfo[0];
+        });
+        return userInfo;
     }
 
     public void insertUserInfo(final UserInfo info) {
-        Runnable runnable = new Runnable() {
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
                 userDao.insertUserInfo(info);
-            }
-        };
-        executorService.execute(runnable);
+        });
     }
+
+
 
     public void replaceUserInfo(final UserInfo info) {
         Runnable runable = new Runnable() {
@@ -87,19 +87,14 @@ public class DbRepository {
         });
     }
 
-    public List<ExamPoints> getAllPoints() throws InterruptedException {
-
-        //TODO add runnbale to executor
-        final List<ExamPoints> points = new ArrayList<>();
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        new Thread(new Runnable() {
+    public MutableLiveData<List<ExamPoints>> getAllPoints() {
+        MutableLiveData<List<ExamPoints>> points = new MutableLiveData<>();
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
-                points.addAll(pointsDao.getAllPoints());
-                countDownLatch.countDown();
+                points.postValue(pointsDao.getAllPoints());
             }
-        }).start();
-        countDownLatch.await(2, TimeUnit.SECONDS);
+        });
         return points;
     }
 
@@ -111,21 +106,15 @@ public class DbRepository {
             }
         });
     }
-    //
 
-    // Table chosen_programs
-    public List<ChosenProgram> getAllChosenPrograms() throws InterruptedException {
-        final List<ChosenProgram> programs = new ArrayList<>();
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        new Thread(new Runnable() {
+    public MutableLiveData<List<ChosenProgram>> getAllChosenPrograms() {
+        MutableLiveData<List<ChosenProgram>> programs = new MutableLiveData<>();
+        executorService.execute(new Runnable() {
             @Override
             public void run() {
-                programs.addAll(chosenProgramDao.getAllChosenPrograms());
-                countDownLatch.countDown();
+                programs.postValue(chosenProgramDao.getAllChosenPrograms());
             }
-        }).start();
-        countDownLatch.await(2, TimeUnit.SECONDS);
-        //TODO add to executor service
+        });
         return programs;
     }
 

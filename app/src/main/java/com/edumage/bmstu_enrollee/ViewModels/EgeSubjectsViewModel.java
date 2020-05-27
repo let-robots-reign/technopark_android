@@ -29,6 +29,10 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
         return data;
     }
 
+    public LiveData<List<ExamPoints>> getExamPoints() {
+        return repository.getAllPoints();
+    }
+
     public void replaceAllPoints(final List<EGESubject> egeSubjectList) {
         new Thread(new Runnable() {
             @Override
@@ -44,9 +48,9 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
         }).start();
     }
 
-    public void applyEgeScore() throws InterruptedException {
+
+    public void applyEgeScore(List<ExamPoints> exams) {
         //TODO maybe need another thread
-        List<ExamPoints> exams = repository.getAllPoints();
         ArrayList<EGESubject> list = data.getValue();
         if (list == null) return;
         for (ExamPoints exam : exams) {
