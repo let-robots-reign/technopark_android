@@ -48,6 +48,7 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
         }).start();
     }
 
+
     public void applyEgeScore(List<ExamPoints> exams) {
         //TODO maybe need another thread
         ArrayList<EGESubject> list = data.getValue();
@@ -88,10 +89,5 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
             i++;
         }
         data.setValue(res);
-    }
-
-
-    public void updateDisciplines() {
-
     }
 }

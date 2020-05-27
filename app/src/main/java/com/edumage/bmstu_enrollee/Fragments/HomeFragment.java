@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
@@ -22,7 +23,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
 import com.edumage.bmstu_enrollee.Adapters.ExamScoresAdapter;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
@@ -54,7 +54,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class HomeFragment extends Fragment implements View.OnClickListener, DocumentStepsAdapter.DoneClickListener {
     private ExamScoresAdapter examScoresAdapter;
     private DocumentStepsAdapter stepsAdapter;
-    private RecyclerView examResults;
     private RecyclerView steps;
 
     private List<TextView> scoresTexts;
@@ -93,6 +92,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 }
             }
         });
+
     }
 
     @Override
@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         });
     }
 
-    private void createScoresList() {
+    private void createScoresList() throws InterruptedException {
         // get exam scores from DB
         List<ExamScore> examResults = new ArrayList<>();
         for (ExamPoints p : examPoints) {
@@ -165,7 +165,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                         //userscores.get(i).setVisibility(View.INVISIBLE);
                     }
                 } else {
-                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload) + " " + scores.get(0));
+                    String lastReload = getResources().getString(R.string.last_reload) + " " + scores.get(0);
+                    scoresTexts.get(0).setText(lastReload);
                     for (int i = 1; i < scores.size(); ++i) {
                         scoresTexts.get(i).setVisibility(View.VISIBLE);
                         scoresTexts.get(i).setText(scores.get(i));
@@ -236,6 +237,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
             }
         });
 
+
         ImageView changeName = rootView.findViewById(R.id.edit_name);
         changeName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -244,6 +246,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 navController.navigate(R.id.action_home_tab_to_userFragment);
             }
         });
+
 
         model.getMainData().observe(getViewLifecycleOwner(), new Observer<Pair<List<ExamPoints>, List<ChosenProgram>>>() {
             @Override
@@ -271,25 +274,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         steps.scrollToPosition(getCurrentStepPosition());
 
         scoresTexts = Arrays.asList(
-                (TextView) rootView.findViewById(R.id.last_reload),
-                (TextView) rootView.findViewById(R.id.score1),
-                (TextView) rootView.findViewById(R.id.score2),
-                (TextView) rootView.findViewById(R.id.score3));
+                rootView.findViewById(R.id.last_reload),
+                rootView.findViewById(R.id.score1),
+                rootView.findViewById(R.id.score2),
+                rootView.findViewById(R.id.score3));
 
         progressBars = Arrays.asList(
-                (ProgressBar) rootView.findViewById(R.id.progress1),
-                (ProgressBar) rootView.findViewById(R.id.progress2),
-                (ProgressBar) rootView.findViewById(R.id.progress3));
+                rootView.findViewById(R.id.progress1),
+                rootView.findViewById(R.id.progress2),
+                rootView.findViewById(R.id.progress3));
 
         downloadIcons = Arrays.asList(
-                (ImageView) rootView.findViewById(R.id.ic1),
-                (ImageView) rootView.findViewById(R.id.ic2),
-                (ImageView) rootView.findViewById(R.id.ic3));
+                rootView.findViewById(R.id.ic1),
+                rootView.findViewById(R.id.ic2),
+                rootView.findViewById(R.id.ic3));
 
         List<TextView> yourscores = Arrays.asList(
-                (TextView) rootView.findViewById(R.id.yourscore1),
-                (TextView) rootView.findViewById(R.id.yourscore2),
-                (TextView) rootView.findViewById(R.id.yourscore3));
+                rootView.findViewById(R.id.yourscore1),
+                rootView.findViewById(R.id.yourscore2),
+                rootView.findViewById(R.id.yourscore3));
 
         ImageView edit_ege = rootView.findViewById(R.id.edit_ege);
         ImageView edit_disciplines = rootView.findViewById(R.id.edit_disciplines);
@@ -298,14 +301,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
 
         // displaying the programs user has chosen
         List<TextView> programsTexts = Arrays.asList(
-                (TextView) rootView.findViewById(R.id.program1),
-                (TextView) rootView.findViewById(R.id.program2),
-                (TextView) rootView.findViewById(R.id.program3));
+                rootView.findViewById(R.id.program1),
+                rootView.findViewById(R.id.program2),
+                rootView.findViewById(R.id.program3));
 
         userscores = Arrays.asList(
-                (TextView) rootView.findViewById(R.id.userscore1),
-                (TextView) rootView.findViewById(R.id.userscore2),
-                (TextView) rootView.findViewById(R.id.userscore3));
+                rootView.findViewById(R.id.userscore1),
+                rootView.findViewById(R.id.userscore2),
+                rootView.findViewById(R.id.userscore3));
 
         model.getUserscoresLiveData().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
             @Override
@@ -357,11 +360,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         adb.setMessage(R.string.explanation_passing_score);
         AlertDialog ad = adb.create();
         ad.show();
-    }
-
-    void notifyEGEChanged() {
-        createScoresList();
-        examResults.setAdapter(examScoresAdapter);
     }
 
     private DocumentStepStatus getDocumentCardStatus(int cardNumber) {

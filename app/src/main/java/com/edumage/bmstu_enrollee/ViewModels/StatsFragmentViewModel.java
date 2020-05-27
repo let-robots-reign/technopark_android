@@ -79,6 +79,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
         return hasConnection;
     }
 
+
     public LiveData<List<List<Entry>>> getMainData() {
         return mainData;
     }
@@ -112,7 +113,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     }
 
     public void loadBudgetFundedScores(final String programName) {
-        finishedParsing.setValue(false);
+        /*finishedParsing.setValue(false);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -136,12 +137,36 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 });
             }
         });
-        thread.start();
+        thread.start();*/
+        finishedParsing.setValue(false);
+      StatsScoresParsing.getInstance().pushTask(new Runnable() {
+          @Override
+          public void run() {
+              final boolean conn = getConnectionStatus();
+              final List<Entry> scores = new ArrayList<>();
+              StatsScoresParsing instance = StatsScoresParsing.getInstance();
+
+              try {
+                  scores.addAll(instance.parseBudgetFundedScores(programName));
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+
+              handler.post(new Runnable() {
+                  @Override
+                  public void run() {
+                      hasConnection.setValue(conn);
+                      budgetFundedScores.setValue(scores);
+                      finishedParsing.setValue(true);
+                  }
+              });
+          }
+      });
     }
 
     public void loadIndustryFundedScores(final String programName) {
         finishedParsing.setValue(false);
-        Thread thread = new Thread(new Runnable() {
+      /*  Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 final boolean conn = getConnectionStatus();
@@ -164,6 +189,30 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 });
             }
         });
-        thread.start();
+        thread.start();*/
+
+      StatsScoresParsing.getInstance().pushTask(new Runnable() {
+          @Override
+          public void run() {
+              final boolean conn = getConnectionStatus();
+              final List<Entry> scores = new ArrayList<>();
+              StatsScoresParsing instance = StatsScoresParsing.getInstance();
+
+              try {
+                  scores.addAll(instance.parseIndustryFundedScores(programName));
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+
+              handler.post(new Runnable() {
+                  @Override
+                  public void run() {
+                      hasConnection.setValue(conn);
+                      industryFundedScores.setValue(scores);
+                      finishedParsing.setValue(true);
+                  }
+              });
+          }
+      });
     }
 }

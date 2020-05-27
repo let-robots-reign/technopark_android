@@ -1,7 +1,6 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
 import android.animation.Animator;
-import android.animation.TimeInterpolator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -17,10 +16,10 @@ import android.widget.Toast;
 import com.edumage.bmstu_enrollee.Adapters.BuildingAdapter;
 import com.edumage.bmstu_enrollee.BuildingItem;
 import com.edumage.bmstu_enrollee.R;
-import com.edumage.bmstu_enrollee.SplashActivity;
 import com.edumage.bmstu_enrollee.ViewModels.BuildingViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -91,9 +90,9 @@ public class BuildingFragment extends Fragment implements BuildingAdapter.Buildi
             }
         });
 
-        model.list.observe(this, new Observer<ArrayList<BuildingItem>>() {
+        model.list.observe(this, new Observer<List<BuildingItem>>() {
             @Override
-            public void onChanged(ArrayList<BuildingItem> buildingItems) {
+            public void onChanged(List<BuildingItem> buildingItems) {
                 if (buildingItems != null) {
                     adapter.setData(buildingItems);
                     adapter.notifyDataSetChanged();

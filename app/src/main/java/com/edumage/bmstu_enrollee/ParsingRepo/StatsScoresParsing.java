@@ -11,11 +11,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class StatsScoresParsing {
 
     private final Integer MAX_SCORE = 311;
     private static StatsScoresParsing instance;
+
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+
+    public void pushTask(Runnable runnable){
+        executorService.execute(runnable);
+    }
+
+    public static void init(){
+        instance= new StatsScoresParsing();
+    }
 
     public static StatsScoresParsing getInstance() {
         if (instance == null) {

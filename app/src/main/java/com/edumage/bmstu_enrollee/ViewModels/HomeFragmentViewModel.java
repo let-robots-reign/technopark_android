@@ -62,7 +62,9 @@ public class HomeFragmentViewModel extends AndroidViewModel {
         });
     }
 
+
     public void init(List<ChosenProgram> programs, List<ExamPoints> exams) {
+
         programsNames = programs;
         scoresLiveData.setValue(new ArrayList<String>());
         filesLiveData.setValue(new ArrayList<String>());
@@ -99,6 +101,7 @@ public class HomeFragmentViewModel extends AndroidViewModel {
         return mainData;
     }
 
+
     public LiveData<UserInfo> getUserInfo() {
         return repository.getUserInfo();
     }
@@ -124,7 +127,7 @@ public class HomeFragmentViewModel extends AndroidViewModel {
     }
 
     private void loadScores() {
-        Thread thread = new Thread(new Runnable() {
+        /*Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 final List<String> scores = new ArrayList<>();
@@ -162,11 +165,49 @@ public class HomeFragmentViewModel extends AndroidViewModel {
                 }
             }
         });
-        thread.start();
+        thread.start();*/
+        CurrentScoresParsing.getInstance().pushTask(new Runnable() {
+            @Override
+            public void run() {
+                final List<String> scores = new ArrayList<>();
+                CurrentScoresParsing instance = CurrentScoresParsing.getInstance();
+                // firstly, add info about last update
+                try {
+                    scores.add(instance.getLastUpdate());
+                } catch (IOException e) {
+                    scores.add("неизвестно");
+                }
+                String score;
+                // retrieving info about passing scores
+                for (ChosenProgram program : programsNames) {
+                    if (!isNetworkConnected(getApplication())) {
+                        score = "Нет сети";
+                    } else if (!hasInternetAccess()) {
+                        score = "Нет интернета";
+                    } else {
+                        try {
+                            score = instance.parseScore(program.getProgramName());
+                        } catch (IOException e) {
+                            score = "Ошибка";
+                            e.printStackTrace();
+                        }
+                    }
+                    scores.add(score);
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scoresLiveData.setValue(scores);
+                        }
+                    });
+
+                }
+            }
+        });
     }
 
     private void loadFiles() {
-        Thread thread = new Thread(new Runnable() {
+        /*Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 final List<String> fileUrls = new ArrayList<>();
@@ -189,6 +230,29 @@ public class HomeFragmentViewModel extends AndroidViewModel {
                 }
             }
         });
-        thread.start();
+        thread.start();*/
+        CurrentFilesParsing.getInstance().pushTask(new Runnable() {
+            @Override
+            public void run() {
+                final List<String> fileUrls = new ArrayList<>();
+                CurrentFilesParsing instance = CurrentFilesParsing.getInstance();
+                String fileUrl = null;
+                for (ChosenProgram program: programsNames) {
+                    try {
+                        fileUrl = instance.parseFile(program.getProgramName());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    fileUrls.add(fileUrl);
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            filesLiveData.setValue(fileUrls);
+                        }
+                    });
+                }
+            }
+        });
     }
 }

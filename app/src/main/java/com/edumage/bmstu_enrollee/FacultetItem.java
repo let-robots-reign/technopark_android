@@ -2,9 +2,9 @@ package com.edumage.bmstu_enrollee;
 
 public class FacultetItem {
 
-    String nameShort;
-    String nameLong;
-    int image;
+    private String nameShort;
+    private String nameLong;
+    private int image;
 
     public FacultetItem(String nm, String name, int img){
         nameShort = nm;

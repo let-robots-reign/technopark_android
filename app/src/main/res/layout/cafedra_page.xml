@@ -15,144 +15,139 @@
         android:paddingEnd="8dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
         android:layout_below="@id/toolbar">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/full_name_cafedra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:paddingVertical="15dp"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:text="Cafedra" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:paddingVertical="8dp"
+                android:paddingStart="10dp"
+                android:text="@string/specialties_names"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/kod_spec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="153.0.0.5"
+                android:textColor="@color/black"
+                android:padding="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:paddingVertical="8dp"
+                android:paddingStart="10dp"
+                android:text="@string/cafedra_description"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/full_describe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:textColor="@color/black"
+                android:textIsSelectable="true"
+                tools:text="Describe cafedra"
+                android:padding="8dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:paddingVertical="8dp"
+                android:paddingStart="10dp"
+                android:text="@string/educational_plan"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:id="@+id/plans_texts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/full_name_cafedra"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="15dp"
-                    android:paddingStart="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    tools:text="Cafedra" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:paddingVertical="8dp"
-                    android:paddingStart="10dp"
-                    android:text="Наименования специальностей"
-                    android:textColor="@color/white"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/kod_spec"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:text="153.0.0.5"
-                    android:textColor="@color/black"
-                    android:padding="8dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:paddingVertical="8dp"
-                    android:paddingStart="10dp"
-                    android:text="Описание кафедры"
-                    android:textColor="@color/white"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/full_describe"
+                    android:id="@+id/plan_of_study"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autoLink="all"
                     android:textColor="@color/black"
                     android:textIsSelectable="true"
-                    tools:text="Describe cafedra"
-                    android:padding="8dp"/>
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:paddingVertical="8dp"
-                    android:paddingStart="10dp"
-                    android:text="Учебный план"
-                    android:textColor="@color/white"
-                    android:textSize="17sp" />
-
-                <LinearLayout
-                    android:id="@+id/plans_texts"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:id="@+id/plan_of_study"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:autoLink="all"
-                        android:textColor="@color/black"
-                        android:textIsSelectable="true"
-                        tools:text="Plan"
-                        android:textSize="24sp"
-                        android:focusable="false"
-                        android:visibility="gone"/>
-
-                </LinearLayout>
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:paddingVertical="8dp"
-                    android:paddingStart="10dp"
-                    android:text="Ссылка на сайт кафедры"
-                    android:textColor="@color/white"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/link"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:autoLink="all"
-                    android:textColorLink="@color/colorPrimaryDark"
-                    android:textIsSelectable="true"
-                    tools:text="Link"
-                    android:padding="8dp"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:paddingVertical="8dp"
-                    android:paddingStart="10dp"
-                    android:text="Общежитие"
-                    android:textColor="@color/white"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/hostel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    tools:text="Hostel"
-                    android:padding="8dp"/>
+                    tools:text="Plan"
+                    android:textSize="24sp"
+                    android:focusable="false"
+                    android:visibility="gone"/>
 
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:paddingVertical="8dp"
+                android:paddingStart="10dp"
+                android:text="@string/link_to_site"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:textColorLink="@color/colorPrimaryDark"
+                android:textIsSelectable="true"
+                tools:text="Link"
+                android:padding="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:paddingVertical="8dp"
+                android:paddingStart="10dp"
+                android:text="@string/hostel"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/hostel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                tools:text="Hostel"
+                android:padding="8dp"/>
+
+        </LinearLayout>
+    </ScrollView>
 
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"

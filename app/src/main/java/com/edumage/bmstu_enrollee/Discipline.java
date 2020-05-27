@@ -1,11 +1,6 @@
 package com.edumage.bmstu_enrollee;
 
-import android.content.Context;
-
-import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Discipline implements Serializable {
 

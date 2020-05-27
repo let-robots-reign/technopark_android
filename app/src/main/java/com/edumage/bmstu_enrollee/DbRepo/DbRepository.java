@@ -2,27 +2,41 @@ package com.edumage.bmstu_enrollee.DbRepo;
 
 import android.app.Application;
 
-
 import com.edumage.bmstu_enrollee.DbDaos.ChosenProgramDao;
 import com.edumage.bmstu_enrollee.DbDaos.ExamPointsDao;
 import com.edumage.bmstu_enrollee.DbDaos.UserInfoDao;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
+import com.google.android.material.appbar.AppBarLayout;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class DbRepository {
     private UserInfoDao userDao;
     private ExamPointsDao pointsDao;
     private ChosenProgramDao chosenProgramDao;
 
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+    private static DbRepository repository;
+
+    private ExecutorService executorService=Executors.newSingleThreadExecutor();
+
+    public static void init(Application application){
+        repository = new DbRepository(application);
+    }
+
+    public static DbRepository getInstance(){
+        return repository;
+    }
 
     public DbRepository(Application application) {
         DataBase dataBase = DataBase.getInstance(application);
@@ -32,6 +46,7 @@ public class DbRepository {
     }
 
     // Table user_info
+
     public LiveData<UserInfo> getUserInfo() {
         MutableLiveData<UserInfo> userInfo = new MutableLiveData<>();
         executorService.execute(new Runnable() {
@@ -48,17 +63,19 @@ public class DbRepository {
             @Override
             public void run() {
                 userDao.insertUserInfo(info);
-            }
         });
     }
 
+
+
     public void replaceUserInfo(final UserInfo info) {
-        executorService.execute(new Runnable() {
+        Runnable runable = new Runnable() {
             @Override
             public void run() {
                 userDao.replaceUserInfo(info);
             }
-        });
+        };
+        executorService.execute(runable);
     }
 
     public void deleteAllInfo() {
@@ -69,9 +86,7 @@ public class DbRepository {
             }
         });
     }
-    //
 
-    // Table exam_points
     public MutableLiveData<List<ExamPoints>> getAllPoints() {
         MutableLiveData<List<ExamPoints>> points = new MutableLiveData<>();
         executorService.execute(new Runnable() {
@@ -91,9 +106,7 @@ public class DbRepository {
             }
         });
     }
-    //
 
-    // Table chosen_programs
     public MutableLiveData<List<ChosenProgram>> getAllChosenPrograms() {
         MutableLiveData<List<ChosenProgram>> programs = new MutableLiveData<>();
         executorService.execute(new Runnable() {
@@ -113,5 +126,4 @@ public class DbRepository {
             }
         });
     }
-    //
 }
