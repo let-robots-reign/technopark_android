@@ -1,6 +1,6 @@
 package com.edumage.bmstu_enrollee.ParsingRepo;
 
-import com.github.mikephil.charting.data.Entry;
+import com.edumage.bmstu_enrollee.chartingData.Entry;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

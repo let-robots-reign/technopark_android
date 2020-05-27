@@ -63,6 +63,7 @@ public class DbRepository {
             @Override
             public void run() {
                 userDao.insertUserInfo(info);
+            }
         });
     }
 

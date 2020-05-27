@@ -22,7 +22,7 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
 
     public EgeSubjectsViewModel(@NonNull Application application) {
         super(application);
-        repository = new DbRepository(application);
+        repository = DbRepository.getInstance();
     }
 
     public LiveData<ArrayList<EGESubject>> getData() {
@@ -34,32 +34,20 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
     }
 
     public void replaceAllPoints(final List<EGESubject> egeSubjectList) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                List<ExamPoints> points = new ArrayList<>();
-                for (int i = 0; i < egeSubjectList.size(); i++) {
-                    EGESubject subject = egeSubjectList.get(i);
-                    points.add(new ExamPoints(subject.getName(), subject.getScore(), subject.getId()));
-                }
-                repository.replaceAllPoints(points);
-                //if(!updateDiscipline)return;
-            }
-        }).start();
+        List<ExamPoints> points = new ArrayList<>();
+        for (int i = 0; i < egeSubjectList.size(); i++) {
+            EGESubject subject = egeSubjectList.get(i);
+            points.add(new ExamPoints(subject.getName(), subject.getScore(), subject.getId()));
+        }
+        repository.replaceAllPoints(points);
     }
 
 
     public void applyEgeScore(List<ExamPoints> exams) {
-        //TODO maybe need another thread
         ArrayList<EGESubject> list = data.getValue();
         if (list == null) return;
         for (ExamPoints exam : exams) {
             for (EGESubject ege : list) {
-                /*if (ege.getName().equals(exam.getExamName())) {
-                    ege.setPassed(true);
-                    ege.setScore(exam.getExamScore());
-                    break;
-                }*/
                 if (ege.getId() == exam.getSubjectId()) {
                     ege.setPassed(true);
                     ege.setScore(exam.getExamScore());

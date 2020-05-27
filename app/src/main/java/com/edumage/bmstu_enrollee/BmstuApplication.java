@@ -3,6 +3,7 @@ package com.edumage.bmstu_enrollee;
 import android.app.Application;
 
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
+import com.edumage.bmstu_enrollee.ParsingRepo.NewsParsing;
 import com.edumage.bmstu_enrollee.ParsingRepo.StatsScoresParsing;
 
 import java.util.concurrent.TimeUnit;
@@ -27,6 +28,7 @@ public class BmstuApplication extends Application {
         DbRepository.init(this);
         XmlDataStorage.init();
         StatsScoresParsing.init();
+        NewsParsing.init();
     }
 
     private void scheduleWork() {

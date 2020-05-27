@@ -39,7 +39,7 @@ public class HomeFragmentViewModel extends AndroidViewModel {
 
     public HomeFragmentViewModel(@NonNull Application application) {
         super(application);
-        repository = new DbRepository(application);
+        repository = DbRepository.getInstance();
 
         examPoints.setValue(new ArrayList<>());
         programs.setValue(new ArrayList<>());

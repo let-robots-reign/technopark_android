@@ -21,7 +21,7 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.Entry;
+import com.edumage.bmstu_enrollee.chartingData.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
@@ -72,22 +72,7 @@ public class StatsFragment extends Fragment {
 
         model = new ViewModelProvider(this).get(StatsFragmentViewModel.class);
 
-        model.getAllChosenPrograms().observe(this, new Observer<List<ChosenProgram>>() {
-            @Override
-            public void onChanged(List<ChosenProgram> chosenPrograms) {
-                if (chosenPrograms != null) {
-                    chosenProgramList = chosenPrograms;
-                    // to get the program name from its full name, we need to slice an array of words)
-                    if (!chosenProgramList.isEmpty()) {
-                        curProgram = getProgramShortName(chosenProgramList.get(0).getProgramName());
-                    }
-
-                    if (savedInstanceState == null) {
-                        model.init(curProgram);
-                    }
-                }
-            }
-        });
+        //model.updateProgram();
 
 
         model.getHasConnection().observe(StatsFragment.this, new Observer<Boolean>() {
@@ -141,11 +126,29 @@ public class StatsFragment extends Fragment {
         budgetBox.setChecked(budgetBoxValue);
         targetBox.setChecked(targetBoxValue);
 
-        model.getAllChosenPrograms().observe(getViewLifecycleOwner(), new Observer<List<ChosenProgram>>() {
+       /* model.getAllChosenPrograms().observe(getViewLifecycleOwner(), new Observer<List<ChosenProgram>>() {
             @Override
             public void onChanged(List<ChosenProgram> chosenPrograms) {
-                if (chosenPrograms != null)
+
+            }
+        });*/
+
+
+        model.chosenProgram.observe(getViewLifecycleOwner(), new Observer<List<ChosenProgram>>() {
+            @Override
+            public void onChanged(List<ChosenProgram> chosenPrograms) {
+                if (chosenPrograms != null) {
+                    chosenProgramList = chosenPrograms;
+                    // to get the program name from its full name, we need to slice an array of words)
+                    if (!chosenProgramList.isEmpty()) {
+                        curProgram = getProgramShortName(chosenProgramList.get(0).getProgramName());
+                    }
+
+                    if (savedInstanceState == null) {
+                        model.init(curProgram);
+                    }
                     initViews();
+                }
             }
         });
 
@@ -157,7 +160,7 @@ public class StatsFragment extends Fragment {
                 LineData lineData = new LineData();
 
                 List<Entry> budgetList = lists.get(StatsFragmentViewModel.BUDGET_INDEX);
-                LineDataSet dataSet = new LineDataSet(budgetList,
+                LineDataSet dataSet = new LineDataSet(Entry.toEntryList(budgetList),
                         getResources().getString(R.string.stats_screen_budget_label));
                 dataSet.setLineWidth(3f);
 
@@ -168,7 +171,7 @@ public class StatsFragment extends Fragment {
 
 
                 List<Entry> entries = lists.get(StatsFragmentViewModel.INDUSTRY_INDEX);
-                LineDataSet nextDataSet = new LineDataSet(entries,
+                LineDataSet nextDataSet = new LineDataSet(Entry.toEntryList(entries),
                         getResources().getString(R.string.stats_screen_target_label));
                 nextDataSet.setLineWidth(3f);
                 nextDataSet.setCircleColor(getResources().getColor(R.color.targetYellow));
@@ -188,6 +191,12 @@ public class StatsFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        model.updateProgram();
+        super.onResume();
     }
 
     private void initViews() {

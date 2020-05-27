@@ -14,10 +14,12 @@ import androidx.lifecycle.Observer;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 import com.edumage.bmstu_enrollee.ParsingRepo.StatsScoresParsing;
-import com.github.mikephil.charting.data.Entry;
+//import com.github.mikephil.charting.data.Entry;
+import com.edumage.bmstu_enrollee.chartingData.Entry;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.edumage.bmstu_enrollee.ConnectionCheck.hasInternetAccess;
@@ -30,6 +32,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     private final MutableLiveData<List<Entry>> industryFundedScores = new MutableLiveData<>();
     private final MediatorLiveData<List<List<Entry>>> mainData= new MediatorLiveData<>();
     private final MutableLiveData<Boolean> finishedParsing = new MutableLiveData<>();
+    public final MediatorLiveData<List<ChosenProgram>> chosenProgram = new MediatorLiveData<>();
     private Handler handler = new Handler(Looper.getMainLooper());
 
     public static final int BUDGET_INDEX=0;
@@ -48,6 +51,9 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                     list.add(new ArrayList<Entry>());
                     list.add(new ArrayList<Entry>());
                 }
+                if(compareEntries(list.get(BUDGET_INDEX),entries)){
+                    return;
+                }
                 list.set(BUDGET_INDEX,entries);
                 mainData.setValue(list);
             }
@@ -62,10 +68,25 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                     list.add(new ArrayList<Entry>());
                     list.add(new ArrayList<Entry>());
                 }
+                if(compareEntries(list.get(INDUSTRY_INDEX),entries)){
+                    return;
+                }
                 list.set(INDUSTRY_INDEX,entries);
                 mainData.setValue(list);
             }
         });
+    }
+
+    //true is equals
+    public boolean compareEntries(List<Entry> list1, List<Entry> list2){
+       //TODO compare list entry does not work
+        if(list1.containsAll(list2)&& list2.containsAll(list1)){
+            return true;
+        } else {
+            return false;
+        }
+
+
     }
 
     public void init(String programName) {
@@ -84,8 +105,13 @@ public class StatsFragmentViewModel extends AndroidViewModel {
         return mainData;
     }
 
-    public LiveData<List<ChosenProgram>> getAllChosenPrograms() {
-        return repository.getAllChosenPrograms();
+    public void updateProgram() {
+        chosenProgram.addSource(repository.getAllChosenPrograms(), new Observer<List<ChosenProgram>>() {
+            @Override
+            public void onChanged(List<ChosenProgram> chosenPrograms) {
+                chosenProgram.setValue(chosenPrograms);
+            }
+        });
     }
 
     public LiveData<List<Entry>> getBudgetFundedScores() {

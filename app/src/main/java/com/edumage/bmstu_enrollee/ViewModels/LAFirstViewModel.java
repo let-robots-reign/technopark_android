@@ -27,7 +27,7 @@ public class LAFirstViewModel extends AndroidViewModel {
 
     public LAFirstViewModel(@NonNull Application application) {
         super(application);
-        repository = new DbRepository(application);
+        repository = DbRepository.getInstance();
     }
 
     public LiveData<UserInfo> getUserInfo() {

@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     private List<ChosenProgram> programs;
     private List<ExamPoints> examPoints;
     private HomeFragmentViewModel model;
+    private  RecyclerView examResults;
 
     private static final int EGE_EDIT_DIALOG = 0;
     private static final int DISCIPLINES_EDIT_DIALOG = 1;
@@ -76,6 +77,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
 
         model = new ViewModelProvider(this).get(HomeFragmentViewModel.class);
 
+        examScoresAdapter =  new ExamScoresAdapter();
+
         model.getMainData().observe(this, new Observer<Pair<List<ExamPoints>, List<ChosenProgram>>>() {
             @Override
             public void onChanged(Pair<List<ExamPoints>, List<ChosenProgram>> pair) {
@@ -87,7 +90,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                         model.init(programs, pair.first);
                     }
 
-                    createScoresList();
+                    examScoresAdapter.setDataExamPoints(pair.first);
                     createDocumentStepsList();
                 }
             }
@@ -101,23 +104,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         model.getMainData().observe(this, new Observer<Pair<List<ExamPoints>, List<ChosenProgram>>>() {
             @Override
             public void onChanged(Pair<List<ExamPoints>, List<ChosenProgram>> pair) {
-                if (pair.first != null && pair.second != null)
+                if (pair.first != null && pair.second != null) {
                     startParsing();
+                }
             }
         });
     }
 
-    private void createScoresList() throws InterruptedException {
-        // get exam scores from DB
-        List<ExamScore> examResults = new ArrayList<>();
-        for (ExamPoints p : examPoints) {
-            examResults.add(new ExamScore(p.getExamName(), p.getExamScore()));
-        }
-        examScoresAdapter = new ExamScoresAdapter(examResults);
-    }
-
     private void createDocumentStepsList() {
-        List<DocumentStep> steps = new ArrayList<>();
+        List<DocumentStep> steps = new ArrayList<DocumentStep>();
         String[] budgetSteps = getResources().getStringArray(R.array.application_steps);
         for (int i = 0; i < budgetSteps.length; ++i) {
             steps.add(new DocumentStep(budgetSteps[i], getDocumentCardStatus(i)));

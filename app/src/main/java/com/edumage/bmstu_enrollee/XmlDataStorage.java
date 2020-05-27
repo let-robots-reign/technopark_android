@@ -39,6 +39,10 @@ public class XmlDataStorage {
         return instance;
     }
 
+    public void pushTask(Runnable runnable){
+        executorService.execute(runnable);
+    }
+
     public MutableLiveData<List<BuildingItem>> parseBuilding(@NotNull final Context context,final int xml)  {
 
        final  MutableLiveData<List<BuildingItem>> res=  new MutableLiveData<>();
