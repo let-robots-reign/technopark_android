@@ -7,14 +7,17 @@ import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.XmlDataStorage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 public class BuildingViewModel extends AndroidViewModel {
 
-    public final MutableLiveData<ArrayList<BuildingItem>> list = new MutableLiveData<>();
+    public final MediatorLiveData<List<BuildingItem>> list = new MediatorLiveData<>();
     public final MutableLiveData<ParsingState> state = new MutableLiveData<>();
 
     public BuildingViewModel(@NonNull Application application) {
@@ -37,7 +40,16 @@ public class BuildingViewModel extends AndroidViewModel {
 
         final int xml_file = xml;
 
-        new Thread(new Runnable() {
+        MutableLiveData<List<BuildingItem>> res= XmlDataStorage.getInstance().parseBuilding(getApplication(), xml_file);
+        list.addSource(res, new Observer<List<BuildingItem>>() {
+            @Override
+            public void onChanged(List<BuildingItem> buildingItems) {
+                list.postValue(buildingItems);
+                state.postValue(ParsingState.SUCCESS);
+            }
+        });
+
+     /*   new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -49,7 +61,7 @@ public class BuildingViewModel extends AndroidViewModel {
                     state.postValue(ParsingState.FAILURE);
                 }
             }
-        }).start();
+        }).start();*/
     }
 
     public enum ParsingState {

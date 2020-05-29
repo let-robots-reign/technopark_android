@@ -11,16 +11,29 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class NewsParsing {
     private final String BASE_URL = "https://bmstu.ru";
     private static NewsParsing instance;
+
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public static NewsParsing getInstance() {
         if (instance == null) {
             instance = new NewsParsing();
         }
         return instance;
+    }
+
+    public void pushTask(Runnable runnable){
+     executorService.execute(runnable);
+    }
+
+    public static void init(){
+        instance= new NewsParsing();
     }
 
     public List<NewsItem> parseNewsList(FeedType type) throws IOException {

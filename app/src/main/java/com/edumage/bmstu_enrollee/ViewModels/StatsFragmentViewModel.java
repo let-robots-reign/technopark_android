@@ -14,10 +14,12 @@ import androidx.lifecycle.Observer;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 import com.edumage.bmstu_enrollee.ParsingRepo.StatsScoresParsing;
-import com.github.mikephil.charting.data.Entry;
+//import com.github.mikephil.charting.data.Entry;
+import com.edumage.bmstu_enrollee.chartingData.Entry;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.edumage.bmstu_enrollee.ConnectionCheck.hasInternetAccess;
@@ -28,8 +30,9 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     private final MutableLiveData<Boolean> hasConnection = new MutableLiveData<>();
     private final MutableLiveData<List<Entry>> budgetFundedScores = new MutableLiveData<>();
     private final MutableLiveData<List<Entry>> industryFundedScores = new MutableLiveData<>();
-    public final MediatorLiveData<List<List<Entry>>> mainData= new MediatorLiveData<>();
+    private final MediatorLiveData<List<List<Entry>>> mainData= new MediatorLiveData<>();
     private final MutableLiveData<Boolean> finishedParsing = new MutableLiveData<>();
+    public final MediatorLiveData<List<ChosenProgram>> chosenProgram = new MediatorLiveData<>();
     private Handler handler = new Handler(Looper.getMainLooper());
 
     public static final int BUDGET_INDEX=0;
@@ -45,8 +48,11 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 List<List<Entry>> list = mainData.getValue();
                 if(list==null) {
                     list = new ArrayList<>();
-                    list.add(new ArrayList<>());
-                    list.add(new ArrayList<>());
+                    list.add(new ArrayList<Entry>());
+                    list.add(new ArrayList<Entry>());
+                }
+                if(compareEntries(list.get(BUDGET_INDEX),entries)){
+                    return;
                 }
                 list.set(BUDGET_INDEX,entries);
                 mainData.setValue(list);
@@ -59,8 +65,11 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 List<List<Entry>> list = mainData.getValue();
                 if(list==null){
                     list = new ArrayList<>();
-                    list.add(new ArrayList<>());
-                    list.add(new ArrayList<>());
+                    list.add(new ArrayList<Entry>());
+                    list.add(new ArrayList<Entry>());
+                }
+                if(compareEntries(list.get(INDUSTRY_INDEX),entries)){
+                    return;
                 }
                 list.set(INDUSTRY_INDEX,entries);
                 mainData.setValue(list);
@@ -68,9 +77,21 @@ public class StatsFragmentViewModel extends AndroidViewModel {
         });
     }
 
+    //true is equals
+    public boolean compareEntries(List<Entry> list1, List<Entry> list2){
+       //TODO compare list entry does not work
+        if(list1.containsAll(list2)&& list2.containsAll(list1)){
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
+
     public void init(String programName) {
-        budgetFundedScores.setValue(new ArrayList<>());
-        industryFundedScores.setValue(new ArrayList<>());
+        budgetFundedScores.setValue(new ArrayList<Entry>());
+        industryFundedScores.setValue(new ArrayList<Entry>());
         hasConnection.setValue(true);
         loadBudgetFundedScores(programName);
     }
@@ -79,8 +100,18 @@ public class StatsFragmentViewModel extends AndroidViewModel {
         return hasConnection;
     }
 
-    public List<ChosenProgram> getAllChosenPrograms() throws InterruptedException {
-        return repository.getAllChosenPrograms();
+
+    public LiveData<List<List<Entry>>> getMainData() {
+        return mainData;
+    }
+
+    public void updateProgram() {
+        chosenProgram.addSource(repository.getAllChosenPrograms(), new Observer<List<ChosenProgram>>() {
+            @Override
+            public void onChanged(List<ChosenProgram> chosenPrograms) {
+                chosenProgram.setValue(chosenPrograms);
+            }
+        });
     }
 
     public LiveData<List<Entry>> getBudgetFundedScores() {
@@ -96,11 +127,11 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     }
 
     public void clearBudgetFundedScores(){
-        budgetFundedScores.setValue(new ArrayList<>());
+        budgetFundedScores.setValue(new ArrayList<Entry>());
     }
 
     public void clearIndustryFundedScores(){
-        industryFundedScores.setValue(new ArrayList<>());
+        industryFundedScores.setValue(new ArrayList<Entry>());
     }
 
     private boolean getConnectionStatus() {
@@ -108,7 +139,7 @@ public class StatsFragmentViewModel extends AndroidViewModel {
     }
 
     public void loadBudgetFundedScores(final String programName) {
-        finishedParsing.setValue(false);
+        /*finishedParsing.setValue(false);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -132,12 +163,36 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 });
             }
         });
-        thread.start();
+        thread.start();*/
+        finishedParsing.setValue(false);
+      StatsScoresParsing.getInstance().pushTask(new Runnable() {
+          @Override
+          public void run() {
+              final boolean conn = getConnectionStatus();
+              final List<Entry> scores = new ArrayList<>();
+              StatsScoresParsing instance = StatsScoresParsing.getInstance();
+
+              try {
+                  scores.addAll(instance.parseBudgetFundedScores(programName));
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+
+              handler.post(new Runnable() {
+                  @Override
+                  public void run() {
+                      hasConnection.setValue(conn);
+                      budgetFundedScores.setValue(scores);
+                      finishedParsing.setValue(true);
+                  }
+              });
+          }
+      });
     }
 
     public void loadIndustryFundedScores(final String programName) {
         finishedParsing.setValue(false);
-        Thread thread = new Thread(new Runnable() {
+      /*  Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 final boolean conn = getConnectionStatus();
@@ -160,6 +215,30 @@ public class StatsFragmentViewModel extends AndroidViewModel {
                 });
             }
         });
-        thread.start();
+        thread.start();*/
+
+      StatsScoresParsing.getInstance().pushTask(new Runnable() {
+          @Override
+          public void run() {
+              final boolean conn = getConnectionStatus();
+              final List<Entry> scores = new ArrayList<>();
+              StatsScoresParsing instance = StatsScoresParsing.getInstance();
+
+              try {
+                  scores.addAll(instance.parseIndustryFundedScores(programName));
+              } catch (IOException e) {
+                  e.printStackTrace();
+              }
+
+              handler.post(new Runnable() {
+                  @Override
+                  public void run() {
+                      hasConnection.setValue(conn);
+                      industryFundedScores.setValue(scores);
+                      finishedParsing.setValue(true);
+                  }
+              });
+          }
+      });
     }
 }

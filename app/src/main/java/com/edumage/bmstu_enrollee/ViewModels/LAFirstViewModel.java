@@ -1,14 +1,19 @@
 package com.edumage.bmstu_enrollee.ViewModels;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
 import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 public class LAFirstViewModel extends AndroidViewModel {
     private DbRepository repository;
@@ -22,13 +27,11 @@ public class LAFirstViewModel extends AndroidViewModel {
 
     public LAFirstViewModel(@NonNull Application application) {
         super(application);
-        repository = new DbRepository(application);
+        repository = DbRepository.getInstance();
     }
 
-    public void init() throws InterruptedException {
-        UserInfo userInfo = repository.getUserInfo();
-        name.postValue(userInfo.getUserName());
-        date.postValue(userInfo.getUserBirthday());
+    public LiveData<UserInfo> getUserInfo() {
+        return repository.getUserInfo();
     }
 
     public void insertUserInfo(UserInfo info) {
