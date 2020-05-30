@@ -11,6 +11,7 @@ import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.EGESubject;
 import com.edumage.bmstu_enrollee.R;
+import com.edumage.bmstu_enrollee.XmlDataStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +27,10 @@ public class DisciplinesViewModel extends AndroidViewModel {
     private DbRepository repository;
 
     private MutableLiveData<ArrayList<Discipline>> data = new MutableLiveData<>();
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public DisciplinesViewModel(@NonNull Application application) {
         super(application);
-        repository = new DbRepository(application);
+        repository = DbRepository.getInstance();
     }
 
     public LiveData<ArrayList<Discipline>> getData() {
@@ -38,9 +38,6 @@ public class DisciplinesViewModel extends AndroidViewModel {
     }
 
     public void replaceAllPrograms(final List<Discipline> data) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
                 List<ChosenProgram> chosenPrograms = new ArrayList<>();
                 for (int i = 0; i < data.size(); i++) {
                     Discipline d = data.get(i);
@@ -49,111 +46,60 @@ public class DisciplinesViewModel extends AndroidViewModel {
                     }
                 }
                 repository.replaceAllPrograms(chosenPrograms);
-            }
-        };
-
-        executorService.execute(runnable);
     }
 
-    //применяет к текущим данным значение из базы данных
-    public void applyChosenProgram() {
-        final Handler handler = new Handler(Looper.getMainLooper());
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                final List<ChosenProgram> programs = new ArrayList<>();
-                try {
-                    programs.addAll(repository.getAllChosenPrograms());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<Discipline> list = data.getValue();
-                        Log.d("TH_TEST", "Apply program NULL");
-                        if (list == null) return;
-                        for (int i = 0; i < programs.size(); i++) {
-                            ChosenProgram program = programs.get(i);
-                            boolean found = false;
-                            for (Discipline d : list) {
-                                if (d.getFullName().equals(program.getProgramName())) {
-                                    d.setStatus(true);
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                programs.remove(i);
-                                i--;
-                            }
-                        }
-                        Log.d("TH_TEST", "Apply program");
-                        data.setValue(list);
-
-                        executorService.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                repository.replaceAllPrograms(programs);
-                            }
-                        });
-                    }
-                });
-            }
-        };
-        executorService.execute(runnable);
+    public LiveData<List<ExamPoints>> getExamPoints() {
+        return repository.getAllPoints();
     }
 
-    public void applySubjectThenProgram() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        };
+    public LiveData<List<ChosenProgram>> getChosenPrograms() {
+        return repository.getAllChosenPrograms();
     }
 
-    public void applyChosenSubjects() {
-        final Handler handler = new Handler(Looper.getMainLooper());
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                final List<ExamPoints> exams = new ArrayList<>();
-                try {
-                    exams.addAll(repository.getAllPoints());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                final ArrayList<Integer> id = new ArrayList<>();
-                for (ExamPoints exam : exams) {
-                    id.add(exam.getSubjectId());
-                }
-                Log.d("TH_TEST", "Apply Subject NULL");
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<Discipline> list = data.getValue();
-                        if (list == null) return;
-                        for (int j = 0; j < list.size(); j++) {
-                            Discipline d = list.get(j);
-                            int[] arr = d.getSubjects();
-                            for (int c : arr) {
-                                if (!id.contains(c)) {
-                                    list.remove(j);
-                                    j--;
-                                    break;
-                                }
-                            }
-                        }
-                        Log.d("TH_TEST", "Apply Subject");
-                        data.setValue(list);
-                    }
-                });
-            }
-        };
+    public void applyChosenProgram(final List<ChosenProgram> programs) {
 
-        executorService.execute(runnable);
+        ArrayList<Discipline> list = data.getValue();
+        Log.d("TH_TEST", "Apply program NULL");
+        if (list == null) return;
+        for (int i = 0; i < programs.size(); i++) {
+            ChosenProgram program = programs.get(i);
+            boolean found = false;
+            for (Discipline d : list) {
+                if (d.getFullName().equals(program.getProgramName())) {
+                    d.setStatus(true);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                programs.remove(i);
+                i--;
+            }
+        }
+        data.setValue(list);
+        repository.replaceAllPrograms(programs);
+    }
+
+    public void applyChosenSubjects(final List<ExamPoints> exams) {
+        final ArrayList<Integer> id = new ArrayList<>();
+        for (ExamPoints exam : exams) {
+            id.add(exam.getSubjectId());
+        }
+
+        ArrayList<Discipline> list = data.getValue();
+        if (list == null) return;
+        for (int j = 0; j < list.size(); j++) {
+            Discipline d = list.get(j);
+            int[] arr = d.getSubjects();
+            for (int c : arr) {
+                if (!id.contains(c)) {
+                    list.remove(j);
+                    j--;
+                    break;
+                }
+            }
+        }
+        data.setValue(list);
     }
 
     public void loadData() {
@@ -180,10 +126,11 @@ public class DisciplinesViewModel extends AndroidViewModel {
                 data.postValue(list);
             }
         };
+        XmlDataStorage.getInstance().pushTask(runnable);
 
-        executorService.execute(runnable);
     }
 
+    @SuppressWarnings("ConstantConditions")
     static int[] subjectsIdByCode(String code) {
         int[] res = new int[Discipline.NUMBER_OF_PASSING_EXAMS];
         switch (code) {

@@ -6,10 +6,24 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CurrentFilesParsing {
 
     private static CurrentFilesParsing instance;
+
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+
+    public static void init(){
+        instance= new CurrentFilesParsing();
+    }
+
+    public void pushTask(Runnable runnable){
+        executorService.execute(runnable);
+    }
 
     public static CurrentFilesParsing getInstance() {
         if (instance == null) {

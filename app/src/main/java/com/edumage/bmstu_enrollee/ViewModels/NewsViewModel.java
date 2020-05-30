@@ -28,10 +28,12 @@ public class NewsViewModel extends AndroidViewModel {
 
     public NewsViewModel(@NonNull Application application) {
         super(application);
-        newsList.setValue(new ArrayList<>());
+        newsList.setValue(new ArrayList<NewsItem>());
         newsContent.setValue(null);
         hasConnection.setValue(true);
     }
+
+
 
     public MutableLiveData<Boolean> getHasConnection() {
         return hasConnection;
@@ -50,7 +52,7 @@ public class NewsViewModel extends AndroidViewModel {
     }
 
     public void parseNewsList(final FeedType type) {
-        final Thread thread = new Thread(new Runnable() {
+        NewsParsing.getInstance().pushTask(new Runnable() {
             @Override
             public void run() {
                 final boolean conn = getConnectionStatus();
@@ -70,11 +72,10 @@ public class NewsViewModel extends AndroidViewModel {
                 });
             }
         });
-        thread.start();
     }
 
     public void parseNewsContent(final String URL) {
-        Thread thread = new Thread(new Runnable() {
+        NewsParsing.getInstance().pushTask(new Runnable() {
             @Override
             public void run() {
                 final boolean conn = getConnectionStatus();
@@ -95,6 +96,5 @@ public class NewsViewModel extends AndroidViewModel {
                 });
             }
         });
-        thread.start();
     }
 }
