@@ -8,12 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
 import com.edumage.bmstu_enrollee.EGESubject;
 import com.edumage.bmstu_enrollee.R;
 import com.edumage.bmstu_enrollee.ViewModels.EgeSubjectsViewModel;
 import com.edumage.bmstu_enrollee.WelcomeActivity;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import com.edumage.bmstu_enrollee.Adapters.EGEAdapter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -64,13 +67,22 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
             model.loadData();
         }
 
-        model.getData().observe(this, new Observer<ArrayList<EGESubject>>() {
+        model.getExamPoints().observe(this, new Observer<List<ExamPoints>>() {
             @Override
-            public void onChanged(ArrayList<EGESubject> egeSubjects) {
-                adapter.setData(egeSubjects);
-                adapter.notifyDataSetChanged();
+            public void onChanged(List<ExamPoints> examPoints) {
+                if (examPoints != null)
+                    model.applyEgeScore(examPoints);
+                model.getData().observe(LAFragmentSecond.this, new Observer<ArrayList<EGESubject>>() {
+                    @Override
+                    public void onChanged(ArrayList<EGESubject> egeSubjects) {
+                        adapter.setData(egeSubjects);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
+
+
     }
 
     @Nullable
@@ -95,23 +107,27 @@ public class LAFragmentSecond extends Fragment implements WelcomeActivity.Comple
 
     @Override
     public void onResume() {
-        adapter.notifyDataSetChanged();
+
+
         super.onResume();
     }
 
     @Override
     public void onPause() {
-       // model.replaceAllPoints(adapter.getPassed());
+
         super.onPause();
     }
 
+    @Override
+    public void onStop() {
+        model.replaceAllPoints(adapter.getPassed());
+        super.onStop();
+    }
 
 
     @Override
     public boolean isComplete() {
-
         model.replaceAllPoints(adapter.getPassed());
-
         return true;
     }
 }

@@ -45,6 +45,10 @@ public class DbRepository {
         chosenProgramDao = dataBase.chosenProgramDao();
     }
 
+    public void pushTask(Runnable runnable){
+        executorService.execute(runnable);
+    }
+
     // Table user_info
 
     public LiveData<UserInfo> getUserInfo() {

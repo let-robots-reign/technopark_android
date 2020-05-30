@@ -21,9 +21,11 @@ import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
-import com.edumage.bmstu_enrollee.chartingData.Entry;
+//import com.edumage.bmstu_enrollee.chartingData.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+
+import com.github.mikephil.charting.data.Entry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -160,7 +162,7 @@ public class StatsFragment extends Fragment {
                 LineData lineData = new LineData();
 
                 List<Entry> budgetList = lists.get(StatsFragmentViewModel.BUDGET_INDEX);
-                LineDataSet dataSet = new LineDataSet(Entry.toEntryList(budgetList),
+                LineDataSet dataSet = new LineDataSet((budgetList),
                         getResources().getString(R.string.stats_screen_budget_label));
                 dataSet.setLineWidth(3f);
 
@@ -171,7 +173,7 @@ public class StatsFragment extends Fragment {
 
 
                 List<Entry> entries = lists.get(StatsFragmentViewModel.INDUSTRY_INDEX);
-                LineDataSet nextDataSet = new LineDataSet(Entry.toEntryList(entries),
+                LineDataSet nextDataSet = new LineDataSet((entries),
                         getResources().getString(R.string.stats_screen_target_label));
                 nextDataSet.setLineWidth(3f);
                 nextDataSet.setCircleColor(getResources().getColor(R.color.targetYellow));
@@ -263,6 +265,11 @@ public class StatsFragment extends Fragment {
                 } else {
                     return;
                 }
+                if (budgetBox.isChecked()&&targetBox.isChecked()){
+                    model.loadAll(curProgram);
+                    return;
+                }
+
                 if (budgetBox.isChecked()) {
                     model.loadBudgetFundedScores(curProgram);
                 }
