@@ -2,12 +2,18 @@ package com.edumage.bmstu_enrollee.Adapters;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,7 +50,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
             Picasso.with(context).load(imgURL).into(holder.imageOfNews);
             holder.filterNews.setAlpha(0.2f);
             holder.textOfNews.setText(cardsNews.get(position).getTitle());
-            holder.halfOfNews.setBackgroundResource(colorsNews.get(position % colorsNews.size()));
+            if (position <= 4){
+                holder.halfOfNews.setBackgroundResource(colorsNews.get(position));
+            } else {
+                holder.halfOfNews.setBackgroundResource(colorsNews.get(5));
+            }
             holder.halfOfNews.setAlpha(0.9f);
             holder.textWithoutImg.setText("");
             if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -90,11 +100,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         public void onClick(View v) {
             int position = getAdapterPosition();
             NewsItem item = cardsNews.get(position);
-            newsListener.onNewsClick(item.getTitle(), item.getImgURL(), item.getLinkURL());
+            ColorDrawable color = (ColorDrawable) halfOfNews.getBackground();
+            Integer colorId = color.getColor();
+            newsListener.onNewsClick(item.getTitle(), item.getImgURL(), item.getLinkURL(), colorId);
         }
     }
 
     public interface OnNewsListener {
-        void onNewsClick(String title, String imageURL, String linkURL);
+        void onNewsClick(String title, String imageURL, String linkURL, Integer colorId);
     }
 }

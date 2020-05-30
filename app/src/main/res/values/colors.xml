@@ -13,12 +13,12 @@
     <color name="gray">#81000000</color>
     <color name="lightgray">#43000000</color>
     
-    <color name="newsOrange">#F77F00</color>
-    <color name="newsRed">#E63946</color>
-    <color name="newsYellow">#F9C74F</color>
-    <color name="newsFiol">#432371</color>
-    <color name="newsPink">#F08080</color>
-    <color name="newsGreen">#7Fb800</color>
+    <color name="news1">#f94144</color>
+    <color name="news2">#f3722c</color>
+    <color name="news3">#f8961e</color>
+    <color name="news4">#f9c74f</color>
+    <color name="news5">#90e0ef</color>
+    <color name="news6">#00BFFF</color>
 
     <color name="progress_filled">#aeea00</color>
     <color name="progress_unfilled">#90d3d3d3</color>

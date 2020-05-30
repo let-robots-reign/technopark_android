@@ -13,7 +13,6 @@ import android.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.edumage.bmstu_enrollee.R;
@@ -25,7 +24,7 @@ public class NewsItemFragment extends Fragment {
     private TextView contentView;
     private ProgressBar progressBar;
     private ImageView noConnection;
-
+    Integer colorId;
     private boolean connected;
 
     @Override
@@ -35,34 +34,29 @@ public class NewsItemFragment extends Fragment {
             title = getArguments().getString("title");
             imageURL = getArguments().getString("imageURL");
             linkURL = getArguments().getString("linkURL");
+            colorId = getArguments().getInt("colorId");
         }
 
         NewsViewModel model = new ViewModelProvider(this).get(NewsViewModel.class);
-        model.getHasConnection().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean) {
-                    connected = true;
-                    progressBar.setVisibility(View.VISIBLE);
-                    noConnection.setVisibility(View.GONE);
-                } else {
-                    connected = false;
-                    progressBar.setVisibility(View.GONE);
-                    noConnection.setVisibility(View.VISIBLE);
-                }
+        model.getHasConnection().observe(this, aBoolean -> {
+            if (aBoolean) {
+                connected = true;
+                progressBar.setVisibility(View.VISIBLE);
+                noConnection.setVisibility(View.GONE);
+            } else {
+                connected = false;
+                progressBar.setVisibility(View.GONE);
+                noConnection.setVisibility(View.VISIBLE);
             }
         });
         model.parseNewsContent(linkURL);
-        model.getNewsContent().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                if ((s == null || s.length() == 0) && connected) {
-                    progressBar.setVisibility(View.VISIBLE);
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                }
-                if (connected) contentView.setText(s);
+        model.getNewsContent().observe(this, s -> {
+            if ((s == null || s.length() == 0) && connected) {
+                progressBar.setVisibility(View.VISIBLE);
+            } else {
+                progressBar.setVisibility(View.GONE);
             }
+            if (connected) contentView.setText(s);
         });
     }
 
@@ -75,24 +69,19 @@ public class NewsItemFragment extends Fragment {
         noConnection = rootView.findViewById(R.id.no_connection);
         TextView titleView = rootView.findViewById(R.id.news_title);
         titleView.setText(title);
+        titleView.setBackgroundColor(colorId);
         ImageView image = rootView.findViewById(R.id.news_page_img);
         if (imageURL != null) {
             Picasso.with(getActivity()).load(imageURL).into(image);
         } else {
-            image.setImageResource(R.drawable.no_image);
+            image.setVisibility(View.GONE);
         }
         contentView = rootView.findViewById(R.id.news_text);
 
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_left_arrow);
-        toolbar.setTitle(title);
         toolbar.setTitleTextColor(Color.BLACK);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requireActivity().onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> requireActivity().onBackPressed());
 
         return rootView;
     }
