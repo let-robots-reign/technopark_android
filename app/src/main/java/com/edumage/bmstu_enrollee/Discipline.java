@@ -2,6 +2,8 @@ package com.edumage.bmstu_enrollee;
 
 import java.io.Serializable;
 
+import androidx.annotation.Nullable;
+
 public class Discipline implements Serializable {
 
     private String fullName;
@@ -53,7 +55,14 @@ public class Discipline implements Serializable {
     }
 
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj instanceof Discipline){
+            Discipline discipline =(Discipline)obj;
+            return discipline.fullName.equals(fullName);
+        } else {
+            return false;
+        }
 
-
-
+    }
 }

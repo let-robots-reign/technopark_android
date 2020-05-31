@@ -37,6 +37,7 @@ public class EgeSubjectsViewModel extends AndroidViewModel {
         List<ExamPoints> points = new ArrayList<>();
         for (int i = 0; i < egeSubjectList.size(); i++) {
             EGESubject subject = egeSubjectList.get(i);
+
             points.add(new ExamPoints(subject.getName(), subject.getScore(), subject.getId()));
         }
         repository.replaceAllPoints(points);

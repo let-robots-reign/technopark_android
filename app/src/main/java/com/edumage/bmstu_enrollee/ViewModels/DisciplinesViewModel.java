@@ -21,21 +21,30 @@ import java.util.concurrent.Executors;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 public class DisciplinesViewModel extends AndroidViewModel {
     private DbRepository repository;
 
     private MutableLiveData<ArrayList<Discipline>> data = new MutableLiveData<>();
+    private MediatorLiveData<List<ExamPoints>> chosenSubject= new MediatorLiveData<>();
 
     public DisciplinesViewModel(@NonNull Application application) {
         super(application);
         repository = DbRepository.getInstance();
     }
 
-    public LiveData<ArrayList<Discipline>> getData() {
+
+
+    public MutableLiveData<ArrayList<Discipline>> getData() {
         return data;
     }
+
+
+
+
 
     public void replaceAllPrograms(final List<Discipline> data) {
                 List<ChosenProgram> chosenPrograms = new ArrayList<>();
@@ -48,12 +57,35 @@ public class DisciplinesViewModel extends AndroidViewModel {
                 repository.replaceAllPrograms(chosenPrograms);
     }
 
+    @Deprecated
+    public void replaceAllPrograms(){
+
+        List<ChosenProgram> chosenPrograms = new ArrayList<>();
+        ArrayList<Discipline> disciplines = data.getValue();
+        for (int i = 0; i < disciplines.size(); i++) {
+            Discipline d = disciplines.get(i);
+            if (d.getStatus()) {
+                chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
+            }
+        }
+        repository.replaceAllPrograms(chosenPrograms);
+    }
+
     public LiveData<List<ExamPoints>> getExamPoints() {
-        return repository.getAllPoints();
+        return chosenSubject;
     }
 
     public LiveData<List<ChosenProgram>> getChosenPrograms() {
         return repository.getAllChosenPrograms();
+    }
+
+    public void updateChosenSubjects(){
+        chosenSubject.addSource(repository.getAllPoints(), new Observer<List<ExamPoints>>() {
+            @Override
+            public void onChanged(List<ExamPoints> examPoints) {
+                chosenSubject.setValue(examPoints);
+            }
+        });
     }
 
     public void applyChosenProgram(final List<ChosenProgram> programs) {
@@ -103,6 +135,8 @@ public class DisciplinesViewModel extends AndroidViewModel {
     }
 
     public void loadData() {
+
+        final ArrayList<Discipline> dataValue = data.getValue();
         Runnable runnable = new Runnable() {
 
             @Override
@@ -123,10 +157,19 @@ public class DisciplinesViewModel extends AndroidViewModel {
                     list.add(d);
                 }
                 Log.d("TH_TEST", "Load data");
+                if(dataValue!=null){
+                    for (Discipline d: dataValue){
+                        if(list.contains(d)&&d.getStatus()){
+                            list.get(list.indexOf(d)).setStatus(true);
+                        }
+                    }
+
+                }
                 data.postValue(list);
+
             }
         };
-        XmlDataStorage.getInstance().pushTask(runnable);
+        repository.pushTask(runnable);
 
     }
 

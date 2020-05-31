@@ -47,6 +47,7 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
         model = new ViewModelProvider(this).get(DisciplinesViewModel.class);
 
         model.loadData();
+        model.updateChosenSubjects();
         model.getExamPoints().observe(this, new Observer<List<ExamPoints>>() {
             @Override
             public void onChanged(List<ExamPoints> examPoints) {
@@ -54,6 +55,7 @@ public class DisciplineFragment extends Fragment implements View.OnClickListener
                     model.applyChosenSubjects(examPoints);
             }
         });
+
 
         model.getChosenPrograms().observe(this, new Observer<List<ChosenProgram>>() {
             @Override

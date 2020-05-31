@@ -43,8 +43,9 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         adapter = new DisciplineAdapter(this);
         // get all programm
         model = new ViewModelProvider(this).get(DisciplinesViewModel.class);
-
         model.loadData();
+
+       // model.loadData();
         model.getExamPoints().observe(this, new Observer<List<ExamPoints>>() {
             @Override
             public void onChanged(List<ExamPoints> examPoints) {
@@ -74,12 +75,15 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
         model.getData().observe(getViewLifecycleOwner(), new Observer<ArrayList<Discipline>>() {
             @Override
             public void onChanged(ArrayList<Discipline> disciplines) {
-                adapter.setData(disciplines);
-                adapter.notifyDataSetChanged();
-                if (disciplines.size() == 0) {
+
+                if (disciplines==null || disciplines.size() == 0) {
+                    adapter.setData(disciplines);
+                    adapter.notifyDataSetChanged();
                     textView.setVisibility(View.VISIBLE);
                 } else {
                     textView.setVisibility(View.INVISIBLE);
+                    adapter.setData(disciplines);
+                    adapter.notifyDataSetChanged();
                 }
             }
         });
@@ -91,18 +95,18 @@ public class LAFragmentThird extends Fragment implements WelcomeActivity.Complet
     public void onResume() {
         super.onResume();
         // TODO: consider removing duplicating code
-        model.loadData();
-        model.getExamPoints().observe(this, new Observer<List<ExamPoints>>() {
+        model.updateChosenSubjects();
+       /* model.getExamPoints().observe(this, new Observer<List<ExamPoints>>() {
             @Override
             public void onChanged(List<ExamPoints> examPoints) {
                 model.applyChosenSubjects(examPoints);
             }
-        });
+        });*/
     }
 
     @Override
     public void onPause() {
-        //model.replaceAllPrograms();
+        model.getData().setValue(adapter.getData());
         super.onPause();
     }
 

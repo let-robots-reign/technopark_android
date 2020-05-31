@@ -34,6 +34,13 @@
     <string name="alert_name">Введите имя пользователя</string>
     <string name="alert_date">Введите дату рождения</string>
 
+    <string name="news">Новости</string>
+    <string name="extracurricular_activities">Внеучебная деятельность</string>
+    <string name="admission_process">Процесс поступления</string>
+    <string name="buildings_and_hostels">Корпуса и общежития</string>
+    <string name="faculties_and_departments">Факультеты и кафедры</string>
+    <string name="about_application">О приложении</string>
+
     <string name="alert_ege">Результат ЕГЭ должен быть в пределах от 0 до 100</string>
     <string name="welcome_command_3">Выберите не более трех приоритетных направлений для поступления.
         \nВ любой момент вы сможете изменить свой выбор</string>
