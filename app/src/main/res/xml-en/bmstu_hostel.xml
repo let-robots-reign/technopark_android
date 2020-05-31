@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bmstu>
+    <building
+        name="Hostel no. 5 (IU)"
+        description="Hostel for students of the faculty of IU. Izmailovskaya Metro Station."
+        geo="geo:55.788783, 37.791720?z=3"
+        id="20"
+        address="Izmaylovsky Avenue, 73/2"
+        />
+
+    <building
+        name="Hostel no. 8 (RL)"
+        description="Hostel for students of the faculty of RL. Izmailovskaya Metro Station."
+        geo="geo:55.788793, 37.792160?z=3"
+        id="21"
+        address="73B Izmailovsky Prospekt"
+        />
+
+    <building
+        name="Hostel no. 6 (RK)"
+        description="Hostel for students of the faculty of Kazakhstan. Izmailovskaya Metro Station."
+        geo="geo:55.788793, 37.792160?z=3"
+        id="22"
+        address="75A Izmailovsky Prospekt"
+        />
+
+    <building
+        name="Hostel no. 4-5 (MT)"
+        description="Hostel for students of the faculty of MT. Izmailovskaya Metro Station."
+        geo="geo:55.788819, 37.793534?z=3"
+        id="23"
+        address="Izmailovsky Prospekt, 75/1"
+        />
+
+    <building
+        name="Hostel no. 10-11 (SM)"
+        description="Hostel for students of the faculty SM. Baumanskaya metro Station."
+        geo="geo:55.770360, 37.687129?z=3"
+        id="24"
+        address="Hospital lane, 4/6"
+        />
+</bmstu>

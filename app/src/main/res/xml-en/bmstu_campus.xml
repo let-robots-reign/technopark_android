@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bmstu_campus>
+    <building
+        name="The main educational building"
+        description="This building houses the deans of the faculties of IU,
+BMT and RL, RK and many of the Department. The building also houses the main
+administrative offices, admissions office, rectorate, small
+hall of the Palace of Culture and Museum of BMSTU. Students call this building GZ"
+        geo="geo:55.765767, 37.685611?z=3"
+        id="1"
+        address="Moscow, 2nd Baumanskaya street, 5c4"
+        />
+    <building
+        name="Educational and laboratory building"
+        description="The main academic building. The total area is more than 80 thousand m2. Calculated
+for simultaneous admission of more than 5 thousand students. It has about 100 classrooms, a library, and a reading room.
+Also in the building is the Palace of culture named after N. E. Bauman. Audiences ending in [l],
+they are located in this building."
+        geo="geo:55.771591, 37.692213?z=3"
+        id="2"
+        address="Moscow, Rubtsovskaya nab., 2/18"
+        />
+    <building
+        name="Sports complex"
+        description="The largest center of sports and cultural life of the University,
+the main sports base of the University. In the complex there is a swimming pool, stables, gym and
+other sports facilities."
+        geo="geo:55.772223, 37.698025?z=3"
+        id="3"
+        address="Moscow, Hospital nab., 4, p. 1"
+        />
+
+    <building
+        name="Physical culture and sports ground in Izmailovo"
+        description="The second place for physical education classes. Nearby, in Izmailovo Park,
+various sports events of the University are regularly held."
+        geo="geo:55.788355, 37.793132?z=3"
+        id="4"
+        address="Moscow, Izmailovsky Prospekt, 75A"
+        />
+
+    <building
+        name="Bauman scientific and educational medical and technological center"
+        description="By the decision of the Academic Council, a Scientific and educational medical and technological center was established.
+In addition to scientific and educational activities, it is entrusted with the task of full-fledged medical care
+students and employees of the University."
+        geo="geo:55.764901, 37.682053?z=3"
+        id="5"
+        address="Moscow, 14 Brigadirsky per., Moscow"
+        />
+</bmstu_campus>
