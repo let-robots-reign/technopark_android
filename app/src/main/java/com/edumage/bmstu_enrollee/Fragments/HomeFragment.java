@@ -122,7 +122,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                     DocumentStepStatus.COMPLETED_STEP));
         }
 
-        stepsAdapter = new DocumentStepsAdapter(steps, this);
+        stepsAdapter = new DocumentStepsAdapter(steps, this,getContext());
     }
 
     @Override

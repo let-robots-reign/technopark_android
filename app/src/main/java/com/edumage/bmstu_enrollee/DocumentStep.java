@@ -1,6 +1,9 @@
 package com.edumage.bmstu_enrollee;
 
+import android.content.Context;
 import android.graphics.Color;
+
+import androidx.annotation.NonNull;
 
 public class DocumentStep {
 
@@ -20,14 +23,16 @@ public class DocumentStep {
         return stepStatus;
     }
 
-    public String getStepTitle() {
+
+
+    public String getStepTitle(@NonNull Context context) {
         switch (stepStatus) {
             case COMPLETED_STEP:
-                return "Предыдущий шаг";
+                return context.getString(R.string.current_step_title);
             case CURRENT_STEP:
-                return "Текущий шаг поступления";
+                return context.getString(R.string.next_step);
             case FUTURE_STEP:
-                return "Следующий шаг";
+                return context.getString(R.string.prev_step);
             default:
                 return "";
         }

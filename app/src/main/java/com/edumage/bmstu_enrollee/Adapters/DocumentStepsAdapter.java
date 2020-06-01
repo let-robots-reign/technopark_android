@@ -1,5 +1,6 @@
 package com.edumage.bmstu_enrollee.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,12 @@ import java.util.List;
 public class DocumentStepsAdapter extends RecyclerView.Adapter<DocumentStepsAdapter.StepsViewHolder> {
     private List<DocumentStep> stepsList;
     private DoneClickListener buttonListener;
+    private Context context;
 
-    public DocumentStepsAdapter(List<DocumentStep> steps, DoneClickListener listener) {
+    public DocumentStepsAdapter(List<DocumentStep> steps, DoneClickListener listener, Context context) {
         stepsList = steps;
         buttonListener = listener;
+        this.context=context;
     }
 
     static class StepsViewHolder extends RecyclerView.ViewHolder {
@@ -57,7 +60,7 @@ public class DocumentStepsAdapter extends RecyclerView.Adapter<DocumentStepsAdap
     @Override
     public void onBindViewHolder(@NonNull StepsViewHolder holder, int position) {
         DocumentStep curStep = stepsList.get(position);
-        holder.stepTitle.setText(curStep.getStepTitle());
+        holder.stepTitle.setText(curStep.getStepTitle(context));
         holder.stepText.setText(curStep.getStepContent());
         holder.stepCard.setStrokeColor(curStep.getStepColor());
         holder.stepCard.setStrokeWidth(2);

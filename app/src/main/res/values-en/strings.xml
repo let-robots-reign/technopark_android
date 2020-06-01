@@ -97,7 +97,7 @@
 
     <string name="date_is_up_to_date">Data updated</string>
 
-    <string-array name="disciplines">
+   <!-- <string-array name="disciplines">
         <item>01.03.02 Applied mathematics and computer science (Bachelor\'s Degree)</item>
         <item>01.03.04 Applied mathematics (Bachelor\'s Degree)</item>
         <item>02.03.01 Mathematics and computer science (Bachelor\'s Degree)</item>
@@ -157,7 +157,7 @@
         <item>Biology</item>
         <item>Social Studies</item>
         <item>English language</item>
-    </string-array>
+    </string-array>-->
 
     <string name="current_apply_step">The current receipt status</string>
     <string name="current_step_title">The current step proceeds</string>
@@ -308,7 +308,7 @@ DinosoftLabs (site flaticon.com)</string>
     <string name="news_tab">News</string>
 
 
-    <string name="news">Новости</string>
+    <string name="news">News</string>
     <string name="extracurricular_activities">Extracurricular activities</string>
     <string name="admission_process">Admission process</string>
     <string name="buildings_and_hostels">Buildings and dormitories</string>
