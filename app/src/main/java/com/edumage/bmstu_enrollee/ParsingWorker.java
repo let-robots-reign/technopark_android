@@ -71,7 +71,8 @@ public class ParsingWorker extends Worker {
                 .setContentTitle(getApplicationContext().getResources().getString(R.string.fresh_news))
                 .setContentText(newsItem.getTitle())
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentIntent(createPendingIntent());
+                .setContentIntent(createPendingIntent())
+                .setAutoCancel(true);
         notificationManager.notify(NEWS_NOTIFY_ID, notification.build());
     }
 
