@@ -14,7 +14,6 @@ import android.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -23,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edumage.bmstu_enrollee.Adapters.NewsAdapter;
 import com.edumage.bmstu_enrollee.FeedType;
-import com.edumage.bmstu_enrollee.NewsItem;
 import com.edumage.bmstu_enrollee.R;
 
 import java.util.Arrays;
@@ -38,7 +36,6 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
     private RecyclerView RVnews;
     private ProgressBar progressBar;
     private ImageView noConnection;
-
     private boolean connected;
 
     @Override
@@ -53,41 +50,35 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
         model.parseNewsList(type);
 
         final List<Integer> colors = Arrays.asList(
-                R.color.newsOrange,
-                R.color.newsRed,
-                R.color.newsYellow,
-                R.color.newsFiol,
-                R.color.newsGreen,
-                R.color.newsPink);
+                R.color.news1,
+                R.color.news2,
+                R.color.news3,
+                R.color.news4,
+                R.color.news5,
+                R.color.news6);
 
         adapter = new NewsAdapter(model.getNewsList().getValue(), this, colors, getActivity());
 
-        model.getHasConnection().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean) {
-                    connected = true;
-                    progressBar.setVisibility(View.VISIBLE);
-                    noConnection.setVisibility(View.GONE);
-                } else {
-                    connected = false;
-                    progressBar.setVisibility(View.GONE);
-                    noConnection.setVisibility(View.VISIBLE);
-                }
+        model.getHasConnection().observe(this, aBoolean -> {
+            if (aBoolean) {
+                connected = true;
+                progressBar.setVisibility(View.VISIBLE);
+                noConnection.setVisibility(View.GONE);
+            } else {
+                connected = false;
+                progressBar.setVisibility(View.GONE);
+                noConnection.setVisibility(View.VISIBLE);
             }
         });
 
-        model.getNewsList().observe(this, new Observer<List<NewsItem>>() {
-            @Override
-            public void onChanged(List<NewsItem> newsItems) {
-                if (newsItems.size() == 0 && connected) {
-                    progressBar.setVisibility(View.VISIBLE);
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                }
-                adapter = new NewsAdapter(model.getNewsList().getValue(), NewsFragment.this, colors, getActivity());
-                RVnews.setAdapter(adapter);
+        model.getNewsList().observe(this, newsItems -> {
+            if (newsItems.size() == 0 && connected) {
+                progressBar.setVisibility(View.VISIBLE);
+            } else {
+                progressBar.setVisibility(View.GONE);
             }
+            adapter = new NewsAdapter(model.getNewsList().getValue(), NewsFragment.this, colors, getActivity());
+            RVnews.setAdapter(adapter);
         });
     }
 
@@ -118,22 +109,18 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnNewsListener
             toolbar.setTitle(R.string.news_tab);
         }
         toolbar.setTitleTextColor(Color.BLACK);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requireActivity().onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> requireActivity().onBackPressed());
         return rootView;
     }
 
     @Override
-    public void onNewsClick(String title, String imageURL, String linkURL) {
+    public void onNewsClick(String title, String imageURL, String linkURL, Integer colorId) {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("imageURL", imageURL);
         args.putString("linkURL", linkURL);
+        args.putInt("colorId", colorId);
         navController.navigate(R.id.action_newsFragment_to_newsItemFragment, args);
     }
 }

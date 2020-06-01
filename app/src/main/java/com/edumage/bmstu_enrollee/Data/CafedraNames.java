@@ -71,20 +71,20 @@ public class CafedraNames {
         sm.put("СМ13", new CafedraItem("Ракетно-космические композиционные конструкции"));
         nameCafedra.put("СМ",sm);
 
+        e=new ArrayMap<>();
+        e.put("Э1", new CafedraItem("Ракетные двигатели"));
+        e.put("Э2", new CafedraItem("Поршневые двигатели"));
+        e.put("Э3", new CafedraItem("Газотурбинные и нетрадиционные энергоустановки"));
+        e.put("Э4", new CafedraItem("Холодильная, криогенная техника системы кондиционирования и жизнеобеспечения"));
+        e.put("Э5", new CafedraItem("Вакуумная и компрессорная техника"));
+        e.put("Э6", new CafedraItem("Теплофизика"));
+        e.put("Э7", new CafedraItem("Ядерные реакторы и установки"));
+        e.put("Э8", new CafedraItem("Плазменные энергетические установки"));
+        e.put("Э9", new CafedraItem("Экология и промышленная безопасность"));
+        e.put("Э10", new CafedraItem("Гидромеханика, гидромашины и гидропневмоавтоматика"));
+        nameCafedra.put("Э",e);
+
         // TODO: add educational plans for the following faculties
-//        e=new ArrayMap<>();
-//        e.put("Э1", new CafedraItem("Ракетные двигатели"));
-//        e.put("Э2", new CafedraItem("Поршневые двигатели"));
-//        e.put("Э3", new CafedraItem("Газотурбинные и нетрадиционные энергоустановки"));
-//        e.put("Э4", new CafedraItem("Холодильная, криогенная техника системы кондиционирования и жизнеобеспечения"));
-//        e.put("Э5", new CafedraItem("Вакуумная и компрессорная техника"));
-//        e.put("Э6", new CafedraItem("Теплофизика"));
-//        e.put("Э7", new CafedraItem("Ядерные реакторы и установки"));
-//        e.put("Э8", new CafedraItem("Плазменные энергетические установки"));
-//        e.put("Э9", new CafedraItem("Экология и промышленная безопасность"));
-//        e.put("Э10", new CafedraItem("Гидромеханика, гидромашины и гидропневмоавтоматика"));
-//        nameCafedra.put("Э",e);
-//
 //        rk=new ArrayMap<>();
 //        rk.put("РК1", new CafedraItem("Инженерная графика"));
 //        rk.put("РК2", new CafedraItem("Теория механизмов и машин"));
