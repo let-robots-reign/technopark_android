@@ -31,13 +31,13 @@ public class CatalogFragment extends Fragment implements CatalogCardsAdapter.OnC
         super.onCreate(savedInstanceState);
 
         List<CatalogCard> cards = new ArrayList<>();
-        cards.add(new CatalogCard("Об университете", R.drawable.bmstu, CatalogCard.ABOUT_CARD_ID));
-        cards.add(new CatalogCard("Новости", R.drawable.newspaper, CatalogCard.NEWS_CARD_ID));
-        cards.add(new CatalogCard("Факультеты и кафедры", R.drawable.faculties, CatalogCard.FACULTIES_CARD_ID));
-        cards.add(new CatalogCard("Корпуса и общежития", R.drawable.ulk, CatalogCard.CAMPUS_CARD_ID));
-        cards.add(new CatalogCard("Внеучебная деятельность", R.drawable.studsovet, CatalogCard.EVENTS_CARD_ID));
-        cards.add(new CatalogCard("Процесс поступления", R.drawable.application, CatalogCard.APPLY_CARD_ID));
-        cards.add(new CatalogCard("О приложении", R.drawable.info, CatalogCard.INFO_CARD_ID));
+        cards.add(new CatalogCard(getString(R.string.about_university), R.drawable.bmstu, CatalogCard.ABOUT_CARD_ID));
+        cards.add(new CatalogCard(getString(R.string.news), R.drawable.newspaper, CatalogCard.NEWS_CARD_ID));
+        cards.add(new CatalogCard(getString(R.string.faculties_and_departments), R.drawable.faculties, CatalogCard.FACULTIES_CARD_ID));
+        cards.add(new CatalogCard(getString(R.string.buildings_and_hostels), R.drawable.ulk, CatalogCard.CAMPUS_CARD_ID));
+        cards.add(new CatalogCard(getString(R.string.extracurricular_activities), R.drawable.studsovet, CatalogCard.EVENTS_CARD_ID));
+        cards.add(new CatalogCard(getString(R.string.admission_process), R.drawable.application, CatalogCard.APPLY_CARD_ID));
+        cards.add(new CatalogCard(getString(R.string.about_application), R.drawable.info, CatalogCard.INFO_CARD_ID));
 
         adapter = new CatalogCardsAdapter(cards, this);
     }

@@ -1,0 +1,318 @@
+<resources>
+    <string name="app_name">BMSTU entrant</string>
+    <string name="bottom_title_1">MAIN</string>
+    <string name="bottom_title_2">CATALOG</string>
+    <string name="bottom_title_3">STATISTICS</string>
+
+    <string name="uni_name">Bauman Moscow state technical University</string>
+    <string name="main_header2">Application for entrans</string>
+    <string name="state_exam_points">USE score</string>
+    <string name="current_step">The current step of filing</string>
+    <string name="prev_step">Previous step</string>
+    <string name="next_step">Next step</string>
+    <string name="current_contest">Current competition in your directions</string>
+    <string name="last_reload">Last score update:</string>
+
+    <string name="welcome_header">Welcome!</string>
+    <string name="welcome_command_1">Fill in your personal information</string>
+    <string name="welcome_command_2">Select the exam subjects by filing the exam result</string>
+    <string name="welcome_hint1">Full name</string>
+    <string name="welcome_hint2">Date of birth</string>
+    <string name="next_command">Next</string>
+    <string name="back_command">Back</string>
+    <string name="edit">Change</string>
+    <string name="get_data">Obtain data</string>
+
+    <string name="stats_screen_header">Dynamics of passing points</string>
+    <string name="stats_screen_checkbox_budget">General competition for budget places</string>
+    <string name="stats_screen_checkbox_target">Competition for targeted studying. (Sponsored by the company)</string>
+    <string name="stats_screen_budget_label">Pass score for a budget form of education</string>
+    <string name="stats_screen_target_label">Pass score for targeted studying</string>
+    <string name="stats_screen_no_data">No data</string>
+    <string name="stats_screen_description">Site data bmstu.ru</string>
+
+    <string name="alert_name">Enter your fullname</string>
+    <string name="alert_date">Enter your date of birth</string>
+
+    <string name="alert_ege">The exam result must be between 0 and 100</string>
+    <string name="welcome_command_3">Select a maximum of three priority directions for admission. You can change your choice at any time</string>
+    <string name="alert_discipline_zero">Choose at least one direction of study</string>
+    <string name="alert_discipline_more">You can\'t choose more than three directions</string>
+    <string name="no_discipline_match">There are no directions for the selected exam subjects</string>
+
+    <string name="ege_results">The results of USE</string>
+    <string name="disciplines">Your directions</string>
+
+    <string name="no_pdf_viewer">There is no app to read the pdf file.</string>
+
+    <string name="press_back_again">Click Back again to exit</string>
+
+    <string name="placeholder_score">⠀⠀⠀</string>
+
+    <string name="disciplines_alert">You can not apply for more than 3 directions</string>
+    <string name="description_warning_catalog">CATALOG IMG</string>
+    <string name="number_of_spec">09.03.01</string>
+    <string name="category_of_study">Specialist degree</string>
+    <string name="res_ege">The results of USE</string>
+    <string name="subject_icon">subject icon</string>
+    <string name="name_subject">Fizika</string>
+    <string name="logo_bmstu">LOGO BMSTU</string>
+    <string name="update_inf">update information</string>
+    <string name="download_contest">Download contest</string>
+    <string name="no_connection">No connection</string>
+    <string name="news_image">News image</string>
+    <string name="open_doors">Open day</string>
+    <string name="text_news">On April 12 at 12: 00 there will be a live broadcast on the website abiturient.bmstu.ru with Boris Vasilyevich Padalkin, the first Vice-rector for academic Affairs, you will learn more about Bauman Moscow state technical University, about the areas of training and admission rules for 2020.</string>
+    <string name="name_speciality">Mathematics applied computer science</string>
+    <string name="loading_data">Loading data</string>
+    <string name="title_activity_building">BuildingActivity</string>
+
+    <string name="tab_text_campus">Educational building</string>
+    <string name="tab_text_hostel">Student hostels</string>
+    <string name="unable_to_load_data">Data cannot be loaded</string>
+    <string name="unable_to_show_map">Cannot be shown on the map</string>
+    <string name="unable_to_show_site">The service is temporarily unavailable</string>
+
+    <string name="content_descr_bmstu_img">Image of the University</string>
+    <string name="content_descr_vk_img">Vkontakte</string>
+    <string name="content_descr_instagram_img">Instagram</string>
+
+    <string name="useful_links">Useful links</string>
+    <string name="social_links">Social network</string>
+
+    <string name="about_university">about the University</string>
+    <string name="university_description">⠀ ⠀Bauman Moscow state technical University is a leading Russian University that has produced outstanding scientists and researchers who have become pioneers of the world\'s rocket technology, aviation and heavy industry over its 185-year history.  МГ MSTU is shown in a number of QS ratings. Ranked 299th in the QS World University Rankings ® 2017/18, MSTU Baumana leads in a number of technological fields reflected in the QS World University Rankings by Subject 2018, including computer science and information systems, electrical and electronic engineering, mechanical engineering, mathematics, physics and astronomy. ⠀ ⠀If you dream of doing research in such promising fields of science as nanoengineering, providing information security to society, are ready to master the most complex technology and the latest technologies to create new materials, see yourself as a designer of spaceships, aircraft equipment and powerful power systems, want to get a profession that allows you to understand all the subtleties of electronics and microelectronics, strive to become a professional in the field of high-tech management of high-tech industries, take an active life position, ready to think about the future of society, hone your leadership skills, learn to work in a team, the legendary Bauman Moscow state technical University is waiting for you!</string>
+    <string name="university_site">University site</string>
+    <string name="qs_site">QS rating</string>
+
+    <string name="user_info">Information about the applicant</string>
+    <string name="user_info_privacy">This data is used solely for the purpose of personalization of the app, it is not transmitted to third-party services and is stored only on your device. The user is not required to provide their real data.</string>
+    <string name="confirm_changes">Confirm the changes</string>
+    <string name="why_inf">Why do you need this information?</string>
+
+    <string name="about_passing_score">What do these numbers mean?⠀</string>
+    <string name="passing_score">Passing score⠀</string>
+    <string name="explanation_passing_score">A passing score is the minimum number of points that it is necessary to enroll in the chosen direction. In other words, if the reception the company ended right now, only those applicants who have the amount would have been accepted points higher than or equal to the current passing score. The passing score changes during the period the entire admission company and depends on the number of original certificates submitted.</string>
+    <string name="no_programs_chosen">You have not selected any program or changed the selected exam subjects</string>
+
+    <string name="date_is_up_to_date">Data updated</string>
+
+    <string-array name="disciplines">
+        <item>01.03.02 Applied mathematics and computer science (Bachelor\'s Degree)</item>
+        <item>01.03.04 Applied mathematics (Bachelor\'s Degree)</item>
+        <item>02.03.01 Mathematics and computer science (Bachelor\'s Degree)</item>
+        <item>09.03.01 Computer Science and engineering (Bachelor\'s Degree)</item>
+        <item>09.03.02 Information systems and technologies (Bachelor\'s Degree)</item>
+        <item>09.03.03 Applied Informatics (Bachelor\'s Degree)</item>
+        <item>10.05.01 Computer security (Specialist)</item>
+        <item>09.03.04 Software engineering (Bachelor\'s Degree)</item>
+        <item>10.05.03 Information security of automated systems (Specialist)</item>
+        <item>11.03.03 Design and technology of electronic means (Bachelor\'s Degree)</item>
+        <item>11.03.04 Electronics and nanoelectronics (Bachelor\'s Degree)</item>
+        <item>11.05.01 Radio-Electronic systems and complexes (Specialist)</item>
+        <item>12.03.02 Optometry (Bachelor\'s Degree)</item>
+        <item>12.03.04 Biotechnical systems and technologies (Bachelor\'s Degree)</item>
+        <item>12.03.05 Laser engineering and laser technologies (Bachelor\'s Degree)</item>
+        <item>12.05.01 Electronic and optoelectronic devices and systems for special purposes (Specialist)</item>
+        <item>13.03.02 Electric power and electrical engineering (Bachelor\'s Degree)</item>
+        <item>13.03.03 Power engineering (Bachelor\'s Degree)</item>
+        <item>14.03.01 Nuclear power and thermophysics (Bachelor\'s Degree)</item>
+        <item>14.05.01 Nuclear reactors and materials (Specialist)</item>
+        <item>15.03.01 Mechanical Engineering (Bachelor\'s Degree)</item>
+        <item>15.03.02 Technological machines and equipment (Bachelor\'s Degree)</item>
+        <item>15.03.03 Applied mechanics (Bachelor\'s Degree)</item>
+        <item>15.03.04 Automation of technological processes and production (Bachelor\'s Degree)</item>
+        <item>15.03.06 Mechatronics and robotics (Bachelor\'s Degree)</item>
+        <item>15.05.01 Design of technological machines and complexes (Specialist)</item>
+        <item>16.03.01 Technical physics (Bachelor\'s Degree)</item>
+        <item>16.03.02 High-Tech plasma and power plants (Bachelor\'s Degree)</item>
+        <item>16.03.03 Refrigeration, cryogenic equipment and life support systems (Bachelor\'s Degree)</item>
+        <item>16.05.01 Special life support systems (Specialist)</item>
+        <item>17.05.01 Ammunition and fuses (Specialist)</item>
+        <item>17.05.02 Small-arms, artillery and rocket weapons (Specialist)</item>
+        <item>20.03.01 Technosphere security (Bachelor\'s Degree)</item>
+        <item>22.03.01 Materials Science and technology (Bachelor\'s Degree)</item>
+        <item>23.05.01 Ground transport and technological means (Specialist)</item>
+        <item>23.05.02 Special purpose Vehicles (Specialist)</item>
+        <item>24.03.01 Rocket systems and cosmonautics (Bachelor\'s Degree)</item>
+        <item>24.05.01 Design, production and operation of missiles and space systems (Specialist)</item>
+        <item>24.05.02 Design of aircraft and rocket engines (Specialist)</item>
+        <item>24.05.04 Navigation and ballistic support for space technology applications (Specialist)</item>
+        <item>24.05.06 Aircraft control Systems (Specialist)</item>
+        <item>27.03.01 Standardization and Metrology (Bachelor\'s Degree)</item>
+        <item>27.03.04 Management in technical systems (Bachelor\'s Degree)</item>
+        <item>27.03.05 Innovation (Bachelor\'s Degree)</item>
+        <item>28.03.02 Nanoengineering (Bachelor\'s Degree)</item>
+        <item>38.03.05 Business Informatics (Bachelor\'s Degree)</item>
+        <item>39.03.01 Sociology (Bachelor\'s Degree)</item>
+        <item>40.05.03 Forensic examination (Specialist)</item>
+        <item>54.03.01 Design (Bachelor\'s Degree)</item>
+    </string-array>
+    <string-array name="subjects">
+        <item>Russian language</item>
+        <item>Mathematics (upper-level)</item>
+        <item>Computer science</item>
+        <item>Physics</item>
+        <item>Chemistry</item>
+        <item>Biology</item>
+        <item>Social Studies</item>
+        <item>English language</item>
+    </string-array>
+
+    <string name="current_apply_step">The current receipt status</string>
+    <string name="current_step_title">The current step proceeds</string>
+    <string name="events_tab">Extracurricular activities</string>
+    <string name="application_tab">Admission process</string>
+    <string name="information_tab">About the application</string>
+    <string name="done">Done</string>
+
+    <string-array name="application_descriptions">
+        <item>
+            Learn the steps on the \"Home\" page. Start the enrollment process now!
+        </item>
+        <item>
+            Keep it up! You have already completed the first steps, you can move on.
+        </item>
+        <item>
+            You have passed the most difficult steps, it remains for a small matter!
+        </item>
+        <item>
+            There are only a few steps left, push up! Be careful when submitting the original
+certificate, weigh all the \ " for\ "and \"against\".
+        </item>
+    </string-array>
+
+    <string-array name="application_steps">
+        <item>
+            Make sure That you have filled in the correct information about your exam scores. Decide on the directions
+for admission. Study the programs you are interested in and their curricula. This is for You
+the \"Faculties and departments\" tab in the \"Catalog\" will help.
+\n on the \"Home\" page, you can view the current passing scores for the selected
+directions according to the site
+\npriem.bmstu.ru/ru/points
+        </item>
+        <item>
+          In order to save Your time when submitting documents in person go through the preliminary
+registration of an applicant on the website:
+\npriem.bmstu.ru/ru/registration/moscow
+        </item>
+        <item>
+            The following documents can be submitted to the admissions Committee either in person or by sending an email
+mail (105005, Moscow, ul. 2-ya Baumanskaya, 5, p. 1).
+\pdocuments can be filled in on the computer.
+\n fill out your consent to the processing of personal data:
+\nbmstu.ru/content/image/files/PK/2019/Post/Consent.pdf
+        </item>
+        <item>
+            Fill in the application form addressed to the Rector:
+\n - # 1 (about accepting documents): \nbmstu.ru/content/image/files/PK/2019/Post/Application_1.pdf
+\n - # 2 (about participation in the competition): \nbmstu.ru/content/image/files/PK/2019/Post/Application_2.pdf
+\the chosen training areas / specialties are indicated in the Application no. 2
+in the order of priority for the applicant.
+        </item>
+        <item>
+            Provide the admissions Committee with a copy of your passport (pages 2 and 3 with your personal data), and
+also a copy of the standard document on education (certificate).
+\if the document used to pass the exam differs from the passport, you must inform
+data about this document.
+        </item>
+        <item>
+            Additionally:
+\n Copies of diplomas of winners or prize-winners of school Olympiads
+(printed from the website of the Russian Council of school Olympiads), giving special rights to
+admission without entrance tests or to participate in the competition with the maximum possible
+a score of 100 points in the subject that corresponds to the profile of the Olympiad.
+        </item>
+        <item>
+           Additionally:
+\nCopies of documents confirming that you may have rights:
+\n-for admission based on the results of entrance tests conducted by Bauman Moscow state technical University independently
+\n-for admission to places within 10 % of the quota
+\n-priority right of crediting
+        </item>
+        <item>
+            Additionally:
+\n For applicants for targeted studying - a contract on targeted studying between the applicant
+and a state authority of the Russian Federation, local government, institution, enterprise, etc.
+        </item>
+        <item>
+            Please note that Application #2 for participation in the competition and training directions may be changed.
+\nIf you want to make changes, you need to send a new Application no. 2 before the date
+the end of the reception with the indication of your registration number in the upper-right corner.
+To find out your registration number, find your full name in the list of registered users
+(appear within 5 business days after receiving the shipment at the post office).
+\nbmstu.ru/abitur/general/registered
+        </item>
+        <item>
+            Evaluate the competitive situation and your chances of admission. Keep track of changes to the current one
+the tabs will help you find out about the passing scores of previous years
+\"Home\" and \ " Statistics\".
+        </item>
+        <item>
+            If the competition situation matches your exam scores, provide the reception
+Commission original document of education (certificate) and Application no. 3 (consent to enrollment):
+\nbmstu.ru/content/image/files/PK/2019/Post/Application_3.pdf
+\n When writing application no. 3 and submitting the original certificate, you must attach 6
+3x4 photos (signed on the back).
+\n photographs will be needed for the production of a student ID card, pass, and other documents.
+        </item>
+    </string-array>
+
+    <string name="all_steps_completed">You have completed all the steps! We wish you good luck to enter your chosen specialty!</string>
+    <string name="edit_icon">Edit</string>
+
+    <string name="it_is_important">This is important!</string>
+    <string name="hostel_info">A place in the hostel is provided on a competitive basis!
+\n students who need a hostel and have scored enough points
+to enroll in an educational program, but not sufficient
+to provide a hostel, will be credited without
+providing a hostel.
+\n There are no dormitories in the faculties of ИБМ, ФН, Л, АК, ПС, РКТ, РТ, ОЭП, СГН and ЮР.</string>
+
+    <string name="do_not_show_again">Dont show it again</string>
+
+    <string name="news_channel">Notifications about latest news</string>
+    <string name="fresh_news">Latest news</string>
+
+    <string name="version">App version: 1.0</string>
+    <string name="contact_us">Do you want to report an error or make a suggestion? Write to us!</string>
+    <string name="about_authors">The app was developed by Dmitry Pudovkin, Nikolay Luchkov, Alexey Zotov</string>
+    <string name="bmstu_links">Sources of information:
+\n1 -Current passing scores: priem.bmstu.ru/ru/points
+\n2 -previous years Passing scores: https://bmstu.ru/abitur/general/passing_scores
+\n3 -Documents for receipt: https://www.bmstu.ru/abitur/general/list_of_doc
+\n4 -News: https://bmstu.ru/mstu/info/bauman-news
+\n5 -Extracurricular activities: https://www.bmstu.ru/mstu/info/upcoming-events
+    </string>
+    <string name="icons_attribution">The authors of the icons: Freepik, Roundicons, Pixel perfect,
+DinosoftLabs (site flaticon.com)</string>
+
+    <string name="your_scores">Your score:</string>
+    <string name="mail_us">Mail us!</string>
+    <string name="like_icon">like icon</string>
+    <string name="building_image">Building image</string>
+    <string name="production_faculty">Production faculty</string>
+    <string name="faculty_card">Faculty card</string>
+    <string name="instagram">Instagram</string>
+    <string name="vk">VK</string>
+    <string name="user_image">User Image</string>
+    <string name="specialties_names">Names of specialties</string>
+    <string name="cafedra_description">Description of the Department</string>
+    <string name="educational_plan">Curriculum</string>
+    <string name="link_to_site">Link to the Departments website</string>
+    <string name="hostel">Hostel</string>
+    <string name="show_on_map">Show on map</string>
+    <string name="ok">OK</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Close</string>
+    <string name="news_tab">News</string>
+
+
+    <string name="news">Новости</string>
+    <string name="extracurricular_activities">Extracurricular activities</string>
+    <string name="admission_process">Admission process</string>
+    <string name="buildings_and_hostels">Buildings and dormitories</string>
+    <string name="faculties_and_departments">Faculties and departments</string>
+    <string name="about_application">About the application</string>
+
+</resources>

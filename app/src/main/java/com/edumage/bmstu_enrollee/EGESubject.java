@@ -17,8 +17,8 @@ public class EGESubject implements Serializable {
     public static final int ENGLISH_ID=7;
 
      public enum Subject{
-        RUSSIAN,MATH,INFORMATICS,PHYSICS,CHEMISTRY,BIOLOGY,SOCIAL,ENGLISH,CUSTOM;
-    }
+        RUSSIAN,MATH,INFORMATICS,PHYSICS,CHEMISTRY,BIOLOGY,SOCIAL,ENGLISH,CUSTOM
+     }
 
     private String name;
     private int score;

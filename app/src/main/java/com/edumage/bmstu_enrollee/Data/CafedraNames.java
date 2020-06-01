@@ -4,10 +4,6 @@ import android.util.ArrayMap;
 
 import com.edumage.bmstu_enrollee.CafedraItem;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 public class CafedraNames {
     private static ArrayMap<String, ArrayMap <String, CafedraItem>> nameCafedra;
 

@@ -2,6 +2,7 @@ package com.edumage.bmstu_enrollee.Fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,8 @@ public class CafedraPage extends Fragment {
     private OnBackPressedDispatcher backPressedDispatcher;
     private String[] plans;
     private String currentPlan;
+    private String showPDFKey = "SHOW_PDF";
+    private String currentPlanKey = "CURRENT_PLAN";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public class CafedraPage extends Fragment {
         if (args != null) {
             String nameFacultet = args.getString("nameFacultet");
             nameCaf = args.getString("nameCafedra");
-            String fileName = disciplinesMap.get(nameFacultet) + nameCaf.replaceAll("\\D+","");;
+            String fileName = disciplinesMap.get(nameFacultet) + nameCaf.replaceAll("\\D+", "");
             try {
                 item = XmlCafedraParser.getInstance().parseCafedraInfo(requireActivity(), fileName);
             } catch (XmlPullParserException | IOException e) {
@@ -106,8 +109,10 @@ public class CafedraPage extends Fragment {
         pdfView = rootView.findViewById(R.id.pdfView);
         if (savedInstanceState == null) {
             pdfView.setVisibility(View.GONE);
-        } else {
+        } else if (savedInstanceState.getBoolean(showPDFKey, false)) {
+            currentPlan = savedInstanceState.getString(currentPlanKey);
             openPdf(currentPlan);
+            callback.setEnabled(true);
         }
 
         TextView fullNameCafedra = rootView.findViewById(R.id.full_name_cafedra);
@@ -125,6 +130,18 @@ public class CafedraPage extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        if (pdfView.getVisibility() == View.VISIBLE) {
+            outState.putBoolean(showPDFKey, true);
+        } else {
+            outState.putBoolean(showPDFKey, false);
+        }
+        if (currentPlan != null) {
+            outState.putString(currentPlanKey, currentPlan);
+        }
+        super.onSaveInstanceState(outState);
+    }
 
     private void openPdf(String fileName) {
         pdfView.setVisibility(View.VISIBLE);

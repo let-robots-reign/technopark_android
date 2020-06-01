@@ -5,9 +5,12 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
@@ -25,18 +28,43 @@ import static com.edumage.bmstu_enrollee.ConnectionCheck.isNetworkConnected;
 
 public class HomeFragmentViewModel extends AndroidViewModel {
     private DbRepository repository;
+    private MutableLiveData<List<ExamPoints>> examPoints = new MutableLiveData<>();
+    private MutableLiveData<List<ChosenProgram>> programs = new MutableLiveData<>();
     private MutableLiveData<List<String>> scoresLiveData = new MutableLiveData<>();
     private MutableLiveData<List<String>> filesLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Integer>> userscoresLiveData = new MutableLiveData<>();
+    private MediatorLiveData<Pair<List<ExamPoints>, List<ChosenProgram>>> mainData = new MediatorLiveData<>();
     private List<ChosenProgram> programsNames;
     private final Handler handler = new Handler(Looper.getMainLooper());
 
     public HomeFragmentViewModel(@NonNull Application application) {
         super(application);
-        repository = new DbRepository(application);
+        repository = DbRepository.getInstance();
+
+        examPoints.setValue(new ArrayList<>());
+        programs.setValue(new ArrayList<>());
+        getExamPoints();
+        getChosenPrograms();
+
+        mainData.addSource(examPoints, new Observer<List<ExamPoints>>() {
+            @Override
+            public void onChanged(List<ExamPoints> examPoints) {
+                if (examPoints != null)
+                    mainData.setValue(new Pair<>(examPoints, programs.getValue()));
+            }
+        });
+        mainData.addSource(programs, new Observer<List<ChosenProgram>>() {
+            @Override
+            public void onChanged(List<ChosenProgram> chosenPrograms) {
+                if (chosenPrograms != null)
+                    mainData.setValue(new Pair<>(examPoints.getValue(), chosenPrograms));
+            }
+        });
     }
 
-    public void init(List<ChosenProgram> programs) {
+
+    public void init(List<ChosenProgram> programs, List<ExamPoints> exams) {
+
         programsNames = programs;
         scoresLiveData.setValue(new ArrayList<String>());
         filesLiveData.setValue(new ArrayList<String>());
@@ -54,7 +82,6 @@ public class HomeFragmentViewModel extends AndroidViewModel {
             }
 
            // int[] subjects =;
-            List<ExamPoints> exams = getExamPoints();
             for (ExamPoints exam: exams){
 
                 if(subjects.contains(exam.getSubjectId())){
@@ -70,17 +97,21 @@ public class HomeFragmentViewModel extends AndroidViewModel {
         loadFiles();
     }
 
+    public LiveData<Pair<List<ExamPoints>, List<ChosenProgram>>> getMainData() {
+        return mainData;
+    }
 
-    public UserInfo getUserInfo() {
+
+    public LiveData<UserInfo> getUserInfo() {
         return repository.getUserInfo();
     }
 
-    public List<ExamPoints> getExamPoints() {
-        return repository.getAllPoints();
+    private void getExamPoints() {
+        examPoints = repository.getAllPoints();
     }
 
-    public List<ChosenProgram> getChosenPrograms() {
-        return repository.getAllChosenPrograms();
+    private void getChosenPrograms() {
+        programs = repository.getAllChosenPrograms();
     }
 
     public MutableLiveData<List<Integer>> getUserscoresLiveData() {
@@ -96,7 +127,7 @@ public class HomeFragmentViewModel extends AndroidViewModel {
     }
 
     private void loadScores() {
-        Thread thread = new Thread(new Runnable() {
+        /*Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 final List<String> scores = new ArrayList<>();
@@ -134,11 +165,49 @@ public class HomeFragmentViewModel extends AndroidViewModel {
                 }
             }
         });
-        thread.start();
+        thread.start();*/
+        CurrentScoresParsing.getInstance().pushTask(new Runnable() {
+            @Override
+            public void run() {
+                final List<String> scores = new ArrayList<>();
+                CurrentScoresParsing instance = CurrentScoresParsing.getInstance();
+                // firstly, add info about last update
+                try {
+                    scores.add(instance.getLastUpdate());
+                } catch (IOException e) {
+                    scores.add("неизвестно");
+                }
+                String score;
+                // retrieving info about passing scores
+                for (ChosenProgram program : programsNames) {
+                    if (!isNetworkConnected(getApplication())) {
+                        score = "Нет сети";
+                    } else if (!hasInternetAccess()) {
+                        score = "Нет интернета";
+                    } else {
+                        try {
+                            score = instance.parseScore(program.getProgramName());
+                        } catch (IOException e) {
+                            score = "Ошибка";
+                            e.printStackTrace();
+                        }
+                    }
+                    scores.add(score);
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scoresLiveData.setValue(scores);
+                        }
+                    });
+
+                }
+            }
+        });
     }
 
     private void loadFiles() {
-        Thread thread = new Thread(new Runnable() {
+        /*Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 final List<String> fileUrls = new ArrayList<>();
@@ -161,6 +230,29 @@ public class HomeFragmentViewModel extends AndroidViewModel {
                 }
             }
         });
-        thread.start();
+        thread.start();*/
+        CurrentFilesParsing.getInstance().pushTask(new Runnable() {
+            @Override
+            public void run() {
+                final List<String> fileUrls = new ArrayList<>();
+                CurrentFilesParsing instance = CurrentFilesParsing.getInstance();
+                String fileUrl = null;
+                for (ChosenProgram program: programsNames) {
+                    try {
+                        fileUrl = instance.parseFile(program.getProgramName());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    fileUrls.add(fileUrl);
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            filesLiveData.setValue(fileUrls);
+                        }
+                    });
+                }
+            }
+        });
     }
 }

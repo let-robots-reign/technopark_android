@@ -11,6 +11,7 @@ import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
 import com.edumage.bmstu_enrollee.Discipline;
 import com.edumage.bmstu_enrollee.EGESubject;
 import com.edumage.bmstu_enrollee.R;
+import com.edumage.bmstu_enrollee.XmlDataStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,27 +21,32 @@ import java.util.concurrent.Executors;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 public class DisciplinesViewModel extends AndroidViewModel {
     private DbRepository repository;
 
     private MutableLiveData<ArrayList<Discipline>> data = new MutableLiveData<>();
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private MediatorLiveData<List<ExamPoints>> chosenSubject= new MediatorLiveData<>();
 
     public DisciplinesViewModel(@NonNull Application application) {
         super(application);
-        repository = new DbRepository(application);
+        repository = DbRepository.getInstance();
     }
 
-    public LiveData<ArrayList<Discipline>> getData() {
+
+
+    public MutableLiveData<ArrayList<Discipline>> getData() {
         return data;
     }
 
+
+
+
+
     public void replaceAllPrograms(final List<Discipline> data) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
                 List<ChosenProgram> chosenPrograms = new ArrayList<>();
                 for (int i = 0; i < data.size(); i++) {
                     Discipline d = data.get(i);
@@ -49,104 +55,88 @@ public class DisciplinesViewModel extends AndroidViewModel {
                     }
                 }
                 repository.replaceAllPrograms(chosenPrograms);
-            }
-        };
-
-        executorService.execute(runnable);
     }
 
-    //применяет к текущим данным значение из базы данных
-    public void applyChosenProgram() {
-        final Handler handler = new Handler(Looper.getMainLooper());
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                final List<ChosenProgram> programs = repository.getAllChosenPrograms();
+    @Deprecated
+    public void replaceAllPrograms(){
 
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<Discipline> list = data.getValue();
-                        Log.d("TH_TEST", "Apply program NULL");
-                        if (list == null) return;
-                        for (int i = 0; i < programs.size(); i++) {
-                            ChosenProgram program = programs.get(i);
-                            boolean found = false;
-                            for (Discipline d : list) {
-                                if (d.getFullName().equals(program.getProgramName())) {
-                                    d.setStatus(true);
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                programs.remove(i);
-                                i--;
-                            }
-                        }
-                        Log.d("TH_TEST", "Apply program");
-                        data.setValue(list);
-
-                        executorService.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                repository.replaceAllPrograms(programs);
-                            }
-                        });
-                    }
-                });
+        List<ChosenProgram> chosenPrograms = new ArrayList<>();
+        ArrayList<Discipline> disciplines = data.getValue();
+        for (int i = 0; i < disciplines.size(); i++) {
+            Discipline d = disciplines.get(i);
+            if (d.getStatus()) {
+                chosenPrograms.add(new ChosenProgram(d.getFullName(), 0));
             }
-        };
-        executorService.execute(runnable);
+        }
+        repository.replaceAllPrograms(chosenPrograms);
     }
 
-    public void applySubjectThenProgram() {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        };
+    public LiveData<List<ExamPoints>> getExamPoints() {
+        return chosenSubject;
     }
 
-    public void applyChosenSubjects() {
-        final Handler handler = new Handler(Looper.getMainLooper());
-        Runnable runnable = new Runnable() {
+    public LiveData<List<ChosenProgram>> getChosenPrograms() {
+        return repository.getAllChosenPrograms();
+    }
+
+    public void updateChosenSubjects(){
+        chosenSubject.addSource(repository.getAllPoints(), new Observer<List<ExamPoints>>() {
             @Override
-            public void run() {
-                final List<ExamPoints> exams = repository.getAllPoints();
-                final ArrayList<Integer> id = new ArrayList<>();
-                for (ExamPoints exam : exams) {
-                    id.add(exam.getSubjectId());
+            public void onChanged(List<ExamPoints> examPoints) {
+                chosenSubject.setValue(examPoints);
+            }
+        });
+    }
+
+    public void applyChosenProgram(final List<ChosenProgram> programs) {
+
+        ArrayList<Discipline> list = data.getValue();
+        Log.d("TH_TEST", "Apply program NULL");
+        if (list == null) return;
+        for (int i = 0; i < programs.size(); i++) {
+            ChosenProgram program = programs.get(i);
+            boolean found = false;
+            for (Discipline d : list) {
+                if (d.getFullName().equals(program.getProgramName())) {
+                    d.setStatus(true);
+                    found = true;
+                    break;
                 }
-                Log.d("TH_TEST", "Apply Subject NULL");
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<Discipline> list = data.getValue();
-                        if (list == null) return;
-                        for (int j = 0; j < list.size(); j++) {
-                            Discipline d = list.get(j);
-                            int[] arr = d.getSubjects();
-                            for (int c : arr) {
-                                if (!id.contains(c)) {
-                                    list.remove(j);
-                                    j--;
-                                    break;
-                                }
-                            }
-                        }
-                        Log.d("TH_TEST", "Apply Subject");
-                        data.setValue(list);
-                    }
-                });
             }
-        };
+            if (!found) {
+                programs.remove(i);
+                i--;
+            }
+        }
+        data.setValue(list);
+        repository.replaceAllPrograms(programs);
+    }
 
-        executorService.execute(runnable);
+    public void applyChosenSubjects(final List<ExamPoints> exams) {
+        final ArrayList<Integer> id = new ArrayList<>();
+        for (ExamPoints exam : exams) {
+            id.add(exam.getSubjectId());
+        }
+
+        ArrayList<Discipline> list = data.getValue();
+        if (list == null) return;
+        for (int j = 0; j < list.size(); j++) {
+            Discipline d = list.get(j);
+            int[] arr = d.getSubjects();
+            for (int c : arr) {
+                if (!id.contains(c)) {
+                    list.remove(j);
+                    j--;
+                    break;
+                }
+            }
+        }
+        data.setValue(list);
     }
 
     public void loadData() {
+
+        final ArrayList<Discipline> dataValue = data.getValue();
         Runnable runnable = new Runnable() {
 
             @Override
@@ -167,13 +157,23 @@ public class DisciplinesViewModel extends AndroidViewModel {
                     list.add(d);
                 }
                 Log.d("TH_TEST", "Load data");
+                if(dataValue!=null){
+                    for (Discipline d: dataValue){
+                        if(list.contains(d)&&d.getStatus()){
+                            list.get(list.indexOf(d)).setStatus(true);
+                        }
+                    }
+
+                }
                 data.postValue(list);
+
             }
         };
+        repository.pushTask(runnable);
 
-        executorService.execute(runnable);
     }
 
+    @SuppressWarnings("ConstantConditions")
     static int[] subjectsIdByCode(String code) {
         int[] res = new int[Discipline.NUMBER_OF_PASSING_EXAMS];
         switch (code) {

@@ -12,8 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,11 +23,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.edumage.bmstu_enrollee.Adapters.DocumentStepsAdapter;
 import com.edumage.bmstu_enrollee.Adapters.ExamScoresAdapter;
 import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
 import com.edumage.bmstu_enrollee.DbEntities.ExamPoints;
+import com.edumage.bmstu_enrollee.DbEntities.UserInfo;
 import com.edumage.bmstu_enrollee.DocumentStep;
 import com.edumage.bmstu_enrollee.DocumentStepStatus;
 import com.edumage.bmstu_enrollee.ExamScore;
@@ -52,7 +54,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class HomeFragment extends Fragment implements View.OnClickListener, DocumentStepsAdapter.DoneClickListener {
     private ExamScoresAdapter examScoresAdapter;
     private DocumentStepsAdapter stepsAdapter;
-    private RecyclerView examResults;
     private RecyclerView steps;
 
     private List<TextView> scoresTexts;
@@ -61,7 +62,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
     private List<TextView> userscores;
 
     private List<ChosenProgram> programs;
+    private List<ExamPoints> examPoints;
     private HomeFragmentViewModel model;
+    private  RecyclerView examResults;
 
     private static final int EGE_EDIT_DIALOG = 0;
     private static final int DISCIPLINES_EDIT_DIALOG = 1;
@@ -73,35 +76,43 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         super.onCreate(savedInstanceState);
 
         model = new ViewModelProvider(this).get(HomeFragmentViewModel.class);
-        programs = model.getChosenPrograms();
 
-        if (savedInstanceState == null) {
-            // don't reload data after rotation
-            model.init(programs);
-        }
+        examScoresAdapter =  new ExamScoresAdapter();
 
-        createScoresList();
-        createDocumentStepsList();
+        model.getMainData().observe(this, new Observer<Pair<List<ExamPoints>, List<ChosenProgram>>>() {
+            @Override
+            public void onChanged(Pair<List<ExamPoints>, List<ChosenProgram>> pair) {
+                if (pair.first != null && pair.second != null) {
+                    examPoints = pair.first;
+                    programs = pair.second;
+                    if (savedInstanceState == null) {
+                        // don't reload data after rotation
+                        model.init(programs, pair.first);
+                    }
+
+                    examScoresAdapter.setDataExamPoints(pair.first);
+                    createDocumentStepsList();
+                }
+            }
+        });
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        startParsing();
-    }
-
-    private void createScoresList() {
-        // get exam scores from DB
-        List<ExamPoints> points = model.getExamPoints();
-        List<ExamScore> examResults = new ArrayList<>();
-        for (ExamPoints p : points) {
-            examResults.add(new ExamScore(p.getExamName(), p.getExamScore()));
-        }
-        examScoresAdapter = new ExamScoresAdapter(examResults);
+        model.getMainData().observe(this, new Observer<Pair<List<ExamPoints>, List<ChosenProgram>>>() {
+            @Override
+            public void onChanged(Pair<List<ExamPoints>, List<ChosenProgram>> pair) {
+                if (pair.first != null && pair.second != null) {
+                    startParsing();
+                }
+            }
+        });
     }
 
     private void createDocumentStepsList() {
-        List<DocumentStep> steps = new ArrayList<>();
+        List<DocumentStep> steps = new ArrayList<DocumentStep>();
         String[] budgetSteps = getResources().getStringArray(R.array.application_steps);
         for (int i = 0; i < budgetSteps.length; ++i) {
             steps.add(new DocumentStep(budgetSteps[i], getDocumentCardStatus(i)));
@@ -149,7 +160,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                         //userscores.get(i).setVisibility(View.INVISIBLE);
                     }
                 } else {
-                    scoresTexts.get(0).setText(getResources().getString(R.string.last_reload) + " " + scores.get(0));
+                    String lastReload = getResources().getString(R.string.last_reload) + " " + scores.get(0);
+                    scoresTexts.get(0).setText(lastReload);
                     for (int i = 1; i < scores.size(); ++i) {
                         scoresTexts.get(i).setVisibility(View.VISIBLE);
                         scoresTexts.get(i).setText(scores.get(i));
@@ -212,7 +224,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         View rootView = inflater.inflate(R.layout.home_screen, container, false);
 
         TextView name = rootView.findViewById(R.id.user_name);
-        name.setText(model.getUserInfo().getUserName());
+        model.getUserInfo().observe(getViewLifecycleOwner(), new Observer<UserInfo>() {
+            @Override
+            public void onChanged(UserInfo userInfo) {
+                if (userInfo != null)
+                    name.setText(userInfo.getUserName());
+            }
+        });
+
 
         ImageView changeName = rootView.findViewById(R.id.edit_name);
         changeName.setOnClickListener(new View.OnClickListener() {
@@ -223,6 +242,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
             }
         });
 
+
+        model.getMainData().observe(getViewLifecycleOwner(), new Observer<Pair<List<ExamPoints>, List<ChosenProgram>>>() {
+            @Override
+            public void onChanged(Pair<List<ExamPoints>, List<ChosenProgram>> pair) {
+                if (pair.first != null && pair.second != null)
+                    initViews(rootView);
+            }
+        });
+
+        return rootView;
+    }
+
+    private void initViews(View rootView) {
         examResults = rootView.findViewById(R.id.exam_scores_list);
         examResults.setLayoutManager(new LinearLayoutManager(getActivity(),
                 RecyclerView.VERTICAL, false));
@@ -237,25 +269,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         steps.scrollToPosition(getCurrentStepPosition());
 
         scoresTexts = Arrays.asList(
-                (TextView) rootView.findViewById(R.id.last_reload),
-                (TextView) rootView.findViewById(R.id.score1),
-                (TextView) rootView.findViewById(R.id.score2),
-                (TextView) rootView.findViewById(R.id.score3));
+                rootView.findViewById(R.id.last_reload),
+                rootView.findViewById(R.id.score1),
+                rootView.findViewById(R.id.score2),
+                rootView.findViewById(R.id.score3));
 
         progressBars = Arrays.asList(
-                (ProgressBar) rootView.findViewById(R.id.progress1),
-                (ProgressBar) rootView.findViewById(R.id.progress2),
-                (ProgressBar) rootView.findViewById(R.id.progress3));
+                rootView.findViewById(R.id.progress1),
+                rootView.findViewById(R.id.progress2),
+                rootView.findViewById(R.id.progress3));
 
         downloadIcons = Arrays.asList(
-                (ImageView) rootView.findViewById(R.id.ic1),
-                (ImageView) rootView.findViewById(R.id.ic2),
-                (ImageView) rootView.findViewById(R.id.ic3));
+                rootView.findViewById(R.id.ic1),
+                rootView.findViewById(R.id.ic2),
+                rootView.findViewById(R.id.ic3));
 
         List<TextView> yourscores = Arrays.asList(
-                (TextView) rootView.findViewById(R.id.yourscore1),
-                (TextView) rootView.findViewById(R.id.yourscore2),
-                (TextView) rootView.findViewById(R.id.yourscore3));
+                rootView.findViewById(R.id.yourscore1),
+                rootView.findViewById(R.id.yourscore2),
+                rootView.findViewById(R.id.yourscore3));
 
         ImageView edit_ege = rootView.findViewById(R.id.edit_ege);
         ImageView edit_disciplines = rootView.findViewById(R.id.edit_disciplines);
@@ -264,14 +296,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
 
         // displaying the programs user has chosen
         List<TextView> programsTexts = Arrays.asList(
-                (TextView) rootView.findViewById(R.id.program1),
-                (TextView) rootView.findViewById(R.id.program2),
-                (TextView) rootView.findViewById(R.id.program3));
+                rootView.findViewById(R.id.program1),
+                rootView.findViewById(R.id.program2),
+                rootView.findViewById(R.id.program3));
 
         userscores = Arrays.asList(
-                (TextView) rootView.findViewById(R.id.userscore1),
-                (TextView) rootView.findViewById(R.id.userscore2),
-                (TextView) rootView.findViewById(R.id.userscore3));
+                rootView.findViewById(R.id.userscore1),
+                rootView.findViewById(R.id.userscore2),
+                rootView.findViewById(R.id.userscore3));
 
         model.getUserscoresLiveData().observe(getViewLifecycleOwner(), new Observer<List<Integer>>() {
             @Override
@@ -299,7 +331,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         icRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.init(programs);
+                model.init(programs, examPoints);
             }
         });
 
@@ -314,8 +346,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
                 }
             });
         }
-
-        return rootView;
     }
 
     private void showDialogAboutPassScore() {
@@ -325,11 +355,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Docu
         adb.setMessage(R.string.explanation_passing_score);
         AlertDialog ad = adb.create();
         ad.show();
-    }
-
-    void notifyEGEChanged() {
-        createScoresList();
-        examResults.setAdapter(examScoresAdapter);
     }
 
     private DocumentStepStatus getDocumentCardStatus(int cardNumber) {

@@ -1,5 +1,6 @@
 package com.edumage.bmstu_enrollee.Fragments;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -63,7 +64,13 @@ public class FacultetFragment extends Fragment implements FacultetAdapter.OnFacu
         View rootView = inflater.inflate(R.layout.facultet_catalog, container, false);
 
         RecyclerView RVfacultet = rootView.findViewById(R.id.RVfacultet);
-        RVfacultet.setLayoutManager(new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false));
+        int spanCount;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            spanCount = 2;
+        } else {
+            spanCount = 3;
+        }
+        RVfacultet.setLayoutManager(new GridLayoutManager(getContext(), spanCount, RecyclerView.VERTICAL, false));
         RVfacultet.setAdapter(adapter);
 
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);

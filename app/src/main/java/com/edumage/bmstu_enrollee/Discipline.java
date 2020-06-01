@@ -1,11 +1,8 @@
 package com.edumage.bmstu_enrollee;
 
-import android.content.Context;
-
-import com.edumage.bmstu_enrollee.DbEntities.ChosenProgram;
-
 import java.io.Serializable;
-import java.util.ArrayList;
+
+import androidx.annotation.Nullable;
 
 public class Discipline implements Serializable {
 
@@ -58,7 +55,14 @@ public class Discipline implements Serializable {
     }
 
 
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(obj instanceof Discipline){
+            Discipline discipline =(Discipline)obj;
+            return discipline.fullName.equals(fullName);
+        } else {
+            return false;
+        }
 
-
-
+    }
 }

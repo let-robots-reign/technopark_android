@@ -2,6 +2,10 @@ package com.edumage.bmstu_enrollee;
 
 import android.app.Application;
 
+import com.edumage.bmstu_enrollee.DbRepo.DbRepository;
+import com.edumage.bmstu_enrollee.ParsingRepo.NewsParsing;
+import com.edumage.bmstu_enrollee.ParsingRepo.StatsScoresParsing;
+
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -21,19 +25,23 @@ public class BmstuApplication extends Application {
         super.onCreate();
         installTrustManager();
         scheduleWork();
+        DbRepository.init(this);
+        XmlDataStorage.init();
+        StatsScoresParsing.init();
+        NewsParsing.init();
     }
 
-    public void scheduleWork() {
+    private void scheduleWork() {
         String TAG = "PARSING_WORK";
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(ParsingWorker.class,
                 1, TimeUnit.HOURS)
                 .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.UNMETERED).build())
                 .addTag(TAG).build();
         WorkManager.getInstance(this).enqueueUniquePeriodicWork("PARSING_WORK",
-                ExistingPeriodicWorkPolicy.REPLACE, workRequest);
+                ExistingPeriodicWorkPolicy.KEEP, workRequest);
     }
 
-    public void installTrustManager() {
+    private void installTrustManager() {
         // Create a trust manager that does not validate certificate chains
         TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {

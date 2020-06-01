@@ -11,6 +11,7 @@ import com.edumage.bmstu_enrollee.BuildingItem;
 import com.edumage.bmstu_enrollee.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 public class BuildingAdapter extends Adapter<BuildingAdapter.ViewHolder> {
 
-    private ArrayList<BuildingItem> data;
+    private List<BuildingItem> data;
     private BuildingMap buildingMap;
 
     public BuildingAdapter(BuildingMap buildingMap) {
@@ -46,7 +47,7 @@ public class BuildingAdapter extends Adapter<BuildingAdapter.ViewHolder> {
         }
     }
 
-    public void setData(ArrayList<BuildingItem> data) {
+    public void setData(List<BuildingItem> data) {
         this.data = data;
     }
 

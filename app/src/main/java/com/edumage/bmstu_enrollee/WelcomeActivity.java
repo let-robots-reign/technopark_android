@@ -19,14 +19,11 @@ import java.util.ArrayList;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    LAFragmentFirst firstFragment;
-    LAFragmentSecond secondFragment;
-    LAFragmentThird thirdFragment;
-    Button nextButton;
-    Button prevButton;
-    //FrameLayout backgroundFrame;
-    SurfaceViewBackground backgroundView;
-    ArrayList<CompletableFragment> fragments;
+    private LAFragmentFirst firstFragment;
+    private LAFragmentSecond secondFragment;
+    private LAFragmentThird thirdFragment;
+    private Button prevButton;
+    private ArrayList<CompletableFragment> fragments;
     private int state = 1;
 
     private static final String STATE_KEY = "STATE";
@@ -45,11 +42,12 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_launch);
 
-        backgroundView = findViewById(R.id.surface_view);
+        //FrameLayout backgroundFrame;
+        SurfaceViewBackground backgroundView = findViewById(R.id.surface_view);
         //for debugging need turn off animation background
 //        backgroundView.setAnimationEnabled(false);
 
-        nextButton = findViewById(R.id.button_next);
+        Button nextButton = findViewById(R.id.button_next);
         prevButton = findViewById(R.id.button_prev);
         nextButton.setOnClickListener(buttonListener);
         prevButton.setOnClickListener(buttonListener);
