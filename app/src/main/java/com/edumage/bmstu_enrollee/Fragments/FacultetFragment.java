@@ -37,9 +37,9 @@ public class FacultetFragment extends Fragment implements FacultetAdapter.OnFacu
         facultetItems.add(new FacultetItem("ФН", "Фундаментальные науки", R.drawable.fn));
         facultetItems.add(new FacultetItem("СМ", "Специальное машиностроение", R.drawable.sm));
         facultetItems.add(new FacultetItem("Э", "Энергомашиностроение", R.drawable.e));
+        facultetItems.add(new FacultetItem("РК", "Робототехника и комплексная автоматизация", R.drawable.rk));
+        facultetItems.add(new FacultetItem("БМТ", "Биомедицинская техника", R.drawable.bmt));
         // TODO: add educational plans for the following faculties
-//        facultetItems.add(new FacultetItem("РК", "Робототехника и комплексная автоматизация", R.drawable.rk));
-//        facultetItems.add(new FacultetItem("БМТ", "Биомедицинская техника", R.drawable.bmt));
 //        facultetItems.add(new FacultetItem("ИБМ", "Инженерный бизнес и менеджмент", R.drawable.ibm));
 //        facultetItems.add(new FacultetItem("Л", "Теоретическая и Прикладная лингвистика", R.drawable.l));
 //        facultetItems.add(new FacultetItem("ОЭП", "Оптико-электронное приборостроение", R.drawable.oep));

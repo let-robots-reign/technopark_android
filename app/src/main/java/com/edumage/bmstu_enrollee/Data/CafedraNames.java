@@ -84,23 +84,19 @@ public class CafedraNames {
         e.put("Э10", new CafedraItem("Гидромеханика, гидромашины и гидропневмоавтоматика"));
         nameCafedra.put("Э",e);
 
-        // TODO: add educational plans for the following faculties
-//        rk=new ArrayMap<>();
-//        rk.put("РК1", new CafedraItem("Инженерная графика"));
-//        rk.put("РК2", new CafedraItem("Теория механизмов и машин"));
-//        rk.put("РК3", new CafedraItem("Основы конструирования машин"));
-//        rk.put("РК4", new CafedraItem("Подъемно-транспортные системы"));
-//        rk.put("РК5", new CafedraItem("Прикладная механика"));
-//        rk.put("РК6", new CafedraItem("Системы автоматизированного проектирования"));
-//        rk.put("РК9", new CafedraItem("Компьютерные системы автоматизации производства"));
-//        nameCafedra.put("РК",rk);
-//
-//        bmt=new ArrayMap<>();
-//        bmt.put("БМТ1", new CafedraItem("Биомедицинские технические системы"));
-//        bmt.put("БМТ2", new CafedraItem("Медико-технические информационные технологии"));
-//        bmt.put("БМТ4", new CafedraItem("Медико-технический менеджмент"));
-//        nameCafedra.put("БМТ",bmt);
-//
+        rk=new ArrayMap<>();
+        rk.put("РК4", new CafedraItem("Подъемно-транспортные системы"));
+        rk.put("РК5", new CafedraItem("Прикладная механика"));
+        rk.put("РК6", new CafedraItem("Системы автоматизированного проектирования"));
+        rk.put("РК9", new CafedraItem("Компьютерные системы автоматизации производства"));
+        nameCafedra.put("РК",rk);
+
+        bmt=new ArrayMap<>();
+        bmt.put("БМТ1", new CafedraItem("Биомедицинские технические системы"));
+        bmt.put("БМТ2", new CafedraItem("Медико-технические информационные технологии"));
+        nameCafedra.put("БМТ",bmt);
+
+//        TODO: add educational plans for the following faculties
 //        ibm=new ArrayMap<>();
 //        ibm.put("ИБМ1", new CafedraItem("Экономическая теория"));
 //        ibm.put("ИБМ2", new CafedraItem("Экономика и организация производства"));
